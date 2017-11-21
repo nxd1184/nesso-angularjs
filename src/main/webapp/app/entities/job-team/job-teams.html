@@ -1,0 +1,72 @@
+<div>
+    <h2>Job Teams</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="job-team.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Job Team
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="totalFiles"><span>Total Files</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="jobName"><span>Job</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="teamName"><span>Team</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="projectName"><span>Project</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="jobTeam in vm.jobTeams track by jobTeam.id">
+                    <td><a ui-sref="job-team-detail({id:jobTeam.id})">{{jobTeam.id}}</a></td>
+                    <td>{{jobTeam.totalFiles}}</td>
+                    <td>
+                        <a ui-sref="job-detail({id:jobTeam.jobId})">{{jobTeam.jobName}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="team-detail({id:jobTeam.teamId})">{{jobTeam.teamName}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="project-detail({id:jobTeam.projectId})">{{jobTeam.projectName}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="job-team-detail({id:jobTeam.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="job-team.edit({id:jobTeam.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="job-team.delete({id:jobTeam.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

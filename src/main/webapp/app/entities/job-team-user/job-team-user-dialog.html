@@ -1,0 +1,64 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myJobTeamUserLabel">Create or edit a Job Team User</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.jobTeamUser.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.jobTeamUser.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_totalFiles">Total Files</label>
+            <input type="number" class="form-control" name="totalFiles" id="field_totalFiles"
+                    ng-model="vm.jobTeamUser.totalFiles"
+                    required/>
+            <div ng-show="editForm.totalFiles.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.totalFiles.$error.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.totalFiles.$error.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_jobTeam">Job Team</label>
+            <select class="form-control" id="field_jobTeam" name="jobTeam" ng-model="vm.jobTeamUser.jobTeamId" ng-options="jobTeam.id as jobTeam.id for jobTeam in vm.jobteams"             required>
+            </select>
+        </div>
+        <div ng-show="editForm.jobTeam.$invalid">
+            <p class="help-block"
+                ng-show="editForm.jobTeam.$error.required">
+                This field is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" ng-model="vm.jobTeamUser.userId" ng-options="user.id as user.login for user in vm.users"             required>
+            </select>
+        </div>
+        <div ng-show="editForm.user.$invalid">
+            <p class="help-block"
+                ng-show="editForm.user.$error.required">
+                This field is required.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

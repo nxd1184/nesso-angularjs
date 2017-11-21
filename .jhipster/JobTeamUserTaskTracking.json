@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "jobTeamUserTaskTracking"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "status",
+            "fieldType": "FileStatus",
+            "fieldValues": "TODO,TOCHECK,DONE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20171121041032",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "job_team_user_task_tracking",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

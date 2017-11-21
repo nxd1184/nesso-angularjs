@@ -1,0 +1,67 @@
+
+<div>
+    <h2><span>Job Team User Task</span> {{vm.jobTeamUserTask.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Original File Name</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.originalFileName}}</span>
+        </dd>
+        <dt><span>Original File Path</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.originalFilePath}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.status}}</span>
+        </dd>
+        <dt><span>File Name</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.fileName}}</span>
+        </dd>
+        <dt><span>File Path</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.filePath}}</span>
+        </dd>
+        <dt><span>Number Of Rework</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.numberOfRework}}</span>
+        </dd>
+        <dt><span>Last Check In Time</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.lastCheckInTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>Qc Edit</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.qcEdit}}</span>
+        </dd>
+        <dt><span>Rework</span></dt>
+        <dd>
+            <span>{{vm.jobTeamUserTask.rework}}</span>
+        </dd>
+        <dt><span>Job Team User</span></dt>
+        <dd>
+            <a ui-sref="job-team-user-detail({id:vm.jobTeamUserTask.jobTeamUserId})">{{vm.jobTeamUserTask.jobTeamUserId}}</a>
+        </dd>
+        <dt><span>Assignee</span></dt>
+        <dd>
+            {{vm.jobTeamUserTask.assigneeLogin}}
+        </dd>
+        <dt><span>Qc</span></dt>
+        <dd>
+            {{vm.jobTeamUserTask.qcLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="job-team-user-task-detail.edit({id:vm.jobTeamUserTask.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

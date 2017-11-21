@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "jobTeam",
+            "otherEntityName": "jobTeam",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "jobTeamUser"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "totalFiles",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20171121040259",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "job_team_user",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

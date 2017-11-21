@@ -1,0 +1,80 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myUserSettingLabel">Create or edit a User Setting</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.userSetting.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.userSetting.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="vm.userSetting.name"
+                    required/>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_auto">Auto</label>
+                <input type="checkbox" name="auto" id="field_auto"
+                          ng-model="vm.userSetting.auto"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_type">Type</label>
+            <select class="form-control" name="type" ng-model="vm.userSetting.type" id="field_type" required>
+                <option value="FTP">FTP</option>
+                <option value="DOWNLOAD">DOWNLOAD</option>
+                <option value="UPLOAD">UPLOAD</option>
+                <option value="SYSTEM">SYSTEM</option>
+            </select>
+            <div ng-show="editForm.type.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.type.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_active">Active</label>
+                <input type="checkbox" name="active" id="field_active"
+                          ng-model="vm.userSetting.active"/>
+            <div ng-show="editForm.active.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.active.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_userConfig">User Config</label>
+            <select class="form-control" id="field_userConfig" name="userConfig" ng-model="vm.userSetting.userConfigId" ng-options="user.id as user.login for user in vm.users"             required>
+            </select>
+        </div>
+        <div ng-show="editForm.userConfig.$invalid">
+            <p class="help-block"
+                ng-show="editForm.userConfig.$error.required">
+                This field is required.
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

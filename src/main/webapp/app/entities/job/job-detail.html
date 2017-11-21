@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span>Job</span> {{vm.job.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Name</span></dt>
+        <dd>
+            <span>{{vm.job.name}}</span>
+        </dd>
+        <dt><span>Deadline</span></dt>
+        <dd>
+            <span>{{vm.job.deadline | date:'medium'}}</span>
+        </dd>
+        <dt><span>Customer Requirements</span></dt>
+        <dd>
+            <span>{{vm.job.customerRequirements}}</span>
+        </dd>
+        <dt><span>Total Files</span></dt>
+        <dd>
+            <span>{{vm.job.totalFiles}}</span>
+        </dd>
+        <dt><span>Project</span></dt>
+        <dd>
+            <a ui-sref="project-detail({id:vm.job.projectId})">{{vm.job.projectName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="job-detail.edit({id:vm.job.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

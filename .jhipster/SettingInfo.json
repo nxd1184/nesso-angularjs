@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "setting",
+            "otherEntityName": "userSetting",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "key",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "value",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "DataTypeEnum",
+            "fieldValues": "STRING,NUMBER,DATE,BOOLEAN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20171121033450",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "setting_info",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

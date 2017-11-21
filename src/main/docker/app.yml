@@ -1,0 +1,14 @@
+version: '2'
+services:
+    nesso-app:
+        image: nesso
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://nesso-mysql:3306/nesso?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    nesso-mysql:
+        extends:
+            file: mysql.yml
+            service: nesso-mysql

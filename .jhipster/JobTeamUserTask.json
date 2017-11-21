@@ -1,0 +1,93 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "jobTeamUser",
+            "otherEntityName": "jobTeamUser",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "assignee",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "jobTeamUserTask"
+        },
+        {
+            "relationshipName": "qc",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "jobTeamUserTask"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "originalFileName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "originalFilePath",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "FileStatusEnum",
+            "fieldValues": "TODO,TOCHECK,DONE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "fileName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "filePath",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "numberOfRework",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "lastCheckInTime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "qcEdit",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "rework",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20171121040850",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "job_team_user_task",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}
