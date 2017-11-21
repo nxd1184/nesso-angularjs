@@ -1,41 +1,496 @@
-<div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Dashboard</h1>
         </div>
-        <div class="col-md-8">
-            <h1>Welcome, Java Hipster!</h1>
-            <p class="lead">This is your homepage</p>
+        <!-- END PAGE TITLE -->
 
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true">
-                    You are logged in as user "{{vm.account.login}}".
+    </div>
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb hide">
+        <li>
+            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+            Dashboard
+        </li>
+    </ul>
+
+    <div class="page-breadcrumb breadcrumb dashboard">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_1_11" data-toggle="tab">
+                    This week</a>
+            </li>
+            <li>
+                <a href="#tab_1_22" data-toggle="tab">
+                    This month</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_11">
+            <div class="row margin-top-10 dashboard_wrap_col ">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="dashboard-st receive">
+                        <div class="text">
+                            <h3>Receive</h3>
+                        </div>
+                        <div class="number down">
+                            <span>1,000</span>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="dashboard-st todo">
+                        <div class="text">
+                            <h3>To do</h3>
+                        </div>
+                        <div class="number up">
+                            <span>200</span>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="dashboard-st tocheck">
+                        <div class="text">
+                            <h3>To check</h3>
+                        </div>
+                        <div class="number down">
+                            <span>1,000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="dashboard-st done">
+                        <div class="text">
+                            <h3>Done</h3>
+                        </div>
+                        <div class="number up">
+                            <span>200</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-top-5">
+                <div class="col-md-8 col-sm-12">
+                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                    <div class="portlet light jobs_dashboard">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                Urgent Jobs
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="wrap-table-radius table-scrollable weekly-time">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
 
-                <div class="alert alert-warning" ng-switch-when="false">
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
+                                        </th>
+                                        <th>
+                                            JOBS
+                                        </th>
+                                        <th>
+                                            TIME
+                                        </th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>
+                                            Urgent Project 1
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            2 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>
+                                            Urgent Project 2
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            2 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3
+                                        </td>
+                                        <td>
+                                            Urgent Project 3
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            2 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4
+                                        </td>
+                                        <td>
+                                            Urgent Project 4
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            2 Days
+                                        </td>
+                                    </tr><tr>
+                                        <td>
+                                            5
+                                        </td>
+                                        <td>
+                                            Urgent Project 5
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            5 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            6
+                                        </td>
+                                        <td>
+                                            Urgent Project 6
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            6 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            7
+                                        </td>
+                                        <td>
+                                            Urgent Project 7
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            7 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            8
+                                        </td>
+                                        <td>
+                                            Urgent Project 8
+                                        </td>
+                                        <td>
+                                            Job X
+                                        </td>
+                                        <td>
+                                            8 Days
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SAMPLE TABLE PORTLET-->
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="portlet light quanlity_dashboard">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-tachometer" aria-hidden="true"></i>Quality this week
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <!-- <img src="./assets/layout/img/speedtest.png"> -->
+                            <div id="container_chart" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab_1_22">
+            <div class="row margin-top-10">
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+
+                    <div class="dashboard-st month this-month">
+                        <div class="text">
+                            <h3>This month</h3>
+                        </div>
+                        <div class="number">
+                            <span>12,040</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-st month last-month">
+                        <div class="text">
+                            <h3>Last month</h3>
+                        </div>
+                        <div class="number">
+                            <span>120,340</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-st month best-month">
+                        <div class="text">
+                            <h3>Best month</h3>
+                        </div>
+                        <div class="number">
+                            <span>120,340</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                    <div class="wrap-table-radius table-scrollable monthy-productivity">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    NAME
+                                </th>
+                                <th>
+                                    CREDIT
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>
+                                </td>
+                                <td>
+                                    Urgent Project 1
+                                </td>
+                                <td>
+                                    2987
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>
+                                </td>
+                                <td>
+                                    Urgent Project 2
+                                </td>
+                                <td>
+                                    2876
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>
+                                </td>
+                                <td>
+                                    Urgent Project 3
+                                </td>
+                                <td>
+                                    2765
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    4
+                                </td>
+                                <td>
+                                    Urgent Project 4
+                                </td>
+                                <td>
+                                    2654
+                                </td>
+
+                            </tr><tr>
+                                <td>
+                                    5
+                                </td>
+                                <td>
+                                    Urgent Project 5
+                                </td>
+                                <td>
+                                    2543
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    6
+                                </td>
+                                <td>
+                                    Urgent Project 6
+                                </td>
+                                <td>
+                                    2432
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <p>
-                If you have any question on JHipster:
-            </p>
-
-            <ul>
-                <li><a href="http://www.jhipster.tech/" target="_blank" rel="noopener">JHipster homepage</a></li>
-                <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener">JHipster on Stack Overflow</a></li>
-                <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener">JHipster bug tracker</a></li>
-                <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener">JHipster public chat room</a></li>
-                <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener">follow @java_hipster on Twitter</a></li>
-            </ul>
-
-            <p>
-             <span>If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
-            </p>
         </div>
     </div>
+    <!-- END PAGE BREADCRUMB -->
 </div>
+<script>
+    jQuery(document).ready(function() {
+        Metronic.init(); // init metronic core componets
+        Layout.init(); // init layout
+        Demo.init(); // init demo features
+        Index.init(); // init index page
+
+
+        Highcharts.chart('container_chart', {
+
+                chart: {
+                    type: 'gauge',
+                    plotBackgroundColor: null,
+                    plotBackgroundImage: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+
+                title: {
+                    text: ''
+                },
+                credits: {
+                    enabled: false
+                },
+                pane: {
+                    startAngle: -150,
+                    endAngle: 150,
+                    background: [{
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#FFF'],
+                                [1, '#333']
+                            ]
+                        },
+                        borderWidth: 0,
+                        outerRadius: '109%'
+                    }, {
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#333'],
+                                [1, '#FFF']
+                            ]
+                        },
+                        borderWidth: 1,
+                        outerRadius: '107%'
+                    }, {
+                        // default background
+                    }, {
+                        backgroundColor: '#DDD',
+                        borderWidth: 0,
+                        outerRadius: '105%',
+                        innerRadius: '103%'
+                    }]
+                },
+
+                // the value axis
+                yAxis: {
+                    min: 0,
+                    max: 100,
+
+                    minorTickInterval: 'auto',
+                    minorTickWidth: 0,
+                    minorTickLength: 00,
+                    minorTickPosition: 'inside',
+                    minorTickColor: '#666',
+
+                    tickPixelInterval: 30,
+                    tickWidth: 0,
+                    tickPosition: 'inside',
+                    tickLength: 10,
+                    tickColor: '#666',
+                    labels: {
+                        step: 2,
+                        rotation: 'auto'
+                    },
+                    title: {
+                        text: '%'
+                    },
+                    plotBands: [{
+                        from: 0,
+                        to: 40,
+                        color: '#55BF3B' // green
+                    }, {
+                        from: 40,
+                        to: 60,
+                        color: '#DDDF0D' // yellow
+                    }, {
+                        from: 60,
+                        to: 100,
+                        color: '#DF5353' // red
+                    }]
+                },
+
+                series: [{
+                    name: 'Data',
+                    data: [80],
+                    tooltip: {
+                        valueSuffix: ' %'
+                    }
+                }]
+
+            },
+// Add some life
+            function (chart) {
+                if (!chart.renderer.forExport) {
+                    setInterval(function () {
+                        var point = chart.series[0].points[0],
+                            newVal,
+                            inc = Math.round((Math.random() - 0.5) * 20);
+
+                        newVal = point.y + inc;
+                        if (newVal < 0 || newVal > 100) {
+                            newVal = point.y - inc;
+                        }
+
+                        point.update(newVal);
+
+                    }, 3000);
+                }
+            });
+
+
+    });
+
+</script>

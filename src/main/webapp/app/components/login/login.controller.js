@@ -5,9 +5,12 @@
         .module('nessoApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$rootScope', '$state', '$timeout', 'Auth', '$uibModalInstance'];
+    LoginController.$inject = ['$rootScope', '$state', '$timeout', 'Auth', ];
 
-    function LoginController ($rootScope, $state, $timeout, Auth, $uibModalInstance) {
+    function LoginController ($rootScope, $state, $timeout, Auth) {
+
+        $rootScope.$broadcast('showLoginPage', true);
+
         var vm = this;
 
         vm.authenticationError = false;
@@ -29,24 +32,25 @@
                 rememberMe: true
             };
             vm.authenticationError = false;
-            $uibModalInstance.dismiss('cancel');
         }
 
         function login (event) {
-            event.preventDefault();
             Auth.login({
                 username: vm.username,
                 password: vm.password,
                 rememberMe: vm.rememberMe
             }).then(function () {
                 vm.authenticationError = false;
-                $uibModalInstance.close();
+
+                $rootScope.$broadcast('authenticationSuccess');
+
+                $rootScope.$broadcast('showLoginPage', false);
+
                 if ($state.current.name === 'register' || $state.current.name === 'activate' ||
                     $state.current.name === 'finishReset' || $state.current.name === 'requestReset') {
                     $state.go('home');
+                    return;
                 }
-
-                $rootScope.$broadcast('authenticationSuccess');
 
                 // previousState was set in the authExpiredInterceptor before being redirected to login modal.
                 // since login is successful, go to stored previousState and clear previousState
@@ -54,6 +58,8 @@
                     var previousState = Auth.getPreviousState();
                     Auth.resetPreviousState();
                     $state.go(previousState.name, previousState.params);
+                }else {
+                    $state.go('home');
                 }
             }).catch(function () {
                 vm.authenticationError = true;
@@ -61,12 +67,10 @@
         }
 
         function register () {
-            $uibModalInstance.dismiss('cancel');
             $state.go('register');
         }
 
         function requestResetPassword () {
-            $uibModalInstance.dismiss('cancel');
             $state.go('requestReset');
         }
     }

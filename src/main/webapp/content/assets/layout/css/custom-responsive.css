@@ -1,0 +1,666 @@
+	@media (min-width: 1260px) {
+	 
+	}
+	/* Form medium devices upto large devices */
+	@media (min-width: 992px) and (max-width: 1200px) {
+
+	}
+	@media (max-width: 1199px) {
+		/*.page-sidebar.navbar-collapse.collapse{
+			display: none !important;
+		}
+		.page-sidebar.navbar-collapse.in{
+			display: block !important;
+		}
+		.page-content-wrapper .page-content{
+			margin-left: 0;
+			border-left: 0;
+		}*/
+
+		.page-sidebar-closed .page-sidebar .page-sidebar-menu.page-sidebar-menu-closed{
+			margin-left: -54px !important;	
+		}
+		.page-sidebar-closed .page-sidebar{
+			margin-left: -54px;
+		}
+		.page-sidebar-closed .page-content-wrapper .page-content{
+			margin-left: 0 !important;
+			border-left: 0;
+		}
+		.page-content-wrapper .page-content{
+			padding: 0 25px 25px 25px;
+			border-left: 0;
+		}
+		.page-header.navbar .menu-toggler.responsive-toggler,.page-sidebar-closed.page-sidebar-closed-hide-logo .page-header.navbar .menu-toggler.sidebar-toggler{
+			margin-left: 25px !important;
+		}
+		#addAccountModal .modal-dialog{
+			width: 540px;
+		}
+		#editTeamModal .modal-lg
+		{
+			width: 960px;
+		}
+		.wrapTableEditTeam table .search_line .index{
+			text-indent: -9999px;
+		}
+		.page-report .breadcrumb.plan-head{
+			overflow-x: auto;
+		}
+		.page-report .breadcrumb.profile .nav-tabs{
+			white-space: nowrap;
+			display: inline-block;
+		}
+		.page-report .breadcrumb.profile .nav-tabs li{
+			float: none;
+			display: inline-block;
+		}
+
+		/*Menu*/
+		.page-content-wrapper .page-content{
+			margin-left: 0;
+		}
+		.page-header.navbar .menu-toggler.sidebar-toggler {
+		    display: none !important;
+		}
+		.page-header.navbar .menu-toggler.responsive-toggler {
+		    background: none;
+		    display: inline-block;
+		    float: left;
+		    margin-left: 15px !important;
+		    background: none;
+		    margin-top: 22px;
+		    color: #333;
+		}
+		.page-sidebar.navbar-collapse.collapse{
+			display: initial !important;
+			visibility: initial !important;
+		}
+		.page-header.navbar.navbar-fixed-top{
+			position: fixed;
+		}
+		.page-sidebar-menu {
+		    height: 100%; /* 100% Full-height */
+		    width: 0; /* 0 width - change this with JavaScript */
+		    position: fixed; /* Stay in place */
+		    z-index: 99999; /* Stay on top */
+		    top: 70px;
+		    left: 0;
+		    background-color: #fff; /* Black*/
+		    overflow-x: hidden; /* Disable horizontal scroll */
+		    padding-top: 60px; /* Place content 60px from the top */
+		    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+		    margin-top: 0 !important;
+		    box-shadow: 0 10px 20px 0 rgba(55, 71, 79, 0.15);
+		}
+		.page-header.navbar .menu-toggler.responsive-toggler i{
+			    font-size: 22px;
+		}
+		.page-header.navbar .menu-toggler.responsive-toggler {
+		    background: none;
+		    display: inline-block;
+		    float: left;
+		    margin-left: 25px !important;
+		    background: none;
+		    margin-top: 22px;
+		    color: #333;
+		}
+	}
+	@media (max-width: 1023px) {
+		
+	}
+	@media (max-width: 991px){
+		
+		.page-container{
+			margin-top: 20px !important;
+		}
+		
+
+		.page-account .search .input-group{
+			width: 260px;
+		}
+		#addAccountModal .wrap_add_team a.btn{
+			padding: 7px 5px;
+		}
+		#editTeamModal .modal-lg{
+			width: 720px !important;
+		}
+		#editTeamModal .wrapTableEditTeam table tr{
+			
+		}
+		#editTeamModal .wrapTableEditTeam table tr td:first-of-type,
+		#editTeamModal .wrapTableEditTeam table tr th:first-of-type,
+		#editTeamModal .wrapTableEditTeam table tr td:last-of-type,
+		#editTeamModal .wrapTableEditTeam table tr th:last-of-type{
+			display: none;
+		}
+		.wrapTableEditTeam table tr.single_button{
+			display: table-row !important;
+		}
+		.wrapTableEditTeam table tr.single_button td{
+			display: table-cell !important;
+		}
+		.wrapTableEditTeam table tr.single_button td a{
+			width: 180px;
+			height: 36px;
+			border-radius: 4px;
+			background-color: #0079c7;
+		}
+		#editTeamModal{
+			
+		}
+		#editTeamModal{
+			
+		}
+		.page-account-team .search .input-group,
+		.page-account .search .input-group,
+		.page-project .search .input-group,
+		.page-task .search .input-group,
+		.page-folder .search .input-group{
+			width: 260px;
+		}
+		.page-config .search .input-group {
+		    width: 330px;
+		}
+		.page-plan .search .input-group{
+			width: 330px;
+		}
+		/*Folder*/
+		.folder .right{
+			display: none;
+		}
+		.table-responsive>.table>tbody>tr>td, 
+		.table-responsive>.table>tbody>tr>th, 
+		.table-responsive>.table>tfoot>tr>td, 
+		.table-responsive>.table>tfoot>tr>th, 
+		.table-responsive>.table>thead>tr>td, 
+		.table-responsive>.table>thead>tr>th {
+		    white-space: nowrap;
+		}
+		.daterangepicker.show-calendar .ranges ul{
+			width: 130px;
+		}
+		
+	}
+
+	@media (max-width: 767px) {
+		.page-header.navbar .menu-toggler.responsive-toggler {
+			background: none;
+		    display: inline-block;
+		    float: left;
+		    margin-left: 15px !important;
+		    background: none;
+		    margin-top: 22px;
+		    color: #333;
+
+		}
+		.page-sidebar-menu {
+		    height: 100%; /* 100% Full-height */
+		    width: 0; /* 0 width - change this with JavaScript */
+		    position: fixed; /* Stay in place */
+		    z-index: 99999; /* Stay on top */
+		    top: 60px;
+		    left: 0;
+		    background-color: #fff; /* Black*/
+		    overflow-x: hidden; /* Disable horizontal scroll */
+		    padding-top: 60px; /* Place content 60px from the top */
+		    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+		    margin-top: 0 !important;
+		}
+		/*header*/
+		.page-header.navbar{
+			height: 60px;
+			min-height: 60px;
+			border-bottom: 1px solid #dae3ea;
+		}
+		.page-header.navbar .page-logo .logo-default{
+			width: 41px;
+			height: 36px;
+		    object-fit: cover;
+		    object-position: 0 50%;
+		}
+		.page-header.navbar .page-top{
+			width: inherit;
+			float: right;
+			display: inline-block;
+			clear: none;
+			height: 59px;
+		}
+		.page-header.navbar .top-menu{
+			margin: 0;
+		}
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown{
+			height: 60px;
+		}
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown > .dropdown-toggle {
+		    padding: 20px 5px 20px 5px;
+		}
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i{
+			font-size: 16px;
+		}
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown.dropdown-user .dropdown-toggle {
+		    padding: 15px 5px 14px 10px;
+		    padding-left: 5px;
+		}
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu,
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:after, 
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:before{
+			margin-right: 0;
+		}
+		.page-content-wrapper .page-content{
+			padding-left: 15px !important;
+			padding-right: 15px !important;
+		}
+		/*page title*/
+		.page-head .page-title{
+			padding: 0;
+		}
+		.page-content-wrapper .page-content{
+			border-left: 0;
+		}
+		.breadcrumb.dashboard .nav-tabs{
+			text-align: right;
+		}
+		.breadcrumb.dashboard .nav-tabs>li a{
+			padding: 19px 0 18px;
+		}
+		.dashboard_wrap_col div[class*=col]:nth-child(2n+1){
+			padding-right: 5px;
+			color: #000;
+		}
+		.dashboard_wrap_col div[class*=col]:nth-child(2n+0){
+			padding-left: 5px;
+			color: red;
+		}
+		.dashboard-st.receive, .dashboard-st.todo, .dashboard-st.tocheck, .dashboard-st.done,
+		.dashboard-st.this-month, .dashboard-st.best-month, .dashboard-st.last-month{
+			margin-bottom: 12px;
+		}
+		.weekly-time table tr th:first-of-type, .weekly-time table tr td:first-of-type, .monthy-productivity table tr th:first-of-type, .monthy-productivity table tr td:first-of-type{
+			padding-left: 10px;
+		}
+		.weekly-time table tr th:last-of-type, .weekly-time table tr td:last-of-type, .monthy-productivity table tr th:last-of-type, .monthy-productivity table tr td:last-of-type{
+			padding-right: 10px;
+		}
+
+		.dataTables_wrapper .dataTables_paginate{
+			margin-top: 20px;
+			float: none;
+		}
+		#addAccountModal .wrap_add_team .add_team{
+			margin-left: -15px;
+		}
+		#addAccountModal .modal-footer .status-switch{
+			margin-left: 10px !important;
+			margin-top: 7px !important;
+		}
+		.wrapTableEditTeam{
+			width: auto;
+			border: 0;
+		}
+		#editTeamModal .modal-lg,#addJobModal .modal-dialog{
+			width: initial !important;
+			min-width: initial;
+		}
+		.page-plan #addJobModal .modal-dialog .project_row,
+		.page-plan #addJobModal .modal-dialog .deadline_row
+		{
+			margin-top: 0 !important;
+		}
+		.page-plan #addJobModal .modal-dialog .deadline_row label{
+			margin-top: 5px !important;
+		}
+		.simulate-btn-link {
+			margin-top: 0 !important
+		}
+		#addJobModal .simulate-manage .left{
+			margin-right: -15px;
+			margin-bottom: 15px;
+		}
+		#addJobModal .simulate-manage .right{
+			margin-left: -15px;
+		}
+		#addJobModal .simulate-manage .stt .text-right{
+			margin-top: 0 !important;
+			text-align: left !important;
+		}
+		.page-account .page-toolbar,
+		.page-account-team .page-toolbar,
+		.page-project .page-toolbar,
+		.page-task .page-toolbar,
+		.page-folder .page-toolbar,
+		.page-config .page-toolbar,
+		.page-plan .page-toolbar,
+		.page-report .page-toolbar{
+			padding-top: 0;
+		}
+		.page-account .search .input-group, 
+		.page-account-team .search .input-group, 
+		.page-project .search .input-group{
+			width: 250px;
+		}
+		.page-folder .search .input-group{
+			width: 250px;
+		}
+		.page-config .search .input-group {
+		    width: 300px;
+		}
+		.page-config .page-toolbar .search .input-group-btn button{
+			min-width: 45px;
+		}
+		.page-plan .search .input-group {
+		    width: 340px;
+		}
+		.view_base{
+			margin-top: 10px !important;
+		}
+		.view_base label{
+			display: none;
+		}
+	}
+	@media screen and (max-width:599px) {
+
+	}
+	@media (max-width: 480px) {
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu{
+			margin-right: -40px;
+		}
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:after, 
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:before{
+			margin-right: 40px;
+		}
+		.notification_page{
+			margin: 0 -15px;
+		}
+		.wrap_notification .feeds li{
+			padding: 8px 0;
+		}
+
+		.page-account .page-toolbar,
+		.page-account-team .page-toolbar,
+		.page-project .page-toolbar,
+		.page-task .page-toolbar,
+		.page-config .page-toolbar,
+		.page-plan .page-toolbar,
+		.page-report .page-toolbar
+		{
+			clear: both;
+			float: left;
+			padding-top: 0;
+			position: relative;
+			padding-top: 10px;
+			width: 100%;
+		}
+		.page-report .page-toolbar{
+			padding-bottom: 0;
+		}
+		.page-config .page-toolbar .search{
+			margin-right: 0;
+		}
+		.page-account .search .input-group{
+			width: 200px;
+		}
+
+		.page-account-team .search .input-group{
+			width: 220px;
+		}
+		.page-project .search .input-group{
+			width: 210px;
+		}
+		.page-task .search .input-group{
+			width: 210px;
+		}
+		.page-folder .search .input-group{
+			width: 210px;
+		}
+		.page-config .search .input-group{
+			width: 100%;
+		}
+		.page-plan .search .input-group {
+		    width: 100%;
+		}
+		.page-toolbar .search .input-group-btn button{
+			min-width: 45px;
+		}
+		.plan-head .nav-tabs>li>a{
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.page-plan .page-head .page-title{
+			padding: 0;
+		}
+		.page-config .page-toolbar a.btn-add-project{
+			position: absolute;
+			right: 0;
+			bottom: 100%;
+			margin-bottom: 15px;
+		}
+		.modal-dialog{
+			margin-top: 50px;
+			width: initial !important;	
+		}
+		#editTeamModal .modal-lg{
+			margin-top: 50px;
+			width: initial !important;
+		}
+		#editTeamModal .wrapTableEditTeam{
+			padding: 0;
+			width: auto;
+			border: 0;
+		}
+		#editTeamModal .wrapTableEditTeam table tr.search_line,
+		#editTeamModal .wrapTableEditTeam table tr.single_button{
+			display: none !important;
+		}
+		.wrap_add_member{
+			background-color: rgba(55, 71, 79, 0.05);
+			padding:24px 15px 0;
+			margin-bottom: 24px;
+		}
+		
+		.add_member_small_btn,.add_member_small_btn:focus,.add_member_small_btn:active,
+		.wrap_add_member .btn-add-member {
+			height: 36px;
+			border-radius: 4px;
+			background-color: #ffffff;
+			border: solid 1px #0079c7;
+			line-height: 36px;
+			display: inline-block;
+			width: 100%;
+			margin: 0 auto;
+			text-align: center;
+			font-family: Roboto;
+			font-size: 14px;
+			font-weight: 500;
+			/*line-height: 1.43;*/
+			letter-spacing: 0.2px;
+			text-decoration: none;
+			/*text-align: right;*/
+			color: #0079c7;
+			margin-bottom: 24px;
+			padding: 0;
+			margin-top: 10px;
+		}
+		.wrap_add_member .btn-add-member {
+			color: #fff;
+			background-color: #0079c7;
+			margin-top: 20px;
+		}
+		#editTeamModal .add_member_small_btn{
+			display: block;
+		}
+		.checkin table{
+			table-layout: fixed;
+		}
+		.checkin table tr th.index{
+			width: 20px !important;
+		}
+		.checkin table tr th.col_jobname{
+			width: 100px !important;
+		}
+		.checkin table tr th.col_folder_path{
+			width: 200px !important;
+		}
+		.checkin table tr th.col_plan{
+			width: 70px !important;
+		}
+		.checkin table tr th.col_done{
+			width: 70px !important;
+		}
+		.checkin table tr th.col_last_checkin{
+			width: 120px !important;
+		}
+
+		.wrap-table-radius.checkin table tr th.status,.wrap-table-radius.checkin table tr td.status{
+			width: 100px !important;
+		}
+		.wrap-table-radius.checkin table tr td .active a.btn-checkin, 
+		.wrap-table-radius.checkin table tr td .inactive a.btn-checkin{
+			margin-right: 0;
+		}
+		
+		.wrap-table-radius.checkin table tr td .active a.btn-checkin{
+			margin-right: 0;
+			position: absolute;
+			right: 25px;
+			margin-top: -10px;
+			z-index: 999;
+
+		}
+		.wrap-table-radius.checkin table tr td .active::before{
+			content: '';
+			display: inline-block;
+			background: #fff;
+			position: absolute;
+			height: 107px;
+			width: 100px;
+			right: 16px;
+			margin-top: -70px;
+			box-shadow: -5px 0 5px -5px  rgba(55, 71, 79, 0.15);
+		}
+		.group-date{
+			width: 235px !important;
+		}
+		.page-report .group-date input{
+			width: 185px;
+		}
+		.login .content{
+			width: 345px;
+		}
+		.content.forget, .content.resetpass{
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		.wrap_captcha{
+			width: 200px !important;
+			height: 50px !important
+		}
+		.g-recaptcha{
+			transform: scale(0.7) !important;
+			-webkit-transform: scale(0.7) !important;
+			transform-origin: 0 0;
+			-webkit-transform-origin: 0 0;
+		}	
+		.wrap_captcha .g-recaptcha div:nth-child(1){
+			width: 200px !important
+		}
+		.login .content.forget p, .login .content.resetpass p{
+			margin-bottom: 24px !important;
+		}
+	}
+
+	@media (max-width: 320px) {
+		.page-account .page-toolbar,
+		.page-account-team .page-toolbar,
+		.page-project .page-toolbar,
+		.page-task .page-toolbar,
+		.page-folder .page-toolbar,
+		.page-config .page-toolbar,
+		.page-report .page-toolbar{
+			text-align: center;
+			padding-bottom: 5px;
+		}
+		.page-account .page-toolbar .search,
+		.page-account-team .page-toolbar .search,
+		.page-project .page-toolbar .search,
+		.page-task .page-toolbar .search,
+		.page-folder .page-toolbar .search,
+		.page-config .page-toolbar .search,
+		.page-report .page-toolbar .search
+		{
+			display: block;
+			width: 100%;
+			margin-bottom: 10px;
+			/*overflow: hidden;*/
+		}
+		.page-account .search .input-group,
+		.page-account-team .search .input-group,
+		.page-project .search .input-group,
+		.page-task .search .input-group,
+		.page-folder .search .input-group,
+		.page-config .search .input-group{
+			width: 100%;
+		}
+		
+		.page-config .page-toolbar a.btn-add-project{
+			position: relative;
+		}
+		.page-toolbar a.btn-add-project{
+			display: inline-block;
+			margin: 15px auto 15px !important;
+			float: none !important;
+		}
+		#addAccountModal .modal-footer .status-switch,
+		#addTeamModal .modal-footer .status-switch{
+			margin-left: 0 !important;
+		}
+		
+		.popupModal .btn-cancel, .popupModal .btn-save{
+			min-width: 60px;
+			padding:8px 5px;
+		}
+
+		#addTeamModal .modal-footer label.text-left,
+		#addAccountModal .modal-footer label.text-left,
+		#addProjectModal .modal-footer label.text-left,
+		#addTaskModal .modal-footer label.text-left{
+			display: none;
+		}
+		.folder .right .head-break  .action a{
+			margin-left: 10px !important;
+		}
+		.folder .right .head-break  .action a i{
+			margin-right: 2px !important; 
+		}
+		.page-report .page-toolbar .search{
+			width: 100%;
+		}
+		.group-date{
+			width: 100% !important;
+		}
+		.page-report .group-date input{
+			width: 230px;
+		}
+		.export-action{
+			position: absolute;
+			right: 0;
+			bottom: 100%;
+			margin-bottom: 15px;
+		}
+		.login .content{
+			width: 280px;
+		}
+		.login .content .forget-form .form-actions, .login .content .reset-form .form-actions{
+			text-align: center;
+		}
+		.login .content.forget .form-actions .btn, .login .content.resetpass .form-actions .btn{
+			float: none !important;
+		}
+		.g-recaptcha{
+			transform: scale(0.67) !important;
+			-webkit-transform: scale(0.67) !important;
+			transform-origin: 0 0;
+			-webkit-transform-origin: 0 0;
+		}	
+	}
+
