@@ -16,7 +16,7 @@ import vn.com.la.domain.enumeration.TeamStatusEnum;
 @Entity
 @Table(name = "team")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Team implements Serializable {
+public class Team extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 

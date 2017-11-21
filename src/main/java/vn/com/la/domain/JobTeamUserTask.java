@@ -17,7 +17,7 @@ import vn.com.la.domain.enumeration.FileStatusEnum;
 @Entity
 @Table(name = "job_team_user_task")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class JobTeamUserTask implements Serializable {
+public class JobTeamUserTask extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 

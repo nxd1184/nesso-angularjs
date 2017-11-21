@@ -16,7 +16,7 @@ import vn.com.la.domain.enumeration.SettingTypeEnum;
 @Entity
 @Table(name = "user_setting")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class UserSetting implements Serializable {
+public class UserSetting extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 

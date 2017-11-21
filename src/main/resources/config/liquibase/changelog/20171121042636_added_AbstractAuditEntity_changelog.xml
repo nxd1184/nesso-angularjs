@@ -1,0 +1,243 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="dungnguyen (generated)" id="1511238409792-1">
+        <addColumn tableName="job">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-2">
+        <addColumn tableName="job_team">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-3">
+        <addColumn tableName="job_team_user">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-4">
+        <addColumn tableName="job_team_user_task">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-5">
+        <addColumn tableName="job_team_user_task_tracking">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-6">
+        <addColumn tableName="project">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-7">
+        <addColumn tableName="setting_info">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-8">
+        <addColumn tableName="task">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-9">
+        <addColumn tableName="team">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-10">
+        <addColumn tableName="user_setting">
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-11">
+        <addColumn tableName="job">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-12">
+        <addColumn tableName="job_team">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-13">
+        <addColumn tableName="job_team_user">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-14">
+        <addColumn tableName="job_team_user_task">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-15">
+        <addColumn tableName="job_team_user_task_tracking">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-16">
+        <addColumn tableName="project">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-17">
+        <addColumn tableName="setting_info">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-18">
+        <addColumn tableName="task">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-19">
+        <addColumn tableName="team">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-20">
+        <addColumn tableName="user_setting">
+            <column name="created_date" type="tinyblob">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-21">
+        <addColumn tableName="job">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-22">
+        <addColumn tableName="job_team">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-23">
+        <addColumn tableName="job_team_user">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-24">
+        <addColumn tableName="job_team_user_task">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-25">
+        <addColumn tableName="job_team_user_task_tracking">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-26">
+        <addColumn tableName="project">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-27">
+        <addColumn tableName="setting_info">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-28">
+        <addColumn tableName="task">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-29">
+        <addColumn tableName="team">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-30">
+        <addColumn tableName="user_setting">
+            <column name="last_modified_by" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-31">
+        <addColumn tableName="job">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-32">
+        <addColumn tableName="job_team">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-33">
+        <addColumn tableName="job_team_user">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-34">
+        <addColumn tableName="job_team_user_task">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-35">
+        <addColumn tableName="job_team_user_task_tracking">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-36">
+        <addColumn tableName="project">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-37">
+        <addColumn tableName="setting_info">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-38">
+        <addColumn tableName="task">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-39">
+        <addColumn tableName="team">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1511238409792-40">
+        <addColumn tableName="user_setting">
+            <column name="last_modified_date" type="tinyblob"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
