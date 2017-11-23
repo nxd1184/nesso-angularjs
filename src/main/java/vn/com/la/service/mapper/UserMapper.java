@@ -1,7 +1,11 @@
 package vn.com.la.service.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import vn.com.la.domain.Authority;
+import vn.com.la.domain.Team;
 import vn.com.la.domain.User;
+import vn.com.la.repository.TeamRepository;
+import vn.com.la.service.TeamService;
 import vn.com.la.service.dto.UserDTO;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +21,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserMapper {
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(user);
@@ -42,10 +49,16 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            user.setStartDate(userDTO.getStartDate());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             if(authorities != null) {
                 user.setAuthorities(authorities);
             }
+            if(userDTO.getTeamId() != null) {
+                Team team = teamRepository.findOne(userDTO.getId());
+                user.setTeam(team);
+            }
+
             return user;
         }
     }

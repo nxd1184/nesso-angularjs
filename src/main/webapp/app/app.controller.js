@@ -5,9 +5,11 @@
         .module('nessoApp')
         .controller('ApplicationController', ApplicationController);
 
-    ApplicationController.$inject = ['$scope', 'Auth', '$state', 'Principal'];
+    ApplicationController.$inject = ['$scope', 'Auth', '$state', 'Principal', '$rootScope'];
 
-    function ApplicationController ($scope, Auth, $state, Principal) {
+    function ApplicationController ($scope, Auth, $state, Principal, $rootScope) {
+
+        $rootScope.scriptsLoaded = false;
 
         $scope.settings = {
             layout: {}
@@ -43,5 +45,18 @@
         }
 
         $scope.$state = $state;
+
+        $scope.$on('$viewContentLoaded', function() {
+            if(!$rootScope.scriptsLoaded) {
+                Metronic.init(); // init metronic core components
+                // Layout.init(); // init layout
+                Demo.init(); // init demo features
+                Index.init(); // init index page
+                TableAdvanced.init(); //init datatable
+                ComponentsPickers.init();
+
+                $rootScope.scriptsLoaded = true;
+            }
+        });
     }
 })();

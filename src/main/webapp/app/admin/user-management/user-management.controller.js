@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants'];
+    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants', '$uibModal'];
 
-    function UserManagementController(Principal, User, ParseLinks, AlertService, $state, pagingParams, paginationConstants) {
+    function UserManagementController(Principal, User, ParseLinks, AlertService, $state, pagingParams, paginationConstants, $uibModal) {
         var vm = this;
 
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
@@ -25,6 +25,7 @@
         vm.reverse = pagingParams.ascending;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         vm.transition = transition;
+        vm.createOrUpdate = createOrUpdate;
 
         vm.loadAll();
         Principal.identity().then(function(account) {
@@ -88,5 +89,36 @@
                 search: vm.currentSearch
             });
         }
+
+        function createOrUpdate(id) {
+
+            if(id) {
+
+            }else {
+                $uibModal.open({
+                    templateUrl: 'app/admin/user-management/user-management-dialog.html',
+                    controller: 'UserManagementDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                id: null, login: null, firstName: null, lastName: null, email: null,
+                                startDate: null, password: null,
+                                activated: true, langKey: null, createdBy: null, createdDate: null,
+                                lastModifiedBy: null, lastModifiedDate: null, resetDate: null,
+                                resetKey: null, authorities: null, status: 'ACTIVE'
+                            };
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('user-management', null, { reload: true });
+                }, function() {
+                    $state.go('user-management');
+                });
+            }
+        }
+
+
     }
 })();

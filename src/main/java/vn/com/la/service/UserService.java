@@ -1,9 +1,12 @@
 package vn.com.la.service;
 
+import org.apache.commons.lang3.StringUtils;
 import vn.com.la.domain.Authority;
+import vn.com.la.domain.Team;
 import vn.com.la.domain.User;
 import vn.com.la.repository.AuthorityRepository;
 import vn.com.la.config.Constants;
+import vn.com.la.repository.TeamRepository;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.AuthoritiesConstants;
 import vn.com.la.security.SecurityUtils;
@@ -19,6 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.web.rest.vm.ManagedUserVM;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -42,11 +46,14 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final TeamRepository teamRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, TeamRepository teamRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.teamRepository = teamRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -113,7 +120,16 @@ public class UserService {
         return newUser;
     }
 
-    public User createUser(UserDTO userDTO) {
+    public User createUserWithPassword(ManagedUserVM managedUserVM) {
+        User user = buildUser(managedUserVM);
+        user.setPassword(passwordEncoder.encode(managedUserVM.getPassword()));
+
+        userRepository.save(user);
+        log.debug("Created Information for User: {}", user);
+        return user;
+    }
+
+    private User buildUser(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.getLogin());
         user.setFirstName(userDTO.getFirstName());
@@ -137,6 +153,19 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
+        user.setStartDate(userDTO.getStartDate());
+        Team team = null;
+        if(userDTO.getTeamId() != null) {
+            team = teamRepository.findOne(userDTO.getTeamId());
+        }
+        user.setTeam(team);
+        user.setCapacity(userDTO.getCapacity());
+        user.setStatus(userDTO.getStatus());
+        return user;
+    }
+
+    public User createUser(UserDTO userDTO) {
+        User user = buildUser(userDTO);
         userRepository.save(user);
         log.debug("Created Information for User: {}", user);
         return user;

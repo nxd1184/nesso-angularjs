@@ -7,6 +7,7 @@ import vn.com.la.domain.User;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import vn.com.la.domain.enumeration.UserStatus;
 
 import javax.validation.constraints.*;
 import java.time.Instant;
@@ -53,6 +54,15 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private Instant startDate;
+
+    private Long teamId;
+
+    private Long capacity;
+
+    @NotNull
+    private UserStatus status;
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -61,14 +71,18 @@ public class UserDTO {
         this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getImageUrl(), user.getLangKey(),
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
+            user.getStartDate(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()), user.getTeam() != null ? user.getTeam().getId() : null,
+            user.getCapacity(), user.getStatus());
     }
 
     public UserDTO(Long id, String login, String firstName, String lastName,
         String email, boolean activated, String imageUrl, String langKey,
         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-        Set<String> authorities) {
+        Instant startDate,
+        Set<String> authorities,
+                   Long teamId, Long capacity, UserStatus status) {
 
         this.id = id;
         this.login = login;
@@ -82,7 +96,11 @@ public class UserDTO {
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
+        this.startDate = startDate;
         this.authorities = authorities;
+        this.teamId = teamId;
+        this.capacity = capacity;
+        this.status = status;
     }
 
     public Long getId() {
@@ -147,6 +165,38 @@ public class UserDTO {
 
     public Set<String> getAuthorities() {
         return authorities;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
+
+    public Long getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Long capacity) {
+        this.capacity = capacity;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     @Override

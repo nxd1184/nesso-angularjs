@@ -12,7 +12,8 @@
             {
                 title: 'Dashboard',
                 icon: 'fa fa-home',
-                state: 'home'
+                state: 'home',
+                url: '#/'
             }, {
                 title: 'Plan',
                 icon: 'fa fa-calendar',
@@ -40,7 +41,8 @@
                     {
                         title: 'User',
                         icon: 'fa fa-user',
-                        state: 'user-management'
+                        state: 'user-management',
+                        url: '#/user-management'
                     }, {
                         title: 'Team',
                         icon: 'fa fa-users',
@@ -66,8 +68,5 @@
 
 
         $scope.currentState = $state.current.name;
-
-
-
     }
 })();

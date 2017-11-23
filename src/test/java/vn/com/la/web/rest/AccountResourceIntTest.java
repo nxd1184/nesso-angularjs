@@ -4,6 +4,7 @@ import vn.com.la.config.Constants;
 import vn.com.la.NessoApp;
 import vn.com.la.domain.Authority;
 import vn.com.la.domain.User;
+import vn.com.la.domain.enumeration.UserStatus;
 import vn.com.la.repository.AuthorityRepository;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.AuthoritiesConstants;
@@ -169,8 +170,10 @@ public class AccountResourceIntTest {
             null,                   // createdBy
             null,                   // createdDate
             null,                   // lastModifiedBy
-            null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,                   // lastModifiedDate,
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
+            null, 1L, UserStatus.ACTIVE);
 
         restMvc.perform(
             post("/api/register")
@@ -199,7 +202,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
+            null, 1L, UserStatus.ACTIVE);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -228,7 +233,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
+            null, 1L, UserStatus.ACTIVE);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -257,7 +264,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
+            null, 1L, UserStatus.ACTIVE);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -286,7 +295,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
+            null, 1L, UserStatus.ACTIVE);
 
         restUserMockMvc.perform(
             post("/api/register")
@@ -316,11 +327,13 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
+            null, 1L, UserStatus.ACTIVE);
 
         // Duplicate login, different email
         ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getFirstName(), validUser.getLastName(),
-            "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
+            "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getStartDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
 
         // Good user
         restMvc.perform(
@@ -358,11 +371,12 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)), null, 1L, UserStatus.ACTIVE);
 
         // Duplicate email, different login
         ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-            validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
+            validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getStartDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
 
         // Good user
         restMvc.perform(
@@ -380,7 +394,7 @@ public class AccountResourceIntTest {
 
         // Duplicate email - with uppercase email address
         final ManagedUserVM userWithUpperCaseEmail = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-                validUser.getEmail().toUpperCase(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getAuthorities());
+                validUser.getEmail().toUpperCase(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getStartDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
 
         restMvc.perform(
             post("/api/register")
@@ -409,7 +423,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)));
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
+            null, 1L, UserStatus.ACTIVE);
 
         restMvc.perform(
             post("/api/register")
@@ -475,7 +491,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN))
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
+            null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(
@@ -520,7 +538,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN))
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
+            null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(
@@ -565,7 +585,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN))
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
+            null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(
@@ -603,7 +625,9 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
-            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN))
+            null,
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
+            null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(

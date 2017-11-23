@@ -20,7 +20,11 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+            'getAllTeam': {
+                method: 'GET',
+                url: 'api/teams/all'
+            }
         });
     }
 })();

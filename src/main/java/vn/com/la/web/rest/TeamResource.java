@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.response.TeamListResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -123,5 +124,21 @@ public class TeamResource {
         log.debug("REST request to delete Team : {}", id);
         teamService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET  /teams : get all the teams.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of teams in body
+     */
+    @GetMapping("/teams/all")
+    @Timed
+    public ResponseEntity<TeamListResponseVM> getAllTeams() {
+        log.debug("REST request to get all Teams");
+        List<TeamDTO> teams = teamService.findAll();
+        TeamListResponseVM rs = new TeamListResponseVM();
+        rs.setTeams(teams);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

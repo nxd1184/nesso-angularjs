@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * Service Implementation for managing Team.
@@ -82,5 +85,12 @@ public class TeamServiceImpl implements TeamService{
     public void delete(Long id) {
         log.debug("Request to delete Team : {}", id);
         teamRepository.delete(id);
+    }
+
+    @Override
+    public List<TeamDTO> findAll() {
+        log.debug("Request to get all Teams");
+        return teamRepository.findAll().stream()
+            .map(teamMapper::toDto).collect(Collectors.toList());
     }
 }

@@ -17,7 +17,7 @@
 
                 </div>
             </div>
-            <a class="btn btn-primary pull-right btn-add-project" href="#addAccountModal" data-toggle="modal" >Add Account<i class="fa fa-plus" aria-hidden="true"></i></a>
+            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdate()" data-toggle="modal" >Add Account<i class="fa fa-plus" aria-hidden="true"></i></a>
             <!-- END THEME PANEL -->
         </div>
         <!-- END PAGE TOOLBAR -->
@@ -668,12 +668,7 @@
             $(this).addClass('success');
         })
 
-        Metronic.init(); // init metronic core componets
-        Layout.init(); // init layout
-        Demo.init(); // init demo features
-        Index.init(); // init index page
-        TableAdvanced.init(); //init datatable
-        ComponentsPickers.init();
+
     });
 </script>
 

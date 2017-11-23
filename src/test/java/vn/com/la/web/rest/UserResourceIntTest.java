@@ -3,6 +3,7 @@ package vn.com.la.web.rest;
 import vn.com.la.NessoApp;
 import vn.com.la.domain.Authority;
 import vn.com.la.domain.User;
+import vn.com.la.domain.enumeration.UserStatus;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.AuthoritiesConstants;
 import vn.com.la.service.MailService;
@@ -72,6 +73,8 @@ public class UserResourceIntTest {
 
     private static final String DEFAULT_LANGKEY = "en";
     private static final String UPDATED_LANGKEY = "fr";
+
+    private static final UserStatus DEFAULT_STATUS = UserStatus.ACTIVE;
 
     @Autowired
     private UserRepository userRepository;
@@ -158,7 +161,9 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            null,
+            authorities,
+            null, 1L, UserStatus.ACTIVE);
 
         restUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -198,7 +203,9 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            null,
+            authorities,
+            null, 1L, UserStatus.ACTIVE);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restUserMockMvc.perform(post("/api/users")
@@ -234,7 +241,9 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            null,
+            authorities,
+            null, 1L, UserStatus.ACTIVE);
 
         // Create the User
         restUserMockMvc.perform(post("/api/users")
@@ -270,7 +279,9 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            null,
+            authorities,
+            null, 1L, UserStatus.ACTIVE);
 
         // Create the User
         restUserMockMvc.perform(post("/api/users")
@@ -353,7 +364,9 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            updatedUser.getStartDate(),
+            authorities,
+            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, updatedUser.getCapacity(), updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -397,7 +410,9 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            updatedUser.getStartDate(),
+            authorities,
+            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, 1L,updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -452,7 +467,9 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            updatedUser.getStartDate(),
+            authorities,
+            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, 1L, updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -496,7 +513,9 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            updatedUser.getStartDate(),
+            authorities,
+            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, updatedUser.getCapacity(), updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -569,7 +588,9 @@ public class UserResourceIntTest {
             null,
             DEFAULT_LOGIN,
             null,
-            Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()));
+            null,
+            Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()),
+            null, 1L, DEFAULT_STATUS);
         User user = userMapper.userDTOToUser(userDTO);
         assertThat(user.getId()).isEqualTo(DEFAULT_ID);
         assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
