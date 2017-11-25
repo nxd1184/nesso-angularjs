@@ -1,5 +1,6 @@
 package vn.com.la.repository;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import vn.com.la.domain.User;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ import java.time.Instant;
  * Spring Data JPA repository for the User entity.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     Optional<User> findOneByActivationKey(String activationKey);
 

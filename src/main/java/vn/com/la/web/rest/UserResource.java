@@ -155,8 +155,8 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable, @RequestParam("search") String search) {
-        final Page<UserDTO> page = userService.getAllUsers(pageable, StringUtils.trimToEmpty(search));
+    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable, @RequestParam("search") String searchTerm) {
+        final Page<UserDTO> page = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

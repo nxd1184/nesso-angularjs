@@ -1,6 +1,6 @@
 package vn.com.la.service;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.domain.Authority;
 import vn.com.la.domain.Team;
 import vn.com.la.domain.User;
@@ -10,6 +10,7 @@ import vn.com.la.repository.TeamRepository;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.AuthoritiesConstants;
 import vn.com.la.security.SecurityUtils;
+import vn.com.la.service.specification.UserSpecifications;
 import vn.com.la.service.util.RandomUtil;
 import vn.com.la.service.dto.UserDTO;
 
@@ -24,10 +25,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.web.rest.vm.ManagedUserVM;
 
+import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static vn.com.la.service.specification.UserSpecifications.loginOrEmailContainsIgnoreCase;
 
 /**
  * Service class for managing users.
@@ -48,13 +52,17 @@ public class UserService {
 
     private final TeamRepository teamRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, TeamRepository teamRepository) {
+    private final EntityManager em;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, TeamRepository teamRepository, EntityManager em) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.teamRepository = teamRepository;
+        this.em = em;
     }
+
 
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -292,8 +300,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> getAllUsers(Pageable pageable, String searchText) {
-        return userRepository.findAllByLoginLike(pageable, searchText).map(UserDTO::new);
+    public Page<UserDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
+        Specification<User> searchSpec = loginOrEmailContainsIgnoreCase(searchTerm);
+        Page<UserDTO> page = userRepository.findAll(searchSpec,pageable).map(UserDTO::new);
+        return page;
     }
 
     @Transactional(readOnly = true)

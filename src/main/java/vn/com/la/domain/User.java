@@ -86,7 +86,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Instant resetDate = null;
 
     @Column(name = "start_date")
-    private Instant startDate = null;
+    private Instant startDate;
 
     @JsonIgnore
     @ManyToMany
