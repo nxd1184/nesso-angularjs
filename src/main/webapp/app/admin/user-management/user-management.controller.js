@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants', '$uibModal'];
+    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope'];
 
-    function UserManagementController(Principal, User, ParseLinks, AlertService, $state, pagingParams, paginationConstants, $uibModal) {
+    function UserManagementController(Principal, User, ParseLinks, AlertService, $state, pagingParams, paginationConstants, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope) {
         var vm = this;
 
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
@@ -90,10 +90,115 @@
             });
         }
 
-        function createOrUpdate(id) {
+        vm.dtInstance = {};
+        vm.searchText = '';
+        vm.search = search;
 
-            if(id) {
+        function search() {
+            var resetPaging = true;
+            vm.dtInstance.reloadData(searchCallback, resetPaging);
+        }
 
+        function searchCallback(data) {
+
+        }
+
+        vm.dtOptions = DTOptionsBuilder.newOptions()
+            .withOption('ajax', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
+                },
+                // Either you specify the AjaxDataProp here
+                // dataSrc: 'data',
+                url: 'api/users?sort=id,desc',
+                data: function(d){
+                    d.search = vm.searchText;
+                },
+                type: 'GET'
+            })
+            .withOption('bFilter', false)
+            .withOption('rowCallback', rowClick);;
+
+        vm.dtColumns = [
+            DTColumnBuilder.newColumn('login').withTitle('USER NAME'),
+            DTColumnBuilder.newColumn('lastName').withTitle('FULL NAME'),
+            DTColumnBuilder.newColumn('email').withTitle('EMAIL'),
+            DTColumnBuilder.newColumn('authorities').withTitle('ROLE').renderWith(function(data) {
+                var roles = '';
+                var authorities = {
+                    ROLE_USER: 'User',
+                    ROLE_PROJECT_MANAGER: 'Project Manager',
+                    ROLE_TEAM_LEADER: 'Team Leader',
+                    ROLE_ADMIN: 'Admin'
+                };
+
+                if(data) {
+                    for(var i = 0; i < data.length; i++) {
+                        var roleName = authorities[data[i]];
+                        if(roleName) {
+                            roles += roleName;
+                            if(i < data.length - 1) {
+                                roles += ', ';
+                            }
+                        }
+                    }
+                }
+
+                return roles;
+            }),
+            DTColumnBuilder.newColumn('teamName').withTitle('TEAM'),
+            DTColumnBuilder.newColumn('startDate').withTitle('START DATE').renderWith(function(data) {
+                var value = '';
+                if(data) {
+                    value = moment(data).format('DD/MM/YYYY');
+                }
+                return value;
+            }),
+            DTColumnBuilder.newColumn('status').withTitle('STATUS').renderWith(function(data) {
+                if(data === 'ACTIVE') {
+                    return '<p class="active">Active</p>';
+                }else {
+                    return '<p class="inactive">Inactive</p>';
+                }
+            })
+        ];
+
+        function rowClick(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            // Unbind first in order to avoid any duplicate handler (see https://github.com/l-lin/angular-datatables/issues/87)
+            $('td', nRow).unbind('click');
+            $('td', nRow).bind('click', function() {
+                var user = aData;
+                if(user['startDate']) {
+                    user['startDate'] = moment(user['startDate']).toDate();
+                }
+
+                $scope.$apply(function() {
+                    vm.createOrUpdate(user);
+                });
+            });
+            return nRow;
+        }
+
+
+
+        function createOrUpdate(user) {
+
+            if(user) {
+                $uibModal.open({
+                    templateUrl: 'app/admin/user-management/user-management-dialog.html',
+                    controller: 'UserManagementDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    resolve: {
+                        entity: function () {
+                            return user;
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('user-management', null, { reload: true });
+                }, function() {
+                    $state.go('user-management');
+                });
             }else {
                 $uibModal.open({
                     templateUrl: 'app/admin/user-management/user-management-dialog.html',

@@ -10,6 +10,17 @@
     function UserManagementDialogController ($stateParams, $uibModalInstance, entity, User, Team, StringUtils) {
         var vm = this;
 
+
+        vm.selectedAuthority = {};
+
+        vm.clear = clear;
+        vm.languages = null;
+        vm.save = save;
+        vm.user = entity;
+
+        vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
+
         vm.authorities = [
             {
                 id: 'ROLE_USER',
@@ -22,15 +33,26 @@
                 name: 'Team Leader'
             }
         ];
-        vm.selectedAuthority = {};
 
-        vm.clear = clear;
-        vm.languages = null;
-        vm.save = save;
-        vm.user = entity;
+        if(!vm.user.status) {
+            vm.user.status = 'ACTIVE';
+        }
 
-        vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
+        if(vm.user.authorities) {
+            for(var i = 0; i < vm.user.authorities.length; i++) {
+                var userAuthority = vm.user.authorities[i];
+                var flag = false;
+                for(var j = 0; j < vm.authorities.length; j++) {
+                    var authority = vm.authorities[j];
+                    if(authority.id === userAuthority) {
+                        vm.selectedAuthority = authority;
+                        flag = true;
+                        break;
+                    }
+                }
+                if(flag) break;
+            }
+        }
 
         function clear () {
             $uibModalInstance.dismiss('cancel');
@@ -52,7 +74,7 @@
                 vm.user.teamId = vm.selectedTeam.id;
             }
 
-            if(vm.selectedAuthority) {
+            if(vm.selectedAuthority && vm.selectedAuthority.id) {
                 if(!vm.user.authorities) {
                     vm.user.authorities = []
                 }
@@ -88,6 +110,15 @@
 
             function onSuccess(data) {
                 vm.teams = data;
+                if(vm.user.teamId && vm.teams) {
+                    for(var i = 0; i < vm.teams.length; i++) {
+                        var team = vm.teams[i];
+                        if(team.id === vm.user.teamId) {
+                            vm.selectedTeam = team;
+                            return;
+                        }
+                    }
+                }
             }
 
             function onError(error) {

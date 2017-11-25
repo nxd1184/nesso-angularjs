@@ -1,5 +1,6 @@
 package vn.com.la.web.rest;
 
+import org.apache.commons.lang3.StringUtils;
 import vn.com.la.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import vn.com.la.domain.User;
@@ -135,7 +136,12 @@ public class UserResource {
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use")).body(null);
         }
-        Optional<UserDTO> updatedUser = userService.updateUser(managedUserVM);
+        boolean isNotChangePassword = true;
+        if(StringUtils.isNotBlank(managedUserVM.getPassword())) {
+            isNotChangePassword = false;
+        }
+
+        Optional<UserDTO> updatedUser = userService.updateUser2(managedUserVM, existingUser.get().getPassword(), managedUserVM.getPassword(), isNotChangePassword);
 
         return ResponseUtil.wrapOrNotFound(updatedUser,
             HeaderUtil.createAlert("A user is updated with identifier " + managedUserVM.getLogin(), managedUserVM.getLogin()));
@@ -149,8 +155,8 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable) {
-        final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
+    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable, @RequestParam("search") String search) {
+        final Page<UserDTO> page = userService.getAllUsers(pageable, StringUtils.trimToEmpty(search));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

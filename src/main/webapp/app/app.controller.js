@@ -52,7 +52,6 @@
                 // Layout.init(); // init layout
                 Demo.init(); // init demo features
                 Index.init(); // init index page
-                TableAdvanced.init(); //init datatable
                 ComponentsPickers.init();
 
                 $rootScope.scriptsLoaded = true;

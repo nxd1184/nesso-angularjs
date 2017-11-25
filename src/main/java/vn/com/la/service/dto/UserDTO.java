@@ -57,6 +57,7 @@ public class UserDTO {
     private Instant startDate;
 
     private Long teamId;
+    private String teamName;
 
     private Long capacity;
 
@@ -73,7 +74,7 @@ public class UserDTO {
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
             user.getStartDate(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()), user.getTeam() != null ? user.getTeam().getId() : null,
+                .collect(Collectors.toSet()), user.getTeam() != null ? user.getTeam().getId() : null, user.getTeam() != null ? user.getTeam().getName() : null,
             user.getCapacity(), user.getStatus());
     }
 
@@ -82,7 +83,7 @@ public class UserDTO {
         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
         Instant startDate,
         Set<String> authorities,
-                   Long teamId, Long capacity, UserStatus status) {
+                   Long teamId, String teamName, Long capacity, UserStatus status) {
 
         this.id = id;
         this.login = login;
@@ -99,6 +100,7 @@ public class UserDTO {
         this.startDate = startDate;
         this.authorities = authorities;
         this.teamId = teamId;
+        this.teamName = teamName;
         this.capacity = capacity;
         this.status = status;
     }
@@ -197,6 +199,14 @@ public class UserDTO {
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     @Override

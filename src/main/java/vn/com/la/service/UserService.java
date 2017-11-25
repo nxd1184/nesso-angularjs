@@ -221,6 +221,54 @@ public class UserService {
             .map(UserDTO::new);
     }
 
+    public Optional<UserDTO> updateUser2(UserDTO userDTO, String oldPassword, String newPassword, boolean isNotChangePassword) {
+        return Optional.of(userRepository
+            .findOne(userDTO.getId()))
+            .map(user -> {
+                user.setLogin(userDTO.getLogin());
+                user.setFirstName(userDTO.getFirstName());
+                user.setLastName(userDTO.getLastName());
+                user.setEmail(userDTO.getEmail());
+                user.setImageUrl(userDTO.getImageUrl());
+                user.setActivated(userDTO.isActivated());
+                user.setLangKey(userDTO.getLangKey());
+
+                if(isNotChangePassword) {
+                    user.setPassword(oldPassword);
+                }else {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                }
+                user.setStartDate(userDTO.getStartDate());
+
+                Team team = null;
+                if(userDTO.getTeamId() != null) {
+                    team = teamRepository.findOne(userDTO.getTeamId());
+                }
+                user.setTeam(team);
+                user.setCapacity(userDTO.getCapacity());
+
+
+                Set<Authority> managedAuthorities = user.getAuthorities();
+                managedAuthorities.clear();
+                Set<String> authorities = userDTO.getAuthorities();
+                if(authorities == null || authorities.isEmpty()) {
+                    authorities = new HashSet<>();
+                    authorities.add(AuthoritiesConstants.USER);
+                }
+
+                authorities.stream()
+                    .map(authorityRepository::findOne)
+                    .forEach(managedAuthorities::add);
+
+                user.setStatus(userDTO.getStatus());
+
+                cacheManager.getCache("users").evict(user.getLogin());
+                log.debug("Changed Information for User: {}", user);
+                return user;
+            })
+            .map(UserDTO::new);
+    }
+
     public void deleteUser(String login) {
         userRepository.findOneByLogin(login).ifPresent(user -> {
             userRepository.delete(user);
@@ -241,6 +289,11 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<UserDTO> getAllManagedUsers(Pageable pageable) {
         return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER).map(UserDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserDTO> getAllUsers(Pageable pageable, String searchText) {
+        return userRepository.findAllByLoginLike(pageable, searchText).map(UserDTO::new);
     }
 
     @Transactional(readOnly = true)

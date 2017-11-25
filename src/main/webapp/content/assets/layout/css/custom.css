@@ -109,11 +109,11 @@
 		border: solid 1px #eceff2;
 		padding: 12px 0;
 	}
-	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu.dropdown-menu-default > li a:hover, 
+	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu.dropdown-menu-default > li a:hover,
 	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu .dropdown-menu-list > li a:hover{
 		background: #fafafa;
 	}
-	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu.dropdown-menu-default > li a, 
+	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu.dropdown-menu-default > li a,
 	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu .dropdown-menu-list > li a{
 		border-bottom: 1px solid #fafafa !important;
 		color: #4d6a79;
@@ -151,7 +151,7 @@
 		color: #0079c7;
 	}
 	.page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu:after{
-		border-bottom-color: #fff; 
+		border-bottom-color: #fff;
 	}
 	.page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-menu:before{
 		width: 10px;
@@ -254,15 +254,15 @@
 		right: 0;
 		bottom: -24px;
 	}
-	.breadcrumb.dashboard .nav-tabs>li.active>a, 
-	.breadcrumb.dashboard .nav-tabs>li.active>a:focus, 
+	.breadcrumb.dashboard .nav-tabs>li.active>a,
+	.breadcrumb.dashboard .nav-tabs>li.active>a:focus,
 	.breadcrumb.dashboard .nav-tabs>li.active>a:hover
 	{
 		border-color: transparent;
 		background: none !important;
 	}
 	.breadcrumb.dashboard .nav-tabs>li>a:hover,
-	.breadcrumb.dashboard .nav>li>a:focus, 
+	.breadcrumb.dashboard .nav>li>a:focus,
 	.breadcrumb.dashboard .nav>li>a:hover{
 		border-color: transparent;
 		background: none;
@@ -296,19 +296,19 @@
 	}
 	.dashboard-st.receive .text{
 		background: #0079c7 !important;
-		
+
 	}
 	.dashboard-st.todo .text{
 		background: #ffb000 !important;
-		
+
 	}
 	.dashboard-st.tocheck .text{
 		background: #dd484b !important;
-		
+
 	}
 	.dashboard-st.done .text{
 		background: #79bc32 !important;
-		
+
 	}
 	.dashboard-st .text h3{
 		color: #fff;
@@ -486,9 +486,9 @@
 		overflow: hidden;
 		background: #fff;
 	}
-	.wrap-table-radius.table-responsive{
-		overflow-x: auto;
-	}
+	/*.wrap-table-radius.table-responsive{*/
+		/*overflow-x: auto;*/
+	/*}*/
 	.weekly-time table tr th:last-of-type,
 	.weekly-time table tr td:last-of-type,
 	.monthy-productivity table tr th:last-of-type,
@@ -555,15 +555,15 @@
 		float: none;
 		text-align: center;
 	}
-	.pagination .active > a, 
+	.pagination .active > a,
 	.pagination .active > a:hover{
 		background: #0079c7;
-		border-color: #0079c7; 
+		border-color: #0079c7;
 		color: #fff;
 	}
-	.pagination>li>a:focus, 
-	.pagination>li>a:hover, 
-	.pagination>li>span:focus, 
+	.pagination>li>a:focus,
+	.pagination>li>a:hover,
+	.pagination>li>span:focus,
 	.pagination>li>span:hover{
 		color: #4d6a79;
 	}
@@ -634,7 +634,7 @@
 		min-width: 70px;
 	}
 	.plan .warning-deadline,.plan .warning-deadline:hover{
-		background-color: rgba(255, 176, 0, 0.15); 
+		background-color: rgba(255, 176, 0, 0.15);
 	}
 	.plan .danger-deadline,.plan .danger-deadline:hover{
 		background-color: rgba(221, 73, 76, 0.15);
@@ -687,7 +687,7 @@
 	.page-plan .timeline-user th.progress_col:after,
 	.page-plan .timeline-project th.progress_col:before,
 	.timeline-project th.progress_col:after{
-		width: 24px; 
+		width: 24px;
 		height: 24px;
 		position: absolute;
 		left: 30px;
@@ -793,7 +793,7 @@
 		padding-bottom: 0;
 	}
 	.page-report .export button,
-	.page-report .export .btn-default:hover, 
+	.page-report .export .btn-default:hover,
 	.page-report .export .btn-default:focus,
 	.page-report .export.open .btn-default.dropdown-toggle{
 		background: #0079c7;
@@ -822,7 +822,7 @@
 	.page-report .wrap-table-radius table tr td.text-right{
 		text-align: right;
 	}
-	.page-report .quanlity-control td.col_volumn, 
+	.page-report .quanlity-control td.col_volumn,
 	.page-report .quanlity-control td.col_err,
 	.page-report .quanlity-control td.col_err_volumn{
 		font-family: Roboto;
@@ -1108,19 +1108,19 @@
 	#addJobModal .simulate-manage .right{
 		margin-left: -10px;
 	}
-	#addJobModal .simulate-manage .left, 
+	#addJobModal .simulate-manage .left,
 	#addJobModal .simulate-manage .right{
 		border-radius: 4px;
 		background-color: #ffffff;
 		box-shadow: 0 0 2px 0 rgba(55, 71, 79, 0.2);
 		border: solid 1px #dae3ea;
 	}
-	#addJobModal .simulate-manage .left .head_group, 
+	#addJobModal .simulate-manage .left .head_group,
 	#addJobModal .simulate-manage .right .head_group{
 		border-bottom: 1px solid #dae3ea;
 		padding: 25px 20px 10px 20px;
 	}
-	#addJobModal .simulate-manage .left .body_group, 
+	#addJobModal .simulate-manage .left .body_group,
 	#addJobModal .simulate-manage .right .body_group{
 		padding: 25px 20px 10px 20px;
 	}
@@ -1200,7 +1200,7 @@
 		width: 120px !important;
 		padding-right: 10px;
 	}
-	
+
 	.wrap-table-radius.account-team table tr td .active{
 		text-align: left !important;
 	}
@@ -1491,7 +1491,7 @@
 		line-height: 25px;
 		background: #fff;
 	}
-	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary, 
+	.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
 	.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary{
 		background: #79bc32;
 		border-radius: 50%;
@@ -1542,7 +1542,7 @@
 		text-align: left;
 		color: #37474f;
 	}
-	
+
 	.popupModal .modal-footer{
 		border-top: 0;
 		padding: 15px 20px 18px;
@@ -1550,7 +1550,7 @@
 
 	.popupModal .btn-cancel,
 	.popupModal .btn-save
-	{	
+	{
 		border-radius: 4px;
 		font-family: "Roboto";
 		font-size: 14px;
@@ -1569,7 +1569,7 @@
 	}
 	.popupModal .date-picker .input-group-addon{
 		background: #fff;
-	} 
+	}
 
 /*Account Page*/
 	.wrap-table-radius.account table tr td.avata,
@@ -1958,10 +1958,10 @@
 	padding: 12px 0 0 !important
 }
 .dropdown-notification .notification-list li{
-	padding: 0px; 
+	padding: 0px;
 }
 .dropdown-notification .notification-list .dropdown-menu-list li{
-	
+
 	padding: 0px;
 	overflow: hidden;
 	padding: 0px 20px;
@@ -2042,7 +2042,7 @@
 }
 .dropdown-notification .notification-list .dropdown-menu-list li a .time,
 .dropdown-notification .notification-list .dropdown-menu-list li a:hover .time{
-	
+
 	max-width: initial !important;
 	width: 100%;
 	clear: both;
@@ -2089,7 +2089,7 @@
 .plan table tr.job_line td,
 .plan table tr.team_line td{
     font-weight: bold;
-}    
+}
 .treegrid-expander{
     background: none;
     margin-right: 15px;
@@ -2149,7 +2149,7 @@
 	margin-right: -14px;
 	margin-left: -14px;
 	padding: 0 15px;
-} 
+}
 #editTeamModal .add_member_small_btn{
 	display: none;
 }
@@ -2189,7 +2189,7 @@
 	float: right;
 }
 .wrapTableEditTeam table .fullname{
-	
+
 }
 .wrapTableEditTeam table .workingshirt{
 	min-width: 120px;
@@ -2261,7 +2261,7 @@
 	display: inline-block;
 }
 
-.wrapTableEditTeam table tr.single_button td  	 	
+.wrapTableEditTeam table tr.single_button td
 {
 	text-align: center;
 }
@@ -2322,8 +2322,8 @@ th.progress_col,
 		right: 0;
 		/*bottom: -24px;*/
 	}
-	.breadcrumb.profile .nav-tabs>li.active>a, 
-	.breadcrumb.profile .nav-tabs>li.active>a:focus, 
+	.breadcrumb.profile .nav-tabs>li.active>a,
+	.breadcrumb.profile .nav-tabs>li.active>a:focus,
 	.breadcrumb.profile .nav-tabs>li.active>a:hover
 	{
 		color: #0079c7;
@@ -2331,7 +2331,7 @@ th.progress_col,
 		background: none !important;
 	}
 	.breadcrumb.profile .nav-tabs>li>a:hover,
-	.breadcrumb.profile .nav>li>a:focus, 
+	.breadcrumb.profile .nav>li>a:focus,
 	.breadcrumb.profile .nav>li>a:hover{
 		border-color: transparent;
 		background: none;

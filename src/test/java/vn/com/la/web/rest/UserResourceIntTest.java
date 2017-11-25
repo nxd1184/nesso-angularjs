@@ -590,7 +590,7 @@ public class UserResourceIntTest {
             null,
             null,
             Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()),
-            null, 1L, DEFAULT_STATUS);
+            null, null, 1L, DEFAULT_STATUS);
         User user = userMapper.userDTOToUser(userDTO);
         assertThat(user.getId()).isEqualTo(DEFAULT_ID);
         assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);

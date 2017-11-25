@@ -493,7 +493,7 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedDate
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
-            null, 1L, UserStatus.ACTIVE
+            null, null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(
@@ -540,7 +540,7 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedDate
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
-            null, 1L, UserStatus.ACTIVE
+            null, null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(
@@ -587,7 +587,7 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedDate
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
-            null, 1L, UserStatus.ACTIVE
+            null, null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(
@@ -627,7 +627,7 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedDate
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
-            null, 1L, UserStatus.ACTIVE
+            null, null, 1L, UserStatus.ACTIVE
         );
 
         restMvc.perform(

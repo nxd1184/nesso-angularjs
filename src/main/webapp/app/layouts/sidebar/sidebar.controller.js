@@ -13,7 +13,7 @@
                 title: 'Dashboard',
                 icon: 'fa fa-home',
                 state: 'home',
-                url: '#/'
+                url: '#!/'
             }, {
                 title: 'Plan',
                 icon: 'fa fa-calendar',
@@ -42,7 +42,7 @@
                         title: 'User',
                         icon: 'fa fa-user',
                         state: 'user-management',
-                        url: '#/user-management'
+                        url: '#!/user-management'
                     }, {
                         title: 'Team',
                         icon: 'fa fa-users',

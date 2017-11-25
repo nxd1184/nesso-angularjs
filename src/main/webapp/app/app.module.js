@@ -16,7 +16,9 @@
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
             'frapontillo.bootstrap-switch',
-            'ngSanitize', 'ui.select'
+            'ngSanitize', 'ui.select',
+            'datatables',
+            'angularMoment'
         ])
         .run(run);
 

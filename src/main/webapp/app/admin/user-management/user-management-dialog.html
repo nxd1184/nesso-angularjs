@@ -30,7 +30,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" required class="form-control" placeholder="Password" ng-model="vm.user.password">
+                    <input type="password" name="password" ng-required="!vm.user.id" class="form-control" placeholder="Password" ng-model="vm.user.password">
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -38,7 +38,7 @@
                     <label>Confirm Password</label>
                     <div class="input-icon input-icon-sm right">
                         <span id="eye"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                        <input type="password" name="confirmpass" id="pw" class="form-control" placeholder="Confirm password" ng-model="vm.confirmPassword">
+                        <input type="password" name="confirmpass" ng-required="!vm.user.id" id="pw" class="form-control" placeholder="Confirm password" ng-model="vm.confirmPassword">
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@
             </div>
             <div class="col-md-6 col-sm-6 col-xs-7">
                 <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
-                <button type="submit" class="btn btn-save" ng-disabled="editForm.$invalid || vm.isSaving || vm.user.password !== vm.confirmPassword" >Save</button>
+                <button type="submit" class="btn btn-save" ng-disabled="editForm.$invalid || vm.isSaving" >Save</button>
             </div>
         </div>
     </div>
