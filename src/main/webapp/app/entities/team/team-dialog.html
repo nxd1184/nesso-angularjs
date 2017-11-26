@@ -12,7 +12,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label>Team name</label>
-                    <input type="text" name="team_name" class="form-control" placeholder="">
+                    <input type="text" name="team_name" ng-model="vm.team.name" required class="form-control" placeholder="">
                 </div>
             </div>
         </div>
@@ -38,14 +38,15 @@
             <div class="col-md-5 col-xs-5">
                 <div class="form-group text-left margin-bottom-5 margin-top-5">
                     <label class="text-left" style="">Status</label>
-                    <div class="status-switch " style="display:inline-block;margin-left:10px;">
-                        <input type="checkbox" checked class="make-switch" data-size="small">
+                    <div class="status-switch " style="display:inline-block; margin-left:20px;">
+                        <input name="status" type="checkbox" bs-switch ng-true-value="'ACTIVE'" ng-false-value="'INACTIVE'"
+                               ng-model="vm.team.status" class="make-switch" data-size="small">
                     </div>
                 </div>
             </div>
             <div class="col-md-7 col-xs-7">
                 <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
-                <button type="button" class="btn btn-save">Add</button>
+                <button type="submit" class="btn btn-save">Save</button>
             </div>
         </div>
     </div>

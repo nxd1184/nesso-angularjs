@@ -34,7 +34,6 @@ public class Team extends AbstractAuditingEntity {
     private TeamStatusEnum status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
     private User leader;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

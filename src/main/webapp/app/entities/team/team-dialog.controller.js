@@ -44,6 +44,8 @@
             vm.isSaving = false;
         }
 
-
+        if(!vm.team.status) {
+            vm.team.status = 'ACTIVE';
+        }
     }
 })();

@@ -86,7 +86,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Instant resetDate = null;
 
     @Column(name = "start_date")
-    private Instant startDate;
+    private Instant startDate = null;
 
     @JsonIgnore
     @ManyToMany
@@ -106,7 +106,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private UserStatus status;
+    private UserStatus status = UserStatus.ACTIVE;
 
     public Long getId() {
         return id;

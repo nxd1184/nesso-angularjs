@@ -33,5 +33,6 @@
     <include file="config/liquibase/changelog/20171123035209_added_entity_User_TeamId.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171123073510_added_Entity_User_Capacity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20171123084122_added_entity_User_status.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171126105002_updated_entity_Team_User.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
