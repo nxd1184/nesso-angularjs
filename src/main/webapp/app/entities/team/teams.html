@@ -1,66 +1,535 @@
-<div>
-    <h2>Teams</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="team.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span >
-                        Create new Team
-                    </span>
-                </button>
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Team Management</h1>
+        </div>
+        <!-- END PAGE TITLE -`->
+        <!-- BEGIN PAGE TOOLBAR -->
+        <div class="page-toolbar">
+            <div class="search" >
+                <div class="input-group" style="float:left">
+                    <input type="text" class="form-control" placeholder="Search username/e-mail">
+                    <span class="input-group-btn">
+							<button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+							</span>
+
+                </div>
             </div>
+            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdateTeam()" >Add Team<i class="fa fa-plus" aria-hidden="true"></i></a>
+            <!-- END THEME PANEL -->
+        </div>
+        <!-- END PAGE TOOLBAR -->
+    </div>
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb hide">
+        <li>
+            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+            Project
+        </li>
+    </ul>
+    <style type="text/css">
+        .account-team table.tree th{
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        .account-team table.tree .team_names,.account-team table.tree .team_leads{
+            width: 20%;
+        }
+        .account-team table.tree th:first-of-type{
+            padding-left: 40px;
+        }
+        .account-team table.tree td{
+            border: 0;
+        }
+        .account-team table.tree .team_line td{
+            border-top: 1px solid #dae3ea;
+        }
+        .account-team table.tree tr.team_line td{
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.43;
+            letter-spacing: 0.2px;
+            text-align: left;
+            color: #37474f;
+        }
+        .account-team table.tree tr.team_line td.action a{
+            display: none;
+        }
+        .account-team table.tree tr.team_line:hover td.action a{
+            display: inline-block;
+        }
+        .account-team table.tree tr.team_head_line {
+            background-color: #fbfbfb;
+        }
+        .account-team table.tree tr.team_head_line td{
+            font-family: Roboto;
+            font-family: Roboto;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.67;
+            letter-spacing: 0.2px;
+            text-align: left;
+            color: #afbec6;
+            text-transform: uppercase;
+        }
+        .account-team table.tree .team_members,
+        .account-team table.tree .create_dates,
+        .account-team table.tree .end_dates{
+            text-align: center !important;
+        }
+        .account-team table.tree .team_names {
+            padding-left: 40px !important;
+            position: relative;
+        }
+        .account-team table.tree .team_names i {
+            left: 10px;
+            color: #0079c7;
+            font-size: 18px;
+        }
+
+        .account-team table.tree .team_names i, .account-team table.tree .team_names img {
+            position: absolute;
+            left: 8px;
+        }
+    </style>
+    <div class="margin-top-20">
+        <div class="wrap-table-radius account-team table-responsive">
+            <table class="tree table table-hover">
+                <thead>
+                <tr>
+                    <th class="indexs">
+                        #
+                    </th>
+                    <th class="team_names">
+                        Team name
+                    </th>
+                    <th class="team_leads">
+                        Team leader
+                    </th>
+                    <th class="team_members">
+                        Member
+                    </th>
+                    <th class="create_dates">
+                        Create at
+                    </th>
+                    <th class="end_dates">
+
+                    </th>
+                    <th class="status">
+                        Status
+                    </th>
+                    <th class="action">
+
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="treegrid-1 team_line">
+                    <td class="indexs">1</td>
+                    <td class="team_names">
+                        <i class="fa fa-users" aria-hidden="true"></i> Team A
+                    </td>
+                    <td class="team_leads">Lulu Larson</td>
+                    <td class="team_members">5</td>
+                    <td class="create_dates">06/12/2016</td>
+                    <td class="end_dates"></td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td class="action">
+                        <a class="editTeam" href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="treegrid-11 treegrid-parent-1 team_head_line">
+                    <td class="indexs">#</td>
+                    <td class="team_name">
+                        User name
+                    </td>
+                    <td class="team_leads">Full name</td>
+                    <td class="team_members">Working shift</td>
+                    <td class="create_dates">Start date</td>
+                    <td class="end_dates">End date</td>
+                    <td class="status">Status</td>
+                    <td>
+                    </td>
+                </tr>
+                <tr class="treegrid-12 treegrid-parent-1">
+                    <td class="indexs">1</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="inactive">Deactive</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-13 treegrid-parent-1">
+                    <td class="indexs">2</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-14 treegrid-parent-1">
+                    <td class="indexs">3</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-15 treegrid-parent-1">
+                    <td class="indexs">4</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+
+
+
+                <tr class="treegrid-2 team_line">
+                    <td class="indexs">2</td>
+                    <td class="team_names">
+                        <i class="fa fa-users" aria-hidden="true"></i> Team B
+                    </td>
+                    <td class="team_leads">Lulu Larson</td>
+                    <td class="team_members">5</td>
+                    <td class="create_dates">06/12/2016</td>
+                    <td class="end_dates"></td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td class="action">
+                        <a class="editTeam" href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="treegrid-21 treegrid-parent-2 team_head_line">
+                    <td class="indexs">#</td>
+                    <td class="team_name">
+                        User name
+                    </td>
+                    <td class="team_leads">Full name</td>
+                    <td class="team_members">Working shift</td>
+                    <td class="create_dates">Start date</td>
+                    <td class="end_dates">End date</td>
+                    <td class="status">Status</td>
+                    <td>
+                    </td>
+                </tr>
+                <tr class="treegrid-22 treegrid-parent-2">
+                    <td class="indexs">1</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-23 treegrid-parent-2">
+                    <td class="indexs">2</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-24 treegrid-parent-2">
+                    <td class="indexs">3</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-25 treegrid-parent-2">
+                    <td class="indexs">4</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+
+
+                <tr class="treegrid-3 team_line">
+                    <td class="indexs">3</td>
+                    <td class="team_names">
+                        <i class="fa fa-users" aria-hidden="true"></i> Team A
+                    </td>
+                    <td class="team_leads">Lulu Larson</td>
+                    <td class="team_members">5</td>
+                    <td class="create_dates">06/12/2016</td>
+                    <td class="end_dates"></td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td class="action">
+                        <a class="editTeam" href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="treegrid-31 treegrid-parent-3 team_head_line">
+                    <td class="indexs">#</td>
+                    <td class="team_name">
+                        User name
+                    </td>
+                    <td class="team_leads">Full name</td>
+                    <td class="team_members">Working shift</td>
+                    <td class="create_dates">Start date</td>
+                    <td class="end_dates">End date</td>
+                    <td class="status">Status</td>
+                    <td>
+                    </td>
+                </tr>
+                <tr class="treegrid-32 treegrid-parent-3">
+                    <td class="indexs">1</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-33 treegrid-parent-3">
+                    <td class="indexs">2</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-34 treegrid-parent-3">
+                    <td class="indexs">3</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-35 treegrid-parent-3">
+                    <td class="indexs">4</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+
+
+                <tr class="treegrid-4 team_line">
+                    <td class="indexs">4</td>
+                    <td class="team_names">
+                        <i class="fa fa-users" aria-hidden="true"></i> Team A
+                    </td>
+                    <td class="team_leads">Lulu Larson</td>
+                    <td class="team_members">5</td>
+                    <td class="create_dates">06/12/2016</td>
+                    <td class="end_dates"></td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td class="action">
+                        <a class="editTeam" href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                <tr class="treegrid-41 treegrid-parent-4 team_head_line">
+                    <td class="indexs">#</td>
+                    <td class="team_name">
+                        User name
+                    </td>
+                    <td class="team_leads">Full name</td>
+                    <td class="team_members">Working shift</td>
+                    <td class="create_dates">Start date</td>
+                    <td class="end_dates">End date</td>
+                    <td class="status">Status</td>
+                    <td>
+                    </td>
+                </tr>
+                <tr class="treegrid-42 treegrid-parent-4">
+                    <td class="indexs">1</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-43 treegrid-parent-4">
+                    <td class="indexs">2</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-44 treegrid-parent-4">
+                    <td class="indexs">3</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr class="treegrid-45 treegrid-parent-4">
+                    <td class="indexs">4</td>
+                    <td class="team_names">
+                        <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                        jeromehenderson
+                    </td>
+                    <td class="team_leads">Jerome Henderson</td>
+                    <td class="team_members">Day</td>
+                    <td class="create_dates">10/01/2017</td>
+                    <td class="end_dates">12/01/2017</td>
+                    <td class="status">
+                        <p class="active">Active</p>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="status"><span>Status</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="leaderLogin"><span>Leader</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="team in vm.teams track by team.id">
-                    <td><a ui-sref="team-detail({id:team.id})">{{team.id}}</a></td>
-                    <td>{{team.name}}</td>
-                    <td>{{team.status}}</td>
-                    <td>
-                        {{team.leaderLogin}}
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="team-detail({id:team.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="team.edit({id:team.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="team.delete({id:team.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-    </div>
+
+    <!-- END PAGE BREADCRUMB -->
 </div>

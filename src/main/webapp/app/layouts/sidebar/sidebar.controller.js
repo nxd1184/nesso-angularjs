@@ -46,7 +46,8 @@
                     }, {
                         title: 'Team',
                         icon: 'fa fa-users',
-                        state: 'team'
+                        state: 'team',
+                        url: '#!/team'
                     }
                 ]
             }, {

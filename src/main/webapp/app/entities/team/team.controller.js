@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('TeamController', TeamController);
 
-    TeamController.$inject = ['$state', 'Team', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    TeamController.$inject = ['$state', 'Team', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams', '$uibModal'];
 
-    function TeamController($state, Team, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function TeamController($state, Team, ParseLinks, AlertService, paginationConstants, pagingParams, $uibModal) {
 
         var vm = this;
 
@@ -54,6 +54,33 @@
                 page: vm.page,
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
                 search: vm.currentSearch
+            });
+        }
+
+        vm.createOrUpdateTeam = createOrUpdateTeam;
+        function createOrUpdateTeam(team) {
+            if(!team) {
+                team = {
+                    name: null,
+                    status: 'ACTIVE',
+                    id: null
+                };
+            }
+
+            $uibModal.open({
+                templateUrl: 'app/entities/team/team-dialog.html',
+                controller: 'TeamDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: function () {
+                        return team;
+                    }
+                }
+            }).result.then(function() {
+                $state.go('team', null, { reload: 'team' });
+            }, function() {
+                $state.go('team');
             });
         }
     }

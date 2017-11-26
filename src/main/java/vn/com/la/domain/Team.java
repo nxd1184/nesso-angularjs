@@ -33,7 +33,7 @@ public class Team extends AbstractAuditingEntity {
     @Column(name = "status", nullable = false)
     private TeamStatusEnum status;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private User leader;
 

@@ -80,7 +80,8 @@
         <ng-include src="'app/layouts/sidebar/sidebar.html'"></ng-include>
         <!-- END SIDEBAR -->
         <!-- BEGIN CONTENT -->
-        <div class="page-content-wrapper" ui-view="content" ng-class="{'page-account' : $state.includes('user-management')}">
+        <div class="page-content-wrapper" ui-view="content" ng-class="{'page-account' : $state.includes('user-management'),
+                                                                        'page-account-team' : $state.includes('team')}">
 
         </div>
         <!-- END CONTENT -->
@@ -169,6 +170,7 @@
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
     <script type="text/javascript" src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-select/dist/select.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-select/docs/assets/demo.js"></script>
     <script type="text/javascript" src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
     <script type="text/javascript" src="bower_components/moment/moment.js"></script>
     <script type="text/javascript" src="bower_components/angular-moment/angular-moment.min.js"></script>
@@ -351,6 +353,7 @@
     <script src="app/account/activate/activate.state.js"></script>
     <script src="app/account/activate/activate.controller.js"></script>
     <script src="app/account/account.state.js"></script>
+    <script src="app/sample-ui/ui-select/ui-select.controller.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 

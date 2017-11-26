@@ -1,5 +1,5 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" id="addTeamModal" novalidate ng-submit="vm.save()" show-validation>
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -8,55 +8,45 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.team.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.team.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="vm.team.name"
-                    required/>
-            <div ng-show="editForm.name.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.name.$error.required">
-                    This field is required.
-                </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Team name</label>
+                    <input type="text" name="team_name" class="form-control" placeholder="">
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label" for="field_status">Status</label>
-            <select class="form-control" name="status" ng-model="vm.team.status" id="field_status" required>
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="INACTIVE">INACTIVE</option>
-            </select>
-            <div ng-show="editForm.status.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.status.$error.required">
-                    This field is required.
-                </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Select Team Leader</label>
+                    <ui-select ng-model="vm.selectedTeamLeader" theme="select2" class="selectpicker form-control" title="Choose a team leader">
+                        <ui-select-match placeholder="Select a team leader in the list">{{$select.selected.lastName}}</ui-select-match>
+                        <ui-select-choices repeat="leader in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
+                            <div ng-bind-html="leader.lastName | highlight: $select.search"></div>
+                            <small>
+                                <span ng-bind-html="leader.login | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label for="field_leader">Leader</label>
-            <select class="form-control" id="field_leader" name="leader" ng-model="vm.team.leaderId" ng-options="user.id as user.login for user in vm.users"             required>
-            </select>
-        </div>
-        <div ng-show="editForm.leader.$invalid">
-            <p class="help-block"
-                ng-show="editForm.leader.$error.required">
-                This field is required.
-            </p>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
-        </button>
-        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
-        </button>
+        <div class="row">
+            <div class="col-md-5 col-xs-5">
+                <div class="form-group text-left margin-bottom-5 margin-top-5">
+                    <label class="text-left" style="">Status</label>
+                    <div class="status-switch " style="display:inline-block;margin-left:10px;">
+                        <input type="checkbox" checked class="make-switch" data-size="small">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-xs-7">
+                <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
+                <button type="button" class="btn btn-save">Add</button>
+            </div>
+        </div>
     </div>
 </form>

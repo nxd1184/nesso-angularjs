@@ -15,6 +15,8 @@
         vm.save = save;
         vm.users = User.query();
 
+        vm.selectedTeamLeader = {};
+
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
