@@ -27,6 +27,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Optional<User> findOneByEmailIgnoreCase(String email);
 
     Optional<User> findOneByLogin(String login);
+    Optional<User> findOneByLoginAndPassword(String login, String password);
 
     @EntityGraph(attributePaths = "authorities")
     User findOneWithAuthoritiesById(Long id);

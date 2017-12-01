@@ -2,6 +2,10 @@ package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import vn.com.la.domain.User;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.SecurityUtils;
@@ -20,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.request.ChangePasswordRequestVM;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -42,12 +47,17 @@ public class AccountResource {
 
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
+    private static final String CHECK_CURRENT_PASSWORD_ERROR_MESSAGE = "Your current password is not correct";
+
+    private final AuthenticationManager authenticationManager;
+
     public AccountResource(UserRepository userRepository, UserService userService,
-            MailService mailService) {
+            MailService mailService, AuthenticationManager authenticationManager) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.authenticationManager = authenticationManager;
     }
 
     /**
@@ -140,8 +150,7 @@ public class AccountResource {
         return userRepository
             .findOneByLogin(userLogin)
             .map(u -> {
-                userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
-                    userDTO.getLangKey(), userDTO.getImageUrl());
+                userService.updateUser(userDTO.getLastName());
                 return new ResponseEntity(HttpStatus.OK);
             })
             .orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -150,17 +159,28 @@ public class AccountResource {
     /**
      * POST  /account/change-password : changes the current user's password
      *
-     * @param password the new password
+     * @param request the change password request
      * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) if the new password is not strong enough
      */
     @PostMapping(path = "/account/change-password",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
-    public ResponseEntity changePassword(@RequestBody String password) {
-        if (!checkPasswordLength(password)) {
-            return new ResponseEntity<>(CHECK_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
+    public ResponseEntity changePassword(@Valid @RequestBody ChangePasswordRequestVM request) {
+
+        if(!request.getNewPassword().equals(request.getConfirmPassword())) {
+            return new ResponseEntity<>("New password does not match with confirm password", HttpStatus.BAD_REQUEST);
         }
-        userService.changePassword(password);
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+            new UsernamePasswordAuthenticationToken(SecurityUtils.getCurrentUserLogin(), request.getCurrentPassword());
+        try {
+            Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+        } catch (AuthenticationException ae) {
+            log.trace("Authentication exception trace: {}", ae);
+            return new ResponseEntity<>(CHECK_CURRENT_PASSWORD_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
+        }
+
+        userService.changePassword(request.getNewPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

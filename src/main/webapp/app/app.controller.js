@@ -11,6 +11,8 @@
 
         $rootScope.scriptsLoaded = false;
 
+        $scope.account = null;
+
         $scope.settings = {
             layout: {}
         };
@@ -40,6 +42,9 @@
                 _onLoginPage(!account);
                 if(!account) {
                     $state.go('login');
+                }else{
+                    $scope.account = account;
+                    $scope.account.fullName = $scope.showFullName();
                 }
             });
         }
@@ -57,5 +62,24 @@
                 $rootScope.scriptsLoaded = true;
             }
         });
+
+        $scope.$on('accountUpdated', function() {
+            getAccount();
+        });
+
+        $scope.showFullName = function(){
+            var fullName = '';
+            if($scope.account) {
+                fullName = $scope.account.firstName;
+                if(!fullName && $scope.account.lastName) {
+                    fullName = $scope.account.lastName;
+                }else {
+                    if($scope.account.lastName) {
+                        fullName += ' ' + $scope.account.lastName;
+                    }
+                }
+            }
+            return fullName;
+        }
     }
 })();
