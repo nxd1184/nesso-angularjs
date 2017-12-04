@@ -5,17 +5,20 @@
         .module('nessoApp')
         .controller('TaskDetailController', TaskDetailController);
 
-    TaskDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Task', 'Project'];
+    TaskDetailController.$inject = ['$stateParams', 'Task'];
 
-    function TaskDetailController($scope, $rootScope, $stateParams, previousState, entity, Task, Project) {
+    function TaskDetailController($stateParams, Task) {
         var vm = this;
 
-        vm.task = entity;
-        vm.previousState = previousState.name;
+        vm.load = load;
+        vm.task = {};
 
-        var unsubscribe = $rootScope.$on('nessoApp:taskUpdate', function(event, result) {
-            vm.task = result;
-        });
-        $scope.$on('$destroy', unsubscribe);
+        vm.load($stateParams.login);
+
+        function load(login) {
+            Task.get({login: login}, function(result) {
+                vm.task = result;
+            });
+        }
     }
 })();

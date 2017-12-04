@@ -1,70 +1,72 @@
-<div>
-    <h2>Tasks</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="task.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span >
-                        Create new Task
-                    </span>
-                </button>
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Task Management</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+        <!-- BEGIN PAGE TOOLBAR -->
+        <div class="page-toolbar">
+            <div class="search" >
+                <div class="input-group" style="float:left">
+                    <input type="text" class="form-control" ng-model="vm.searchText" placeholder="Search task name">
+                    <span class="input-group-btn">
+							<button class="btn btn-secondary" ng-click="vm.search()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+							</span>
+
+                </div>
             </div>
+            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdate()" data-toggle="modal" >Add Task<i class="fa fa-plus" aria-hidden="true"></i></a>
+            <!-- END THEME PANEL -->
+        </div>
+        <!-- END PAGE TOOLBAR -->
+    </div>
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb hide">
+        <li>
+            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+            Project
+        </li>
+    </ul>
+
+    <div class="margin-top-20">
+        <div class="wrap-table-radius account">
+            <table class="table table-hover" dt-instance="vm.dtInstance" datatable dt-options="vm.dtOptions" dt-columns="vm.dtColumns">
+
+            </table>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="code"><span>Code</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="taskCredit"><span>Task Credit</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="status"><span>Status</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="projectName"><span>Project</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="task in vm.tasks track by task.id">
-                    <td><a ui-sref="task-detail({id:task.id})">{{task.id}}</a></td>
-                    <td>{{task.code}}</td>
-                    <td>{{task.name}}</td>
-                    <td>{{task.taskCredit}}</td>
-                    <td>{{task.status}}</td>
-                    <td>
-                        <a ui-sref="project-detail({id:task.projectId})">{{task.projectName}}</a>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="task-detail({id:task.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="task.edit({id:task.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="task.delete({id:task.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-    </div>
+
+    <!-- END PAGE BREADCRUMB -->
 </div>
+
+<script>
+    jQuery(document).ready(function() {
+
+        //$('#addAccountModal').modal('show');
+        $('.editAccount').click(function(){
+            $("#addTaskModal").modal('show');
+        });
+
+        $("body").on("click", "#eye", function(event){
+            var pwd = document.getElementById("pw");
+            if(pwd.getAttribute("type")=="password"){
+                pwd.setAttribute("type","text");
+                $("span#eye i").removeClass('fa-eye').addClass('fa-eye-slash');
+            } else {
+                pwd.setAttribute("type","password");
+                $("span#eye i").removeClass('fa-eye-slash').addClass('fa-eye');
+            }
+        });
+
+        $('.btn-submit-addteam').click(function(){
+            $(this).addClass('success');
+        })
+
+
+    });
+</script>

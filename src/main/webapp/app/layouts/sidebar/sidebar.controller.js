@@ -61,7 +61,8 @@
                     }, {
                         title: 'Task',
                         icon: 'fa fa-file',
-                        state: 'task'
+                        state: 'task',
+                        url: '#!/task-management'
                     }
                 ]
             }

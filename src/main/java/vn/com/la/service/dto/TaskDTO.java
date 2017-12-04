@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import vn.com.la.domain.Task;
 import vn.com.la.domain.enumeration.TaskStatusEnum;
 
 /**
@@ -29,7 +31,34 @@ public class TaskDTO implements Serializable {
 
     private Long projectId;
 
+    private String projectCode;
     private String projectName;
+
+    public TaskDTO() {
+    }
+
+    public TaskDTO(Long id, String code, String name, Long taskCredit, TaskStatusEnum status, Long projectId, String projectCode, String projectName) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.taskCredit = taskCredit;
+        this.status = status;
+        this.projectId = projectId;
+        this.projectCode = projectCode;
+        this.projectName = projectName;
+    }
+
+    public TaskDTO(Task task) {
+        this(task.getId(), task.getCode(), task.getName(), task.getTaskCredit(), task.getStatus(), task.getProject().getId(), task.getProject().getCode(), task.getProject().getName());
+    }
+
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
 
     public Long getId() {
         return id;
