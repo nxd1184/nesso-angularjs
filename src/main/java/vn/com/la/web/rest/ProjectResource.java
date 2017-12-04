@@ -90,9 +90,9 @@ public class ProjectResource {
      */
     @GetMapping("/projects")
     @Timed
-    public ResponseEntity<List<ProjectDTO>> getAllProjects(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
         log.debug("REST request to get a page of Projects");
-        Page<ProjectDTO> page = projectService.findAll(pageable);
+        Page<ProjectDTO> page = projectService.findAll(pageable, searchTerm);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/projects");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

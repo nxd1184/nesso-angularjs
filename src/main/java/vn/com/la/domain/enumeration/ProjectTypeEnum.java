@@ -4,5 +4,5 @@ package vn.com.la.domain.enumeration;
  * The ProjectTypeEnum enumeration.
  */
 public enum ProjectTypeEnum {
-    ACTIVE, INACTIVE
+    AUTO, MANUAL
 }

@@ -1,9 +1,12 @@
 package vn.com.la.service.impl;
 
+import org.springframework.data.jpa.domain.Specification;
+import vn.com.la.domain.User;
 import vn.com.la.service.ProjectService;
 import vn.com.la.domain.Project;
 import vn.com.la.repository.ProjectRepository;
 import vn.com.la.service.dto.ProjectDTO;
+import vn.com.la.service.dto.UserDTO;
 import vn.com.la.service.mapper.ProjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static vn.com.la.service.specification.ProjectSpecifications.codeContainsIgnoreCase;
 
 
 /**
@@ -82,5 +87,12 @@ public class ProjectServiceImpl implements ProjectService{
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         projectRepository.delete(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProjectDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
+        Specification<Project> searchSpec = codeContainsIgnoreCase(searchTerm);
+        Page<ProjectDTO> page = projectRepository.findAll(searchSpec,pageable).map(projectMapper::toDto);
+        return page;
     }
 }

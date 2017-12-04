@@ -13,10 +13,11 @@ public interface ProjectMapper extends EntityMapper <ProjectDTO, Project> {
 
     @Mapping(source = "manager.id", target = "managerId")
     @Mapping(source = "manager.login", target = "managerLogin")
-    ProjectDTO toDto(Project project); 
+    @Mapping(source = "manager.lastName", target = "managerName")
+    ProjectDTO toDto(Project project);
 
     @Mapping(source = "managerId", target = "manager")
-    Project toEntity(ProjectDTO projectDTO); 
+    Project toEntity(ProjectDTO projectDTO);
     default Project fromId(Long id) {
         if (id == null) {
             return null;

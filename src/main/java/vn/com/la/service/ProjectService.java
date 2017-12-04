@@ -3,6 +3,7 @@ package vn.com.la.service;
 import vn.com.la.service.dto.ProjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.com.la.service.dto.UserDTO;
 
 /**
  * Service Interface for managing Project.
@@ -39,4 +40,5 @@ public interface ProjectService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+    Page<ProjectDTO> findBySearchTerm(Pageable pageable, String searchTerm);
 }

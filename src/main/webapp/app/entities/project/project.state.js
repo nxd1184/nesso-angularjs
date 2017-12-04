@@ -111,7 +111,6 @@
                     controller: 'ProjectDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
-                    size: 'lg',
                     resolve: {
                         entity: function () {
                             return {

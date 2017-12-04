@@ -40,6 +40,8 @@ public class ProjectDTO implements Serializable {
 
     private Long managerId;
 
+    private String managerName;
+
     private String managerLogin;
 
     public Long getId() {
@@ -120,6 +122,14 @@ public class ProjectDTO implements Serializable {
 
     public void setManagerLogin(String userLogin) {
         this.managerLogin = userLogin;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 
     @Override
