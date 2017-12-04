@@ -1,6 +1,7 @@
 package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.apache.commons.lang3.StringUtils;
 import vn.com.la.service.TaskService;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
@@ -52,7 +53,7 @@ public class TaskResource {
     public ResponseEntity<TaskDTO> createTask(@Valid @RequestBody TaskDTO taskDTO) throws URISyntaxException {
         log.debug("REST request to save Task : {}", taskDTO);
         if (taskDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new task cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("task-management", "idexists", "A new task cannot already have an ID")).body(null);
         }
         TaskDTO result = taskService.save(taskDTO);
         return ResponseEntity.created(new URI("/api/tasks/" + result.getId()))
@@ -90,9 +91,9 @@ public class TaskResource {
      */
     @GetMapping("/tasks")
     @Timed
-    public ResponseEntity<List<TaskDTO>> getAllTasks(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<TaskDTO>> getAllTasks(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
         log.debug("REST request to get a page of Tasks");
-        Page<TaskDTO> page = taskService.findAll(pageable);
+        Page<TaskDTO> page = taskService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tasks");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

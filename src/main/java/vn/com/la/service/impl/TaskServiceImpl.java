@@ -1,5 +1,6 @@
 package vn.com.la.service.impl;
 
+import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.service.TaskService;
 import vn.com.la.domain.Task;
 import vn.com.la.repository.TaskRepository;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.service.specification.TaskSpecifications;
 
 
 /**
@@ -57,6 +59,13 @@ public class TaskServiceImpl implements TaskService{
         log.debug("Request to get all Tasks");
         return taskRepository.findAll(pageable)
             .map(taskMapper::toDto);
+    }
+
+    @Override
+    public Page<TaskDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
+        Specification<Task> searchSpec = TaskSpecifications.taskCodeAndTaskNameContainsIgnoreCase(searchTerm);
+        Page<TaskDTO> page = taskRepository.findAll(searchSpec,pageable).map(TaskDTO::new);
+        return page;
     }
 
     /**

@@ -26,6 +26,14 @@ public interface TaskService {
     Page<TaskDTO> findAll(Pageable pageable);
 
     /**
+     *  Get all the tasks by search term
+     *
+     *  @param pageable the pagination information
+     *  @return the list of entities
+     */
+    Page<TaskDTO> findBySearchTerm(Pageable pageable, String searchTerm);
+
+    /**
      *  Get the "id" task.
      *
      *  @param id the id of the entity
