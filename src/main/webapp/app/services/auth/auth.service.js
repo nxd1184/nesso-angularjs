@@ -77,10 +77,14 @@
             }
         }
 
-        function changePassword (newPassword, callback) {
+        function changePassword (currenPassword, newPassword, confirmPassword, callback) {
             var cb = callback || angular.noop;
 
-            return Password.save(newPassword, function () {
+            return Password.save({
+                currentPassword: currenPassword,
+                newPassword: newPassword,
+                confirmPassword: confirmPassword
+            }, function () {
                 return cb();
             }, function (err) {
                 return cb(err);

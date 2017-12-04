@@ -1,0 +1,150 @@
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Change Infomation</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+
+    </div>
+
+    <!-- END PAGE HEAD -->
+    <div class="margin-top-20 wrap-profile">
+
+        <div class="page-breadcrumb breadcrumb profile">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" ng-click="vm.setTab(1)">
+                        Profile</a>
+                </li>
+                <li>
+                    <a data-toggle="tab" ng-click="vm.setTab(2)">
+                        Password</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane" ng-class="{'active': vm.currentTab == 1}">
+
+                <div class="col-xl-8 col-lg-6 col-sm-8 col-xs-12">
+                    <form ng-submit="vm.save()" name="changeInfoForm">
+                        <div class="row">
+                            <jhi-alert></jhi-alert>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <input type="text" name="username" ng-model="vm.settingsAccount.login" class="form-control" placeholder="User name" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" name="fullname" ng-model="vm.settingsAccount.lastName" class="form-control" placeholder="Full name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" ng-model="vm.settingsAccount.email" placeholder="Your email" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <input type="text" name="startDate" class="form-control"  value="{{vm.settingsAccount.startDate | date:'dd/MM/yyyy'}}" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-left margin-top-10">
+                                    <label class="text-left" style="">Team</label>
+                                    <div class="" style="display:inline-block;margin-left:20px;">
+                                        <span>{{vm.settingsAccount.team}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-left margin-top-10">
+                                    <label class="text-left" style="">Role</label>
+                                    <div class="" style="display:inline-block;margin-left:20px;">
+                                        <span>{{vm.showAuthorities(vm.settingsAccount)}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group text-left margin-top-10">
+                                    <label class="text-left" style="">Status</label>
+                                    <div class="" style="display:inline-block;margin-left:20px;">
+                                        <input type="checkbox" bs-switch switch-readonly="true" ng-true-value="'ACTIVE'" ng-false-value="'INACTIVE'"
+                                               ng-model="vm.settingsAccount.status" class="make-switch" data-size="small">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 margin-top-10">
+                                <button type="submit" ng-disabled="changeInfoForm.$invalid" class="btn btn-save">Update</button>
+                                <button type="button" class="btn default btn-cancel">Cancel</button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane" ng-class="{'active': vm.currentTab == 2}">
+                <div class="col-xl-8 col-lg-6 col-sm-8 col-md-6 col-xs-12">
+                    <form name="changePasswordForm" ng-submit="vm.changePassword(vm.currentPassword, vm.newPassword, vm.confirmPassword)">
+                        <div class="row">
+                            <jhi-alert></jhi-alert>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Current password</label>
+                                    <input type="password" name="currentpass" ng-model="vm.currentPassword" class="form-control" placeholder="Current Password" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input type="password" name="newpass" ng-model="vm.newPassword" class="form-control" placeholder="New Password" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Confirm New Password</label>
+                                    <input type="password" name="confirmnewpass" ng-model="vm.confirmPassword" class="form-control" placeholder="Confirm New Password" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 margin-top-10">
+                                <button type="submit" ng-disabled="changePasswordForm.$invalid" class="btn btn-save">Update Password</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE BREADCRUMB -->
+</div>

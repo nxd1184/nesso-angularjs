@@ -1,6 +1,7 @@
 package vn.com.la.service;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import vn.com.la.domain.Authority;
 import vn.com.la.domain.Team;
 import vn.com.la.domain.User;
@@ -180,21 +181,13 @@ public class UserService {
     }
 
     /**
-     * Update basic information (first name, last name, email, language) for the current user.
+     * Update basic information (last name) for the current user.
      *
-     * @param firstName first name of user
      * @param lastName last name of user
-     * @param email email id of user
-     * @param langKey language key
-     * @param imageUrl image URL of user
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+    public void updateUser(String lastName) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
-            user.setFirstName(firstName);
             user.setLastName(lastName);
-            user.setEmail(email);
-            user.setLangKey(langKey);
-            user.setImageUrl(imageUrl);
             cacheManager.getCache("users").evict(user.getLogin());
             log.debug("Changed Information for User: {}", user);
         });
@@ -285,9 +278,9 @@ public class UserService {
         });
     }
 
-    public void changePassword(String password) {
+    public void changePassword(String newPassword) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
-            String encryptedPassword = passwordEncoder.encode(password);
+            String encryptedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(encryptedPassword);
             cacheManager.getCache("users").evict(user.getLogin());
             log.debug("Changed password for User: {}", user);
