@@ -60,8 +60,8 @@ public class ProjectResourceIntTest {
     private static final String DEFAULT_NOTE = "AAAAAAAAAA";
     private static final String UPDATED_NOTE = "BBBBBBBBBB";
 
-    private static final ProjectTypeEnum DEFAULT_TYPE = ProjectTypeEnum.ACTIVE;
-    private static final ProjectTypeEnum UPDATED_TYPE = ProjectTypeEnum.INACTIVE;
+    private static final ProjectTypeEnum DEFAULT_TYPE = ProjectTypeEnum.MANUAL;
+    private static final ProjectTypeEnum UPDATED_TYPE = ProjectTypeEnum.AUTO;
 
     private static final ZonedDateTime DEFAULT_START_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_START_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);

@@ -57,7 +57,8 @@
                     {
                         title: 'Project',
                         icon: 'fa fa-briefcase',
-                        state: 'project'
+                        state: 'project',
+                        url: '#!/project?page&sort&search'
                     }, {
                         title: 'Task',
                         icon: 'fa fa-file',
