@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.response.DatatableResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -159,6 +160,26 @@ public class UserResource {
         final Page<UserDTO> page = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /users : get all users.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and with body all users
+     */
+    @GetMapping("/users/search")
+    @Timed
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+        final Page<UserDTO> page = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+
+        DatatableResponseVM response = new DatatableResponseVM();
+        response.setData(page.getContent());
+//        response.setDraw(page.getNumber() + 1);
+        response.setRecordsFiltered(page.getTotalElements());
+        response.setRecordsTotal(page.getTotalElements());
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(response));
     }
 
     /**

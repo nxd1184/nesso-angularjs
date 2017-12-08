@@ -45,6 +45,7 @@ public class CacheConfiguration {
             cm.createCache(vn.com.la.domain.SettingInfo.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Project.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Team.class.getName(), jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.Team.class.getName() + ".members", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Task.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Job.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeam.class.getName(), jcacheConfiguration);

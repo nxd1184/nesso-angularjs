@@ -1,12 +1,15 @@
 package vn.com.la.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import vn.com.la.domain.enumeration.TeamStatusEnum;
 
@@ -35,6 +38,11 @@ public class Team extends AbstractAuditingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User leader;
+
+    @OneToMany(mappedBy = "team")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<User> members = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -100,10 +108,20 @@ public class Team extends AbstractAuditingEntity {
         return Objects.equals(getId(), team.getId());
     }
 
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(getId());
     }
+
+
 
     @Override
     public String toString() {
