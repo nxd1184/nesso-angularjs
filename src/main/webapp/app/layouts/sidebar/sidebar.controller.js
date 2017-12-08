@@ -58,12 +58,12 @@
                         title: 'Project',
                         icon: 'fa fa-briefcase',
                         state: 'project',
-                        url: '#!/project?page&sort&search'
+                        url: '#!/project'
                     }, {
                         title: 'Task',
                         icon: 'fa fa-file',
                         state: 'task',
-                        url: '#!/task-management'
+                        url: '#!/task'
                     }
                 ]
             }

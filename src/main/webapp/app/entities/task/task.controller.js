@@ -109,7 +109,7 @@
                 },
                 // Either you specify the AjaxDataProp here
                 // dataSrc: 'data',
-                url: 'api/tasks?sort=id,desc',
+                url: 'api/tasks',
                 data: function(d){
                     d.search = vm.searchText;
                 },
