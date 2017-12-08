@@ -8,7 +8,7 @@ public class TaskSpecifications {
 
     private TaskSpecifications() {}
 
-    public static Specification<Task> taskCodeAndTaskNameContainsIgnoreCase(String searchTerm) {
+    public static Specification<Task> taskCodeOrTaskNameContainsIgnoreCase(String searchTerm) {
         return (root,query, cb) -> {
             String containsLikePattern = getContainsLikePattern(searchTerm);
             return cb.or(

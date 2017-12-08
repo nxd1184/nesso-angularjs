@@ -63,7 +63,7 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public Page<TaskDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
-        Specification<Task> searchSpec = TaskSpecifications.taskCodeAndTaskNameContainsIgnoreCase(searchTerm);
+        Specification<Task> searchSpec = TaskSpecifications.taskCodeOrTaskNameContainsIgnoreCase(searchTerm);
         Page<TaskDTO> page = taskRepository.findAll(searchSpec,pageable).map(TaskDTO::new);
         return page;
     }

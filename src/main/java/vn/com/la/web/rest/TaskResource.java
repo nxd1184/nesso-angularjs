@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.response.DatatableResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -96,6 +97,27 @@ public class TaskResource {
         Page<TaskDTO> page = taskService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tasks");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /tasks/search : search tasks.
+     *
+     * @param pageable the pagination information
+     * @param searchTerm the searchTerm information
+     * @return the ResponseEntity with status 200 (OK) and the list of tasks in body
+     */
+    @GetMapping("/tasks/search")
+    @Timed
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+        log.debug("REST request to search a page of Tasks");
+        Page<TaskDTO> page = taskService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+
+        DatatableResponseVM response = new DatatableResponseVM();
+        response.setData(page.getContent());
+        response.setRecordsFiltered(page.getTotalElements());
+        response.setRecordsTotal(page.getTotalElements());
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(response));
     }
 
     /**
