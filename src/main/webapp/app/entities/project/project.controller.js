@@ -81,13 +81,30 @@
                 },
                 // Either you specify the AjaxDataProp here
                 // dataSrc: 'data',
-                url: 'api/projects?sort=id,desc',
-                data: function (d) {
-                    d.search = vm.searchText;
+                url: 'api/projects/search',
+                data: function(d){
+                    var params = {};
+
+                    params.search = vm.searchText;
+
+                    if(d.order && d.order.length) {
+                        params.sort = d.columns[d.order[0].column].data + ',' + d.order[0].dir;
+                        for(var i = 1; i < d.order.length; i++) {
+                            params.sort += d.columns[d.order[i].column].data + ',' + d.order[i].dir;
+                        }
+                    }
+                    params.page = d.start / d.length;
+                    params.size = d.length;
+
+                    return params;
                 },
                 type: 'GET'
             })
+            .withDataProp('data')
+            .withPaginationType('full_numbers')
             .withOption('bFilter', false)
+            .withOption('processing', true) // required
+            .withOption('serverSide', true)// required
             .withOption('rowCallback', rowClick);
         ;
 

@@ -175,7 +175,6 @@ public class UserResource {
 
         DatatableResponseVM response = new DatatableResponseVM();
         response.setData(page.getContent());
-//        response.setDraw(page.getNumber() + 1);
         response.setRecordsFiltered(page.getTotalElements());
         response.setRecordsTotal(page.getTotalElements());
 

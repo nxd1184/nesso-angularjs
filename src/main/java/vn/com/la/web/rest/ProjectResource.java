@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.response.DatatableResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -90,11 +91,31 @@ public class ProjectResource {
      */
     @GetMapping("/projects")
     @Timed
-    public ResponseEntity<List<ProjectDTO>> getAllProjects(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(@ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Projects");
-        Page<ProjectDTO> page = projectService.findAll(pageable, searchTerm);
+        Page<ProjectDTO> page = projectService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/projects");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /projects : get all the projects.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of projects in body
+     */
+    @GetMapping("/projects/search")
+    @Timed
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+        log.debug("REST request to get a page of Projects");
+        Page<ProjectDTO> page = projectService.findBySearchTerm(pageable, searchTerm);
+
+        DatatableResponseVM response = new DatatableResponseVM();
+        response.setData(page.getContent());
+        response.setRecordsFiltered(page.getTotalElements());
+        response.setRecordsTotal(page.getTotalElements());
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(response));
     }
 
     /**
