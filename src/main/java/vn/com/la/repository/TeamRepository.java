@@ -4,6 +4,8 @@ import vn.com.la.domain.Team;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+import vn.com.la.service.dto.TeamDTO;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TeamRepository extends JpaRepository<Team, Long> {
+public interface TeamRepository extends JpaRepository<Team, Long>, JpaSpecificationExecutor<Team> {
 
     @Query("select team from Team team where team.leader.login = ?#{principal.username}")
     List<Team> findByLeaderIsCurrentUser();

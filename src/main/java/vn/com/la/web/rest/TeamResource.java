@@ -1,6 +1,7 @@
 package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.apache.commons.lang3.StringUtils;
 import vn.com.la.service.TeamService;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.response.DatatableResponseVM;
 import vn.com.la.web.rest.vm.response.TeamListResponseVM;
 
 import javax.validation.Valid;
@@ -96,6 +98,20 @@ public class TeamResource {
         Page<TeamDTO> page = teamService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/teams");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/teams/search")
+    @Timed
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @ApiParam String searchTerm) {
+
+        final Page<TeamDTO> page = teamService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+
+        DatatableResponseVM response = new DatatableResponseVM();
+        response.setData(page.getContent());
+        response.setRecordsFiltered(page.getTotalElements());
+        response.setRecordsTotal(page.getTotalElements());
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(response));
     }
 
     /**

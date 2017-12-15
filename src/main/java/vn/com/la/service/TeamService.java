@@ -43,4 +43,6 @@ public interface TeamService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    Page<TeamDTO> findBySearchTerm(Pageable pageable, String searchTerm);
 }

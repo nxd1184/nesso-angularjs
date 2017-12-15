@@ -13,10 +13,11 @@ public interface TeamMapper extends EntityMapper <TeamDTO, Team> {
 
     @Mapping(source = "leader.id", target = "leaderId")
     @Mapping(source = "leader.login", target = "leaderLogin")
-    TeamDTO toDto(Team team); 
+    @Mapping(source = "leader.lastName", target = "leaderName")
+    TeamDTO toDto(Team team);
 
     @Mapping(source = "leaderId", target = "leader")
-    Team toEntity(TeamDTO teamDTO); 
+    Team toEntity(TeamDTO teamDTO);
     default Team fromId(Long id) {
         if (id == null) {
             return null;

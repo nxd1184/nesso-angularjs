@@ -32,10 +32,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
         <div class="row">
-            <div class="col-md-5 col-xs-5">
+            <div class="col-sm-12">
                 <div class="form-group text-left margin-bottom-5 margin-top-5">
                     <label class="text-left" style="">Status</label>
                     <div class="status-switch " style="display:inline-block; margin-left:20px;">
@@ -44,6 +42,293 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="count-member">Team member: <b>{{vm.team.members.length}} members</b></p>
+
+                <div class="wrap_add_member row" style="display:none">
+                    <div class="form-group">
+                        <label>User name</label>
+                        <input type="text" name="team_name" class="form-control" placeholder="User name">
+                    </div>
+                    <div class="form-group">
+                        <label>Full name</label>
+                        <input type="text" name="team_name" class="form-control" placeholder="Full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Team Leader</label>
+                        <select class="selectpicker form-control">
+                            <option>Lenado</option>
+                            <option selected="selected">Dimaria</option>
+                            <option>Olaka</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-xs-6">
+                            <label>Start Date</label>
+                            <div class='input-group date date-picker start-date'>
+                                <input type='text' class="form-control" placeholder="Start date"/>
+                                <span class="input-group-addon">
+								                        <span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label>End Date</label>
+                            <div class='input-group date date-picker end-date'>
+                                <input type='text' class="form-control" placeholder="End date"/>
+                                <span class="input-group-addon">
+								                        <span class="glyphicon glyphicon-calendar"></span>
+								                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-left margin-bottom-0 margin-top-10">
+                        <label>Status</label>
+                        <div style="display:inline-block">
+                            <input type="checkbox" checked class="make-switch" data-size="small">
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-add-member">Update</a>
+                </div>
+                <div class="wrapTableEditTeam table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="index">
+                                #
+                            </th>
+                            <th class="username">
+                                User name
+                            </th>
+                            <th class="fullname">
+                                Full name
+                            </th>
+                            <th class="workingshirt">
+                                Working Shift
+                            </th>
+                            <th class="create_date">
+                                Start date
+                            </th>
+                            <th class="end_date">
+                                End date
+                            </th>
+                            <th class="status">
+                                Status
+                            </th>
+                            <th class="action">
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="search_line">
+                            <td class="index">
+                                Search team
+                            </td>
+                            <td class="username">
+                                <input type="text" name="username" class="form-control"/>
+                            </td>
+                            <td class="fullname">
+                                <input type="text" name="fullname" class="form-control"/>
+                            </td>
+                            <td class="workingshirt">
+                                <select class="selectpicker form-control">
+                                    <option>Select</option>
+                                    <option>Day</option>
+                                    <option>Night</option>
+                                    <option>Freelance</option>
+                                </select>
+                            </td>
+                            <td class="create_date">
+                                <div class='input-group date date-picker start-date'>
+                                    <input type='text' class="form-control" placeholder="Start date"/>
+                                    <span class="input-group-addon">
+									                        <span class="glyphicon glyphicon-calendar"></span>
+									                    </span>
+                                </div>
+                            </td>
+
+                            <td class="end_date">
+                                <div class='input-group date date-picker end-date'>
+                                    <input type='text' class="form-control" placeholder="End date"/>
+                                    <span class="input-group-addon">
+									                        <span class="glyphicon glyphicon-calendar"></span>
+									                    </span>
+                                </div>
+                            </td>
+                            <td class="status">
+                                <div class="form-group text-left margin-bottom-0 margin-top-5">
+                                    <div class="" style="display:inline-block;">
+                                        <input type="checkbox" checked class="make-switch" data-size="small">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="action">
+                                <a href="javascript:void(0)" class="btn btn-primary">Update</a>
+                            </td>
+
+                        </tr>
+                        <tr class="single_button hide">
+                            <td colspan="8">
+                                <a href="javascript:void(0)" class="btn btn-primary">Update</a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td class="index">
+                                1
+                                <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                            </td>
+                            <td class="username">
+                                jeromehenderson
+                            </td>
+                            <td class="fullname">
+                                Jerome Henderson
+                            </td>
+                            <td class="workingshirt">
+                                Day
+                            </td>
+                            <td class="create_date">
+                                10/01/2017
+                            </td>
+
+                            <td class="end_date">
+                                12/01/2017
+                            </td>
+                            <td class="status">
+                                <p class="active">Active</p>
+                            </td>
+                            <td class="action">
+                                <div class="option">
+                                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                                    <div class="content">
+                                        <a href="javascript:void(0)" class="action_l action_edit">Edit</a>
+                                        <a href="javascript:void(0)" class="action_l action_disable">Disable</a>
+                                        <a href="javascript:void(0)" class="action_l action_remove">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td class="index">
+                                2
+                                <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                            </td>
+                            <td class="username">
+                                jeromehenderson
+                            </td>
+                            <td class="fullname">
+                                Jerome Henderson
+                            </td>
+                            <td class="workingshirt">
+                                Day
+                            </td>
+                            <td class="create_date">
+                                10/01/2017
+                            </td>
+
+                            <td class="end_date">
+                                12/01/2017
+                            </td>
+                            <td class="status">
+                                <p class="active">Active</p>
+                            </td>
+                            <td class="action">
+                                <div class="option">
+                                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                                    <div class="content">
+                                        <a href="javascript:void(0)" class="action_l action_edit">Edit</a>
+                                        <a href="javascript:void(0)" class="action_l action_disable">Disable</a>
+                                        <a href="javascript:void(0)" class="action_l action_remove">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td class="index">
+                                2
+                                <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                            </td>
+                            <td class="username">
+                                jeromehenderson
+                            </td>
+                            <td class="fullname">
+                                Jerome Henderson
+                            </td>
+                            <td class="workingshirt">
+                                Night
+                            </td>
+                            <td class="create_date">
+                                10/01/2017
+                            </td>
+
+                            <td class="end_date">
+                                12/01/2017
+                            </td>
+                            <td class="status">
+                                <p class="inactive">Deactive</p>
+                            </td>
+                            <td class="action">
+                                <div class="option">
+                                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                                    <div class="content">
+                                        <a href="javascript:void(0)" class="action_l action_edit">Edit</a>
+                                        <a href="javascript:void(0)" class="action_l action_disable">Disable</a>
+                                        <a href="javascript:void(0)" class="action_l action_remove">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td class="index">
+                                4
+                                <img class="avata" src="./assets/layout/img/avatar9.jpg"/>
+                            </td>
+                            <td class="username">
+                                jeromehenderson
+                            </td>
+                            <td class="fullname">
+                                Jerome Henderson
+                            </td>
+                            <td class="workingshirt">
+                                Freelance
+                            </td>
+                            <td class="create_date">
+                                10/01/2017
+                            </td>
+
+                            <td class="end_date">
+                                12/01/2017
+                            </td>
+                            <td class="status">
+                                <p class="active">Active</p>
+                            </td>
+                            <td class="action">
+                                <div class="option">
+                                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                                    <div class="content">
+                                        <a href="javascript:void(0)" class="action_l action_edit">Edit</a>
+                                        <a href="javascript:void(0)" class="action_l action_disable">Disable</a>
+                                        <a href="javascript:void(0)" class="action_l action_remove">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="row">
             <div class="col-md-7 col-xs-7">
                 <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
                 <button type="submit" class="btn btn-save">Save</button>

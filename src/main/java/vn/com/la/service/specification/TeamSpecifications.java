@@ -8,12 +8,10 @@ import vn.com.la.domain.User_;
 public class TeamSpecifications {
     private TeamSpecifications() {}
 
-    private static Specification<Team> nameOrMemberUserNameOrMemberEmail(String searchTerm) {
+    public static Specification<Team> nameLikePattern(String name) {
         return (root,query, cb) -> {
-            String containsLikePattern = getContainsLikePattern(searchTerm);
-            return cb.or(
-                cb.like(cb.lower(root.get(Team_.name)), containsLikePattern)
-            );
+            String containsLikePattern = getContainsLikePattern(name);
+            return cb.like(cb.lower(root.get(Team_.name)), containsLikePattern);
         };
     }
 

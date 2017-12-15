@@ -1,5 +1,8 @@
 package vn.com.la.service.impl;
 
+import org.springframework.data.jpa.domain.Specification;
+import vn.com.la.domain.User;
+import vn.com.la.repository.UserRepository;
 import vn.com.la.service.TeamService;
 import vn.com.la.domain.Team;
 import vn.com.la.repository.TeamRepository;
@@ -11,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.service.specification.TeamSpecifications;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,12 +30,14 @@ public class TeamServiceImpl implements TeamService{
     private final Logger log = LoggerFactory.getLogger(TeamServiceImpl.class);
 
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
     private final TeamMapper teamMapper;
 
-    public TeamServiceImpl(TeamRepository teamRepository, TeamMapper teamMapper) {
+    public TeamServiceImpl(TeamRepository teamRepository, TeamMapper teamMapper, UserRepository userRepository) {
         this.teamRepository = teamRepository;
         this.teamMapper = teamMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -44,7 +50,18 @@ public class TeamServiceImpl implements TeamService{
     public TeamDTO save(TeamDTO teamDTO) {
         log.debug("Request to save Team : {}", teamDTO);
         Team team = teamMapper.toEntity(teamDTO);
+
         team = teamRepository.save(team);
+
+        User newLeader = null;
+        if(teamDTO.getLeaderId() != null) {
+            newLeader = userRepository.findOne(teamDTO.getLeaderId());
+        }
+
+        if(newLeader != null) {
+            newLeader.setTeam(team);
+        }
+
         return teamMapper.toDto(team);
     }
 
@@ -92,5 +109,15 @@ public class TeamServiceImpl implements TeamService{
         log.debug("Request to get all Teams");
         return teamRepository.findAll().stream()
             .map(teamMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<TeamDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
+        log.debug("Request to search Teams by search term");
+
+        Specification<Team> searchSpec = TeamSpecifications.nameLikePattern(searchTerm);
+        Page<TeamDTO> page = teamRepository.findAll(searchSpec, pageable).map(teamMapper::toDto);
+
+        return page;
     }
 }
