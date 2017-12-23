@@ -1444,6 +1444,9 @@
 		width: 350px;
 	}
 
+    .popupModal .modal-lg{
+        width: 80%;
+    }
 
 	.page-toolbar{
 		padding: 24px 0;

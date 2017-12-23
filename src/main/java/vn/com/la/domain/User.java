@@ -88,6 +88,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "start_date")
     private Instant startDate = null;
 
+    @Column(name = "end_date")
+    private Instant endDate = null;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -100,6 +103,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @ManyToOne
     private Team team;
+
+    @Column(name = "shift")
+    private String shift;
 
     @Column(name = "capacity")
     private Long capacity;
@@ -220,14 +226,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.startDate = startDate;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     public Long getCapacity() {
         return capacity;
     }
@@ -242,6 +240,30 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
     }
 
     @Override

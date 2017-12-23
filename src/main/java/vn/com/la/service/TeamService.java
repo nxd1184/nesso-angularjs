@@ -3,6 +3,8 @@ package vn.com.la.service;
 import vn.com.la.service.dto.TeamDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.com.la.service.dto.param.UpdateTeamParamDTO;
+import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 import java.util.List;
 
@@ -45,4 +47,6 @@ public interface TeamService {
     void delete(Long id);
 
     Page<TeamDTO> findBySearchTerm(Pageable pageable, String searchTerm);
+
+    EmptyResponseVM updateTeam(UpdateTeamParamDTO param) throws Exception;
 }

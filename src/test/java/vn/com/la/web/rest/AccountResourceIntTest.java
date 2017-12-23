@@ -172,6 +172,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate,
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null, 1L, UserStatus.ACTIVE);
 
@@ -202,6 +204,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
+            null,
+            null,
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null, 1L, UserStatus.ACTIVE);
@@ -234,6 +238,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null, 1L, UserStatus.ACTIVE);
 
@@ -265,6 +271,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null, 1L, UserStatus.ACTIVE);
 
@@ -295,6 +303,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
+            null,
+            null,
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null, 1L, UserStatus.ACTIVE);
@@ -328,12 +338,14 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)),
             null, 1L, UserStatus.ACTIVE);
 
         // Duplicate login, different email
         ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), validUser.getLogin(), validUser.getPassword(), validUser.getFirstName(), validUser.getLastName(),
-            "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getStartDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
+            "alicejr@example.com", true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getShift(), validUser.getStartDate(), validUser.getEndDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
 
         // Good user
         restMvc.perform(
@@ -372,11 +384,13 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)), null, 1L, UserStatus.ACTIVE);
 
         // Duplicate email, different login
         ManagedUserVM duplicatedUser = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-            validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getStartDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
+            validUser.getEmail(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getShift(), validUser.getStartDate(), validUser.getEndDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
 
         // Good user
         restMvc.perform(
@@ -394,7 +408,7 @@ public class AccountResourceIntTest {
 
         // Duplicate email - with uppercase email address
         final ManagedUserVM userWithUpperCaseEmail = new ManagedUserVM(validUser.getId(), "johnjr", validUser.getPassword(), validUser.getLogin(), validUser.getLastName(),
-                validUser.getEmail().toUpperCase(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getStartDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
+                validUser.getEmail().toUpperCase(), true, validUser.getImageUrl(), validUser.getLangKey(), validUser.getCreatedBy(), validUser.getCreatedDate(), validUser.getLastModifiedBy(), validUser.getLastModifiedDate(), validUser.getShift(), validUser.getStartDate(), validUser.getEndDate(), validUser.getAuthorities(), validUser.getTeamId(), validUser.getCapacity(), validUser.getStatus());
 
         restMvc.perform(
             post("/api/register")
@@ -423,6 +437,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
+            null,
+            null,
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
             null, 1L, UserStatus.ACTIVE);
@@ -492,6 +508,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
             null, null, 1L, UserStatus.ACTIVE
         );
@@ -538,6 +556,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
+            null,
+            null,
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
             null, null, 1L, UserStatus.ACTIVE
@@ -586,6 +606,8 @@ public class AccountResourceIntTest {
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
             null,
+            null,
+            null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
             null, null, 1L, UserStatus.ACTIVE
         );
@@ -625,6 +647,8 @@ public class AccountResourceIntTest {
             null,                   // createdDate
             null,                   // lastModifiedBy
             null,                   // lastModifiedDate
+            null,
+            null,
             null,
             new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)),
             null, null, 1L, UserStatus.ACTIVE

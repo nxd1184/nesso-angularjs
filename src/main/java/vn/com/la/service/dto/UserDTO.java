@@ -56,10 +56,14 @@ public class UserDTO {
 
     private Instant startDate;
 
+    private Instant endDate;
+
     private Long teamId;
     private String teamName;
 
     private Long capacity;
+
+    private String shift;
 
     @NotNull
     private UserStatus status;
@@ -72,7 +76,8 @@ public class UserDTO {
         this(user.getId(), user.getLogin(), user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getImageUrl(), user.getLangKey(),
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
-            user.getStartDate(),
+            user.getShift(),
+            user.getStartDate(), user.getEndDate(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()), user.getTeam() != null ? user.getTeam().getId() : null, user.getTeam() != null ? user.getTeam().getName() : null,
             user.getCapacity(), user.getStatus());
@@ -81,7 +86,8 @@ public class UserDTO {
     public UserDTO(Long id, String login, String firstName, String lastName,
         String email, boolean activated, String imageUrl, String langKey,
         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-        Instant startDate,
+        String shift,
+        Instant startDate, Instant endDate,
         Set<String> authorities,
                    Long teamId, String teamName, Long capacity, UserStatus status) {
 
@@ -97,7 +103,9 @@ public class UserDTO {
         this.createdDate = createdDate;
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
+        this.shift = shift;
         this.startDate = startDate;
+        this.endDate = endDate;
         this.authorities = authorities;
         this.teamId = teamId;
         this.teamName = teamName;
@@ -207,6 +215,22 @@ public class UserDTO {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
     }
 
     @Override

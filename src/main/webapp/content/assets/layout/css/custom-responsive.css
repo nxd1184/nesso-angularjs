@@ -1,5 +1,5 @@
 	@media (min-width: 1260px) {
-	 
+
 	}
 	/* Form medium devices upto large devices */
 	@media (min-width: 992px) and (max-width: 1200px) {
@@ -18,7 +18,7 @@
 		}*/
 
 		.page-sidebar-closed .page-sidebar .page-sidebar-menu.page-sidebar-menu-closed{
-			margin-left: -54px !important;	
+			margin-left: -54px !important;
 		}
 		.page-sidebar-closed .page-sidebar{
 			margin-left: -54px;
@@ -107,14 +107,14 @@
 		}
 	}
 	@media (max-width: 1023px) {
-		
+
 	}
 	@media (max-width: 991px){
-		
+
 		.page-container{
 			margin-top: 20px !important;
 		}
-		
+
 
 		.page-account .search .input-group{
 			width: 260px;
@@ -126,7 +126,7 @@
 			width: 720px !important;
 		}
 		#editTeamModal .wrapTableEditTeam table tr{
-			
+
 		}
 		#editTeamModal .wrapTableEditTeam table tr td:first-of-type,
 		#editTeamModal .wrapTableEditTeam table tr th:first-of-type,
@@ -147,10 +147,10 @@
 			background-color: #0079c7;
 		}
 		#editTeamModal{
-			
+
 		}
 		#editTeamModal{
-			
+
 		}
 		.page-account-team .search .input-group,
 		.page-account .search .input-group,
@@ -169,18 +169,18 @@
 		.folder .right{
 			display: none;
 		}
-		.table-responsive>.table>tbody>tr>td, 
-		.table-responsive>.table>tbody>tr>th, 
-		.table-responsive>.table>tfoot>tr>td, 
-		.table-responsive>.table>tfoot>tr>th, 
-		.table-responsive>.table>thead>tr>td, 
+		.table-responsive>.table>tbody>tr>td,
+		.table-responsive>.table>tbody>tr>th,
+		.table-responsive>.table>tfoot>tr>td,
+		.table-responsive>.table>tfoot>tr>th,
+		.table-responsive>.table>thead>tr>td,
 		.table-responsive>.table>thead>tr>th {
 		    white-space: nowrap;
 		}
 		.daterangepicker.show-calendar .ranges ul{
 			width: 130px;
 		}
-		
+
 	}
 
 	@media (max-width: 767px) {
@@ -243,7 +243,7 @@
 		    padding-left: 5px;
 		}
 		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu,
-		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:after, 
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:after,
 		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:before{
 			margin-right: 0;
 		}
@@ -334,8 +334,8 @@
 		.page-report .page-toolbar{
 			padding-top: 0;
 		}
-		.page-account .search .input-group, 
-		.page-account-team .search .input-group, 
+		.page-account .search .input-group,
+		.page-account-team .search .input-group,
 		.page-project .search .input-group{
 			width: 250px;
 		}
@@ -365,7 +365,7 @@
 		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu{
 			margin-right: -40px;
 		}
-		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:after, 
+		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:after,
 		.page-header.navbar .top-menu .navbar-nav > li.dropdown-notification .dropdown-menu:before{
 			margin-right: 40px;
 		}
@@ -437,7 +437,7 @@
 		}
 		.modal-dialog{
 			margin-top: 50px;
-			width: initial !important;	
+			width: initial !important;
 		}
 		#editTeamModal .modal-lg{
 			margin-top: 50px;
@@ -457,7 +457,7 @@
 			padding:24px 15px 0;
 			margin-bottom: 24px;
 		}
-		
+
 		.add_member_small_btn,.add_member_small_btn:focus,.add_member_small_btn:active,
 		.wrap_add_member .btn-add-member {
 			height: 36px;
@@ -514,11 +514,11 @@
 		.wrap-table-radius.checkin table tr th.status,.wrap-table-radius.checkin table tr td.status{
 			width: 100px !important;
 		}
-		.wrap-table-radius.checkin table tr td .active a.btn-checkin, 
+		.wrap-table-radius.checkin table tr td .active a.btn-checkin,
 		.wrap-table-radius.checkin table tr td .inactive a.btn-checkin{
 			margin-right: 0;
 		}
-		
+
 		.wrap-table-radius.checkin table tr td .active a.btn-checkin{
 			margin-right: 0;
 			position: absolute;
@@ -560,7 +560,7 @@
 			-webkit-transform: scale(0.7) !important;
 			transform-origin: 0 0;
 			-webkit-transform-origin: 0 0;
-		}	
+		}
 		.wrap_captcha .g-recaptcha div:nth-child(1){
 			width: 200px !important
 		}
@@ -601,7 +601,7 @@
 		.page-config .search .input-group{
 			width: 100%;
 		}
-		
+
 		.page-config .page-toolbar a.btn-add-project{
 			position: relative;
 		}
@@ -614,7 +614,7 @@
 		#addTeamModal .modal-footer .status-switch{
 			margin-left: 0 !important;
 		}
-		
+
 		.popupModal .btn-cancel, .popupModal .btn-save{
 			min-width: 60px;
 			padding:8px 5px;
@@ -630,7 +630,7 @@
 			margin-left: 10px !important;
 		}
 		.folder .right .head-break  .action a i{
-			margin-right: 2px !important; 
+			margin-right: 2px !important;
 		}
 		.page-report .page-toolbar .search{
 			width: 100%;
@@ -661,6 +661,6 @@
 			-webkit-transform: scale(0.67) !important;
 			transform-origin: 0 0;
 			-webkit-transform-origin: 0 0;
-		}	
+		}
 	}
 

@@ -49,14 +49,18 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            user.setShift(userDTO.getShift());
             user.setStartDate(userDTO.getStartDate());
+            user.setEndDate(userDTO.getEndDate());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             if(authorities != null) {
                 user.setAuthorities(authorities);
             }
             if(userDTO.getTeamId() != null) {
-                Team team = teamRepository.findOne(userDTO.getId());
+                Team team = teamRepository.findOne(userDTO.getTeamId());
                 user.setTeam(team);
+            }else {
+                user.setTeam(null);
             }
 
             return user;

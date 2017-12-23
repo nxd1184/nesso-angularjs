@@ -116,6 +116,10 @@ public class Team extends AbstractAuditingEntity {
         this.members = members;
     }
 
+    public void addMember(User member) {
+        this.members.add(member);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(getId());

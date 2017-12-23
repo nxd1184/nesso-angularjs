@@ -2,7 +2,11 @@ package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import vn.com.la.service.TeamService;
+import vn.com.la.service.dto.param.TeamMemberParamDTO;
+import vn.com.la.service.dto.param.UpdateTeamParamDTO;
+import vn.com.la.service.util.LACollectionUtil;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
 import vn.com.la.service.dto.TeamDTO;
@@ -16,13 +20,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.request.TeamMemberRequestVM;
+import vn.com.la.web.rest.vm.request.UpdateTeamRequestVM;
 import vn.com.la.web.rest.vm.response.DatatableResponseVM;
+import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.TeamListResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,25 +72,33 @@ public class TeamResource {
     }
 
     /**
-     * PUT  /teams : Updates an existing team.
+     * PUT  /teams/update : Updates an existing team.
      *
-     * @param teamDTO the teamDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated teamDTO,
-     * or with status 400 (Bad Request) if the teamDTO is not valid,
-     * or with status 500 (Internal Server Error) if the teamDTO couldn't be updated
+     * @param request the teamDTO to update
+     * @return the ResponseEntity with status 200 (OK) and with body the updated request,
+     * or with status 400 (Bad Request) if the request is not valid,
+     * or with status 500 (Internal Server Error) if the request couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PutMapping("/teams")
+    @PutMapping("/teams/update")
     @Timed
-    public ResponseEntity<TeamDTO> updateTeam(@Valid @RequestBody TeamDTO teamDTO) throws URISyntaxException {
-        log.debug("REST request to update Team : {}", teamDTO);
-        if (teamDTO.getId() == null) {
-            return createTeam(teamDTO);
+    public ResponseEntity<EmptyResponseVM> updateTeam(@Valid @RequestBody UpdateTeamRequestVM request) throws Exception {
+
+        UpdateTeamParamDTO param = new UpdateTeamParamDTO();
+        param.setTeamId(request.getTeamId());
+        param.setTeamName(request.getTeamName());
+        param.setLeaderId(request.getLeaderId());
+        List<TeamMemberParamDTO> memberParams = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(request.getMembers())) {
+            for(TeamMemberRequestVM member: request.getMembers()) {
+                memberParams.add(new TeamMemberParamDTO(member));
+            }
         }
-        TeamDTO result = teamService.save(teamDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, teamDTO.getId().toString()))
-            .body(result);
+        param.setMembers(memberParams);
+
+        EmptyResponseVM response = teamService.updateTeam(param);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(response));
     }
 
     /**

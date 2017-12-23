@@ -162,6 +162,8 @@ public class UserResourceIntTest {
             null,
             null,
             null,
+            null,
+            null,
             authorities,
             null, 1L, UserStatus.ACTIVE);
 
@@ -199,6 +201,8 @@ public class UserResourceIntTest {
             true,
             DEFAULT_IMAGEURL,
             DEFAULT_LANGKEY,
+            null,
+            null,
             null,
             null,
             null,
@@ -242,6 +246,8 @@ public class UserResourceIntTest {
             null,
             null,
             null,
+            null,
+            null,
             authorities,
             null, 1L, UserStatus.ACTIVE);
 
@@ -275,6 +281,8 @@ public class UserResourceIntTest {
             true,
             DEFAULT_IMAGEURL,
             DEFAULT_LANGKEY,
+            null,
+            null,
             null,
             null,
             null,
@@ -364,9 +372,11 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
+            updatedUser.getShift(),
             updatedUser.getStartDate(),
+            updatedUser.getEndDate(),
             authorities,
-            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, updatedUser.getCapacity(), updatedUser.getStatus());
+            null, updatedUser.getCapacity(), updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -410,9 +420,11 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
+            updatedUser.getShift(),
             updatedUser.getStartDate(),
+            updatedUser.getEndDate(),
             authorities,
-            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, 1L,updatedUser.getStatus());
+            null, 1L,updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -467,9 +479,11 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
+            updatedUser.getShift(),
             updatedUser.getStartDate(),
+            updatedUser.getEndDate(),
             authorities,
-            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, 1L, updatedUser.getStatus());
+            null, 1L, updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -513,9 +527,11 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
+            updatedUser.getShift(),
             updatedUser.getStartDate(),
+            updatedUser.getEndDate(),
             authorities,
-            updatedUser.getTeam() != null ? updatedUser.getTeam().getId() : null, updatedUser.getCapacity(), updatedUser.getStatus());
+            null, updatedUser.getCapacity(), updatedUser.getStatus());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -587,6 +603,8 @@ public class UserResourceIntTest {
             DEFAULT_LOGIN,
             null,
             DEFAULT_LOGIN,
+            null,
+            null,
             null,
             null,
             Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()),

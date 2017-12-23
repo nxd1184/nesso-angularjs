@@ -1,0 +1,193 @@
+<jhi-alert-error></jhi-alert-error>
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Team</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Team name</label>
+                    <input type="text" name="team_name" ng-model="vm.team.name" class="form-control" placeholder="Loa Nardo">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Team Leader</label>
+                    <ui-select ng-model="vm.selectedTeamLeader" theme="select2" class="selectpicker form-control"
+                               title="Choose a team leader">
+                        <ui-select-match placeholder="Select a team leader in the list">
+                            {{$select.selected.lastName}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="leader in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
+                            <div ng-bind-html="leader.lastName | highlight: $select.search"></div>
+                            <small>
+                                <span ng-bind-html="leader.login | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group text-left margin-bottom-5 margin-top-30">
+                    <label class="text-left" style="">Status</label>
+                    <div class="status-switch " style="display:inline-block; margin-left:20px;">
+                        <input name="status" type="checkbox" bs-switch ng-true-value="'ACTIVE'"
+                               ng-false-value="'INACTIVE'"
+                               ng-model="vm.team.status" class="make-switch" data-size="small">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="count-member">Team member: <b>{{vm.team.members.length}} member(s)</b></p>
+
+                <div class="wrapTableEditTeam table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="index">
+                                #
+                            </th>
+                            <th class="username" width="150px">
+                                User name
+                            </th>
+                            <th class="fullname" width="350px">
+                                Full name
+                            </th>
+                            <th class="workingshirt">
+                                Working Shift
+                            </th>
+                            <th class="create_date" width="200px">
+                                Start date
+                            </th>
+                            <th class="end_date" width="200px">
+                                End date
+                            </th>
+                            <th class="status">
+                                Status
+                            </th>
+                            <th class="action">
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="search_line">
+                            <td class="index">
+
+                            </td>
+                            <td class="username">
+                                <ui-select ng-model="vm.selectedMember" theme="select2" on-select="vm.onSelectMember($select.selected)" class="selectpicker form-control">
+                                    <ui-select-match placeholder="Select">
+                                        {{$select.selected.lastName}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                        repeat="u in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
+                                        <div ng-bind-html="u.login | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                            <td class="fullname">
+                                <input type="text" name="fullname" class="form-control" ng-model="vm.selectedMember.lastName"/>
+                            </td>
+                            <td class="workingshirt">
+                                <ui-select ng-model="vm.selectedMember.shift" theme="select2" class="selectpicker form-control"
+                                           title="Choose a shift">
+                                    <ui-select-match placeholder="Select">
+                                        {{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                        repeat="shift in vm.workingShifts">
+                                        <div ng-bind-html="shift | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                            <td class="create_date">
+                                <div class='input-group date date-picker'>
+                                    <input type='text' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.startDate" name="startDate" placeholder="DD/MM/YYYY" ng-model="vm.startDate"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startDate')">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td class="end_date">
+                                <div class='input-group date date-picker'>
+                                    <input type='text' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.endDate" name="endDate" placeholder="DD/MM/YYYY" ng-model="vm.endDate"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('endDate')">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="status">
+                                <div class="form-group text-left margin-bottom-0 margin-top-5">
+                                    <div class="status-switch " style="display:inline-block;">
+                                        <input name="status" type="checkbox" bs-switch ng-true-value="'ACTIVE'"
+                                               ng-false-value="'INACTIVE'"
+                                               ng-model="vm.status" class="make-switch" data-size="small">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="action">
+                                <button type="button" ng-click="vm.updateMember()" ng-disabled="!vm.selectedMember.login" class="btn btn-primary">Update</button>
+                            </td>
+
+                        </tr>
+
+                        <tr ng-repeat="member in vm.team.members track by $index">
+                            <td class="index">
+                                1
+                            </td>
+                            <td class="username">
+                                {{member.login}}
+                            </td>
+                            <td class="fullname">
+                                {{member.lastName}}
+                            </td>
+                            <td class="workingshirt">
+                                {{member.shift}}
+                            </td>
+                            <td class="create_date">
+                                {{member.startDate | date:'dd/MM/yyyy'}}
+                            </td>
+
+                            <td class="end_date">
+                                {{member.endDate | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td class="status">
+                                <p ng-class="{'active': member.status == 'ACTIVE', 'inactive': member.status == 'INACTIVE'}">{{member.status}}</p>
+                            </td>
+                            <td class="action">
+                                <div class="option">
+                                    <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                                    <div class="content">
+                                        <a class="action_l action_edit" ng-click="vm.edit(member)">Edit</a>
+                                        <a class="action_l action_disable" ng-click="vm.changeStatus(member)">{{vm.showChangeStatusAction(member)}}</a>
+                                        <a class="action_l action_remove" ng-click="vm.remove(member)">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
+                <button type="button" class="btn btn-save" ng-click="vm.updateTeam()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

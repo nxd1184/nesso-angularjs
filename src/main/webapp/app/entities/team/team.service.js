@@ -27,4 +27,39 @@
             }
         });
     }
+
+    angular
+        .module('nessoApp')
+        .factory('teamService', teamService);
+
+    teamService.$inject = ['$http', '$q']
+
+    function teamService ($http, $q) {
+        var teamService = {
+            update: update
+        };
+
+        function update(params) {
+            var url = 'api/teams/update';
+
+            var rq = {
+                teamId: params.id,
+                teamName: params.name,
+                leaderId: params.leaderId,
+                status: params.status,
+                members: params.members
+            };
+
+            var defer = $q.defer();
+
+            $http(LA.RequestUtils.put(url, rq)).then(function(result) {
+               defer.resolve(result.data);
+            });
+
+            return defer.promise;
+        }
+
+        return teamService;
+    }
+
 })();

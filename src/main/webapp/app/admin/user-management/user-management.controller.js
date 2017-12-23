@@ -5,97 +5,31 @@
         .module('nessoApp')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['Principal', 'User', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope'];
+    UserManagementController.$inject = ['$stateParams', 'AlertService', '$state', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope', 'userService'];
 
-    function UserManagementController(Principal, User, ParseLinks, AlertService, $state, pagingParams, paginationConstants, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope) {
+    function UserManagementController($stateParams, AlertService, $state, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope, userService) {
         var vm = this;
 
-        vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        vm.currentAccount = null;
         vm.languages = null;
-        vm.loadAll = loadAll;
-        vm.setActive = setActive;
         vm.users = [];
-        vm.page = 1;
-        vm.totalItems = null;
-        vm.clear = clear;
         vm.links = null;
-        vm.loadPage = loadPage;
-        vm.predicate = pagingParams.predicate;
-        vm.reverse = pagingParams.ascending;
-        vm.itemsPerPage = paginationConstants.itemsPerPage;
-        vm.transition = transition;
         vm.createOrUpdate = createOrUpdate;
-
-        vm.loadAll();
-        Principal.identity().then(function(account) {
-            vm.currentAccount = account;
-        });
-
-        function setActive (user, isActivated) {
-            user.activated = isActivated;
-            User.update(user, function () {
-                vm.loadAll();
-                vm.clear();
-            });
-        }
-
-        function loadAll () {
-            User.query({
-                page: pagingParams.page - 1,
-                size: vm.itemsPerPage,
-                sort: sort()
-            }, onSuccess, onError);
-        }
-
-        function onSuccess(data, headers) {
-            vm.links = ParseLinks.parse(headers('link'));
-            vm.totalItems = headers('X-Total-Count');
-            vm.queryCount = vm.totalItems;
-            vm.page = pagingParams.page;
-            vm.users = data;
-        }
 
         function onError(error) {
             AlertService.error(error.data.message);
         }
 
-        function clear () {
-            vm.user = {
-                id: null, login: null, firstName: null, lastName: null, email: null,
-                activated: null, langKey: null, createdBy: null, createdDate: null,
-                lastModifiedBy: null, lastModifiedDate: null, resetDate: null,
-                resetKey: null, authorities: null
-            };
-        }
-
-        function sort () {
-            var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
-            if (vm.predicate !== 'id') {
-                result.push('id');
-            }
-            return result;
-        }
-
-        function loadPage (page) {
-            vm.page = page;
-            vm.transition();
-        }
-
-        function transition () {
-            $state.transitionTo($state.$current, {
-                page: vm.page,
-                sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
-                search: vm.currentSearch
-            });
-        }
 
         vm.dtInstance = {};
-        vm.searchText = '';
+        vm.searchText = $stateParams.searchText;
         vm.search = search;
 
+        function _applyCriteriaOnUrl() {
+
+        }
+
         function search() {
-            var resetPaging = true;
+            var resetPaging = false;
             vm.dtInstance.reloadData(searchCallback, resetPaging);
         }
 
@@ -103,29 +37,25 @@
 
         }
 
-        vm.dtOptions = DTOptionsBuilder.newOptions()
-            .withOption('ajax', {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
-                },
-                // Either you specify the AjaxDataProp here
-                // dataSrc: 'data',
+        vm.dtOptions = DTOptionsBuilder
+            .fromSource({
+                headers: LA.RequestUtils.getHeaders(),
                 url: 'api/users/search',
                 data: function(d){
-                    var params = {};
+                    var query = {};
 
-                    params.search = vm.searchText;
+                    query.search = vm.searchText;
 
                     if(d.order && d.order.length) {
-                        params.sort = d.columns[d.order[0].column].data + ',' + d.order[0].dir;
+                        query.sort = d.columns[d.order[0].column].data + ',' + d.order[0].dir;
                         for(var i = 1; i < d.order.length; i++) {
-                            params.sort += d.columns[d.order[i].column].data + ',' + d.order[i].dir;
+                            query.sort += d.columns[d.order[i].column].data + ',' + d.order[i].dir;
                         }
                     }
-                    params.page = d.start / d.length;
-                    params.size = d.length;
+                    query.page = d.start / d.length;
+                    query.size = d.length;
 
-                    return params;
+                    return query;
                 },
                 type: 'GET'
             })
@@ -200,45 +130,31 @@
 
         function createOrUpdate(user) {
 
-            if(user) {
-                $uibModal.open({
-                    templateUrl: 'app/admin/user-management/user-management-dialog.html',
-                    controller: 'UserManagementDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    resolve: {
-                        entity: function () {
-                            return user;
-                        }
-                    }
-                }).result.then(function() {
-                    $state.go('user-management', null, { reload: true });
-                }, function() {
-                    $state.go('user-management');
-                });
-            }else {
-                $uibModal.open({
-                    templateUrl: 'app/admin/user-management/user-management-dialog.html',
-                    controller: 'UserManagementDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                id: null, login: null, firstName: null, lastName: null, email: null,
-                                startDate: null, password: null,
-                                activated: true, langKey: null, createdBy: null, createdDate: null,
-                                lastModifiedBy: null, lastModifiedDate: null, resetDate: null,
-                                resetKey: null, authorities: null, status: 'ACTIVE'
-                            };
-                        }
-                    }
-                }).result.then(function() {
-                    $state.go('user-management', null, { reload: true });
-                }, function() {
-                    $state.go('user-management');
-                });
+            if(!user) {
+                user = {
+                    id: null, login: null, firstName: null, lastName: null, email: null,
+                    startDate: null, password: null,
+                    activated: true, langKey: null, createdBy: null, createdDate: null,
+                    lastModifiedBy: null, lastModifiedDate: null, resetDate: null,
+                    resetKey: null, authorities: null, status: 'ACTIVE'
+                };
             }
+
+            $uibModal.open({
+                templateUrl: 'app/admin/user-management/user-management-dialog.html',
+                controller: 'UserManagementDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: function () {
+                        return user;
+                    }
+                }
+            }).result.then(function() {
+                $state.go('user-management', null, { reload: true });
+            }, function() {
+                $state.go('user-management');
+            });
         }
 
 
