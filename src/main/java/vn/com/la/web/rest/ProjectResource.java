@@ -1,6 +1,7 @@
 package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import vn.com.la.service.FtpService;
 import vn.com.la.service.ProjectService;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
@@ -36,9 +37,11 @@ public class ProjectResource {
     private static final String ENTITY_NAME = "project";
 
     private final ProjectService projectService;
+    private final FtpService ftpService;
 
-    public ProjectResource(ProjectService projectService) {
+    public ProjectResource(ProjectService projectService, FtpService ftpService) {
         this.projectService = projectService;
+        this.ftpService = ftpService;
     }
 
     /**
@@ -55,6 +58,10 @@ public class ProjectResource {
         if (projectDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new project cannot already have an ID")).body(null);
         }
+        if(ftpService.validateProjectStructure(projectDTO.getCode()) == false) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "project-folder-structure-is-not-validated", "Project Folder structure is not validated")).body(null);
+        }
+
         ProjectDTO result = projectService.save(projectDTO);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))

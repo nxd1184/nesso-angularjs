@@ -43,7 +43,7 @@
 
     <link href="bower_components/angular-ui-select/dist/select.min.css" rel="stylesheet" type="text/css" />
     <link href="bower_components/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet" type="text/css" />
-
+    <link href="bower_components/angular-bootstrap-grid-tree/src/treeGrid.css" rel="stylesheet" type="text/css" />
     <!-- END THEME STYLES -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
@@ -83,7 +83,8 @@
         <div class="page-content-wrapper" ui-view="content" ng-class="{'page-account' : $state.includes('user-management'),
                                                                         'page-account-team' : $state.includes('team'),
                                                                         'page-task' : $state.includes('task'),
-                                                                        'page-project' : $state.includes('project')}">
+                                                                        'page-project' : $state.includes('project'),
+                                                                        'page-plan' : $state.includes('plan')}">
 
         </div>
         <!-- END CONTENT -->
@@ -176,6 +177,7 @@
     <script type="text/javascript" src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
     <script type="text/javascript" src="bower_components/moment/moment.js"></script>
     <script type="text/javascript" src="bower_components/angular-moment/angular-moment.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap-grid-tree/src/tree-grid-directive.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
@@ -279,6 +281,10 @@
     <script src="app/entities/job/job.state.js"></script>
     <script src="app/entities/job/job.service.js"></script>
     <script src="app/entities/job/job.controller.js"></script>
+    <script src="app/entities/plan/plan.controller.js"></script>
+    <script src="app/entities/plan/plan-dialog.controller.js"></script>
+    <script src="app/entities/plan/plan.service.js"></script>
+    <script src="app/entities/plan/plan.state.js"></script>
     <script src="app/entities/entity.state.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>

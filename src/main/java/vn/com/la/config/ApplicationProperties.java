@@ -1,6 +1,7 @@
 package vn.com.la.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import vn.com.la.config.audit.FtpProperties;
 
 /**
  * Properties specific to JHipster.
@@ -10,4 +11,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
+    private FtpProperties ftpProperties;
+
+    public FtpProperties getFtpProperties() {
+        return ftpProperties;
+    }
+
+    public void setFtpProperties(FtpProperties ftpProperties) {
+        this.ftpProperties = ftpProperties;
+    }
 }

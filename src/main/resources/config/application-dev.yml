@@ -148,3 +148,8 @@ jhipster:
 # ===================================================================
 
 application:
+    ftp-properties:
+        host: 45.77.36.137
+        username: nesso
+        password: test@123
+        port: 22

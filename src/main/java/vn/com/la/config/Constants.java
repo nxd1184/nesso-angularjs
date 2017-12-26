@@ -12,6 +12,12 @@ public final class Constants {
     public static final String ANONYMOUS_USER = "anonymoususer";
     public static final String DEFAULT_LANGUAGE = "en";
 
+    public static final String BACK_LOGS = "BackLogs";
+    public static final String TO_DO = "To do";
+    public static final String TO_CHECK = "To check";
+    public static final String DONE = "Done";
+    public static final String DELIVERY = "Delivery";
+
     private Constants() {
     }
 }

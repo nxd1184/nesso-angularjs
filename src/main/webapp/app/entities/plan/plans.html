@@ -1,0 +1,1815 @@
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Plan Management</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+        <!-- BEGIN PAGE TOOLBAR -->
+        <div class="page-toolbar">
+            <div class="search">
+                <div class="input-group" style="float:left">
+                    <div class="input-group-btn">
+                        <ui-select ng-model="vm.selectedFilter" theme="select2" style="width: 120px" search-enabled="false" class="selectpicker form-control">
+                            <ui-select-match placeholder="Filter">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="f in vm.filters">
+                                <div ng-bind-html="f | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </span>
+
+                </div>
+            </div>
+
+            <!-- END THEME PANEL -->
+        </div>
+        <!-- END PAGE TOOLBAR -->
+        <div class="clearfix"></div>
+        <div class="page-breadcrumb breadcrumb profile plan-head">
+            <ul class="nav nav-tabs pull-left">
+                <li class="active">
+                    <a href="#tab_1_11" data-toggle="tab">
+                        Status</a>
+                </li>
+                <li class="">
+                    <a href="#tab_1_22" data-toggle="tab">
+                        Timeline</a>
+                </li>
+            </ul>
+            <div class="form-group margin-bottom-0 view_base pull-right">
+                <label class="margin-top-15">View base on: </label>
+                <div class="btn-group">
+                    <button type="button" class="active btn btn-default btn-xs btn-project">Project</button>
+                    <button type="button" class="btn btn-default btn-xs btn-user">User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb hide">
+        <li>
+            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+            Project
+        </li>
+    </ul>
+    <div class="margin-top-20">
+        <div class="wrap-table-radius plan">
+            <div class="tab-content">
+                <div class="tab-pane active table-responsive" id="tab_1_11">
+                    <table class="tree table table-hover status-project">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th class="progress_col">Total</th>
+                            <th class="col_todo">To do</th>
+                            <th class="col_tocheck">To check</th>
+                            <th class="col_done">Done</th>
+                            <th class="col_delivery">Delivery</th>
+                            <th class="action"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 1</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1 parent warning-deadline editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i>Job A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-11 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-121 treegrid-parent-12">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Patrick Mills</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-122 treegrid-parent-12">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Macello</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-123 treegrid-parent-12">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Aguero</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+
+                        <tr class="treegrid-13 treegrid-parent-11 parent danger-deadline">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck warning-item"><span>250</span></td>
+                            <td class="col_done danger-item"><span>50</span></td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-131 treegrid-parent-13">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Patrick Mills</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-132 treegrid-parent-13">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Macello</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck"><span>250</span></td>
+                            <td class="col_done"><span>180</span></td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 2</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2 parent editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i>Job C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-21 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+
+                        <tr class="treegrid-221 treegrid-parent-22">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> TuanUni</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-222 treegrid-parent-22">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> SonCurado</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-223 treegrid-parent-22">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Dzumn</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-23 treegrid-parent-21 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-231 treegrid-parent-23">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Dzumn</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-3 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 3</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-31 treegrid-parent-3 parent editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i>Job D</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-32 treegrid-parent-31 parent danger-deadline">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck danger-item"><span>150</span></td>
+                            <td class="col_done  danger-item"><span>50</span></td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-321 treegrid-parent-32">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> DaoThanh</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-322 treegrid-parent-32">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> ThuiMaps</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">250</td>
+                            <td class="col_delivery">180</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-323 treegrid-parent-32">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Joli AzaO</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">250</td>
+                            <td class="col_delivery">180</td>
+                            <td class="action"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="tree table table-hover status-user" style="display:none">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th class="progress_col">Total</th>
+                            <th class="col_todo">To do</th>
+                            <th class="col_tocheck">To check</th>
+                            <th class="col_done">Done</th>
+                            <th class="col_delivery">Delivery</th>
+                            <th class="action"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1 parent warning-deadline">
+
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Patrick Mills</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-11 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i>Big Project 1</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-121 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-122 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+
+                        <tr class="treegrid-13 treegrid-parent-11 parent danger-deadline">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i>Big Project 2</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck warning-item"><span>250</span></td>
+                            <td class="col_done danger-item"><span>50</span></td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-131 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-132 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2 parent">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> TuanUni</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-21 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 2</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+
+                        <tr class="treegrid-221 treegrid-parent-22 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-222 treegrid-parent-22 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="treegrid-23 treegrid-parent-21 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action"></td>
+                        </tr>
+                        <tr class="treegrid-231 treegrid-parent-23 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job D</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_todo">250</td>
+                            <td class="col_tocheck">250</td>
+                            <td class="col_done">180</td>
+                            <td class="col_delivery">372</td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane table-responsive" id="tab_1_22">
+                    <table class="tree table table-hover timeline-project">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th class="progress_col">
+
+                                Week 01<span>04-10</span>
+                            </th>
+                            <th class="col_day">Mon<span>4</span></th>
+                            <th class="col_day">Tue<span>5</span></th>
+                            <th class="col_day">Web<span>6</span></th>
+                            <th class="col_day">Thu<span>7</span></th>
+                            <th class="col_day">Fri<span>8</span></th>
+                            <th class="col_day">Sat<span>9</span></th>
+                            <th class="col_day">Sun<span>10</span></th>
+                            <th class="action"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 1</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1 parent warning-deadline editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i>Job A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline first"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-11 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-121 treegrid-parent-12">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Patrick Mills</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-122 treegrid-parent-12">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Macello</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-123 treegrid-parent-12">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Aguero</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="treegrid-13 treegrid-parent-11 parent danger-deadline">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_tocheck warning-item"><span>250</span></td>
+                            <td class="col_done danger-item"><span>50</span></td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-131 treegrid-parent-13">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Patrick Mills</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-132 treegrid-parent-13">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Macello</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day"><span>250</span></td>
+                            <td class="col_day"><span>180</span></td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline last"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 2</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_tocheck col_tocheck">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2 parent editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i>Job C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline first"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-21 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="treegrid-221 treegrid-parent-22">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> TuanUni</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-222 treegrid-parent-22">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> SonCurado</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-223 treegrid-parent-22">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Dzumn</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-23 treegrid-parent-21 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-231 treegrid-parent-23">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Dzumn</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline last"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-3 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 3</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-31 treegrid-parent-3 parent editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i>Job D</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline first"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-32 treegrid-parent-31 parent danger-deadline">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_tocheck danger-item"><span>150</span></td>
+                            <td class="col_done  danger-item"><span>50</span></td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-321 treegrid-parent-32">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> DaoThanh</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-322 treegrid-parent-32">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> ThuiMaps</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-323 treegrid-parent-32">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Joli AzaO</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day day_deadline last"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="tree table table-hover timeline-user" style="display:none">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th class="progress_col">
+
+                                Week 01<span>04-10</span>
+                            </th>
+                            <th class="col_day">Mon<span>4</span></th>
+                            <th class="col_day">Tue<span>5</span></th>
+                            <th class="col_day">Web<span>6</span></th>
+                            <th class="col_day">Thu<span>7</span></th>
+                            <th class="col_day">Fri<span>8</span></th>
+                            <th class="col_day">Sat<span>9</span></th>
+                            <th class="col_day">Sun<span>10</span></th>
+                            <th class="action"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1 parent warning-deadline">
+
+                            <td><img src="./assets/layout/img/avatar3.jpg"> Patrick Mills</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-11 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i>Big Project 1</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day day_deadline first"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-121 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-122 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+
+                        <tr class="treegrid-13 treegrid-parent-11 parent danger-deadline">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i>Big Project 2</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-131 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-132 treegrid-parent-12 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day">123</td>
+                            <td class="col_day day_deadline last"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline first"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2 parent">
+                            <td><img src="./assets/layout/img/avatar3.jpg"> TuanUni</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-21 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 2</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+
+                        </tr>
+
+                        <tr class="treegrid-221 treegrid-parent-22 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job A</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+
+                        </tr>
+                        <tr class="treegrid-222 treegrid-parent-22 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job B</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="treegrid-23 treegrid-parent-21 parent">
+                            <td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project C</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="treegrid-231 treegrid-parent-23 editable">
+                            <td><i class="fa fa-file" aria-hidden="true"></i> Job D</td>
+                            <td class="progress_col">
+                                <p>222</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                                    <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                    <span class="sr-only">45% grow</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div></td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">250</td>
+                            <td class="col_day">180</td>
+                            <td class="col_day">372</td>
+                            <td class="col_day day_deadline last"></td>
+                            <td class="col_day"></td>
+                            <td class="col_day"></td>
+                            <td class="action">
+                                <a href="javascript:void(0);" class="btn-editJob">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- END PAGE BREADCRUMB -->
+
+</div>

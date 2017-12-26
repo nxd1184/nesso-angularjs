@@ -130,6 +130,8 @@ public class TeamServiceImpl implements TeamService{
 
         TeamDTO storedTeam = findOne(param.getTeamId());
         storedTeam.setName(param.getTeamName());
+        storedTeam.setStatus(param.getStatus());
+
         Long oldLeaderId = storedTeam.getLeaderId();
         Long newLeaderId = param.getLeaderId();
 

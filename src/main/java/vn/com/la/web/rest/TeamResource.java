@@ -88,6 +88,8 @@ public class TeamResource {
         param.setTeamId(request.getTeamId());
         param.setTeamName(request.getTeamName());
         param.setLeaderId(request.getLeaderId());
+        param.setStatus(request.getStatus());
+
         List<TeamMemberParamDTO> memberParams = new ArrayList<>();
         if(!CollectionUtils.isEmpty(request.getMembers())) {
             for(TeamMemberRequestVM member: request.getMembers()) {
