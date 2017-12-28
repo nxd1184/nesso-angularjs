@@ -1,12 +1,16 @@
 package vn.com.la.service.impl;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
 import vn.com.la.config.audit.FtpProperties;
 import vn.com.la.service.FtpService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FtpServiceImpl implements FtpService{
@@ -60,5 +64,25 @@ public class FtpServiceImpl implements FtpService{
 
 
         return true;
+    }
+
+    @Override
+    public List<String> backLogs(String projectCode) throws Exception{
+
+        List<String> folderNames = new ArrayList<>();
+
+        ftpClient.changeWorkingDirectory("/" + projectCode + "/" + Constants.BACK_LOGS);
+        int returnCode = ftpClient.getReplyCode();
+        if (returnCode == 550) {
+            throw new Exception("Backlogs not found");
+        }
+
+        for(FTPFile file: ftpClient.listDirectories()) {
+            if(file.isDirectory()) {
+                folderNames.add(file.getName());
+            }
+        }
+
+        return folderNames;
     }
 }

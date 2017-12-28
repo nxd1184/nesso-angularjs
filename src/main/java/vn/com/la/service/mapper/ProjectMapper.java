@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Project and its DTO ProjectDTO.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, })
+@Mapper(componentModel = "spring", uses = {UserMapper.class, JobMapper.class})
 public interface ProjectMapper extends EntityMapper <ProjectDTO, Project> {
 
     @Mapping(source = "manager.id", target = "managerId")

@@ -18,7 +18,8 @@
             'frapontillo.bootstrap-switch',
             'ngSanitize', 'ui.select',
             'datatables',
-            'angularMoment'
+            'angularMoment',
+            'treeGrid'
         ])
         .run(run);
 

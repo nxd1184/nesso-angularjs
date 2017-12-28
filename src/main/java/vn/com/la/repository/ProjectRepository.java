@@ -18,4 +18,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
     @Query("select project from Project project where project.manager.login = ?#{principal.username}")
     List<Project> findByManagerIsCurrentUser();
 
+    Project findByCode(String projectCode);
 }

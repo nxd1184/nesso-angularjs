@@ -18,12 +18,10 @@ public class JobDTO implements Serializable {
     @NotNull
     private String name;
 
-    @NotNull
     private ZonedDateTime deadline;
 
     private String customerRequirements;
 
-    @NotNull
     private Long totalFiles;
 
     private Long projectId;

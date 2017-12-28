@@ -27,14 +27,13 @@ public class Job extends AbstractAuditingEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
+
     @Column(name = "deadline", nullable = false)
     private ZonedDateTime deadline;
 
     @Column(name = "customer_requirements")
     private String customerRequirements;
 
-    @NotNull
     @Column(name = "total_files", nullable = false)
     private Long totalFiles;
 

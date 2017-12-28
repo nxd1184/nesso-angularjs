@@ -16,7 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.request.SyncUpProjectRequestVM;
 import vn.com.la.web.rest.vm.response.DatatableResponseVM;
+import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -88,6 +90,15 @@ public class ProjectResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, projectDTO.getId().toString()))
             .body(result);
+    }
+
+    @PutMapping("projects/sync-up")
+    @Timed
+    public ResponseEntity<ProjectDTO> syncUpProject(@Valid @RequestBody SyncUpProjectRequestVM request) {
+
+        ProjectDTO rs = projectService.syncUp(request.getProjectCode());
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 
     /**

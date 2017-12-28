@@ -1,5 +1,6 @@
 package vn.com.la.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,7 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import vn.com.la.domain.enumeration.ProjectTypeEnum;
 
@@ -60,6 +63,11 @@ public class Project extends AbstractAuditingEntity {
     @ManyToOne(optional = false)
     @NotNull
     private User manager;
+
+    @OneToMany(mappedBy = "project")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Job> jobs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

@@ -44,6 +44,8 @@ public class ProjectDTO implements Serializable {
 
     private String managerLogin;
 
+    private Set<JobDTO> jobs = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -130,6 +132,18 @@ public class ProjectDTO implements Serializable {
 
     public void setManagerName(String managerName) {
         this.managerName = managerName;
+    }
+
+    public Set<JobDTO> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<JobDTO> jobs) {
+        this.jobs = jobs;
+    }
+
+    public void addJob(JobDTO job) {
+        this.jobs.add(job);
     }
 
     @Override
