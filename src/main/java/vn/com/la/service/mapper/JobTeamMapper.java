@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity JobTeam and its DTO JobTeamDTO.
  */
-@Mapper(componentModel = "spring", uses = {JobMapper.class, TeamMapper.class, ProjectMapper.class, })
+@Mapper(componentModel = "spring", uses = {JobMapper.class, TeamMapper.class, ProjectMapper.class, JobTeamUserMapper.class})
 public interface JobTeamMapper extends EntityMapper <JobTeamDTO, JobTeam> {
 
     @Mapping(source = "job.id", target = "jobId")
@@ -19,14 +19,14 @@ public interface JobTeamMapper extends EntityMapper <JobTeamDTO, JobTeam> {
 
     @Mapping(source = "project.id", target = "projectId")
     @Mapping(source = "project.name", target = "projectName")
-    JobTeamDTO toDto(JobTeam jobTeam); 
+    JobTeamDTO toDto(JobTeam jobTeam);
 
     @Mapping(source = "jobId", target = "job")
 
     @Mapping(source = "teamId", target = "team")
 
     @Mapping(source = "projectId", target = "project")
-    JobTeam toEntity(JobTeamDTO jobTeamDTO); 
+    JobTeam toEntity(JobTeamDTO jobTeamDTO);
     default JobTeam fromId(Long id) {
         if (id == null) {
             return null;

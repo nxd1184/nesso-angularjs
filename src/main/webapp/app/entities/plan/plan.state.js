@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -24,30 +24,34 @@
                     }
                 }
             })
-            .state('plan.new', {
+            .state('plan.edit', {
                 parent: 'plan',
-                url: '/new',
+                url: '/edit/{id}',
                 data: {
                     authorities: ['ROLE_USER']
                 },
-                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                    $uibModal.open({
+                onEnter: ['$stateParams', '$state', '$uibModal', '$uibModalStack', function ($stateParams, $state, $uibModal, $uibModalStack) {
+                    var uibModal = $uibModal.open({
                         templateUrl: 'app/entities/plan/plan-dialog.html',
+                        windowClass: 'popupModal modal-scroll',
                         controller: 'PlanDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
-                        size: 'lg',
                         resolve: {
-                            entity: function () {
-                                return {
-
-                                };
-                            }
+                            entity: ['planService', function(planService) {
+                                return planService.getJobPlanDetail($stateParams.id).$promise;
+                            }]
                         }
-                    }).result.then(function() {
-                        $state.go('plan', {}, { reload: 'plan' });
+                    });
+
+                    uibModal.rendered.then(function () {
+                        $uibModalStack.getTop().value.modalDomEl.attr('id', 'addJobModal');
+                    });
+
+                    uibModal.result.then(function() {
+                        $state.go('project', null, { reload: 'project' });
                     }, function() {
-                        $state.go('plan');
+                        $state.go('^');
                     });
                 }]
             });

@@ -11,7 +11,8 @@
             <div class="search">
                 <div class="input-group" style="float:left">
                     <div class="input-group-btn">
-                        <ui-select ng-model="vm.selectedFilter" theme="select2" style="width: 120px" search-enabled="false" class="selectpicker form-control">
+                        <ui-select ng-model="vm.selectedFilter" theme="select2" style="width: 120px"
+                                   search-enabled="false" class="selectpicker form-control">
                             <ui-select-match placeholder="Filter">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="f in vm.filters">
                                 <div ng-bind-html="f | highlight: $select.search"></div>
@@ -21,7 +22,8 @@
                     <!-- /btn-group -->
                     <input type="text" class="form-control" placeholder="Search for...">
                     <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" type="button"><i class="fa fa-search"
+                                                                               aria-hidden="true"></i></button>
                             </span>
 
                 </div>
@@ -66,7 +68,233 @@
         <div class="wrap-table-radius plan">
             <div class="tab-content">
                 <div class="tab-pane active table-responsive" id="tab_1_11">
-                    <tree-grid tree-data="vm.treeData"></tree-grid>
+                    <!--<tree-grid tree-data="vm.treeData" col-defs="vm.colDefs"></tree-grid>-->
+
+                    <table class="tree table table-hover status-project">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th class="progress_col">Total</th>
+                            <th class="col_todo">To do</th>
+                            <th class="col_tocheck">To check</th>
+                            <th class="col_done">Done</th>
+                            <th class="col_delivery">Delivery</th>
+                            <th class="action"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr ng-repeat="row in vm.rows track by $index" class="{{row.cssClass}}">
+                            <td>
+                                <i class="fa fa-briefcase" aria-hidden="true" ng-if="row.type == 'project'"></i>
+                                <i class="fa fa-file" aria-hidden="true" ng-if="row.type == 'job'"></i>
+                                {{row.name}}
+                            </td>
+                            <td class="progress_col">
+                                <p>{{row.total}}</p>
+                                <div class="wrap-progress">
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                            <span style="width: 45%;" class="progress-bar progress-bar-success">
+                                                <span class="sr-only">45% grow</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>{{row.toDo}}</td>
+                            <td>{{row.toCheck}}</td>
+                            <td>{{row.done}}</td>
+                            <td>{{row.delivery}}</td>
+                            <td class="action" ng-if="row.type == 'job'">
+                                <a class="btn-editJob" ui-sref="plan.edit({id: row.id})">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <!--<tr class="treegrid-1 parent">-->
+                            <!--<td><i class="fa fa-briefcase" aria-hidden="true"></i> Big Project 1</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-11 treegrid-parent-1 parent warning-deadline editable">-->
+                            <!--<td><i class="fa fa-file" aria-hidden="true"></i>Job A</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action">-->
+                                <!--<a href="javascript:void(0);" class="btn-editJob">-->
+                                    <!--<i class="fa fa-pencil" aria-hidden="true"></i>-->
+                                <!--</a>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-12 treegrid-parent-11 parent">-->
+                            <!--<td><i class="fa fa-users" aria-hidden="true"></i>Team A</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-121 treegrid-parent-12">-->
+                            <!--<td><img src="./content/assets/layout/img/avatar3.jpg"> Patrick Mills</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-122 treegrid-parent-12">-->
+                            <!--<td><img src="./content/assets/layout/img/avatar3.jpg"> Macello</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-123 treegrid-parent-12">-->
+                            <!--<td><img src="./content/assets/layout/img/avatar3.jpg"> Aguero</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+
+                        <!--<tr class="treegrid-13 treegrid-parent-11 parent danger-deadline">-->
+                            <!--<td><i class="fa fa-users" aria-hidden="true"></i>Team B</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck warning-item"><span>250</span></td>-->
+                            <!--<td class="col_done danger-item"><span>50</span></td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-131 treegrid-parent-13">-->
+                            <!--<td><img src="./content/assets/layout/img/avatar3.jpg"> Patrick Mills</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck">250</td>-->
+                            <!--<td class="col_done">180</td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+                        <!--<tr class="treegrid-132 treegrid-parent-13">-->
+                            <!--<td><img src="./content/assets/layout/img/avatar3.jpg"> Macello</td>-->
+                            <!--<td class="progress_col">-->
+                                <!--<p>222</p>-->
+                                <!--<div class="wrap-progress">-->
+                                    <!--<div class="progress-info">-->
+                                        <!--<div class="progress">-->
+                                                        <!--<span style="width: 45%;" class="progress-bar progress-bar-success">-->
+                                                        <!--<span class="sr-only">45% grow</span>-->
+                                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div></td>-->
+                            <!--<td class="col_todo">250</td>-->
+                            <!--<td class="col_tocheck"><span>250</span></td>-->
+                            <!--<td class="col_done"><span>180</span></td>-->
+                            <!--<td class="col_delivery">372</td>-->
+                            <!--<td class="action"></td>-->
+                        <!--</tr>-->
+
+                        </tbody>
+                    </table>
+
                 </div>
                 <div class="tab-pane table-responsive" id="tab_1_22">
 

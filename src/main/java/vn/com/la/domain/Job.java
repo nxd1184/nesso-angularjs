@@ -1,5 +1,6 @@
 package vn.com.la.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,7 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Job.
@@ -40,6 +43,17 @@ public class Job extends AbstractAuditingEntity {
     @ManyToOne(optional = false)
     @NotNull
     private Project project;
+
+    @OneToMany(mappedBy = "job")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<JobTeam> jobTeams = new HashSet<>();
+
+    @OneToMany(mappedBy = "job")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<JobTask> jobTasks = new HashSet<>();
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -115,6 +129,23 @@ public class Job extends AbstractAuditingEntity {
         this.project = project;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public Set<JobTeam> getJobTeams() {
+        return jobTeams;
+    }
+
+    public void setJobTeams(Set<JobTeam> jobTeams) {
+        this.jobTeams = jobTeams;
+    }
+
+    public Set<JobTask> getJobTasks() {
+        return jobTasks;
+    }
+
+    public void setJobTasks(Set<JobTask> jobTasks) {
+        this.jobTasks = jobTasks;
+    }
 
     @Override
     public boolean equals(Object o) {

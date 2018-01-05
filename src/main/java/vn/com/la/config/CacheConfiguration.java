@@ -48,11 +48,19 @@ public class CacheConfiguration {
             cm.createCache(vn.com.la.domain.Team.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Team.class.getName() + ".members", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Task.class.getName(), jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.Task.class.getName() + ".jobTasks", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.Job.class.getName(), jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.Job.class.getName() + ".jobTeams", jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.Job.class.getName() + ".jobTasks", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeam.class.getName(), jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.JobTeam.class.getName() + ".jobTeamUsers", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeamUser.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeamUserTask.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeamUserTaskTracking.class.getName(), jcacheConfiguration);
+
+            cm.createCache(vn.com.la.domain.JobTask.class.getName(), jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.JobTask.class.getName() + ".job", jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.JobTask.class.getName() + ".task", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

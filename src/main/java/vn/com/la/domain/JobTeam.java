@@ -1,12 +1,16 @@
 package vn.com.la.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A JobTeam.
@@ -37,6 +41,11 @@ public class JobTeam extends AbstractAuditingEntity {
     @ManyToOne(optional = false)
     @NotNull
     private Project project;
+
+    @OneToMany(mappedBy = "jobTeam")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<JobTeamUser> jobTeamUsers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -99,6 +108,15 @@ public class JobTeam extends AbstractAuditingEntity {
         this.project = project;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public Set<JobTeamUser> getJobTeamUsers() {
+        return jobTeamUsers;
+    }
+
+    public void setJobTeamUsers(Set<JobTeamUser> jobTeamUsers) {
+        this.jobTeamUsers = jobTeamUsers;
+    }
 
     @Override
     public boolean equals(Object o) {

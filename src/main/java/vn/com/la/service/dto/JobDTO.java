@@ -1,6 +1,8 @@
 package vn.com.la.service.dto;
 
 
+import vn.com.la.domain.JobTask;
+
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -27,6 +29,10 @@ public class JobDTO implements Serializable {
     private Long projectId;
 
     private String projectName;
+
+    private Set<JobTeamDTO> jobTeams = new HashSet<>();
+
+    private Set<JobTask> jobTasks = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -82,6 +88,22 @@ public class JobDTO implements Serializable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public Set<JobTeamDTO> getJobTeams() {
+        return jobTeams;
+    }
+
+    public void setJobTeams(Set<JobTeamDTO> jobTeams) {
+        this.jobTeams = jobTeams;
+    }
+
+    public Set<JobTask> getJobTasks() {
+        return jobTasks;
+    }
+
+    public void setJobTasks(Set<JobTask> jobTasks) {
+        this.jobTasks = jobTasks;
     }
 
     @Override

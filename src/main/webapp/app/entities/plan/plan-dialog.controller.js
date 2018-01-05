@@ -5,12 +5,19 @@
         .module('nessoApp')
         .controller('PlanDialogController', PlanDialogController);
 
-    PlanDialogController.$inject = ['$state'];
+    PlanDialogController.$inject = ['$state', 'entity', '$uibModalInstance'];
 
-    function PlanDialogController($state) {
+    function PlanDialogController($state, entity, $uibModalInstance) {
 
         var vm = this;
 
+        console.log(entity);
+
+        vm.clear = clear;
+
+        function clear () {
+            $uibModalInstance.dismiss('cancel');
+        }
 
     }
 })();

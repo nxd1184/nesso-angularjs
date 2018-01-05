@@ -45,7 +45,8 @@ public class ExceptionTranslator implements ProblemHandling {
         ProblemBuilder builder = Problem.builder()
             .withType(Problem.DEFAULT_TYPE.equals(problem.getType()) ? ErrorConstants.DEFAULT_TYPE : problem.getType())
             .withStatus(problem.getStatus())
-            .withTitle(problem.getTitle());
+            .withTitle(problem.getTitle())
+            .with("success", false);
 
         if (problem instanceof ConstraintViolationProblem) {
             builder
@@ -78,6 +79,7 @@ public class ExceptionTranslator implements ProblemHandling {
             .withStatus(defaultConstraintViolationStatus())
             .with("message", ErrorConstants.ERR_VALIDATION)
             .with("fieldErrors", fieldErrors)
+            .with("success", false)
             .build();
         return create(ex, problem, request);
     }
@@ -95,6 +97,7 @@ public class ExceptionTranslator implements ProblemHandling {
                 .withStatus(new HttpStatusAdapter(responseStatus.value()))
                 .withTitle(responseStatus.reason().isEmpty() ? responseStatus.value().getReasonPhrase() : responseStatus.reason() )
                 .withDetail(throwable.getMessage())
+                .with("success", false)
                 .build();
             return create(throwable, problem, request);
         } else {
@@ -106,6 +109,7 @@ public class ExceptionTranslator implements ProblemHandling {
     public ResponseEntity<Problem> handleConcurrencyFailure(ConcurrencyFailureException ex, NativeWebRequest request) {
         Problem problem = Problem.builder()
             .withStatus(Status.CONFLICT)
+            .with("success", false)
             .with("message", ErrorConstants.ERR_CONCURRENCY_FAILURE)
             .build();
         return create(ex, problem, request);

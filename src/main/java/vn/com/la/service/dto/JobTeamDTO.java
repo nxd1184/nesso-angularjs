@@ -29,6 +29,8 @@ public class JobTeamDTO implements Serializable {
 
     private String projectName;
 
+    private Set<JobTeamUserDTO> jobTeamUsers = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -91,6 +93,14 @@ public class JobTeamDTO implements Serializable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public Set<JobTeamUserDTO> getJobTeamUsers() {
+        return jobTeamUsers;
+    }
+
+    public void setJobTeamUsers(Set<JobTeamUserDTO> jobTeamUsers) {
+        this.jobTeamUsers = jobTeamUsers;
     }
 
     @Override

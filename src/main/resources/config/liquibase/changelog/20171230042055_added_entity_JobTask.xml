@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="dungnguyen (generated)" id="1514607667443-1">
+        <createTable tableName="job_task">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="job_taskPK"/>
+            </column>
+            <column name="job_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1514607667443-2">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="job_task" constraintName="FKaqjpcb20qnu30mklmulk7xydt" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="task"/>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1514607667443-3">
+        <addForeignKeyConstraint baseColumnNames="job_id" baseTableName="job_task" constraintName="FKpdjx6xa2gmqbjxiju8voj0yyi" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="job"/>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1514607667443-4">
+        <addNotNullConstraint columnDataType="blob" columnName="deadline" tableName="job"/>
+    </changeSet>
+    <changeSet author="dungnguyen (generated)" id="1514607667443-5">
+        <addNotNullConstraint columnDataType="bigint" columnName="total_files" tableName="job"/>
+    </changeSet>
+</databaseChangeLog>

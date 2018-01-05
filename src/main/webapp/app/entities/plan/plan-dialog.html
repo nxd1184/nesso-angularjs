@@ -1,1 +1,256 @@
-<h1>ABC</h1>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+    <div class="modal-header">
+        <h4 class="modal-title"><i class="fa fa-file"></i>Job Name</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left margin-top-10 project_row" style="overflow:hidden">
+                        <label class="text-left col-md-3 col-sm-3 col-xs-3 margin-top-10" style="">Project</label>
+                        <label class="col-md-9 col-sm-9 col-xs-9 margin-top-10" style="display:inline-block;">
+                            <b style="color:#4d6a79">AAA</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left margin-top-10 deadline_row" style="overflow:hidden">
+                        <label class="text-left control-label col-md-3 col-sm-3 col-xs-3 margin-top-10" style="">Deadline</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9" style="display:inline-block;">
+                            <div class='input-group date date-picker'>
+                                <input type='text' class="form-control" placeholder="DD/MM/YYYY"/>
+                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group" style="overflow:hidden;">
+                    <label class="control-label">Task Code</label>
+                    <div class="">
+                        <ul class="unstyled centered task">
+                            <li>
+
+                                <input class="" id="checkbox-1" type="checkbox" value="value1">
+                                <label for="checkbox-1">Task AA</label>
+                            </li>
+                            <li>
+
+                                <input class="" id="checkbox-2" type="checkbox" value="value2" checked>
+                                <label for="checkbox-2">Task BB</label>
+                            </li>
+                            <li>
+
+                                <input class="" id="checkbox-3" type="checkbox" value="value4">
+                                <label for="checkbox-3">Task CC</label>
+                            </li>
+                            <li>
+
+                                <input class="" id="checkbox-4" type="checkbox" value="value4" checked>
+                                <label for="checkbox-4">Task DD</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" style="overflow:hidden;">
+                    <label class="control-label">Select Team</label>
+                    <div class="">
+                        <ul class="unstyled centered team">
+                            <li>
+                                <input class="" id="team-checkbox-1" type="checkbox" value="value1" checked>
+                                <label for="team-checkbox-1">Team A</label>
+                            </li>
+                            <li>
+                                <input class="" id="team-checkbox-2" type="checkbox" value="value2">
+                                <label for="team-checkbox-2">Team B</label>
+                            </li>
+                            <li>
+                                <input class="" id="team-checkbox-3" type="checkbox" value="value3" checked>
+                                <label for="team-checkbox-3">Team C</label>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 margin-top-15">
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" placeholder="Customer’s requirements…"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-sm-9">
+                <div class="row">
+                    <div class="form-group margin-top-10 squence" style="overflow: hidden;">
+                        <label class="col-md-3 col-sm-3 col-xs-5 control-label margin-top-10">Squence task</label>
+                        <div class="col-md-9 col-sm-9 col-xs-7 ">
+                            <div id="slider-snap-inc" class="slider bg_select">
+                            </div>
+                            <div class="slider-value">
+                                                <span id="slider-snap-inc-amount">
+                                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 text-center">
+                <a href="javascript:void(0)" class="btn btn-link simulate-btn-link margin-top-10">Simulate</a>
+            </div>
+        </div>
+
+        <div class="row simulate-manage" style="display:none">
+            <div class="col-md-12" style="">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group margin-top-10">
+                            <label class="control-label margin-top-10 count_file">Total file: <span class="num_file">1000 file in </span><span
+                                class="folder_name">AAA Folder</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 stt">
+                        <div class="form-group text-right margin-top-10">
+                            <label class="text-left margin-top-10 status">Active</label>
+                            <div class="" style="display:inline-block;margin-left:20px;">
+                                <input type="checkbox" checked class="make-switch" data-size="small">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12">
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="row left">
+                        <div class="head_group">
+                            <div class="form-group">
+                                <label>Team A
+                                    <small>1000 Processing Files</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Process Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body_group">
+                            <div class="form-group">
+                                <label>Jonathan
+                                    <small>123</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>JongTeHalm
+                                    <small>121</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Thomas
+                                    <small>113</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="row right">
+                        <div class="head_group">
+                            <div class="form-group">
+                                <label>Team B
+                                    <small>1000 Processing Files</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Process Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="body_group">
+                            <div class="form-group">
+                                <label>Jonathan
+                                    <small>123</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>JongTeHalm
+                                    <small>121</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Thomas
+                                    <small>113</small>
+                                </label>
+                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                    Files
+                                                    </span>
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-save">Save</button>
+                <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</form>

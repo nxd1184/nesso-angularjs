@@ -1445,7 +1445,11 @@
 	}
 
     .popupModal .modal-lg{
-        width: 80%;
+        width: 70%;
+    }
+
+    .popupModal .modal-plan{
+        width: 41%;
     }
 
 	.page-toolbar{

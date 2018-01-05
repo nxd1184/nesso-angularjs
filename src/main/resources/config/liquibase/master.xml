@@ -37,4 +37,6 @@
     <include file="config/liquibase/changelog/20171223104911_update_entity_User.xml" relativeToChangelogFile="false"/>
 
     <include file="config/liquibase/changelog/20171227171222_updated_entity_constraints_Job.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20171230042055_added_entity_JobTask.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>
