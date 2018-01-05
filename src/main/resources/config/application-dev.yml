@@ -28,7 +28,6 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/nesso?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-#        password: Vilaf19(3
         password: root
         hikari:
             data-source-properties:
