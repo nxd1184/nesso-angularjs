@@ -7,15 +7,8 @@
     <meta name="description" content="">
     <meta name="theme-color" content="#000000">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css content/css/vendor.css -->
-    <!-- bower:css -->
-    <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
-    <!--<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">-->
-    <!-- endinject -->
-    <!-- endbuild -->
-    <!-- build:css content/css/main.css -->
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
           type="text/css"/>
     <link href="content/fonts/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
@@ -24,12 +17,31 @@
     <link href="content/assets/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
     <!-- END GLOBAL MANDATORY STYLES -->
-    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+
     <link href="content/assets/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="content/assets/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/morris/morris.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="content/assets/jquery-treegrid/css/jquery.treegrid.css"/>
+
+
+    <!--<link href="bower_components/angular-ui-select/dist/select.min.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="bower_components/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="bower_components/angular-bootstrap-grid-tree/src/treeGrid.css" rel="stylesheet" type="text/css" />-->
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css content/css/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
+    <link rel="stylesheet" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
+    <link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css">
+    <!-- endinject -->
+    <!-- endbuild -->
+    <!-- build:css content/css/main.css -->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL STYLES -->
     <link href="content/assets/pages/css/login.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +53,9 @@
     <link href="content/assets/layout/css/themes/light.css" rel="stylesheet" type="text/css" id="style_color"/>
     <link href="content/assets/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/layout/css/custom-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="content/assets/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
 
-    <link href="bower_components/angular-ui-select/dist/select.min.css" rel="stylesheet" type="text/css" />
-    <link href="bower_components/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet" type="text/css" />
-    <link href="bower_components/angular-bootstrap-grid-tree/src/treeGrid.css" rel="stylesheet" type="text/css" />
     <!-- END THEME STYLES -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
@@ -120,45 +131,17 @@
         ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>-->
 
-
-
-    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
-    <!-- BEGIN CORE PLUGINS -->
-    <!--[if lt IE 9]>
-    <script src="content/assets/pages/scripts/respond.min.js"></script>
-    <script src="content/assets/pages/scripts/excanvas.min.js"></script>
-    <![endif]-->
-    <script src="content/assets/jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="content/assets/jquery/jquery-migrate.min.js" type="text/javascript"></script>
-    <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-    <script src="content/assets/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="content/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="content/assets/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-    <script src="content/assets/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <script src="content/assets/jquery/jquery.blockui.min.js" type="text/javascript"></script>
-    <script src="content/assets/jquery/jquery.cokie.min.js" type="text/javascript"></script>
-    <script src="content/assets/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-    <script src="content/assets/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-    <script src="content/assets/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <!-- END CORE PLUGINS -->
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script src="content/assets/jquery/jquery.sparkline.min.js" type="text/javascript"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="content/assets/morris/raphael-min.js" type="text/javascript"></script>
-    <script src="content/assets/jquery/jquery.sparkline.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="content/assets/select2/select2.min.js"></script>
-    <script type="text/javascript" src="content/assets/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="content/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-
-    <!-- END PAGE LEVEL PLUGINS -->
-
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/messageformat/messageformat.js"></script>
     <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
     <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+    <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -172,13 +155,22 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-    <script type="text/javascript" src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-ui-select/dist/select.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-ui-select/docs/assets/demo.js"></script>
-    <script type="text/javascript" src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
-    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
-    <script type="text/javascript" src="bower_components/angular-moment/angular-moment.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-bootstrap-grid-tree/src/tree-grid-directive.js"></script>
+    <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/colreorder/angular-datatables.colreorder.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/columnfilter/angular-datatables.columnfilter.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/light-columnfilter/angular-datatables.light-columnfilter.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/colvis/angular-datatables.colvis.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/fixedheader/angular-datatables.fixedheader.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/tabletools/angular-datatables.tabletools.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.js"></script>
+    <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/angular-ui-slider/src/slider.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
@@ -198,174 +190,368 @@
     <!-- END PAGE LEVEL SCRIPTS -->
 
 
+    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    <!-- BEGIN CORE PLUGINS -->
+    <!--[if lt IE 9]>
+    <script src="content/assets/pages/scripts/respond.min.js"></script>
+    <script src="content/assets/pages/scripts/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="content/assets/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="content/assets/jquery/jquery-migrate.min.js" type="text/javascript"></script>
+    <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <!--<script src="content/assets/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>-->
+    <script src="content/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="content/assets/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="content/assets/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="content/assets/jquery/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="content/assets/jquery/jquery.cokie.min.js" type="text/javascript"></script>
+    <script src="content/assets/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="content/assets/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="content/assets/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="content/assets/jquery/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="content/assets/morris/raphael-min.js" type="text/javascript"></script>
+    <script src="content/assets/jquery/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="content/assets/select2/select2.min.js"></script>
+    <script type="text/javascript" src="content/assets/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="content/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+
 
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
 
     <script src="app/app.module.js"></script>
-    <script src="app/app.controller.js"></script>
+
     <script src="app/services/user/user.service.js"></script>
+
     <script src="app/services/profiles/profile.service.js"></script>
+
     <script src="app/services/profiles/page-ribbon.directive.js"></script>
+
     <script src="app/services/auth/register.service.js"></script>
+
     <script src="app/services/auth/principal.service.js"></script>
+
     <script src="app/services/auth/password-reset-init.service.js"></script>
+
     <script src="app/services/auth/password-reset-finish.service.js"></script>
+
     <script src="app/services/auth/password.service.js"></script>
+
     <script src="app/services/auth/has-authority.directive.js"></script>
+
     <script src="app/services/auth/has-any-authority.directive.js"></script>
+
     <script src="app/services/auth/auth.service.js"></script>
+
     <script src="app/services/auth/auth.jwt.service.js"></script>
+
     <script src="app/services/auth/activate.service.js"></script>
+
     <script src="app/services/auth/account.service.js"></script>
-    <script src="app/layouts/navbar/navbar.controller.js"></script>
-    <script src="app/layouts/error/error.state.js"></script>
-    <script src="app/layouts/sidebar/sidebar.controller.js"></script>
-    <script src="app/home/home.state.js"></script>
-    <script src="app/home/home.controller.js"></script>
-    <script src="app/entities/user-setting/user-setting-dialog.controller.js"></script>
-    <script src="app/entities/user-setting/user-setting-detail.controller.js"></script>
-    <script src="app/entities/user-setting/user-setting-delete-dialog.controller.js"></script>
-    <script src="app/entities/user-setting/user-setting.state.js"></script>
-    <script src="app/entities/user-setting/user-setting.service.js"></script>
-    <script src="app/entities/user-setting/user-setting.controller.js"></script>
-    <script src="app/entities/team/team-dialog.controller.js"></script>
-    <script src="app/entities/team/team-detail.controller.js"></script>
-    <script src="app/entities/team/team-delete-dialog.controller.js"></script>
-    <script src="app/entities/team/team.state.js"></script>
-    <script src="app/entities/team/team.service.js"></script>
-    <script src="app/entities/team/team.controller.js"></script>
-    <script src="app/entities/task/task-dialog.controller.js"></script>
-    <script src="app/entities/task/task-detail.controller.js"></script>
-    <script src="app/entities/task/task-delete-dialog.controller.js"></script>
-    <script src="app/entities/task/task.state.js"></script>
-    <script src="app/entities/task/task.service.js"></script>
-    <script src="app/entities/task/task.controller.js"></script>
-    <script src="app/entities/setting-info/setting-info-dialog.controller.js"></script>
-    <script src="app/entities/setting-info/setting-info-detail.controller.js"></script>
-    <script src="app/entities/setting-info/setting-info-delete-dialog.controller.js"></script>
-    <script src="app/entities/setting-info/setting-info.state.js"></script>
-    <script src="app/entities/setting-info/setting-info.service.js"></script>
-    <script src="app/entities/setting-info/setting-info.controller.js"></script>
-    <script src="app/entities/project/project-dialog.controller.js"></script>
-    <script src="app/entities/project/project-detail.controller.js"></script>
-    <script src="app/entities/project/project-delete-dialog.controller.js"></script>
-    <script src="app/entities/project/project.state.js"></script>
-    <script src="app/entities/project/project.service.js"></script>
-    <script src="app/entities/project/project.controller.js"></script>
-    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-dialog.controller.js"></script>
-    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-detail.controller.js"></script>
-    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-delete-dialog.controller.js"></script>
-    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking.state.js"></script>
-    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking.service.js"></script>
-    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking.controller.js"></script>
-    <script src="app/entities/job-team-user-task/job-team-user-task-dialog.controller.js"></script>
-    <script src="app/entities/job-team-user-task/job-team-user-task-detail.controller.js"></script>
-    <script src="app/entities/job-team-user-task/job-team-user-task-delete-dialog.controller.js"></script>
-    <script src="app/entities/job-team-user-task/job-team-user-task.state.js"></script>
-    <script src="app/entities/job-team-user-task/job-team-user-task.service.js"></script>
-    <script src="app/entities/job-team-user-task/job-team-user-task.controller.js"></script>
-    <script src="app/entities/job-team-user/job-team-user-dialog.controller.js"></script>
-    <script src="app/entities/job-team-user/job-team-user-detail.controller.js"></script>
-    <script src="app/entities/job-team-user/job-team-user-delete-dialog.controller.js"></script>
-    <script src="app/entities/job-team-user/job-team-user.state.js"></script>
-    <script src="app/entities/job-team-user/job-team-user.service.js"></script>
-    <script src="app/entities/job-team-user/job-team-user.controller.js"></script>
-    <script src="app/entities/job-team/job-team-dialog.controller.js"></script>
-    <script src="app/entities/job-team/job-team-detail.controller.js"></script>
-    <script src="app/entities/job-team/job-team-delete-dialog.controller.js"></script>
-    <script src="app/entities/job-team/job-team.state.js"></script>
-    <script src="app/entities/job-team/job-team.service.js"></script>
-    <script src="app/entities/job-team/job-team.controller.js"></script>
-    <script src="app/entities/job/job-dialog.controller.js"></script>
-    <script src="app/entities/job/job-detail.controller.js"></script>
-    <script src="app/entities/job/job-delete-dialog.controller.js"></script>
-    <script src="app/entities/job/job.state.js"></script>
-    <script src="app/entities/job/job.service.js"></script>
-    <script src="app/entities/job/job.controller.js"></script>
-    <script src="app/entities/plan/plan.controller.js"></script>
-    <script src="app/entities/plan/plan-dialog.controller.js"></script>
-    <script src="app/entities/plan/plan.service.js"></script>
-    <script src="app/entities/plan/plan.state.js"></script>
-    <script src="app/entities/entity.state.js"></script>
-    <script src="app/components/util/truncate-words.filter.js"></script>
-    <script src="app/components/util/truncate-characters.filter.js"></script>
-    <script src="app/components/util/sort-by.directive.js"></script>
-    <script src="app/components/util/sort.directive.js"></script>
-    <script src="app/components/util/parse-links.service.js"></script>
-    <script src="app/components/util/pagination-util.service.js"></script>
-    <script src="app/components/util/jhi-item-count.directive.js"></script>
-    <script src="app/components/util/string-util.service.js"></script>
-    <script src="app/components/util/date-util.service.js"></script>
-    <script src="app/components/util/data-util.service.js"></script>
-    <script src="app/components/util/capitalize.filter.js"></script>
-    <script src="app/components/util/base64.service.js"></script>
-    <script src="app/components/util/request-util.js"></script>
-    <script src="app/components/login/login.service.js"></script>
-    <script src="app/components/login/login.controller.js"></script>
-    <script src="app/components/form/show-validation.directive.js"></script>
-    <script src="app/components/form/pagination.constants.js"></script>
-    <script src="app/components/form/minbytes.directive.js"></script>
-    <script src="app/components/form/maxbytes.directive.js"></script>
-    <script src="app/components/alert/alert-error.directive.js"></script>
-    <script src="app/components/alert/alert.service.js"></script>
-    <script src="app/components/alert/alert.directive.js"></script>
-    <script src="app/blocks/interceptor/notification.interceptor.js"></script>
-    <script src="app/blocks/interceptor/errorhandler.interceptor.js"></script>
-    <script src="app/blocks/interceptor/auth-expired.interceptor.js"></script>
-    <script src="app/blocks/interceptor/auth.interceptor.js"></script>
-    <script src="app/blocks/handlers/state.handler.js"></script>
-    <script src="app/blocks/config/uib-pagination.config.js"></script>
-    <script src="app/blocks/config/uib-pager.config.js"></script>
-    <script src="app/blocks/config/localstorage.config.js"></script>
-    <script src="app/blocks/config/http.config.js"></script>
-    <script src="app/blocks/config/compile.config.js"></script>
-    <script src="app/blocks/config/alert.config.js"></script>
-    <script src="app/app.state.js"></script>
-    <script src="app/app.constants.js"></script>
-    <script src="app/admin/user-management/user-management-dialog.controller.js"></script>
-    <script src="app/admin/user-management/user-management-detail.controller.js"></script>
-    <script src="app/admin/user-management/user-management-delete-dialog.controller.js"></script>
-    <script src="app/admin/user-management/user-management.state.js"></script>
-    <script src="app/admin/user-management/user-management.controller.js"></script>
-    <script src="app/admin/tracker/tracker.state.js"></script>
-    <script src="app/admin/tracker/tracker.service.js"></script>
-    <script src="app/admin/tracker/tracker.controller.js"></script>
-    <script src="app/admin/metrics/metrics.state.js"></script>
-    <script src="app/admin/metrics/metrics.service.js"></script>
-    <script src="app/admin/metrics/metrics.modal.controller.js"></script>
-    <script src="app/admin/metrics/metrics.controller.js"></script>
-    <script src="app/admin/logs/logs.state.js"></script>
-    <script src="app/admin/logs/logs.service.js"></script>
-    <script src="app/admin/logs/logs.controller.js"></script>
-    <script src="app/admin/health/health.state.js"></script>
-    <script src="app/admin/health/health.service.js"></script>
-    <script src="app/admin/health/health.modal.controller.js"></script>
-    <script src="app/admin/health/health.controller.js"></script>
-    <script src="app/admin/docs/docs.state.js"></script>
-    <script src="app/admin/configuration/configuration.state.js"></script>
-    <script src="app/admin/configuration/configuration.service.js"></script>
-    <script src="app/admin/configuration/configuration.controller.js"></script>
-    <script src="app/admin/audits/audits.state.js"></script>
-    <script src="app/admin/audits/audits.service.js"></script>
-    <script src="app/admin/audits/audits.controller.js"></script>
-    <script src="app/admin/admin.state.js"></script>
-    <script src="app/account/profile/profile.state.js"></script>
-    <script src="app/account/profile/profile.controller.js"></script>
-    <script src="app/account/reset/request/reset.request.state.js"></script>
-    <script src="app/account/reset/request/reset.request.controller.js"></script>
-    <script src="app/account/reset/finish/reset.finish.state.js"></script>
-    <script src="app/account/reset/finish/reset.finish.controller.js"></script>
-    <script src="app/account/register/register.state.js"></script>
-    <script src="app/account/register/register.controller.js"></script>
-    <script src="app/account/password/password-strength-bar.directive.js"></script>
-    <script src="app/account/password/password.state.js"></script>
-    <script src="app/account/password/password.controller.js"></script>
-    <script src="app/account/activate/activate.state.js"></script>
-    <script src="app/account/activate/activate.controller.js"></script>
-    <script src="app/account/account.state.js"></script>
+
     <script src="app/sample-ui/ui-select/ui-select.controller.js"></script>
+
+    <script src="app/layouts/sidebar/sidebar.controller.js"></script>
+
+    <script src="app/layouts/navbar/navbar.controller.js"></script>
+
+    <script src="app/layouts/error/error.state.js"></script>
+
+    <script src="app/home/home.state.js"></script>
+
+    <script src="app/home/home.controller.js"></script>
+
+    <script src="app/entities/user-setting/user-setting-dialog.controller.js"></script>
+
+    <script src="app/entities/user-setting/user-setting-detail.controller.js"></script>
+
+    <script src="app/entities/user-setting/user-setting-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/user-setting/user-setting.state.js"></script>
+
+    <script src="app/entities/user-setting/user-setting.service.js"></script>
+
+    <script src="app/entities/user-setting/user-setting.controller.js"></script>
+
+    <script src="app/entities/team/team-dialog.controller.js"></script>
+
+    <script src="app/entities/team/team-detail.controller.js"></script>
+
+    <script src="app/entities/team/team-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/team/team.state.js"></script>
+
+    <script src="app/entities/team/team.service.js"></script>
+
+    <script src="app/entities/team/team.controller.js"></script>
+
+    <script src="app/entities/task/task-dialog.controller.js"></script>
+
+    <script src="app/entities/task/task-detail.controller.js"></script>
+
+    <script src="app/entities/task/task-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/task/task.state.js"></script>
+
+    <script src="app/entities/task/task.service.js"></script>
+
+    <script src="app/entities/task/task.controller.js"></script>
+
+    <script src="app/entities/setting-info/setting-info-dialog.controller.js"></script>
+
+    <script src="app/entities/setting-info/setting-info-detail.controller.js"></script>
+
+    <script src="app/entities/setting-info/setting-info-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/setting-info/setting-info.state.js"></script>
+
+    <script src="app/entities/setting-info/setting-info.service.js"></script>
+
+    <script src="app/entities/setting-info/setting-info.controller.js"></script>
+
+    <script src="app/entities/project/project-dialog.controller.js"></script>
+
+    <script src="app/entities/project/project-detail.controller.js"></script>
+
+    <script src="app/entities/project/project-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/project/project.state.js"></script>
+
+    <script src="app/entities/project/project.service.js"></script>
+
+    <script src="app/entities/project/project.controller.js"></script>
+
+    <script src="app/entities/plan/plan-dialog.controller.js"></script>
+
+    <script src="app/entities/plan/plan.state.js"></script>
+
+    <script src="app/entities/plan/plan.service.js"></script>
+
+    <script src="app/entities/plan/plan.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-detail.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking.state.js"></script>
+
+    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking.service.js"></script>
+
+    <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task/job-team-user-task-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task/job-team-user-task-detail.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task/job-team-user-task-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team-user-task/job-team-user-task.state.js"></script>
+
+    <script src="app/entities/job-team-user-task/job-team-user-task.service.js"></script>
+
+    <script src="app/entities/job-team-user-task/job-team-user-task.controller.js"></script>
+
+    <script src="app/entities/job-team-user/job-team-user-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team-user/job-team-user-detail.controller.js"></script>
+
+    <script src="app/entities/job-team-user/job-team-user-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team-user/job-team-user.state.js"></script>
+
+    <script src="app/entities/job-team-user/job-team-user.service.js"></script>
+
+    <script src="app/entities/job-team-user/job-team-user.controller.js"></script>
+
+    <script src="app/entities/job-team/job-team-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team/job-team-detail.controller.js"></script>
+
+    <script src="app/entities/job-team/job-team-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/job-team/job-team.state.js"></script>
+
+    <script src="app/entities/job-team/job-team.service.js"></script>
+
+    <script src="app/entities/job-team/job-team.controller.js"></script>
+
+    <script src="app/entities/job/job-dialog.controller.js"></script>
+
+    <script src="app/entities/job/job-detail.controller.js"></script>
+
+    <script src="app/entities/job/job-delete-dialog.controller.js"></script>
+
+    <script src="app/entities/job/job.state.js"></script>
+
+    <script src="app/entities/job/job.service.js"></script>
+
+    <script src="app/entities/job/job.controller.js"></script>
+
+    <script src="app/entities/entity.state.js"></script>
+
     <script src="app/directives/datatable-directives.js"></script>
+
+    <script src="app/components/util/truncate-words.filter.js"></script>
+
+    <script src="app/components/util/truncate-characters.filter.js"></script>
+
+    <script src="app/components/util/string-util.service.js"></script>
+
+    <script src="app/components/util/sort-by.directive.js"></script>
+
+    <script src="app/components/util/sort.directive.js"></script>
+
+    <script src="app/components/util/request-util.js"></script>
+
+    <script src="app/components/util/parse-links.service.js"></script>
+
+    <script src="app/components/util/pagination-util.service.js"></script>
+
+    <script src="app/components/util/jhi-item-count.directive.js"></script>
+
+    <script src="app/components/util/date-util.service.js"></script>
+
+    <script src="app/components/util/data-util.service.js"></script>
+
+    <script src="app/components/util/capitalize.filter.js"></script>
+
+    <script src="app/components/util/base64.service.js"></script>
+
+    <script src="app/components/login/login.service.js"></script>
+
+    <script src="app/components/login/login.controller.js"></script>
+
+    <script src="app/components/form/show-validation.directive.js"></script>
+
+    <script src="app/components/form/pagination.constants.js"></script>
+
+    <script src="app/components/form/minbytes.directive.js"></script>
+
+    <script src="app/components/form/maxbytes.directive.js"></script>
+
+    <script src="app/components/alert/alert-error.directive.js"></script>
+
+    <script src="app/components/alert/alert.service.js"></script>
+
+    <script src="app/components/alert/alert.directive.js"></script>
+
+    <script src="app/blocks/interceptor/notification.interceptor.js"></script>
+
+    <script src="app/blocks/interceptor/errorhandler.interceptor.js"></script>
+
+    <script src="app/blocks/interceptor/auth-expired.interceptor.js"></script>
+
+    <script src="app/blocks/interceptor/auth.interceptor.js"></script>
+
+    <script src="app/blocks/handlers/state.handler.js"></script>
+
+    <script src="app/blocks/config/uib-pagination.config.js"></script>
+
+    <script src="app/blocks/config/uib-pager.config.js"></script>
+
+    <script src="app/blocks/config/localstorage.config.js"></script>
+
+    <script src="app/blocks/config/http.config.js"></script>
+
+    <script src="app/blocks/config/compile.config.js"></script>
+
+    <script src="app/blocks/config/alert.config.js"></script>
+
+    <script src="app/app.state.js"></script>
+
+    <script src="app/app.controller.js"></script>
+
+    <script src="app/app.constants.js"></script>
+
+    <script src="app/admin/user-management/user-management-dialog.controller.js"></script>
+
+    <script src="app/admin/user-management/user-management-detail.controller.js"></script>
+
+    <script src="app/admin/user-management/user-management-delete-dialog.controller.js"></script>
+
+    <script src="app/admin/user-management/user-management.state.js"></script>
+
+    <script src="app/admin/user-management/user-management.controller.js"></script>
+
+    <script src="app/admin/tracker/tracker.state.js"></script>
+
+    <script src="app/admin/tracker/tracker.service.js"></script>
+
+    <script src="app/admin/tracker/tracker.controller.js"></script>
+
+    <script src="app/admin/metrics/metrics.state.js"></script>
+
+    <script src="app/admin/metrics/metrics.service.js"></script>
+
+    <script src="app/admin/metrics/metrics.modal.controller.js"></script>
+
+    <script src="app/admin/metrics/metrics.controller.js"></script>
+
+    <script src="app/admin/logs/logs.state.js"></script>
+
+    <script src="app/admin/logs/logs.service.js"></script>
+
+    <script src="app/admin/logs/logs.controller.js"></script>
+
+    <script src="app/admin/health/health.state.js"></script>
+
+    <script src="app/admin/health/health.service.js"></script>
+
+    <script src="app/admin/health/health.modal.controller.js"></script>
+
+    <script src="app/admin/health/health.controller.js"></script>
+
+    <script src="app/admin/docs/docs.state.js"></script>
+
+    <script src="app/admin/configuration/configuration.state.js"></script>
+
+    <script src="app/admin/configuration/configuration.service.js"></script>
+
+    <script src="app/admin/configuration/configuration.controller.js"></script>
+
+    <script src="app/admin/audits/audits.state.js"></script>
+
+    <script src="app/admin/audits/audits.service.js"></script>
+
+    <script src="app/admin/audits/audits.controller.js"></script>
+
+    <script src="app/admin/admin.state.js"></script>
+
+    <script src="app/account/reset/request/reset.request.state.js"></script>
+
+    <script src="app/account/reset/request/reset.request.controller.js"></script>
+
+    <script src="app/account/reset/finish/reset.finish.state.js"></script>
+
+    <script src="app/account/reset/finish/reset.finish.controller.js"></script>
+
+    <script src="app/account/register/register.state.js"></script>
+
+    <script src="app/account/register/register.controller.js"></script>
+
+    <script src="app/account/profile/profile.state.js"></script>
+
+    <script src="app/account/profile/profile.controller.js"></script>
+
+    <script src="app/account/password/password-strength-bar.directive.js"></script>
+
+    <script src="app/account/password/password.state.js"></script>
+
+    <script src="app/account/password/password.controller.js"></script>
+
+    <script src="app/account/activate/activate.state.js"></script>
+
+    <script src="app/account/activate/activate.controller.js"></script>
+
+    <script src="app/account/account.state.js"></script>
+
     <!-- endinject -->
     <!-- endbuild -->
 

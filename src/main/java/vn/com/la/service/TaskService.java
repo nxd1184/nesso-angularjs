@@ -3,6 +3,7 @@ package vn.com.la.service;
 import vn.com.la.service.dto.TaskDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.com.la.service.dto.param.SearchTaskParamDTO;
 
 /**
  * Service Interface for managing Task.
@@ -31,7 +32,7 @@ public interface TaskService {
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<TaskDTO> findBySearchTerm(Pageable pageable, String searchTerm);
+    Page<TaskDTO> search(Pageable pageable, SearchTaskParamDTO searchTaskCriteria);
 
     /**
      *  Get the "id" task.

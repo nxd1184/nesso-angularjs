@@ -783,7 +783,6 @@
 		transform:translate(-50%,-50%);
 	}
 
-
 /*Report page*/
 	.page-report .group-date input{
 		width: 220px;
@@ -1035,37 +1034,37 @@
 		opacity: 1;
 		transform: scale(1);
 	}
-	#addJobModal .squence .bg_select{
-		background: #0079c7;
-	}
-	#addJobModal .squence .ui-widget-header{
-		background: #dae3ea;
-	}
-	#addJobModal .squence .slider{
-		height: 6px;
-		min-height: initial;
-		margin: 15px 5px;
-	}
-	#addJobModal .squence .ui-slider-horizontal .ui-slider-handle,
-	#addJobModal .squence .ui-slider-horizontal .ui-slider-handle:hover,
-	#addJobModal .squence .ui-slider-horizontal .ui-slider-handle:focus{
-		height: 24px;
-		line-height: 24px;
-		background: #0079c7;
-		border: 1px solid #0079c7;
-		color: #fff;
-		border-radius: 12px;
-		font-family: Roboto;
-		font-size: 14px;
-		font-weight: bold;
-		/*line-height: 1.43;*/
-		letter-spacing: 0.2px;
-		text-align: center;
-		outline: none;
-		padding: 0px 6px;
-		min-width: 28px;
-		top: -10px;
-	}
+	/*#addJobModal .squence .bg_select{*/
+		/*background: #0079c7;*/
+	/*}*/
+	/*#addJobModal .squence .ui-widget-header{*/
+		/*background: #dae3ea;*/
+	/*}*/
+	/*#addJobModal .squence .slider{*/
+		/*height: 6px;*/
+		/*min-height: initial;*/
+		/*margin: 15px 5px;*/
+	/*}*/
+	/*#addJobModal .squence .ui-slider-horizontal .ui-slider-handle,*/
+	/*#addJobModal .squence .ui-slider-horizontal .ui-slider-handle:hover,*/
+	/*#addJobModal .squence .ui-slider-horizontal .ui-slider-handle:focus{*/
+		/*height: 24px;*/
+		/*line-height: 24px;*/
+		/*background: #0079c7;*/
+		/*border: 1px solid #0079c7;*/
+		/*color: #fff;*/
+		/*border-radius: 12px;*/
+		/*font-family: Roboto;*/
+		/*font-size: 14px;*/
+		/*font-weight: bold;*/
+		/*!*line-height: 1.43;*!*/
+		/*letter-spacing: 0.2px;*/
+		/*text-align: center;*/
+		/*outline: none;*/
+		/*padding: 0px 6px;*/
+		/*min-width: 28px;*/
+		/*top: -10px;*/
+	/*}*/
 	#addJobModal .simulate-btn-link,.simulate-btn-link:hover,
 	#addJobModal .simulate-btn-link:active,.simulate-btn-link:focus{
 		position: relative;
@@ -2393,7 +2392,4 @@ th.progress_col,
 	    color: #37474f;
 	    background-color: #dae3ea;
 	}
-
-
-
 

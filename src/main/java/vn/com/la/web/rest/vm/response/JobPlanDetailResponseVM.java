@@ -13,8 +13,6 @@ import java.util.List;
 public class JobPlanDetailResponseVM extends AbstractResponseVM{
     private JobDTO job;
 
-    private JobStatusEnum status;
-
     public JobDTO getJob() {
         return job;
     }
@@ -23,12 +21,4 @@ public class JobPlanDetailResponseVM extends AbstractResponseVM{
         this.job = job;
     }
 
-
-    public JobStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(JobStatusEnum status) {
-        this.status = status;
-    }
 }

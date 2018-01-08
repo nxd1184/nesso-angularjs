@@ -1,6 +1,6 @@
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
     <div class="modal-header">
-        <h4 class="modal-title"><i class="fa fa-file"></i>Job Name</h4>
+        <h4 class="modal-title"><i class="fa fa-file"></i>{{vm.job.name}}</h4>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -9,21 +9,23 @@
                     <div class="form-group text-left margin-top-10 project_row" style="overflow:hidden">
                         <label class="text-left col-md-3 col-sm-3 col-xs-3 margin-top-10" style="">Project</label>
                         <label class="col-md-9 col-sm-9 col-xs-9 margin-top-10" style="display:inline-block;">
-                            <b style="color:#4d6a79">AAA</b>
+                            <b style="color:#4d6a79">{{vm.job.projectName}}</b>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="row">
-                    <div class="form-group text-left margin-top-10 deadline_row" style="overflow:hidden">
+                    <div class="form-group text-left margin-top-10 deadline_row">
                         <label class="text-left control-label col-md-3 col-sm-3 col-xs-3 margin-top-10" style="">Deadline</label>
                         <div class="col-md-9 col-sm-9 col-xs-9" style="display:inline-block;">
                             <div class='input-group date date-picker'>
-                                <input type='text' class="form-control" placeholder="DD/MM/YYYY"/>
-                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                <input type='text' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.deadline" name="deadline" placeholder="DD/MM/YYYY" ng-model="vm.job.deadline"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="vm.openCalendar('deadline')">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -33,100 +35,79 @@
 
         <div class="row">
             <div class="col-sm-6">
-                <div class="form-group" style="overflow:hidden;">
+                <div class="form-group">
                     <label class="control-label">Task Code</label>
-                    <div class="">
-                        <ul class="unstyled centered task">
-                            <li>
-
-                                <input class="" id="checkbox-1" type="checkbox" value="value1">
-                                <label for="checkbox-1">Task AA</label>
-                            </li>
-                            <li>
-
-                                <input class="" id="checkbox-2" type="checkbox" value="value2" checked>
-                                <label for="checkbox-2">Task BB</label>
-                            </li>
-                            <li>
-
-                                <input class="" id="checkbox-3" type="checkbox" value="value4">
-                                <label for="checkbox-3">Task CC</label>
-                            </li>
-                            <li>
-
-                                <input class="" id="checkbox-4" type="checkbox" value="value4" checked>
-                                <label for="checkbox-4">Task DD</label>
-                            </li>
-                        </ul>
-                    </div>
+                    <ui-select multiple ng-model="vm.selectedTasks" theme="select2" class="selectpicker form-control">
+                        <ui-select-match placeholder="Select task in the list">
+                            {{$item.name}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="task in vm.tasks | propsFilter: {name: $select.search, code: $select.search}">
+                            <div ng-bind-html="task.name | highlight: $select.search"></div>
+                            <small>
+                                <span ng-bind-html="task.code | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="form-group" style="overflow:hidden;">
+                <div class="form-group">
                     <label class="control-label">Select Team</label>
-                    <div class="">
-                        <ul class="unstyled centered team">
-                            <li>
-                                <input class="" id="team-checkbox-1" type="checkbox" value="value1" checked>
-                                <label for="team-checkbox-1">Team A</label>
-                            </li>
-                            <li>
-                                <input class="" id="team-checkbox-2" type="checkbox" value="value2">
-                                <label for="team-checkbox-2">Team B</label>
-                            </li>
-                            <li>
-                                <input class="" id="team-checkbox-3" type="checkbox" value="value3" checked>
-                                <label for="team-checkbox-3">Team C</label>
-                            </li>
-
-                        </ul>
-                    </div>
+                    <ui-select multiple ng-model="vm.selectedTeams" theme="select2" on-select="vm.onTeamSelected($item)" class="selectpicker form-control">
+                        <ui-select-match placeholder="Select team in the list">
+                            {{$item.name}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="team in vm.teams | propsFilter: {name: $select.search, code: $select.search}">
+                            <div ng-bind-html="team.name | highlight: $select.search"></div>
+                            <small>
+                                <span ng-bind-html="team.code | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-xs-12 margin-top-15">
                 <div class="form-group">
-                    <textarea class="form-control" rows="3" placeholder="Customer’s requirements…"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Customer’s requirements…" ng-model="vm.job.customerRequirements"></textarea>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-9 col-sm-9">
+            <div class="col-md-10 col-sm-10">
                 <div class="row">
-                    <div class="form-group margin-top-10 squence" style="overflow: hidden;">
-                        <label class="col-md-3 col-sm-3 col-xs-5 control-label margin-top-10">Squence task</label>
-                        <div class="col-md-9 col-sm-9 col-xs-7 ">
-                            <div id="slider-snap-inc" class="slider bg_select">
-                            </div>
-                            <div class="slider-value">
-                                                <span id="slider-snap-inc-amount">
-                                                </span>
-                            </div>
+                    <div class="form-group squence">
+                        <label class="col-md-3 col-sm-3 col-xs-5 control-label margin-top-10">Sequence task: <strong>{{vm.sequenceTask}}</strong></label>
+                        <div class="col-md-9 col-sm-9 col-xs-7">
+                            <div class="col-md-10" id="blue" ui-slider="vm.options" ng-model="vm.sequenceTask"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-3 text-center">
-                <a href="javascript:void(0)" class="btn btn-link simulate-btn-link margin-top-10">Simulate</a>
+            <div class="col-md-2 col-sm-2 text-center">
+                <a ng-click="vm.simulate = !vm.simulate" class="btn btn-link simulate-btn-link" ng-class="{'active': vm.simulate}">Simulate</a>
             </div>
         </div>
 
-        <div class="row simulate-manage" style="display:none">
-            <div class="col-md-12" style="">
+        <div class="row simulate-manage" ng-show="vm.simulate">
+            <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group margin-top-10">
-                            <label class="control-label margin-top-10 count_file">Total file: <span class="num_file">1000 file in </span><span
-                                class="folder_name">AAA Folder</span></label>
+                            <label class="control-label margin-top-10 count_file">Total file: <span class="num_file">{{vm.job.totalFiles ? 0 : vm.job.totalFiles}} file in </span><span
+                                class="folder_name">{{vm.job.name}} Folder</span></label>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 stt">
                         <div class="form-group text-right margin-top-10">
                             <label class="text-left margin-top-10 status">Active</label>
-                            <div class="" style="display:inline-block;margin-left:20px;">
-                                <input type="checkbox" checked class="make-switch" data-size="small">
+                            <div class="status-switch " style="display:inline-block; margin-left:20px;">
+                                <input name="status" type="checkbox" bs-switch ng-true-value="'ACTIVE'" ng-false-value="'INACTIVE'"
+                                       ng-model="vm.job.status" class="make-switch" data-size="small">
                             </div>
                         </div>
                     </div>
@@ -134,12 +115,11 @@
                 </div>
             </div>
             <div class="col-md-12">
-
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6" style="padding-top: 5px" ng-repeat="team in vm.job.jobTeams">
                     <div class="row left">
                         <div class="head_group">
                             <div class="form-group">
-                                <label>Team A
+                                <label>{{team.teamName}}
                                     <small>1000 Processing Files</small>
                                 </label>
                                 <div class="input-group">
@@ -151,36 +131,14 @@
                             </div>
                         </div>
                         <div class="body_group">
-                            <div class="form-group">
+                            <div class="form-group" ng-repeat="member in team.jobTeamUsers">
                                 <label>Jonathan
                                     <small>123</small>
                                 </label>
                                 <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Files
-                                                    </span>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>JongTeHalm
-                                    <small>121</small>
-                                </label>
-                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Files
-                                                    </span>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Thomas
-                                    <small>113</small>
-                                </label>
-                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Files
-                                                    </span>
+                                    <span class="input-group-addon">
+                                        Files
+                                    </span>
                                     <input type="text" class="form-control" placeholder="">
                                 </div>
                             </div>
@@ -188,58 +146,7 @@
                     </div>
 
                 </div>
-                <div class="col-md-6 col-sm-6">
-                    <div class="row right">
-                        <div class="head_group">
-                            <div class="form-group">
-                                <label>Team B
-                                    <small>1000 Processing Files</small>
-                                </label>
-                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Process Files
-                                                    </span>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="body_group">
-                            <div class="form-group">
-                                <label>Jonathan
-                                    <small>123</small>
-                                </label>
-                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Files
-                                                    </span>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>JongTeHalm
-                                    <small>121</small>
-                                </label>
-                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Files
-                                                    </span>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Thomas
-                                    <small>113</small>
-                                </label>
-                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                    Files
-                                                    </span>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -247,10 +154,18 @@
     <div class="modal-footer">
         <div class="row">
             <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-save">Save</button>
                 <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
-
+                <button type="button" class="btn btn-save">Save</button>
             </div>
         </div>
     </div>
 </form>
+
+<style>
+    .ui-slider {
+        position: relative;
+        margin-top: 14px;
+    }
+    #blue .ui-slider-range { background: #729fcf; }
+    #blue .ui-slider-handle { border-color: #729fcf; }
+</style>

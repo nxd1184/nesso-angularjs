@@ -41,7 +41,7 @@ public class FtpServiceImpl implements FtpService{
     public boolean validateProjectStructure(String projectCode) {
 
         try {
-            ftpClient.changeWorkingDirectory("/" + projectCode);
+            ftpClient.changeWorkingDirectory(Constants.DASH + projectCode);
             int returnCode = ftpClient.getReplyCode();
             if (returnCode == 550) {
                 return false;
@@ -49,7 +49,7 @@ public class FtpServiceImpl implements FtpService{
 
             String[] projectFolders = {Constants.BACK_LOGS, Constants.TO_DO, Constants.TO_CHECK, Constants.DONE, Constants.DELIVERY};
             for(String folder: projectFolders) {
-                ftpClient.changeWorkingDirectory(folder);
+                ftpClient.changeWorkingDirectory(Constants.DASH + projectCode + Constants.DASH + folder);
                 returnCode = ftpClient.getReplyCode();
                 if (returnCode == 550) {
                     return false;
@@ -84,5 +84,13 @@ public class FtpServiceImpl implements FtpService{
         }
 
         return folderNames;
+    }
+
+    @Override
+    public Long countFilesFromPath(String path) throws Exception{
+        Long totalFiles = 0L;
+        ftpClient.changeWorkingDirectory(path);
+        totalFiles = new Long(ftpClient.listDirectories().length);
+        return totalFiles;
     }
 }

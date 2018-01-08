@@ -8,15 +8,16 @@
         <!-- END PAGE TITLE -->
         <!-- BEGIN PAGE TOOLBAR -->
         <div class="page-toolbar">
-            <div class="search" >
+
+            <form class="search" ng-submit="vm.search()">
                 <div class="input-group" style="float:left">
                     <input type="text" class="form-control" ng-model="vm.searchText" placeholder="Search task name">
                     <span class="input-group-btn">
-							<button class="btn btn-secondary" ng-click="vm.search()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-							</span>
-
+                        <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span>
                 </div>
-            </div>
+
+            </form>
             <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdate()" data-toggle="modal" >Add Task<i class="fa fa-plus" aria-hidden="true"></i></a>
             <!-- END THEME PANEL -->
         </div>

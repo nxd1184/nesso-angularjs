@@ -30,7 +30,6 @@
                 templateUrl: templateUrl,
                 controller: 'TeamDialogController',
                 controllerAs: 'vm',
-                backdrop: 'static',
                 size: size,
                 windowClass: 'popupModal',
                 resolve: {

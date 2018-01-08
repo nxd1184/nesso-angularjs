@@ -83,4 +83,11 @@ public class JobServiceImpl implements JobService{
         log.debug("Request to delete Job : {}", id);
         jobRepository.delete(id);
     }
+
+    @Override
+    public JobDTO findByName(String name) {
+        log.debug("Request get Job by name : {}", name);
+        Job job = jobRepository.findByName(name);
+        return jobMapper.toDto(job);
+    }
 }

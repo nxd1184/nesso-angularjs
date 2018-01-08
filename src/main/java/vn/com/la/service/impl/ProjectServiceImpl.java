@@ -2,6 +2,7 @@ package vn.com.la.service.impl;
 
 import org.apache.commons.net.ftp.FTP;
 import org.springframework.data.jpa.domain.Specification;
+import vn.com.la.config.Constants;
 import vn.com.la.domain.User;
 import vn.com.la.service.FtpService;
 import vn.com.la.service.JobService;
@@ -134,14 +135,20 @@ public class ProjectServiceImpl implements ProjectService{
                 });
 
                 for(String backLog: backLogs) {
+                    JobDTO jobDTO = null;
                     if(!jobsMap.containsKey(backLog)) {
-                        JobDTO jobDTO = new JobDTO();
-                        jobDTO.setName(backLog);
-                        jobDTO.setProjectId(projectDTO.getId());
-                        jobDTO = jobService.save(jobDTO);
-
-                        projectDTO.addJob(jobDTO);
+                        jobDTO = new JobDTO();
+                    }else {
+                        jobDTO = jobService.findByName(backLog);
                     }
+
+                    jobDTO.setName(backLog);
+                    jobDTO.setProjectId(projectDTO.getId());
+                    String jobPath = Constants.DASH + projectCode + Constants.DASH + backLog;
+                    jobDTO.setTotalFiles(ftpService.countFilesFromPath(jobPath));
+                    jobDTO = jobService.save(jobDTO);
+
+                    projectDTO.addJob(jobDTO);
                 }
             }
         } catch (Exception ex) {

@@ -35,13 +35,7 @@
                         templateUrl: 'app/entities/plan/plan-dialog.html',
                         windowClass: 'popupModal modal-scroll',
                         controller: 'PlanDialogController',
-                        controllerAs: 'vm',
-                        backdrop: 'static',
-                        resolve: {
-                            entity: ['planService', function(planService) {
-                                return planService.getJobPlanDetail($stateParams.id).$promise;
-                            }]
-                        }
+                        controllerAs: 'vm'
                     });
 
                     uibModal.rendered.then(function () {

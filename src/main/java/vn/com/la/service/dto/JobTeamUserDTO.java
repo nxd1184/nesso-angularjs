@@ -21,6 +21,8 @@ public class JobTeamUserDTO implements Serializable {
 
     private Long userId;
 
+    private String name;
+
     private String userLogin;
 
     public Long getId() {

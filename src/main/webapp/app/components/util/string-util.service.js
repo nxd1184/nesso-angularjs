@@ -10,10 +10,11 @@
     function StringUtils() {
 
         var service = {
-            isNotBlank: isNotBlank
+            isNotBlank: isNotBlank,
+            trimToEmpty: trimToEmpty
         };
 
-        return service;
+
 
         function isNotBlank(str) {
             if (!str) {
@@ -25,6 +26,13 @@
 
             return true;
         }
+
+        function trimToEmpty(str) {
+            if(!str) return '';
+            return (str + '').trim();
+        }
+
+        return service;
     }
 
 })();

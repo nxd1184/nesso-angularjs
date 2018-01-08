@@ -18,6 +18,10 @@ public final class Constants {
     public static final String DONE = "Done";
     public static final String DELIVERY = "Delivery";
 
+    public static final String DASH = "/";
+
+    public static final Long ZERO = 0L;
+
     private Constants() {
     }
 }

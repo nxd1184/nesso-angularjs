@@ -2,6 +2,7 @@ package vn.com.la.service.dto;
 
 
 import vn.com.la.domain.JobTask;
+import vn.com.la.domain.enumeration.JobStatusEnum;
 
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
@@ -24,7 +25,7 @@ public class JobDTO implements Serializable {
 
     private String customerRequirements;
 
-    private Long totalFiles;
+    private Long totalFiles = 0L;
 
     private Long projectId;
 
@@ -33,6 +34,10 @@ public class JobDTO implements Serializable {
     private Set<JobTeamDTO> jobTeams = new HashSet<>();
 
     private Set<JobTask> jobTasks = new HashSet<>();
+
+    private JobStatusEnum status;
+
+    private Boolean started;
 
     public Long getId() {
         return id;
@@ -104,6 +109,22 @@ public class JobDTO implements Serializable {
 
     public void setJobTasks(Set<JobTask> jobTasks) {
         this.jobTasks = jobTasks;
+    }
+
+    public JobStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(JobStatusEnum status) {
+        this.status = status;
+    }
+
+    public Boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(Boolean started) {
+        this.started = started;
     }
 
     @Override

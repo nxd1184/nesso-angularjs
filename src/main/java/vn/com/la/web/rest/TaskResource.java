@@ -3,6 +3,7 @@ package vn.com.la.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
 import vn.com.la.service.TaskService;
+import vn.com.la.service.dto.param.SearchTaskParamDTO;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
 import vn.com.la.service.dto.TaskDTO;
@@ -92,9 +93,16 @@ public class TaskResource {
      */
     @GetMapping("/tasks")
     @Timed
-    public ResponseEntity<List<TaskDTO>> getAllTasks(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+    public ResponseEntity<List<TaskDTO>> getAllTasks(@ApiParam Pageable pageable,
+                                                     @RequestParam(value = "search", required = false) String searchTerm,
+                                                     @RequestParam(value = "projectId", required = false) Long projectId) {
         log.debug("REST request to get a page of Tasks");
-        Page<TaskDTO> page = taskService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+
+        SearchTaskParamDTO searchTaskCriteria = new SearchTaskParamDTO();
+        searchTaskCriteria.setProjectId(projectId);
+        searchTaskCriteria.setSearchTerm(StringUtils.trimToEmpty(searchTerm));
+
+        Page<TaskDTO> page = taskService.search(pageable, searchTaskCriteria);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tasks");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -108,9 +116,16 @@ public class TaskResource {
      */
     @GetMapping("/tasks/search")
     @Timed
-    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable,
+                                                      @RequestParam(value = "searchTerm", required = false) String searchTerm,
+                                                      @RequestParam(value = "projectId", required = false) Long projectId) {
         log.debug("REST request to search a page of Tasks");
-        Page<TaskDTO> page = taskService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+
+        SearchTaskParamDTO searchTaskCriteria = new SearchTaskParamDTO();
+        searchTaskCriteria.setProjectId(projectId);
+        searchTaskCriteria.setSearchTerm(StringUtils.trimToEmpty(searchTerm));
+
+        Page<TaskDTO> page = taskService.search(pageable, searchTaskCriteria);
 
         DatatableResponseVM response = new DatatableResponseVM();
         response.setData(page.getContent());

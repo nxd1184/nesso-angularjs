@@ -5,6 +5,7 @@ import vn.com.la.service.TaskService;
 import vn.com.la.domain.Task;
 import vn.com.la.repository.TaskRepository;
 import vn.com.la.service.dto.TaskDTO;
+import vn.com.la.service.dto.param.SearchTaskParamDTO;
 import vn.com.la.service.mapper.TaskMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import vn.com.la.service.specification.TaskSpecifications;
  * Service Implementation for managing Task.
  */
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class TaskServiceImpl implements TaskService{
 
     private final Logger log = LoggerFactory.getLogger(TaskServiceImpl.class);
@@ -40,6 +41,7 @@ public class TaskServiceImpl implements TaskService{
      * @return the persisted entity
      */
     @Override
+    @Transactional(readOnly = false)
     public TaskDTO save(TaskDTO taskDTO) {
         log.debug("Request to save Task : {}", taskDTO);
         Task task = taskMapper.toEntity(taskDTO);
@@ -54,7 +56,6 @@ public class TaskServiceImpl implements TaskService{
      *  @return the list of entities
      */
     @Override
-    @Transactional(readOnly = true)
     public Page<TaskDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Tasks");
         return taskRepository.findAll(pageable)
@@ -62,8 +63,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public Page<TaskDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
-        Specification<Task> searchSpec = TaskSpecifications.taskCodeOrTaskNameContainsIgnoreCase(searchTerm);
+    public Page<TaskDTO> search(Pageable pageable, SearchTaskParamDTO searchTaskCriteria) {
+        Specification<Task> searchSpec = TaskSpecifications.search(searchTaskCriteria);
         Page<TaskDTO> page = taskRepository.findAll(searchSpec,pageable).map(TaskDTO::new);
         return page;
     }
@@ -75,7 +76,6 @@ public class TaskServiceImpl implements TaskService{
      *  @return the entity
      */
     @Override
-    @Transactional(readOnly = true)
     public TaskDTO findOne(Long id) {
         log.debug("Request to get Task : {}", id);
         Task task = taskRepository.findOne(id);
@@ -88,6 +88,7 @@ public class TaskServiceImpl implements TaskService{
      *  @param id the id of the entity
      */
     @Override
+    @Transactional(readOnly = false)
     public void delete(Long id) {
         log.debug("Request to delete Task : {}", id);
         taskRepository.delete(id);

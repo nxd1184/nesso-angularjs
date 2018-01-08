@@ -3,6 +3,7 @@ package vn.com.la.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import vn.com.la.domain.enumeration.JobStatusEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -31,13 +32,13 @@ public class Job extends AbstractAuditingEntity {
     private String name;
 
 
-    @Column(name = "deadline", nullable = false)
+    @Column(name = "deadline", nullable = true)
     private ZonedDateTime deadline;
 
     @Column(name = "customer_requirements")
     private String customerRequirements;
 
-    @Column(name = "total_files", nullable = false)
+    @Column(name = "total_files", nullable = true)
     private Long totalFiles;
 
     @ManyToOne(optional = false)
@@ -54,6 +55,13 @@ public class Job extends AbstractAuditingEntity {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<JobTask> jobTasks = new HashSet<>();
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "default 'ACTIVE'")
+    private JobStatusEnum status;
+
+    @Column(name = "started")
+    private Boolean started = false;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -147,6 +155,14 @@ public class Job extends AbstractAuditingEntity {
         this.jobTasks = jobTasks;
     }
 
+    public Boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(Boolean started) {
+        this.started = started;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -162,6 +178,14 @@ public class Job extends AbstractAuditingEntity {
         return Objects.equals(getId(), job.getId());
     }
 
+    public JobStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(JobStatusEnum status) {
+        this.status = status;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(getId());
@@ -175,6 +199,7 @@ public class Job extends AbstractAuditingEntity {
             ", deadline='" + getDeadline() + "'" +
             ", customerRequirements='" + getCustomerRequirements() + "'" +
             ", totalFiles='" + getTotalFiles() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

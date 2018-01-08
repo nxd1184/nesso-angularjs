@@ -15,7 +15,7 @@
             var url = 'api/plan/job-detail/' + jobId;
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
-                defer.resolve(result);
+                defer.resolve(result.data);
             }, function(error) {
                 defer.reject(error);
             });

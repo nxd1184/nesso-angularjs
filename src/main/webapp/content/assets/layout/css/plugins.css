@@ -1,5 +1,5 @@
 /******************************
- 3RD PARTY PLUGIN CUSTOMIZATION 
+ 3RD PARTY PLUGIN CUSTOMIZATION
 ******************************/
 /***
 Bootstrap Colorpicker
@@ -399,7 +399,7 @@ Bootstrap Select
 }
 
 /***
-Bootstrap Switch 
+Bootstrap Switch
 ***/
 .bootstrap-switch {
   border-color: #e5e5e5;
@@ -2399,14 +2399,6 @@ div[class*='iradio_'] {
 }
 .icheck-colors > li.purple {
   background: #6a5a8c;
-}
-
-/***
-AngularJS UI-select
-***/
-.ui-select-match-close {
-  margin-top: 5px !important;
-  margin-left: 5px !important;
 }
 
 .minicolors-swatch {

@@ -70,6 +70,7 @@
             DTColumnBuilder.newColumn('login').withTitle('USER NAME'),
             DTColumnBuilder.newColumn('lastName').withTitle('FULL NAME'),
             DTColumnBuilder.newColumn('email').withTitle('EMAIL'),
+            DTColumnBuilder.newColumn('capacity').withTitle('CAPACITY'),
             DTColumnBuilder.newColumn('authorities').withTitle('ROLE').renderWith(function(data) {
                 var roles = '';
                 var authorities = {
@@ -144,7 +145,6 @@
                 templateUrl: 'app/admin/user-management/user-management-dialog.html',
                 controller: 'UserManagementDialogController',
                 controllerAs: 'vm',
-                backdrop: 'static',
                 resolve: {
                     entity: function () {
                         return user;

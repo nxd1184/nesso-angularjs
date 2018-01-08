@@ -15,12 +15,13 @@ public interface JobTeamUserMapper extends EntityMapper <JobTeamUserDTO, JobTeam
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
-    JobTeamUserDTO toDto(JobTeamUser jobTeamUser); 
+    @Mapping(source = "user.lastName", target = "name")
+    JobTeamUserDTO toDto(JobTeamUser jobTeamUser);
 
     @Mapping(source = "jobTeamId", target = "jobTeam")
 
     @Mapping(source = "userId", target = "user")
-    JobTeamUser toEntity(JobTeamUserDTO jobTeamUserDTO); 
+    JobTeamUser toEntity(JobTeamUserDTO jobTeamUserDTO);
     default JobTeamUser fromId(Long id) {
         if (id == null) {
             return null;
