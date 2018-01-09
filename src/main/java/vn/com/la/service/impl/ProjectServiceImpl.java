@@ -1,9 +1,8 @@
 package vn.com.la.service.impl;
 
-import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
-import vn.com.la.domain.User;
 import vn.com.la.service.FtpService;
 import vn.com.la.service.JobService;
 import vn.com.la.service.ProjectService;
@@ -11,7 +10,6 @@ import vn.com.la.domain.Project;
 import vn.com.la.repository.ProjectRepository;
 import vn.com.la.service.dto.JobDTO;
 import vn.com.la.service.dto.ProjectDTO;
-import vn.com.la.service.dto.UserDTO;
 import vn.com.la.service.mapper.ProjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.service.util.LACollectionUtil;
-import vn.com.la.web.rest.vm.response.EmptyResponseVM;
+import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -123,7 +121,9 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     @Transactional(readOnly = false)
-    public ProjectDTO syncUp(String projectCode) {
+    public SyncUpProjectResponseVM syncUp(String projectCode) {
+        SyncUpProjectResponseVM rs = new SyncUpProjectResponseVM();
+        List<JobDTO> syncJobs = new ArrayList<>();
         ProjectDTO projectDTO = findByCode(projectCode);
         try {
             List<String> backLogs = ftpService.backLogs(projectCode);
@@ -141,20 +141,21 @@ public class ProjectServiceImpl implements ProjectService{
                     }else {
                         jobDTO = jobService.findByName(backLog);
                     }
+                    if(BooleanUtils.isNotFalse(jobDTO.getStarted())) {
+                        jobDTO.setName(backLog);
+                        jobDTO.setProjectId(projectDTO.getId());
+                        String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
+                        jobDTO.setTotalFiles(ftpService.countFilesFromPath(jobPath));
+                        jobDTO = jobService.save(jobDTO);
+                    }
 
-                    jobDTO.setName(backLog);
-                    jobDTO.setProjectId(projectDTO.getId());
-                    String jobPath = Constants.DASH + projectCode + Constants.DASH + backLog;
-                    jobDTO.setTotalFiles(ftpService.countFilesFromPath(jobPath));
-                    jobDTO = jobService.save(jobDTO);
-
-                    projectDTO.addJob(jobDTO);
+                    syncJobs.add(jobDTO);
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        return projectDTO;
+        rs.setJobs(syncJobs);
+        return rs;
     }
 }

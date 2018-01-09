@@ -54,7 +54,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label">Select Team</label>
-                    <ui-select multiple ng-model="vm.selectedTeams" theme="select2" on-select="vm.onTeamSelected($item)" class="selectpicker form-control">
+                    <ui-select multiple ng-model="vm.selectedTeams" theme="select2" on-select="vm.onTeamSelected($item)" on-remove="vm.onTeamRemoved($item)" class="selectpicker form-control">
                         <ui-select-match placeholder="Select team in the list">
                             {{$item.name}}
                         </ui-select-match>
@@ -98,7 +98,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
                         <div class="form-group margin-top-10">
-                            <label class="control-label margin-top-10 count_file">Total file: <span class="num_file">{{vm.job.totalFiles ? 0 : vm.job.totalFiles}} file in </span><span
+                            <label class="control-label margin-top-10 count_file">Total file: <span class="num_file">{{vm.job.totalFiles ? vm.job.totalFiles : 0}} file in </span><span
                                 class="folder_name">{{vm.job.name}} Folder</span></label>
                         </div>
                     </div>
@@ -111,7 +111,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="col-md-12">
@@ -120,26 +119,26 @@
                         <div class="head_group">
                             <div class="form-group">
                                 <label>{{team.teamName}}
-                                    <small>1000 Processing Files</small>
+                                    <small>{{team.totalProcessingFiles}} Processing Files</small>
                                 </label>
                                 <div class="input-group">
                                                     <span class="input-group-addon">
                                                     Process Files
                                                     </span>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" ng-model="team.totalFiles" class="form-control" placeholder="">
                                 </div>
                             </div>
                         </div>
                         <div class="body_group">
                             <div class="form-group" ng-repeat="member in team.jobTeamUsers">
-                                <label>Jonathan
-                                    <small>123</small>
+                                <label>{{member.name}}
+                                    <small>{{member.capacity}}</small>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         Files
                                     </span>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="number" ng-model="member.totalFiles" class="form-control" placeholder="">
                                 </div>
                             </div>
                         </div>

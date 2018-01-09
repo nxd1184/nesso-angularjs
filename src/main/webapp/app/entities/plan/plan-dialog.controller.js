@@ -6,12 +6,12 @@
      * We want to perform a OR.
      */
     angular
-        .module('nessoApp').filter('propsFilter', function() {
-        return function(items, props) {
+        .module('nessoApp').filter('propsFilter', function () {
+        return function (items, props) {
             var out = [];
 
             if (angular.isArray(items)) {
-                items.forEach(function(item) {
+                items.forEach(function (item) {
                     var itemMatches = false;
 
                     var keys = Object.keys(props);
@@ -69,8 +69,9 @@
         vm.datePickerOpenStatus.deadline = false;
 
         vm.onTeamSelected = onTeamSelected;
+        vm.onTeamRemoved = onTeamRemoved;
 
-        function openCalendar (field) {
+        function openCalendar(field) {
             vm.datePickerOpenStatus[field] = true;
         }
 
@@ -78,13 +79,13 @@
         _loadTeams();
 
         function _loadJobDetail() {
-            planService.getJobPlanDetail($stateParams.id).then(function(result) {
+            planService.getJobPlanDetail($stateParams.id).then(function (result) {
                 vm.job = result.job;
                 vm.selectedTasks = result.job.jobTasks;
-                if(!vm.job.jobTeams) {
+                if (!vm.job.jobTeams) {
                     vm.job.jobTeams = [];
                 }
-                if(vm.job) {
+                if (vm.job) {
                     _loadTasks(vm.job.projectId);
                 }
             });
@@ -102,7 +103,7 @@
             function onError(error) {
 
             }
-         }
+        }
 
         function _loadTeams() {
             Team.query({}, onSuccess, onError);
@@ -123,24 +124,56 @@
 
         function onTeamSelected(team) {
             var exist = false;
-            for(var i = 0; i < vm.job.jobTeams.length; i++) {
-                if(team.id == vm.job.jobTeams[i].id) {
-                    exist = true;
+            var index = -1;
+            for (var i = 0; i < vm.job.jobTeams.length; i++) {
+                if (team.id == vm.job.jobTeams[i].id) {
+                    index = i;
+                    break;
                 }
             }
-            if(!exist) {
-                var jobTeam = {
-                    totalFiles: 0,
-                    jobId: vm.job.id,
-                    teamId: team.id,
-                    teamName: team.name,
-                    projectId: vm.job.projectId
-                };
+
+            var jobTeam = {
+                totalFiles: 0,
+                jobId: vm.job.id,
+                teamId: team.id,
+                teamName: team.name,
+                projectId: vm.job.projectId,
+                jobTeamUsers: [],
+                totalProcessingFiles: 0
+            };
+
+            if (team.members) {
+                for (var i = 0; i < team.members.length; i++) {
+                    var member = team.members[i];
+                    jobTeam.jobTeamUsers.push({
+                        jobTeamId: team.id,
+                        userId: member.id,
+                        name: member.lastName,
+                        capacity: member.capacity,
+                        totalFiles: member.capacity
+                    });
+                    jobTeam.totalFiles += member.capacity;
+                }
+            }
+
+
+            if (index == -1) {
                 vm.job.jobTeams.push(jobTeam);
+            } else {
+                vm.job.jobTeams[index] = jobTeam;
             }
         }
 
-        function clear () {
+        function onTeamRemoved(team) {
+            for (var i = 0; i < vm.job.jobTeams.length; i++) {
+                if (team.id == vm.job.jobTeams[i].teamId) {
+                    vm.job.jobTeams.splice(i, 1);
+                    return;
+                }
+            }
+        }
+
+        function clear() {
             $uibModalInstance.dismiss('cancel');
         }
 

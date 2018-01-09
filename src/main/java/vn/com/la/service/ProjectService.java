@@ -3,8 +3,7 @@ package vn.com.la.service;
 import vn.com.la.service.dto.ProjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import vn.com.la.service.dto.UserDTO;
-import vn.com.la.web.rest.vm.response.EmptyResponseVM;
+import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
 /**
  * Service Interface for managing Project.
@@ -43,7 +42,7 @@ public interface ProjectService {
     void delete(Long id);
     Page<ProjectDTO> findBySearchTerm(Pageable pageable, String searchTerm);
 
-    ProjectDTO syncUp(String projectCode);
+    SyncUpProjectResponseVM syncUp(String projectCode);
 
     ProjectDTO findByCode(String projectCode);
 }

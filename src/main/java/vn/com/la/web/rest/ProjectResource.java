@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.com.la.web.rest.vm.request.SyncUpProjectRequestVM;
 import vn.com.la.web.rest.vm.response.DatatableResponseVM;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
+import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -94,9 +95,9 @@ public class ProjectResource {
 
     @PutMapping("projects/sync-up")
     @Timed
-    public ResponseEntity<ProjectDTO> syncUpProject(@Valid @RequestBody SyncUpProjectRequestVM request) {
+    public ResponseEntity<SyncUpProjectResponseVM> syncUpProject(@Valid @RequestBody SyncUpProjectRequestVM request) {
 
-        ProjectDTO rs = projectService.syncUp(request.getProjectCode());
+        SyncUpProjectResponseVM rs = projectService.syncUp(request.getProjectCode());
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

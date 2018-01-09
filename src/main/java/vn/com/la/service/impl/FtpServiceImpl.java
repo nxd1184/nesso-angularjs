@@ -90,7 +90,15 @@ public class FtpServiceImpl implements FtpService{
     public Long countFilesFromPath(String path) throws Exception{
         Long totalFiles = 0L;
         ftpClient.changeWorkingDirectory(path);
-        totalFiles = new Long(ftpClient.listDirectories().length);
+        FTPFile[] files = ftpClient.listFiles();
+        for(FTPFile file: files) {
+            if(file.isFile()) {
+                totalFiles++;
+            }else {
+                totalFiles += countFilesFromPath(path + Constants.DASH + file.getName());
+            }
+        }
         return totalFiles;
     }
+
 }

@@ -61,7 +61,7 @@ public class Job extends AbstractAuditingEntity {
     private JobStatusEnum status;
 
     @Column(name = "started")
-    private Boolean started = false;
+    private Boolean started;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

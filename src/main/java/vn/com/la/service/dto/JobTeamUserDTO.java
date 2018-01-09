@@ -25,6 +25,8 @@ public class JobTeamUserDTO implements Serializable {
 
     private String userLogin;
 
+    private Long capacity;
+
     public Long getId() {
         return id;
     }
@@ -63,6 +65,22 @@ public class JobTeamUserDTO implements Serializable {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Long capacity) {
+        this.capacity = capacity;
     }
 
     @Override
