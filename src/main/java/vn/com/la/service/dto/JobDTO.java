@@ -33,11 +33,14 @@ public class JobDTO implements Serializable {
 
     private Set<JobTeamDTO> jobTeams = new HashSet<>();
 
-    private Set<JobTask> jobTasks = new HashSet<>();
+    private Set<JobTaskDTO> jobTasks = new HashSet<>();
 
     private JobStatusEnum status;
 
     private Boolean started;
+
+    private Integer sequenceTask;
+    private Integer sequence;
 
     public Long getId() {
         return id;
@@ -103,11 +106,11 @@ public class JobDTO implements Serializable {
         this.jobTeams = jobTeams;
     }
 
-    public Set<JobTask> getJobTasks() {
+    public Set<JobTaskDTO> getJobTasks() {
         return jobTasks;
     }
 
-    public void setJobTasks(Set<JobTask> jobTasks) {
+    public void setJobTasks(Set<JobTaskDTO> jobTasks) {
         this.jobTasks = jobTasks;
     }
 
@@ -125,6 +128,22 @@ public class JobDTO implements Serializable {
 
     public void setStarted(Boolean started) {
         this.started = started;
+    }
+
+    public Integer getSequenceTask() {
+        return sequenceTask;
+    }
+
+    public void setSequenceTask(Integer sequenceTask) {
+        this.sequenceTask = sequenceTask;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     @Override

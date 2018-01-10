@@ -45,13 +45,11 @@ public class Job extends AbstractAuditingEntity {
     @NotNull
     private Project project;
 
-    @OneToMany(mappedBy = "job")
-    @JsonIgnore
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<JobTeam> jobTeams = new HashSet<>();
 
-    @OneToMany(mappedBy = "job")
-    @JsonIgnore
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<JobTask> jobTasks = new HashSet<>();
 
@@ -62,6 +60,12 @@ public class Job extends AbstractAuditingEntity {
 
     @Column(name = "started")
     private Boolean started;
+
+    @Column(name = "sequence_task")
+    private Integer sequenceTask;
+
+    @Column(name = "sequence")
+    private Integer sequence = 1;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -161,6 +165,22 @@ public class Job extends AbstractAuditingEntity {
 
     public void setStarted(Boolean started) {
         this.started = started;
+    }
+
+    public Integer getSequenceTask() {
+        return sequenceTask;
+    }
+
+    public void setSequenceTask(Integer sequenceTask) {
+        this.sequenceTask = sequenceTask;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     @Override

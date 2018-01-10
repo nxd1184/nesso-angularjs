@@ -20,7 +20,7 @@
                         <label class="text-left control-label col-md-3 col-sm-3 col-xs-3 margin-top-10" style="">Deadline</label>
                         <div class="col-md-9 col-sm-9 col-xs-9" style="display:inline-block;">
                             <div class='input-group date date-picker'>
-                                <input type='text' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.deadline" name="deadline" placeholder="DD/MM/YYYY" ng-model="vm.job.deadline"/>
+                                <input type='text' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.deadline" name="deadline" placeholder="DD/MM/YYYY" ng-model="vm.deadline"/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="vm.openCalendar('deadline')">
                                         <span class="glyphicon glyphicon-calendar"></span>
@@ -154,7 +154,7 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <button type="button" class="btn default btn-cancel" ng-click="vm.clear()">Cancel</button>
-                <button type="button" class="btn btn-save">Save</button>
+                <button type="button" class="btn btn-save" ng-click="vm.updatePlan()">Save</button>
             </div>
         </div>
     </div>

@@ -31,6 +31,9 @@
             },{
                 id: 'ROLE_TEAM_LEADER',
                 name: 'Team Leader'
+            }, {
+                id: 'ROLE_QC',
+                name: 'QC'
             }
         ];
 

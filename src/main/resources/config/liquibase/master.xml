@@ -41,6 +41,6 @@
     <include file="config/liquibase/changelog/20180105184533_update_entity_Job_dropNotNullConstraint_Deadline_TotalFiles.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180106024623_update_entity_Job_add_status.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180108153016_update_entity_job_add_column_started.xml" relativeToChangelogFile="false"/>
-
+    <include file="config/liquibase/changelog/20180109160354_update_entity_job_and_qc_role.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

@@ -41,9 +41,9 @@
         .module('nessoApp')
         .controller('PlanDialogController', PlanDialogController);
 
-    PlanDialogController.$inject = ['$state', '$uibModalInstance', '$stateParams', 'planService', 'taskService', 'Team'];
+    PlanDialogController.$inject = ['$state', '$uibModalInstance', '$stateParams', 'planService', 'taskService', 'Team', 'moment'];
 
-    function PlanDialogController($state, $uibModalInstance, $stateParams, planService, taskService, Team) {
+    function PlanDialogController($state, $uibModalInstance, $stateParams, planService, taskService, Team, moment) {
 
         var vm = this;
         vm.clear = clear;
@@ -53,6 +53,7 @@
         vm.selectedTeams = [];
         vm.teams = [];
         vm.sequenceTask = 1;
+        vm.deadline;
         vm.options = {
             orientation: 'horizontal',
             min: 1,
@@ -71,6 +72,8 @@
         vm.onTeamSelected = onTeamSelected;
         vm.onTeamRemoved = onTeamRemoved;
 
+        vm.updatePlan = updatePlan;
+
         function openCalendar(field) {
             vm.datePickerOpenStatus[field] = true;
         }
@@ -85,6 +88,10 @@
                 if (!vm.job.jobTeams) {
                     vm.job.jobTeams = [];
                 }
+                if(vm.job.deadline) {
+                    vm.deadline = moment(LA.StringUtils.decode(vm.job.deadline)).toDate();
+                }
+
                 if (vm.job) {
                     _loadTasks(vm.job.projectId);
                 }
@@ -171,6 +178,35 @@
                     return;
                 }
             }
+        }
+
+        function updatePlan() {
+
+            var tasks = [];
+            if(vm.selectedTasks) {
+                for(var i = 0; i < vm.selectedTasks.length; i++) {
+                    tasks.push({
+                        taskId: vm.selectedTasks[i].id,
+                        jobId: vm.job.id
+                    });
+                }
+            }
+
+            var deadline = LA.StringUtils.urlEncode(LA.StringUtils.toIso(vm.deadline));
+
+            var params = {
+                jobId: vm.job.id,
+                deadline: deadline,
+                tasks: tasks,
+                teams: vm.job.jobTeams,
+                customerRequirements: vm.job.customerRequirements,
+                sequenceTask: vm.sequenceTask,
+                totalFiles: vm.job.totalFiles
+            };
+
+            planService.update(params).then(function(result) {
+                alert('Success');
+            });
         }
 
         function clear() {

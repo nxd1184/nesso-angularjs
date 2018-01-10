@@ -1,5 +1,7 @@
 package vn.com.la.config;
 
+import io.swagger.models.auth.In;
+
 /**
  * Application constants.
  */
@@ -20,7 +22,8 @@ public final class Constants {
 
     public static final String DASH = "/";
 
-    public static final Long ZERO = 0L;
+    public static final Integer ZERO = 0;
+    public static final Integer ONE = 1;
 
     private Constants() {
     }

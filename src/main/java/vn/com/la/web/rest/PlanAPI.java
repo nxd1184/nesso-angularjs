@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.PlanService;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
-import vn.com.la.web.rest.vm.request.CreatePlanRequestVM;
-import vn.com.la.web.rest.vm.response.EmptyResponseVM;
+import vn.com.la.service.dto.param.UpdatePlanParamDTO;
+import vn.com.la.service.util.LACommonUtil;
+import vn.com.la.service.util.LADateTimeUtil;
+import vn.com.la.web.rest.vm.request.CreateOrUpdatePlanRequestVM;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
+import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -40,9 +43,21 @@ public class PlanAPI {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 
-    @PostMapping("/plan/create")
+    @PutMapping("/plan/update")
     @Timed
-    public ResponseEntity<JobPlanDetailResponseVM> createPlan(@Valid @RequestBody CreatePlanRequestVM request) {
-        return null;
+    public ResponseEntity<UpdatePlanResponseVM> update(@Valid @RequestBody CreateOrUpdatePlanRequestVM request) {
+
+        String deadline = LACommonUtil.decode(request.getDeadline());
+
+        UpdatePlanParamDTO params = new UpdatePlanParamDTO();
+        params.setJobId(request.getJobId());
+        params.setDeadline(LADateTimeUtil.isoStringToZonedDateTime(deadline));
+        params.setTasks(request.getTasks());
+        params.setTeams(request.getTeams());
+        params.setSequenceTask(request.getSequenceTask());
+        params.setCustomerRequirements(request.getCustomerRequirements());
+        params.setTotalFiles(request.getTotalFiles());
+        UpdatePlanResponseVM rs = planService.updatePlan(params);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

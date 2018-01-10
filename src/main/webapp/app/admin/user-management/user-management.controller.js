@@ -77,7 +77,8 @@
                     ROLE_USER: 'User',
                     ROLE_PROJECT_MANAGER: 'Project Manager',
                     ROLE_TEAM_LEADER: 'Team Leader',
-                    ROLE_ADMIN: 'Admin'
+                    ROLE_ADMIN: 'Admin',
+                    ROLE_QC: 'QC'
                 };
 
                 if(data) {

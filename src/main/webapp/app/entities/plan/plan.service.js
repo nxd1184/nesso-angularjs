@@ -8,7 +8,8 @@
 
     function planService ($http, $q) {
         var service = {
-            getJobPlanDetail: getJobPlanDetail
+            getJobPlanDetail: getJobPlanDetail,
+            update: update
         };
 
         function getJobPlanDetail(jobId) {
@@ -23,6 +24,17 @@
             return defer.promise;
         }
 
+        function update(data) {
+            var url = 'api/plan/update/';
+            var defer = $q.defer();
+            $http(LA.RequestUtils.put(url, data)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
 
         return service;
     }
