@@ -118,12 +118,14 @@ public class TaskResource {
     @Timed
     public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable,
                                                       @RequestParam(value = "searchTerm", required = false) String searchTerm,
-                                                      @RequestParam(value = "projectId", required = false) Long projectId) {
+                                                      @RequestParam(value = "projectId", required = false) Long projectId,
+                                                      @RequestParam(value = "taskId", required = false) Long taskId) {
         log.debug("REST request to search a page of Tasks");
 
         SearchTaskParamDTO searchTaskCriteria = new SearchTaskParamDTO();
         searchTaskCriteria.setProjectId(projectId);
         searchTaskCriteria.setSearchTerm(StringUtils.trimToEmpty(searchTerm));
+        searchTaskCriteria.setTaskId(taskId);
 
         Page<TaskDTO> page = taskService.search(pageable, searchTaskCriteria);
 

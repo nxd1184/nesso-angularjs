@@ -10,5 +10,5 @@ public interface PlanService {
 
     JobPlanDetailResponseVM getPlanDetail(GetJobPlanDetailParamDTO params);
 
-    UpdatePlanResponseVM updatePlan(UpdatePlanParamDTO params);
+    UpdatePlanResponseVM updatePlan(UpdatePlanParamDTO params) throws Exception;
 }

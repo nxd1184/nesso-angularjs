@@ -7,6 +7,7 @@ import vn.com.la.domain.Task_;
 import vn.com.la.domain.Project_;
 import vn.com.la.service.dto.param.SearchTaskParamDTO;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 
 public class TaskSpecifications {
@@ -36,18 +37,23 @@ public class TaskSpecifications {
 
             if(criteria.getProjectId() != null) {
                 Predicate predicateByProjectId = cb.equal(root.get(Task_.project).get(Project_.id), criteria.getProjectId());
-                if(p == null) {
-                    p = predicateByProjectId;
-                }else {
-                    p = cb.and(
-                        p,
-                        predicateByProjectId
-                    );
-                }
+                p = and(cb,p,predicateByProjectId);
+            }
+
+            if(criteria.getTaskId() != null) {
+                Predicate predicateByTaskId = cb.equal(root.get(Task_.id), criteria.getTaskId());
+                p = and(cb,p,predicateByTaskId);
             }
 
             return p;
         };
+    }
+
+    private static Predicate and(CriteriaBuilder cb, Predicate current, Predicate newPredicate) {
+        if(current == null) {
+            return newPredicate;
+        }
+        return cb.and(current, newPredicate);
     }
 
     private static String getContainsLikePattern(String searchTerm) {

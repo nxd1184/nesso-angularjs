@@ -45,7 +45,7 @@ public class PlanAPI {
 
     @PutMapping("/plan/update")
     @Timed
-    public ResponseEntity<UpdatePlanResponseVM> update(@Valid @RequestBody CreateOrUpdatePlanRequestVM request) {
+    public ResponseEntity<UpdatePlanResponseVM> update(@Valid @RequestBody CreateOrUpdatePlanRequestVM request) throws Exception{
 
         String deadline = LACommonUtil.decode(request.getDeadline());
 
@@ -59,5 +59,6 @@ public class PlanAPI {
         params.setTotalFiles(request.getTotalFiles());
         UpdatePlanResponseVM rs = planService.updatePlan(params);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+
     }
 }

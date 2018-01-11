@@ -29,7 +29,6 @@ public class JobTask {
     private Task task;
 
 
-
     public Long getId() {
         return id;
     }

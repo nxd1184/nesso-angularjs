@@ -132,11 +132,6 @@ public class JobTeamUserTaskResourceIntTest {
         em.persist(jobTeamUser);
         em.flush();
         jobTeamUserTask.setJobTeamUser(jobTeamUser);
-        // Add required entity
-        User assignee = UserResourceIntTest.createEntity(em);
-        em.persist(assignee);
-        em.flush();
-        jobTeamUserTask.setAssignee(assignee);
         return jobTeamUserTask;
     }
 

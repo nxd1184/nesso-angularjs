@@ -42,5 +42,10 @@
     <include file="config/liquibase/changelog/20180106024623_update_entity_Job_add_status.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180108153016_update_entity_job_add_column_started.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180109160354_update_entity_job_and_qc_role.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180110235148_update_entity_job_team_user_remove_NotNullConstraint.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20180111030032_update_entity_job_team_user_add_NotNullConstraint.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180111140452_update_entity_JobTeamUserTask_remove_assignee.xml" relativeToChangelogFile="false"/>
+
 
 </databaseChangeLog>

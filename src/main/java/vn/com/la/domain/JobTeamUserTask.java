@@ -62,10 +62,6 @@ public class JobTeamUserTask extends AbstractAuditingEntity {
     @NotNull
     private JobTeamUser jobTeamUser;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    private User assignee;
-
     @ManyToOne
     private User qc;
 
@@ -206,19 +202,6 @@ public class JobTeamUserTask extends AbstractAuditingEntity {
 
     public void setJobTeamUser(JobTeamUser jobTeamUser) {
         this.jobTeamUser = jobTeamUser;
-    }
-
-    public User getAssignee() {
-        return assignee;
-    }
-
-    public JobTeamUserTask assignee(User user) {
-        this.assignee = user;
-        return this;
-    }
-
-    public void setAssignee(User user) {
-        this.assignee = user;
     }
 
     public User getQc() {

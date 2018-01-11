@@ -9,7 +9,12 @@ import vn.com.la.config.Constants;
 import vn.com.la.config.audit.FtpProperties;
 import vn.com.la.service.FtpService;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -101,4 +106,26 @@ public class FtpServiceImpl implements FtpService{
         return totalFiles;
     }
 
+    @Override
+    public void makeDirectory(String path) throws Exception {
+        ftpClient.makeDirectory(path);
+    }
+
+    @Override
+    public void copy(String fromSource, String toPath, String fileName) throws Exception {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ftpClient.retrieveFile(fromSource, os);
+        InputStream is = new ByteArrayInputStream(os.toByteArray());
+        ftpClient.changeWorkingDirectory(toPath);
+        ftpClient.storeFile(fileName, is);
+
+        is.close();
+        os.close();
+    }
+
+    @Override
+    public List<FTPFile> listFileFromPath(String path) throws Exception {
+        ftpClient.changeWorkingDirectory(path);
+        return Arrays.asList(ftpClient.listFiles());
+    }
 }

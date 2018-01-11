@@ -42,8 +42,7 @@ public class JobTeam extends AbstractAuditingEntity {
     @NotNull
     private Project project;
 
-    @OneToMany(mappedBy = "jobTeam")
-    @JsonIgnore
+    @OneToMany(mappedBy = "jobTeam", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<JobTeamUser> jobTeamUsers = new HashSet<>();
 
@@ -114,8 +113,18 @@ public class JobTeam extends AbstractAuditingEntity {
         return jobTeamUsers;
     }
 
+    public void addJobTeamUsers(JobTeamUser jobTeamUser) {
+        this.jobTeamUsers.add(jobTeamUser);
+        jobTeamUser.setJobTeam(this);
+    }
+
     public void setJobTeamUsers(Set<JobTeamUser> jobTeamUsers) {
         this.jobTeamUsers = jobTeamUsers;
+        if(this.jobTeamUsers != null) {
+            for(JobTeamUser jobTeamUser: jobTeamUsers) {
+                jobTeamUser.setJobTeam(this);
+            }
+        }
     }
 
     @Override

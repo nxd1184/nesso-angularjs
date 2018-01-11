@@ -39,6 +39,7 @@
             var url = 'api/tasks/search?'
                         + '&searchTerm=' + StringUtils.trimToEmpty(params.searchTerm)
                         + '&projectId=' + StringUtils.trimToEmpty(params.projectId)
+                        + '&taskId=' + StringUtils.trimToEmpty(params.taskId)
                         + '&sort=' + StringUtils.trimToEmpty(params.sort)
                         + '&page=' + StringUtils.trimToEmpty(params.page)
                         + '&size=' + StringUtils.trimToEmpty(params.size);

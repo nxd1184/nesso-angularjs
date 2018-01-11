@@ -29,6 +29,8 @@ public class JobDTO implements Serializable {
 
     private Long projectId;
 
+    private String projectCode;
+
     private String projectName;
 
     private Set<JobTeamDTO> jobTeams = new HashSet<>();
@@ -144,6 +146,14 @@ public class JobDTO implements Serializable {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
     }
 
     @Override

@@ -78,37 +78,68 @@
             vm.datePickerOpenStatus[field] = true;
         }
 
-        _loadJobDetail();
+        _loadPlanDetail();
         _loadTeams();
 
-        function _loadJobDetail() {
+        function _loadPlanDetail() {
             planService.getJobPlanDetail($stateParams.id).then(function (result) {
                 vm.job = result.job;
-                vm.selectedTasks = result.job.jobTasks;
+
                 if (!vm.job.jobTeams) {
                     vm.job.jobTeams = [];
+                }
+                _showCurrentTeams(vm.job.jobTeams);
+
+                if (!vm.job.jobTasks) {
+                    vm.job.jobTasks = [];
                 }
                 if(vm.job.deadline) {
                     vm.deadline = moment(LA.StringUtils.decode(vm.job.deadline)).toDate();
                 }
 
                 if (vm.job) {
-                    _loadTasks(vm.job.projectId);
+                    _loadTasks(vm.job.projectId, vm.job.jobTasks);
+
                 }
             });
         }
 
-        function _loadTasks(projectId) {
+        function _loadTasks(projectId, currentTasks) {
             taskService.search({
                 'projectId': projectId
-            }).then(onSuccess, onError);
+            }).then(onSuccess);
 
             function onSuccess(result) {
                 vm.tasks = result.data;
+                if(currentTasks) {
+                    for(var i = 0; i < currentTasks.length; i++) {
+                        var jobTaskId = currentTasks[i].id;
+                        var taskId = currentTasks[i].taskId;
+                        _initStoredJobTask(taskId, jobTaskId);
+                    }
+                }
             }
+        }
 
-            function onError(error) {
+        function _initStoredJobTask(taskId, jobTaskId) {
+            taskService.search({
+                taskId: taskId
+            }).then(function(result) {
+                if(result.data) {
+                    var taskResource = result.data[0];
+                    taskResource.jobTaskId = jobTaskId;
+                    vm.selectedTasks.push(taskResource);
+                }
+            })
+        }
 
+        function _showCurrentTeams(jobTeams) {
+            if(jobTeams) {
+                jobTeams.forEach(function(jobTeam) {
+                    Team.get({id: jobTeam.teamId}, function(result) {
+                       vm.selectedTeams.push(result);
+                    });
+                });
             }
         }
 
@@ -149,11 +180,14 @@
                 totalProcessingFiles: 0
             };
 
+            if(jobTeam) {
+
+            }
+
             if (team.members) {
                 for (var i = 0; i < team.members.length; i++) {
                     var member = team.members[i];
                     jobTeam.jobTeamUsers.push({
-                        jobTeamId: team.id,
                         userId: member.id,
                         name: member.lastName,
                         capacity: member.capacity,
@@ -186,6 +220,7 @@
             if(vm.selectedTasks) {
                 for(var i = 0; i < vm.selectedTasks.length; i++) {
                     tasks.push({
+                        id: vm.selectedTasks[i].jobTaskId,
                         taskId: vm.selectedTasks[i].id,
                         jobId: vm.job.id
                     });
@@ -205,7 +240,7 @@
             };
 
             planService.update(params).then(function(result) {
-                alert('Success');
+                clear();
             });
         }
 

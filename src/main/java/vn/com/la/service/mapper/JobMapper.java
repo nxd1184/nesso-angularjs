@@ -13,6 +13,7 @@ public interface JobMapper extends EntityMapper <JobDTO, Job> {
 
     @Mapping(source = "project.id", target = "projectId")
     @Mapping(source = "project.name", target = "projectName")
+    @Mapping(source = "project.code", target = "projectCode")
     JobDTO toDto(Job job);
 
     @Mapping(source = "projectId", target = "project")

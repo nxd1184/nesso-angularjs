@@ -41,10 +41,6 @@ public class JobTeamUserTaskDTO implements Serializable {
 
     private Long jobTeamUserId;
 
-    private Long assigneeId;
-
-    private String assigneeLogin;
-
     private Long qcId;
 
     private String qcLogin;
@@ -135,22 +131,6 @@ public class JobTeamUserTaskDTO implements Serializable {
 
     public void setJobTeamUserId(Long jobTeamUserId) {
         this.jobTeamUserId = jobTeamUserId;
-    }
-
-    public Long getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(Long userId) {
-        this.assigneeId = userId;
-    }
-
-    public String getAssigneeLogin() {
-        return assigneeLogin;
-    }
-
-    public void setAssigneeLogin(String userLogin) {
-        this.assigneeLogin = userLogin;
     }
 
     public Long getQcId() {
