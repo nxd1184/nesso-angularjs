@@ -25,7 +25,6 @@ public class JobTeamUserTaskDTO implements Serializable {
     @NotNull
     private FileStatusEnum status;
 
-    @NotNull
     private String fileName;
 
     @NotNull
@@ -40,6 +39,12 @@ public class JobTeamUserTaskDTO implements Serializable {
     private Boolean rework;
 
     private Long jobTeamUserId;
+    private String jobTeamUserLogin;
+
+    private Long jobId;
+    private String jobName;
+
+    private String projectCode;
 
     private Long qcId;
 
@@ -147,6 +152,46 @@ public class JobTeamUserTaskDTO implements Serializable {
 
     public void setQcLogin(String userLogin) {
         this.qcLogin = userLogin;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public Boolean getQcEdit() {
+        return qcEdit;
+    }
+
+    public Boolean getRework() {
+        return rework;
+    }
+
+    public String getJobTeamUserLogin() {
+        return jobTeamUserLogin;
+    }
+
+    public void setJobTeamUserLogin(String jobTeamUserLogin) {
+        this.jobTeamUserLogin = jobTeamUserLogin;
+    }
+
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
     }
 
     @Override

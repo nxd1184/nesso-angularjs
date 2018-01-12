@@ -34,7 +34,8 @@
             }, {
                 title: 'Check in',
                 icon: 'fa fa-tasks',
-                state: 'check-in'
+                state: 'check-in',
+                url: '#!/check-in'
             }, {
                 title: 'Account',
                 icon: 'fa fa-user-circle-o',

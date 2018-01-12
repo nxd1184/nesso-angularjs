@@ -1,7 +1,11 @@
 package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.apache.commons.lang3.StringUtils;
+import vn.com.la.domain.enumeration.FileStatusEnum;
+import vn.com.la.security.SecurityUtils;
 import vn.com.la.service.JobTeamUserTaskService;
+import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
@@ -15,11 +19,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.request.CheckInJobTeamUserTaskRequestVM;
+import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,5 +130,43 @@ public class JobTeamUserTaskResource {
         log.debug("REST request to delete JobTeamUserTask : {}", id);
         jobTeamUserTaskService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET  /job-team-user-tasks : get all the jobTeamUserTasks.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of jobTeamUserTasks in body
+     */
+    @GetMapping("/search-job-team-user-tasks")
+    @Timed
+    public ResponseEntity<List<JobTeamUserTaskDTO>> search(@ApiParam Pageable pageable,
+                                                           @RequestParam(name = "statusList", required = false)  String statusList) {
+        log.debug("REST request to search a page of JobTeamUserTasks");
+
+        SearchJobTeamUserTaskParamDTO params = new SearchJobTeamUserTaskParamDTO();
+        params.setAssignee(SecurityUtils.getCurrentUserLogin());
+        if(StringUtils.isNotBlank(statusList)) {
+            String[] separatedStatusList = statusList.split(",");
+            List<FileStatusEnum> fileStatusEnumList = new ArrayList<>();
+            for(String status: separatedStatusList) {
+                FileStatusEnum fileStatusEnum = FileStatusEnum.valueOf(status);
+                fileStatusEnumList.add(fileStatusEnum);
+            }
+            params.setStatusList(fileStatusEnumList);
+        }
+
+        Page<JobTeamUserTaskDTO> page = jobTeamUserTaskService.search(pageable, params);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/search-job-team-user-tasks");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/check-in-job-team-user-task")
+    @Timed
+    public ResponseEntity<EmptyResponseVM> checkInJobTeamUserTask(@Valid @RequestBody CheckInJobTeamUserTaskRequestVM request) throws Exception {
+        log.debug("REST request to checkin JobTeamUserTask : {}", request.getId());
+
+        EmptyResponseVM rs = jobTeamUserTaskService.checkIn(request.getId());
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

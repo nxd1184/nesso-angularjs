@@ -90,4 +90,9 @@ public class JobServiceImpl implements JobService{
         Job job = jobRepository.findByName(name);
         return jobMapper.toDto(job);
     }
+
+    @Override
+    public int updateJobToStart(Long id) {
+        return jobRepository.updateJobToStarted(id);
+    }
 }

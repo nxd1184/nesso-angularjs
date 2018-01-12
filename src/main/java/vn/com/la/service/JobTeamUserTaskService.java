@@ -3,6 +3,8 @@ package vn.com.la.service;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
+import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 /**
  * Service Interface for managing JobTeamUserTask.
@@ -39,4 +41,8 @@ public interface JobTeamUserTaskService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    Page<JobTeamUserTaskDTO> search(Pageable pageable, SearchJobTeamUserTaskParamDTO params);
+
+    EmptyResponseVM checkIn(Long id) throws Exception;
 }

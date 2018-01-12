@@ -13,4 +13,8 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
     Job findByName(String name);
+
+    @Modifying
+    @Query("UPDATE Job SET started = true WHERE id = ?1")
+    int updateJobToStarted(final Long id);
 }

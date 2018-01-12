@@ -11,7 +11,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask, Long> {
+public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask, Long>, JpaSpecificationExecutor<JobTeamUserTask> {
 
 //    @Query("select job_team_user_task from JobTeamUserTask job_team_user_task where job_team_user_task.assignee.login = ?#{principal.username}")
 //    List<JobTeamUserTask> findByAssigneeIsCurrentUser();

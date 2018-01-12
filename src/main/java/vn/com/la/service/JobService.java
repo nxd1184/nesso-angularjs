@@ -41,4 +41,6 @@ public interface JobService {
     void delete(Long id);
 
     JobDTO findByName(String name);
+
+    int updateJobToStart(Long id);
 }

@@ -13,7 +13,7 @@
                 parent: 'entity',
                 url: '/plan',
                 data: {
-                    authorities: ['ROLE_USER'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'],
                     pageTitle: 'Plan Management'
                 },
                 views: {
@@ -28,7 +28,7 @@
                 parent: 'plan',
                 url: '/edit/{id}',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', '$uibModalStack', function ($stateParams, $state, $uibModal, $uibModalStack) {
                     var uibModal = $uibModal.open({

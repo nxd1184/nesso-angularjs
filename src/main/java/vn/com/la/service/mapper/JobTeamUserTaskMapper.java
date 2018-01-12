@@ -15,10 +15,13 @@ public interface JobTeamUserTaskMapper extends EntityMapper <JobTeamUserTaskDTO,
 
     @Mapping(source = "qc.id", target = "qcId")
     @Mapping(source = "qc.login", target = "qcLogin")
+    @Mapping(source = "jobTeamUser.user.login", target = "jobTeamUserLogin")
+    @Mapping(source = "jobTeamUser.jobTeam.job.id", target = "jobId")
+    @Mapping(source = "jobTeamUser.jobTeam.job.name", target = "jobName")
+    @Mapping(source = "jobTeamUser.jobTeam.job.project.code", target = "projectCode")
     JobTeamUserTaskDTO toDto(JobTeamUserTask jobTeamUserTask);
 
     @Mapping(source = "jobTeamUserId", target = "jobTeamUser")
-
     @Mapping(source = "qcId", target = "qc")
     JobTeamUserTask toEntity(JobTeamUserTaskDTO jobTeamUserTaskDTO);
     default JobTeamUserTask fromId(Long id) {

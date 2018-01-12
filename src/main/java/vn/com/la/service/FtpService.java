@@ -14,4 +14,6 @@ public interface FtpService {
     void copy(String from, String toPath, String fileName) throws Exception;
 
     List<FTPFile> listFileFromPath(String path) throws Exception;
+
+    boolean checkFileExist(String filePath);
 }

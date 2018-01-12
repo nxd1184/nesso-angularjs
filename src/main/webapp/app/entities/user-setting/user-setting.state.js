@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/user-setting?page&sort&search',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_ADMIN'],
                 pageTitle: 'UserSettings'
             },
             views: {
@@ -50,7 +50,7 @@
             parent: 'user-setting',
             url: '/user-setting/{id}',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_ADMIN'],
                 pageTitle: 'UserSetting'
             },
             views: {
@@ -78,7 +78,7 @@
             parent: 'user-setting-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -103,7 +103,7 @@
             parent: 'user-setting',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -134,7 +134,7 @@
             parent: 'user-setting',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -159,7 +159,7 @@
             parent: 'user-setting',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

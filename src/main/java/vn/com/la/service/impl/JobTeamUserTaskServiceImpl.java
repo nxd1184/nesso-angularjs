@@ -1,9 +1,15 @@
 package vn.com.la.service.impl;
 
+import org.springframework.data.jpa.domain.Specification;
+import vn.com.la.config.Constants;
+import vn.com.la.domain.enumeration.FileStatusEnum;
+import vn.com.la.service.FtpService;
+import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.repository.JobTeamUserTaskRepository;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
+import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.service.mapper.JobTeamUserTaskMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.service.specification.JobTeamUserTaskSpecifications;
+import vn.com.la.service.util.LAStringUtil;
+import vn.com.la.web.rest.errors.CustomParameterizedException;
+import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 
 /**
@@ -26,9 +36,16 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
 
     private final JobTeamUserTaskMapper jobTeamUserTaskMapper;
 
-    public JobTeamUserTaskServiceImpl(JobTeamUserTaskRepository jobTeamUserTaskRepository, JobTeamUserTaskMapper jobTeamUserTaskMapper) {
+    private final JobService jobService;
+
+    private final FtpService ftpService;
+
+    public JobTeamUserTaskServiceImpl(JobTeamUserTaskRepository jobTeamUserTaskRepository, JobTeamUserTaskMapper jobTeamUserTaskMapper,
+                                      JobService jobService, FtpService ftpService) {
         this.jobTeamUserTaskRepository = jobTeamUserTaskRepository;
         this.jobTeamUserTaskMapper = jobTeamUserTaskMapper;
+        this.jobService = jobService;
+        this.ftpService = ftpService;
     }
 
     /**
@@ -82,5 +99,34 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     public void delete(Long id) {
         log.debug("Request to delete JobTeamUserTask : {}", id);
         jobTeamUserTaskRepository.delete(id);
+    }
+
+    @Override
+    public Page<JobTeamUserTaskDTO> search(Pageable pageable, SearchJobTeamUserTaskParamDTO params) {
+
+        Specification<JobTeamUserTask> searchSpec = JobTeamUserTaskSpecifications.search(params);
+        Page<JobTeamUserTaskDTO> page = jobTeamUserTaskRepository.findAll(searchSpec,pageable).map(jobTeamUserTaskMapper::toDto);
+
+        return page;
+    }
+
+    @Override
+    public EmptyResponseVM checkIn(Long id) throws Exception{
+        JobTeamUserTaskDTO jobTeamUserTaskDTO = findOne(id);
+        String path = LAStringUtil.buildFolderPath(Constants.DASH + jobTeamUserTaskDTO.getProjectCode(),
+                                                            Constants.TO_CHECK,
+                                                            jobTeamUserTaskDTO.getJobName(), jobTeamUserTaskDTO.getJobTeamUserLogin()) + jobTeamUserTaskDTO.getFileName();
+        boolean fileExistOnToCheck = ftpService.checkFileExist(path);
+
+        if(fileExistOnToCheck) {
+            jobTeamUserTaskDTO.setStatus(FileStatusEnum.TOCHECK);
+            save(jobTeamUserTaskDTO);
+            jobService.updateJobToStart(jobTeamUserTaskDTO.getJobId());
+            return new EmptyResponseVM();
+        }
+
+        throw new CustomParameterizedException("File " + jobTeamUserTaskDTO.getFileName() + " not found in to-check folder");
+
+
     }
 }

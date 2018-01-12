@@ -1,0 +1,81 @@
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Check in</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+    </div>
+
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb hide">
+        <li>
+            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+            Project
+        </li>
+    </ul>
+    <div class="margin-top-20">
+        <div class="wrap-table-radius plan">
+            <div class="tab-content">
+                <div class="tab-pane active table-responsive" id="tab_1_11">
+                    <jhi-alert-error></jhi-alert-error>
+                    <table class="tree table table-hover status-project">
+                        <thead>
+                        <tr>
+                            <th class="index">
+                                #
+                            </th>
+                            <th class="col_jobname">
+                                Job Name
+                            </th>
+                            <th class="col_folder_path">
+                                Folder Path
+                            </th>
+                            <th class="col_folder_path">
+                                File Name
+                            </th>
+                            <th class="col_last_checkin">
+                                Last Checkin
+                            </th>
+
+                            <th class="status">
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="task in vm.tasks track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{task.jobName}}</td>
+                                <td>{{task.filePath}}</td>
+                                <td>{{task.fileName}}</td>
+                                <td>{{task.lastCheckInTime}}</td>
+                                <td>
+                                    <p class="active">
+                                        <a ng-click="vm.checkIn(task, $index)" class="btn btn-primary btn-xs btn-checkin">Check in</a>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr ng-show="!vm.tasks || vm.tasks.length == 0">
+                                <td colspan="6" style="text-align: center;"><span>no result found</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="tab-pane table-responsive" id="tab_1_22">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- END PAGE BREADCRUMB -->
+
+</div>

@@ -1,5 +1,6 @@
 package vn.com.la.service.impl;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -9,10 +10,7 @@ import vn.com.la.config.Constants;
 import vn.com.la.config.audit.FtpProperties;
 import vn.com.la.service.FtpService;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,6 +114,7 @@ public class FtpServiceImpl implements FtpService{
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ftpClient.retrieveFile(fromSource, os);
         InputStream is = new ByteArrayInputStream(os.toByteArray());
+        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
         ftpClient.changeWorkingDirectory(toPath);
         ftpClient.storeFile(fileName, is);
 
@@ -127,5 +126,31 @@ public class FtpServiceImpl implements FtpService{
     public List<FTPFile> listFileFromPath(String path) throws Exception {
         ftpClient.changeWorkingDirectory(path);
         return Arrays.asList(ftpClient.listFiles());
+    }
+
+    @Override
+    public boolean checkFileExist(String filePath) {
+        InputStream inputStream = null;
+        try {
+            inputStream = ftpClient.retrieveFileStream(filePath);
+            int returnCode = ftpClient.getReplyCode();
+            if (inputStream == null || returnCode == 550) {
+                return false;
+            }
+            return true;
+
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }finally {
+            if(inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return false;
     }
 }
