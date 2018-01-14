@@ -3,6 +3,7 @@ package vn.com.la.service.impl;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.enumeration.JobStatusEnum;
 import vn.com.la.service.FtpService;
 import vn.com.la.service.JobService;
 import vn.com.la.service.ProjectService;
@@ -141,13 +142,19 @@ public class ProjectServiceImpl implements ProjectService{
                     }else {
                         jobDTO = jobService.findByName(backLog);
                     }
-                    if(BooleanUtils.isNotFalse(jobDTO.getStarted())) {
-                        jobDTO.setName(backLog);
-                        jobDTO.setProjectId(projectDTO.getId());
-                        String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
-                        jobDTO.setTotalFiles(ftpService.countFilesFromPath(jobPath));
-                        jobDTO = jobService.save(jobDTO);
+
+                    if(BooleanUtils.isTrue(jobDTO.getStarted())) {
+                        continue;
                     }
+
+
+                    jobDTO.setName(backLog);
+                    jobDTO.setProjectId(projectDTO.getId());
+                    String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
+                    jobDTO.setTotalFiles(ftpService.countFilesFromPath(jobPath));
+                    jobDTO.setStatus(JobStatusEnum.ACTIVE);
+                    jobDTO = jobService.save(jobDTO);
+
 
                     syncJobs.add(jobDTO);
                 }

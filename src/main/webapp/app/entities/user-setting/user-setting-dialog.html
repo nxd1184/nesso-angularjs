@@ -13,6 +13,7 @@
             <input type="text" class="form-control" id="id" name="id"
                     ng-model="vm.userSetting.id" readonly />
         </div>
+
         <div class="form-group">
             <label class="control-label" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
@@ -25,10 +26,26 @@
                 </p>
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="control-label" for="field_configInfo">Config Info</label>
+            <input type="text" class="form-control" name="name" id="field_configInfo"
+                   ng-model="vm.userSetting.configInfo"
+                   required/>
+            <div ng-show="editForm.configInfo.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.configInfo.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="control-label" for="field_auto">Auto</label>
-                <input type="checkbox" name="auto" id="field_auto"
-                          ng-model="vm.userSetting.auto"/>
+                <!--<input type="checkbox" name="auto" id="field_auto"-->
+                          <!--ng-model="vm.userSetting.auto"/>-->
+            <input name="auto" id="field_auto" type="checkbox" bs-switch ng-true-value="true" ng-false-value="false"
+                   ng-model="vm.userSetting.auto" class="make-switch" data-size="small">
         </div>
         <div class="form-group">
             <label class="control-label" for="field_type">Type</label>
@@ -47,8 +64,8 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="field_active">Active</label>
-                <input type="checkbox" name="active" id="field_active"
-                          ng-model="vm.userSetting.active"/>
+            <input name="auto" id="field_active" type="checkbox" bs-switch ng-true-value="true" ng-false-value="false"
+                   ng-model="vm.userSetting.active" class="make-switch" data-size="small">
             <div ng-show="editForm.active.$invalid">
                 <p class="help-block"
                     ng-show="editForm.active.$error.required">
@@ -59,7 +76,7 @@
 
         <div class="form-group">
             <label for="field_userConfig">User Config</label>
-            <select class="form-control" id="field_userConfig" name="userConfig" ng-model="vm.userSetting.userConfigId" ng-options="user.id as user.login for user in vm.users"             required>
+            <select class="form-control" id="field_userConfig" name="userConfig" ng-model="vm.userSetting.userConfigId" ng-options="user.id as user.login for user in vm.users" required>
             </select>
         </div>
         <div ng-show="editForm.userConfig.$invalid">

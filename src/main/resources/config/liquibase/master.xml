@@ -47,6 +47,6 @@
     <include file="config/liquibase/changelog/20180111030032_update_entity_job_team_user_add_NotNullConstraint.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180111140452_update_entity_JobTeamUserTask_remove_assignee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180111161721_update_entity_JobTeamUserTask_remove_constraint_notnull_for_filename.xml" relativeToChangelogFile="false"/>
-
+    <include file="config/liquibase/changelog/20180112014632_update_entity_User_Setting_add_config_info.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

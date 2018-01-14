@@ -3,6 +3,7 @@ package vn.com.la.service;
 import vn.com.la.service.dto.UserSettingDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.com.la.service.dto.param.SearchUserSettingParamDTO;
 
 /**
  * Service Interface for managing UserSetting.
@@ -39,4 +40,6 @@ public interface UserSettingService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    Page<UserSettingDTO> search(SearchUserSettingParamDTO params, Pageable pageable);
 }

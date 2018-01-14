@@ -44,6 +44,9 @@ public class UserSetting extends AbstractAuditingEntity {
     @NotNull
     private User userConfig;
 
+    @Column(name = "config_info")
+    private String configInfo;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -118,6 +121,23 @@ public class UserSetting extends AbstractAuditingEntity {
         this.userConfig = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public Boolean getAuto() {
+        return auto;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public String getConfigInfo() {
+        return configInfo;
+    }
+
+    public void setConfigInfo(String configInfo) {
+        this.configInfo = configInfo;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,7 +1,11 @@
 package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.apache.commons.lang3.StringUtils;
 import vn.com.la.service.UserSettingService;
+import vn.com.la.service.dto.param.SearchUserSettingParamDTO;
+import vn.com.la.service.util.LACommonUtil;
+import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
 import vn.com.la.service.dto.UserSettingDTO;
@@ -15,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.web.rest.vm.response.DatatableResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -123,5 +128,28 @@ public class UserSettingResource {
         log.debug("REST request to delete UserSetting : {}", id);
         userSettingService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping("/search-user-settings")
+    @Timed
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable,
+                                                        @RequestParam(name = "name", required = false) String name,
+                                                        @RequestParam(name = "date", required = false) String date) {
+        log.debug("REST request to search UserSetting");
+
+
+        SearchUserSettingParamDTO params = new SearchUserSettingParamDTO();
+        params.setName(name);
+
+        if(StringUtils.isNotBlank(date)) {
+            date = LACommonUtil.decode(date);
+            params.setDate(LADateTimeUtil.isoStringToZonedDateTime(date));
+        }
+
+        Page<UserSettingDTO> page = userSettingService.search(params, pageable);
+
+        DatatableResponseVM rs = new DatatableResponseVM(page);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

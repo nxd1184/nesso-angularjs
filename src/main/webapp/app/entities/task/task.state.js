@@ -13,7 +13,7 @@
                 parent: 'admin',
                 url: '/task?page&sort',
                 data: {
-                    authorities: ['ROLE_ADMIN'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'],
                     pageTitle: 'Task'
                 },
                 views: {

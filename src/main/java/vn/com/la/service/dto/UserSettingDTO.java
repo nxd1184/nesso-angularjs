@@ -3,6 +3,7 @@ package vn.com.la.service.dto;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -28,7 +29,11 @@ public class UserSettingDTO implements Serializable {
 
     private Long userConfigId;
 
-    private String userConfigLogin;
+    private String userConfigName;
+
+    private String configInfo;
+
+    private Instant createdDate;
 
     public Long getId() {
         return id;
@@ -78,12 +83,36 @@ public class UserSettingDTO implements Serializable {
         this.userConfigId = userId;
     }
 
-    public String getUserConfigLogin() {
-        return userConfigLogin;
+    public Boolean getAuto() {
+        return auto;
     }
 
-    public void setUserConfigLogin(String userLogin) {
-        this.userConfigLogin = userLogin;
+    public Boolean getActive() {
+        return active;
+    }
+
+    public String getUserConfigName() {
+        return userConfigName;
+    }
+
+    public void setUserConfigName(String userConfigName) {
+        this.userConfigName = userConfigName;
+    }
+
+    public String getConfigInfo() {
+        return configInfo;
+    }
+
+    public void setConfigInfo(String configInfo) {
+        this.configInfo = configInfo;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
     }
 
     @Override

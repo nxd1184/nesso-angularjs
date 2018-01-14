@@ -30,7 +30,8 @@
             }, {
                 title: 'Setting',
                 icon: 'fa fa-cog',
-                state: 'setting'
+                state: 'user-setting',
+                url: '#!/user-setting'
             }, {
                 title: 'Check in',
                 icon: 'fa fa-tasks',

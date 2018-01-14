@@ -1,9 +1,13 @@
 package vn.com.la.service.impl;
 
+import org.springframework.data.jpa.domain.Specification;
+import vn.com.la.domain.Project;
 import vn.com.la.service.UserSettingService;
 import vn.com.la.domain.UserSetting;
 import vn.com.la.repository.UserSettingRepository;
+import vn.com.la.service.dto.ProjectDTO;
 import vn.com.la.service.dto.UserSettingDTO;
+import vn.com.la.service.dto.param.SearchUserSettingParamDTO;
 import vn.com.la.service.mapper.UserSettingMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.service.specification.UserSettingSpecifications;
+
+import static vn.com.la.service.specification.ProjectSpecifications.codeContainsIgnoreCase;
 
 
 /**
@@ -82,5 +89,12 @@ public class UserSettingServiceImpl implements UserSettingService{
     public void delete(Long id) {
         log.debug("Request to delete UserSetting : {}", id);
         userSettingRepository.delete(id);
+    }
+
+    @Override
+    public Page<UserSettingDTO> search(SearchUserSettingParamDTO params, Pageable pageable) {
+        Specification<UserSetting> searchSpec = UserSettingSpecifications.search(params);
+        Page<UserSettingDTO> page = userSettingRepository.findAll(searchSpec,pageable).map(userSettingMapper::toDto);
+        return page;
     }
 }

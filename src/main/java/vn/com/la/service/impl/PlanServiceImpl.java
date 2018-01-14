@@ -65,7 +65,7 @@ public class PlanServiceImpl implements PlanService {
         JobDTO job = jobService.findOne(params.getJobId());
         if (job != null) {
 
-            if(BooleanUtils.isNotFalse(job.getStarted())) {
+            if(BooleanUtils.isTrue(job.getStarted())) {
                 throw new CustomParameterizedException("This job was stared. You can not update it");
             }
 

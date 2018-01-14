@@ -11,7 +11,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface UserSettingRepository extends JpaRepository<UserSetting, Long> {
+public interface UserSettingRepository extends JpaRepository<UserSetting, Long>, JpaSpecificationExecutor<UserSetting> {
 
     @Query("select user_setting from UserSetting user_setting where user_setting.userConfig.login = ?#{principal.username}")
     List<UserSetting> findByUserConfigIsCurrentUser();

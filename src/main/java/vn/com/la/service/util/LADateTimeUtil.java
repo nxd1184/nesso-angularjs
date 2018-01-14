@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
+import java.util.TimeZone;
 
 public class LADateTimeUtil {
 
@@ -44,5 +45,24 @@ public class LADateTimeUtil {
         return DATETIME_ISO_FORMATTER.parseDateTime(isoDateTimeStr).toGregorianCalendar().toZonedDateTime();
     }
 
+    public static ZonedDateTime toStartOfDate(ZonedDateTime zonedDateTime) {
+        return zonedDateTime.toLocalDate().atStartOfDay(zonedDateTime.getZone());
+    }
 
+    public static ZonedDateTime toMidnightOfDate(ZonedDateTime zonedDateTime) {
+        DateTime dt = toJodaDateTime(zonedDateTime);
+        dt = dt.plusDays(1).withTimeAtStartOfDay().minusSeconds(1);
+        return dt.toGregorianCalendar().toZonedDateTime();
+    }
+
+    public static DateTime toJodaDateTime(ZonedDateTime zonedDateTime) {
+        try {
+            return new DateTime(
+                zonedDateTime.toInstant().toEpochMilli(),
+                DateTimeZone.forTimeZone(TimeZone.getTimeZone(zonedDateTime.getZone())));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }

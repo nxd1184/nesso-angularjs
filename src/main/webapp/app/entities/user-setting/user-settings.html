@@ -1,70 +1,60 @@
-<div>
-    <h2>User Settings</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="user-setting.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span >
-                        Create new User Setting
-                    </span>
-                </button>
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Configuation</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+        <!-- BEGIN PAGE TOOLBAR -->
+        <div class="page-toolbar">
+            <div class="search" >
+                <div class="input-group" style="float:left">
+                    <div class="input-group-btn">
+                        <select id="option_search" class="selectpicker" data-live-search="false" title="Please select" data-width="90">
+                            <option>Name</option>
+                            <option>Date</option>
+                        </select>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="text" class="form-control" placeholder="Search configuation name">
+                    <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </span>
+
+                </div>
+
             </div>
+            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdateSetting()" >New Configuation<i class="fa fa-plus" aria-hidden="true"></i></a>
+            <!-- END THEME PANEL -->
+        </div>
+        <!-- END PAGE TOOLBAR -->
+    </div>
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE BREADCRUMB -->
+    <ul class="page-breadcrumb breadcrumb hide">
+        <li>
+            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+        </li>
+        <li class="active">
+            Project
+        </li>
+    </ul>
+
+    <div class="margin-top-20">
+        <div class="wrap-table-radius table-responsive configuation">
+            <table class="table table-hover" dt-instance="vm.dtInstance" datatable dt-options="vm.dtOptions" dt-columns="vm.dtColumns">
+
+            </table>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="auto"><span>Auto</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="active"><span>Active</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="userConfigLogin"><span>User Config</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="userSetting in vm.userSettings track by userSetting.id">
-                    <td><a ui-sref="user-setting-detail({id:userSetting.id})">{{userSetting.id}}</a></td>
-                    <td>{{userSetting.name}}</td>
-                    <td>{{userSetting.auto}}</td>
-                    <td>{{userSetting.type}}</td>
-                    <td>{{userSetting.active}}</td>
-                    <td>
-                        {{userSetting.userConfigLogin}}
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="user-setting-detail({id:userSetting.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="user-setting.edit({id:userSetting.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="user-setting.delete({id:userSetting.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-sm-down"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-    </div>
+
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE CONTENT INNER -->
+
+
+
+    <!-- END PAGE CONTENT INNER -->
+
+
 </div>
