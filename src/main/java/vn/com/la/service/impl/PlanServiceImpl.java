@@ -18,6 +18,7 @@ import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
+import java.io.File;
 import java.util.List;
 import java.util.Set;
 
@@ -86,7 +87,7 @@ public class PlanServiceImpl implements PlanService {
             long totalFilesInBacklogItem = job.getTotalFiles();
             // list file from backlog item
             String backLogItemPath = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.BACK_LOGS, job.getName());
-            List<FTPFile> files = ftpService.listFileFromPath(backLogItemPath);
+            List<File> files = ftpService.listFileFromPath(backLogItemPath);
             int iFile = 0;
 
             Set<JobTeamDTO> jobTeamDTOs = job.getJobTeams();
@@ -117,7 +118,7 @@ public class PlanServiceImpl implements PlanService {
                                 long iActualTotalFiles = Constants.ZERO;
                                 for (iActualTotalFiles = Constants.ONE; iActualTotalFiles <= jobTeamUserDTO.getTotalFiles(); iActualTotalFiles++) {
 
-                                    FTPFile file = files.get(iFile++);
+                                    File file = files.get(iFile++);
                                     if (file.isDirectory()) {
                                         continue;
                                     }
