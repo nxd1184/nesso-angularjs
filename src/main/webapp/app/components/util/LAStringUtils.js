@@ -139,6 +139,13 @@ LA.StringUtils = {
         return moment(d).format('YYYY-MM-DD HH:mm:ss:SSS ZZ');
     },
 
+    toIsoFromMoment : function(m) {
+        if (!m) {
+            return '';
+        }
+        return m.format('YYYY-MM-DD HH:mm:ss:SSS ZZ');
+    },
+
     toIsoTrimToMinute : function(d) {
         if (!d) {
             return '';
