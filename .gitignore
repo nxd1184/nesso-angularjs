@@ -112,6 +112,7 @@ Desktop.ini
 /bin/
 /deploy/
 src/main/webapp/bower_components/
+src/test/javascript/karma.conf.js
 
 ######################
 # Logs
