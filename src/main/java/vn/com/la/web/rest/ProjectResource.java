@@ -1,7 +1,7 @@
 package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import vn.com.la.service.FtpService;
+import vn.com.la.service.FileSystemHandlingService;
 import vn.com.la.service.ProjectService;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.web.rest.vm.request.SyncUpProjectRequestVM;
 import vn.com.la.web.rest.vm.response.DatatableResponseVM;
-import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
 import javax.validation.Valid;
@@ -40,9 +39,9 @@ public class ProjectResource {
     private static final String ENTITY_NAME = "project";
 
     private final ProjectService projectService;
-    private final FtpService ftpService;
+    private final FileSystemHandlingService ftpService;
 
-    public ProjectResource(ProjectService projectService, FtpService ftpService) {
+    public ProjectResource(ProjectService projectService, FileSystemHandlingService ftpService) {
         this.projectService = projectService;
         this.ftpService = ftpService;
     }

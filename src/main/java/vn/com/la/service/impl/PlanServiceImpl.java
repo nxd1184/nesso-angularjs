@@ -2,13 +2,9 @@ package vn.com.la.service.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.net.ftp.FTPFile;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.Constants;
-import vn.com.la.domain.JobTeam;
-import vn.com.la.domain.JobTeamUser;
-import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.*;
 import vn.com.la.service.dto.JobDTO;
@@ -31,10 +27,10 @@ public class PlanServiceImpl implements PlanService {
 
     private final JobService jobService;
     private final JobTeamService jobTeamService;
-    private final FtpService ftpService;
+    private final FileSystemHandlingService ftpService;
     private final JobTeamUserTaskService jobTeamUserTaskService;
 
-    public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FtpService ftpService,
+    public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;

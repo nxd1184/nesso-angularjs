@@ -3,7 +3,7 @@ package vn.com.la.service.impl;
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
 import vn.com.la.domain.enumeration.FileStatusEnum;
-import vn.com.la.service.FtpService;
+import vn.com.la.service.FileSystemHandlingService;
 import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.domain.JobTeamUserTask;
@@ -38,10 +38,10 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
 
     private final JobService jobService;
 
-    private final FtpService ftpService;
+    private final FileSystemHandlingService ftpService;
 
     public JobTeamUserTaskServiceImpl(JobTeamUserTaskRepository jobTeamUserTaskRepository, JobTeamUserTaskMapper jobTeamUserTaskMapper,
-                                      JobService jobService, FtpService ftpService) {
+                                      JobService jobService, FileSystemHandlingService ftpService) {
         this.jobTeamUserTaskRepository = jobTeamUserTaskRepository;
         this.jobTeamUserTaskMapper = jobTeamUserTaskMapper;
         this.jobService = jobService;

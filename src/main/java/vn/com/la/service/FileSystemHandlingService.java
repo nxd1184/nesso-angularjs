@@ -2,9 +2,10 @@ package vn.com.la.service;
 
 import org.apache.commons.net.ftp.FTPFile;
 
+import java.io.File;
 import java.util.List;
 
-public interface FtpService {
+public interface FileSystemHandlingService {
 
     boolean validateProjectStructure(String projectCode);
     List<String> backLogs(String projectCode) throws Exception;
@@ -13,7 +14,7 @@ public interface FtpService {
 
     void copy(String from, String toPath, String fileName) throws Exception;
 
-    List<FTPFile> listFileFromPath(String path) throws Exception;
+    List<File> listFileFromPath(String path) throws Exception;
 
     boolean checkFileExist(String filePath);
 }
