@@ -2,11 +2,10 @@ package vn.com.la.web.rest;
 
 import vn.com.la.NessoApp;
 
-import vn.com.la.config.ApplicationProperties;
 import vn.com.la.domain.Project;
 import vn.com.la.domain.User;
 import vn.com.la.repository.ProjectRepository;
-import vn.com.la.service.FtpService;
+import vn.com.la.service.FileSystemHandlingService;
 import vn.com.la.service.ProjectService;
 import vn.com.la.service.dto.ProjectDTO;
 import vn.com.la.service.mapper.ProjectMapper;
@@ -81,7 +80,7 @@ public class ProjectResourceIntTest {
     private ProjectService projectService;
 
     @Autowired
-    private FtpService ftpService;
+    private FileSystemHandlingService ftpService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;

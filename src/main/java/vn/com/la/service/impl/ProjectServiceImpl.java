@@ -4,7 +4,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
 import vn.com.la.domain.enumeration.JobStatusEnum;
-import vn.com.la.service.FtpService;
+import vn.com.la.service.FileSystemHandlingService;
 import vn.com.la.service.JobService;
 import vn.com.la.service.ProjectService;
 import vn.com.la.domain.Project;
@@ -41,12 +41,12 @@ public class ProjectServiceImpl implements ProjectService{
 
     private final ProjectMapper projectMapper;
 
-    private final FtpService ftpService;
+    private final FileSystemHandlingService ftpService;
 
     private final JobService jobService;
 
     public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper,
-                              FtpService ftpService, JobService jobService) {
+                              FileSystemHandlingService ftpService, JobService jobService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
         this.ftpService = ftpService;
