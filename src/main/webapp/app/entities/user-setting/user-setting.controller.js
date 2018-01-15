@@ -12,14 +12,21 @@
         var vm = this;
         vm.createOrUpdateSetting = createOrUpdateSetting;
 
+        vm.dtInstance = {};
+        vm.searchText = $state.searchText;
+        vm.search = search;
+        vm.searchType = "Name";
+
         function search() {
-            var resetPaging = true;
+            console.log("Searching user setting by " + vm.searchType);
+            var resetPaging = false;
             vm.dtInstance.reloadData(searchCallback, resetPaging);
         }
 
         function searchCallback(data) {
 
         }
+
 
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withOption('ajax', {
@@ -32,7 +39,17 @@
                 data: function(d){
                     var params = {};
 
-                    // params.search = vm.searchText;
+                    if(vm.searchType === "Name") {
+                        params.name = vm.searchText;
+                    }
+                    else if (vm.searchType === "Date") {
+                        if (vm.searchText)
+                        {
+                            //params.date = new Date(vm.searchText).toISOString();
+                            params.date = LA.StringUtils.urlEncode(LA.StringUtils.toIsoFromMoment(moment(vm.searchText, "DD/MM/YYYY")));
+                            console.log(params.date);
+                        }
+                    }
 
                     if(d.order && d.order.length) {
                         params.sort = d.columns[d.order[0].column].data + ',' + d.order[0].dir;
@@ -69,7 +86,7 @@
             DTColumnBuilder.newColumn('type').withTitle('TYPE'),
             DTColumnBuilder.newColumn('userConfigName').withTitle('USER CONFIG'),
             DTColumnBuilder.newColumn('createdDate').withTitle('CREATE DATE').renderWith(function(data) {
-                var value = '';
+                var value = data;
                 if(data) {
                     value = moment(data).format('DD/MM/YYYY hh:mm');
                 }
@@ -87,7 +104,7 @@
                 }
 
                 $scope.$apply(function () {
-                    vm.createOrUpdate(project);
+                    vm.createOrUpdateSetting(project);
                 });
             });
             return nRow;
@@ -120,5 +137,12 @@
 
             //id="editConfig"
         }
+
+//$('#option_search').selectpicker();
+        angular.element(document).ready(function () {
+            console.log("initializeSelectPicker");
+            $('#option_search').selectpicker('show');
+        });
     }
+
 })();

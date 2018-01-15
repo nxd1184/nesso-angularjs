@@ -3,29 +3,29 @@
     <div class="page-head">
         <!-- BEGIN PAGE TITLE -->
         <div class="page-title">
-            <h1>Configuation</h1>
+            <h1>User Setting</h1>
         </div>
         <!-- END PAGE TITLE -->
         <!-- BEGIN PAGE TOOLBAR -->
         <div class="page-toolbar">
-            <div class="search" >
+            <form class="search" ng-submit="vm.search()">
                 <div class="input-group" style="float:left">
                     <div class="input-group-btn">
-                        <select id="option_search" class="selectpicker" data-live-search="false" title="Please select" data-width="90">
-                            <option>Name</option>
-                            <option>Date</option>
+                        <select id="option_search" class="selectpicker" data-live-search="false" ng-model="vm.searchType" title="Please select" data-width="90">
+                            <option value="Name">Name</option>
+                            <option value="Date">Date</option>
                         </select>
                     </div>
                     <!-- /btn-group -->
-                    <input type="text" class="form-control" placeholder="Search configuation name">
+                    <input type="text" class="form-control" ng-model="vm.searchText" placeholder="Search user setting">
                     <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" type="button" ng-click="vm.search()"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </span>
 
                 </div>
 
-            </div>
-            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdateSetting()" >New Configuation<i class="fa fa-plus" aria-hidden="true"></i></a>
+            </form>
+            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.createOrUpdateSetting()"> New User Setting <i class="fa fa-plus`" aria-hidden="true"></i></a>
             <!-- END THEME PANEL -->
         </div>
         <!-- END PAGE TOOLBAR -->
