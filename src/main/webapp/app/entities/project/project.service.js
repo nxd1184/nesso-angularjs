@@ -24,4 +24,38 @@
             'update': { method:'PUT' }
         });
     }
+
+    angular
+        .module('nessoApp')
+        .factory('projectService', projectService);
+
+    projectService.$inject = ['$http', '$q'];
+
+    function projectService ($http, $q) {
+
+        var service = {
+            syncUp: syncUp
+        };
+
+        function syncUp(projectCode) {
+            var defer = $q.defer();
+
+            var url = '/api/projects/sync-up/';
+
+            var data = {
+                projectCode: projectCode
+            };
+
+            $http(LA.RequestUtils.put(url, data)).then(function(result) {
+                defer.resolve(result.data);
+            }, function error(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        return service;
+    }
+
 })();

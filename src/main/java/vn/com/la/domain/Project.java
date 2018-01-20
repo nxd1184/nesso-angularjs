@@ -64,8 +64,8 @@ public class Project extends AbstractAuditingEntity {
     @NotNull
     private User manager;
 
-    @OneToMany(mappedBy = "project")
-    @JsonIgnore
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+//    @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Job> jobs = new HashSet<>();
 

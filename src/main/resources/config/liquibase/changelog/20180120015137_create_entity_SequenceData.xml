@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="steven (generated)" id="1516413106413-1">
+        <createTable tableName="sequence_data">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="sequence_dataPK"/>
+            </column>
+            <column name="sequence_cur_value" type="BIGINT"/>
+            <column name="sequence_cycle" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_increment" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_max_value" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_min_value" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sequence_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

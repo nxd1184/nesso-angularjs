@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('PlanController', PlanController);
 
-    PlanController.$inject = ['$scope','$state', 'Project', '$timeout'];
+    PlanController.$inject = ['$scope','$state', 'Project', '$timeout', 'projectService', '$window'];
 
-    function PlanController($scope, $state, Project, $timeout) {
+    function PlanController($scope, $state, Project, $timeout, projectService, $window) {
 
         var vm = this;
         vm.projects = [];
@@ -16,6 +16,7 @@
         vm.rows = [];
 
         vm.editJob = editJob;
+        vm.syncUp = syncUp;
 
         _loadProjects();
 
@@ -33,6 +34,7 @@
                         cssClass: 'parent treegrid-' + i,
                         type: 'project',
                         name: project.name,
+                        code: project.code,
                         total: 0,
                         toDo: 0,
                         toCheck: 0,
@@ -71,6 +73,14 @@
 
         function editJob(job) {
 
+        }
+
+        function syncUp(projectCode) {
+            projectService.syncUp(projectCode).then(onSuccess);
+
+            function onSuccess(result) {
+                $window.location.reload();
+            }
         }
 
     }

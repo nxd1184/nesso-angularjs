@@ -1,7 +1,6 @@
 package vn.com.la.service.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.Constants;
@@ -28,14 +27,14 @@ public class PlanServiceImpl implements PlanService {
 
     private final JobService jobService;
     private final JobTeamService jobTeamService;
-    private final FileSystemHandlingService ftpService;
+    private final FileSystemHandlingService fileSystemHandlingService;
     private final JobTeamUserTaskService jobTeamUserTaskService;
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
-        this.ftpService = ftpService;
+        this.fileSystemHandlingService = ftpService;
         this.jobTeamUserTaskService = jobTeamUserTaskService;
     }
 
@@ -79,15 +78,15 @@ public class PlanServiceImpl implements PlanService {
             jobService.save(job);
 
             // create backlog item folder inside todo, tocheck, done
-            ftpService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName()));
-            ftpService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName()));
-            ftpService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName()));
+            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName()));
+            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName()));
+            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName()));
             // move files from backlogs to to-do
 
             long totalFilesInBacklogItem = job.getTotalFiles();
             // list file from backlog item
             String backLogItemPath = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.BACK_LOGS, job.getName());
-            List<File> files = ftpService.listFileFromPath(backLogItemPath);
+            List<File> files = fileSystemHandlingService.listFileFromPath(backLogItemPath);
             int iFile = 0;
 
             Set<JobTeamDTO> jobTeamDTOs = job.getJobTeams();
@@ -99,15 +98,15 @@ public class PlanServiceImpl implements PlanService {
                     for (JobTeamUserDTO jobTeamUserDTO : jobTeamDTO.getJobTeamUsers()) {
                         // To-do folder
                         String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName(), jobTeamUserDTO.getUserLogin());
-                        ftpService.makeDirectory(toDoFolderOfUser);
+                        fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
 
                         // to-check folder
                         String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName(), jobTeamUserDTO.getUserLogin());
-                        ftpService.makeDirectory(toCheckFolderOfUser);
+                        fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
 
                         // done folder
                         String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName(), jobTeamUserDTO.getUserLogin());
-                        ftpService.makeDirectory(doneFolderOfUser);
+                        fileSystemHandlingService.makeDirectory(doneFolderOfUser);
 
                         // move files from backlogs into todo folder
                         if (iFile >= files.size()) {
@@ -131,6 +130,7 @@ public class PlanServiceImpl implements PlanService {
 
                                     JobTeamUserTaskDTO jobTeamUserTaskDTO = new JobTeamUserTaskDTO();
                                     jobTeamUserTaskDTO.setFilePath(toDoFolderOfUser);
+
                                     jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
 
                                     jobTeamUserTaskDTO.setOriginalFilePath(backLogItemPath);
@@ -138,16 +138,12 @@ public class PlanServiceImpl implements PlanService {
 
                                     jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
-                                    jobTeamUserTaskDTO = jobTeamUserTaskService.save(jobTeamUserTaskDTO);
-
                                     // setup file name
                                     String newFileName = job.getProjectCode() + Constants.UNDERSCORE + job.getName() + Constants.UNDERSCORE + jobTeamUserTaskDTO.getId() + Constants.UNDERSCORE + remoteFileName;
                                     jobTeamUserTaskDTO.setFileName(newFileName);
 
-                                    // save again
-                                    jobTeamUserTaskDTO = jobTeamUserTaskService.save(jobTeamUserTaskDTO);
 
-                                    ftpService.copy(backLogItemPath + remoteFileName, toDoFolderOfUser, newFileName);
+                                    fileSystemHandlingService.copy(backLogItemPath + remoteFileName, toDoFolderOfUser, newFileName);
 
                                     totalFilesForJobTeam++;
                                     if (iFile >= files.size()) {

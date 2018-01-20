@@ -19,8 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.service.util.LACollectionUtil;
+import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     private final ProjectMapper projectMapper;
 
-    private final FileSystemHandlingService ftpService;
+    private final FileSystemHandlingService fileSystemHandlingService;
 
     private final JobService jobService;
 
@@ -49,7 +51,7 @@ public class ProjectServiceImpl implements ProjectService{
                               FileSystemHandlingService ftpService, JobService jobService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
-        this.ftpService = ftpService;
+        this.fileSystemHandlingService = ftpService;
         this.jobService = jobService;
     }
 
@@ -127,7 +129,7 @@ public class ProjectServiceImpl implements ProjectService{
         List<JobDTO> syncJobs = new ArrayList<>();
         ProjectDTO projectDTO = findByCode(projectCode);
         try {
-            List<String> backLogs = ftpService.backLogs(projectCode);
+            List<String> backLogs = fileSystemHandlingService.backLogs(projectCode);
             if(projectDTO != null) {
                 Set<JobDTO> jobDTOs = projectDTO.getJobs();
 
@@ -139,25 +141,46 @@ public class ProjectServiceImpl implements ProjectService{
                     JobDTO jobDTO = null;
                     if(!jobsMap.containsKey(backLog)) {
                         jobDTO = new JobDTO();
+
+                        jobDTO.setName(backLog);
+                        jobDTO.setProjectId(projectDTO.getId());
+                        String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
+                        jobDTO.setTotalFiles(fileSystemHandlingService.countFilesFromPath(jobPath));
+                        jobDTO.setStatus(JobStatusEnum.ACTIVE);
+                        jobDTO.setSyncDate(ZonedDateTime.now());
+
+                        projectDTO.addJob(jobDTO);
+
                     }else {
                         jobDTO = jobService.findByName(backLog);
+
+                        jobDTO.setName(backLog);
+                        jobDTO.setProjectId(projectDTO.getId());
+                        String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
+                        Long newTotalFiles = fileSystemHandlingService.countFilesFromPath(jobPath);
+                        if(newTotalFiles > jobDTO.getTotalFiles()) {
+                            jobDTO.setTotalFiles(newTotalFiles);
+                        }else {
+                            if(BooleanUtils.isTrue(jobDTO.getStarted())) {
+                                throw new CustomParameterizedException("Total files is less than the current one");
+                            }
+
+                        }
+
+                        if(BooleanUtils.isNotTrue(jobDTO.getStarted())) {
+                            jobDTO.setSyncDate(ZonedDateTime.now());
+                        }
+
+                        jobDTO.setStatus(JobStatusEnum.ACTIVE);
+
+                        jobService.save(jobDTO);
                     }
-
-                    if(BooleanUtils.isTrue(jobDTO.getStarted())) {
-                        continue;
-                    }
-
-
-                    jobDTO.setName(backLog);
-                    jobDTO.setProjectId(projectDTO.getId());
-                    String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
-                    jobDTO.setTotalFiles(ftpService.countFilesFromPath(jobPath));
-                    jobDTO.setStatus(JobStatusEnum.ACTIVE);
-                    jobDTO = jobService.save(jobDTO);
 
 
                     syncJobs.add(jobDTO);
                 }
+
+                save(projectDTO);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

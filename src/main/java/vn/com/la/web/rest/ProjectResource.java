@@ -150,17 +150,4 @@ public class ProjectResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(projectDTO));
     }
 
-    /**
-     * DELETE  /projects/:id : delete the "id" project.
-     *
-     * @param id the id of the projectDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @DeleteMapping("/projects/{id}")
-    @Timed
-    public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-        log.debug("REST request to delete Project : {}", id);
-        projectService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
 }

@@ -49,4 +49,10 @@
     <include file="config/liquibase/changelog/20180111161721_update_entity_JobTeamUserTask_remove_constraint_notnull_for_filename.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180112014632_update_entity_User_Setting_add_config_info.xml" relativeToChangelogFile="false"/>
 
+    <include file="config/liquibase/changelog/20180115182229_create_nextval_function.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20180120015137_create_entity_SequenceData.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20180120025248_update_entity_Job_add_sync_date_column.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

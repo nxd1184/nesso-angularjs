@@ -44,6 +44,8 @@ public class JobDTO implements Serializable {
     private Integer sequenceTask;
     private Integer sequence;
 
+    private ZonedDateTime syncDate;
+
     public Long getId() {
         return id;
     }
@@ -154,6 +156,14 @@ public class JobDTO implements Serializable {
 
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
+    }
+
+    public ZonedDateTime getSyncDate() {
+        return syncDate;
+    }
+
+    public void setSyncDate(ZonedDateTime syncDate) {
+        this.syncDate = syncDate;
     }
 
     @Override

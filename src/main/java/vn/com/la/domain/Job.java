@@ -67,6 +67,9 @@ public class Job extends AbstractAuditingEntity {
     @Column(name = "sequence")
     private Integer sequence = 1;
 
+    @Column(name = "sync_date")
+    private ZonedDateTime syncDate;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -181,6 +184,14 @@ public class Job extends AbstractAuditingEntity {
 
     public void setSequence(Integer sequence) {
         this.sequence = sequence;
+    }
+
+    public ZonedDateTime getSyncDate() {
+        return syncDate;
+    }
+
+    public void setSyncDate(ZonedDateTime syncDate) {
+        this.syncDate = syncDate;
     }
 
     @Override

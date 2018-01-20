@@ -107,9 +107,13 @@
                             <td>{{row.toCheck}}</td>
                             <td>{{row.done}}</td>
                             <td>{{row.delivery}}</td>
-                            <td class="action" ng-if="row.type == 'job'">
-                                <a class="btn-editJob" ui-sref="plan.edit({id: row.id})">
+                            <td class="action">
+                                <a ng-if="row.type == 'job'" class="btn-editJob" ui-sref="plan.edit({id: row.id})">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a>
+
+                                <a ng-if="row.type == 'project'" class="btn-editJob" ng-click="vm.syncUp(row.code)">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>

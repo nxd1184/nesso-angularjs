@@ -74,7 +74,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     public Long countFilesFromPath(String path) throws Exception{
         Long totalFiles = 0L;
 
-        File file = new File(path);
+        File file = new File(rootFolder + Constants.DASH + path);
         totalFiles = new Long(file.list().length);
 
         return totalFiles;
@@ -82,24 +82,24 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public void makeDirectory(String path) throws Exception {
-        File newDir = new File(path);
+        File newDir = new File(rootFolder + Constants.DASH + path);
         newDir.createNewFile();
     }
 
     @Override
     public void copy(String fromSource, String toPath, String fileName) throws Exception {
-        Files.copy(new File(fromSource), new File(toPath + Constants.DASH + fileName));
+        Files.copy(new File( rootFolder + Constants.DASH +fromSource), new File(rootFolder + Constants.DASH + toPath + Constants.DASH + fileName));
     }
 
     @Override
     public List<File> listFileFromPath(String path) throws Exception {
-        File file = new File(path);
+        File file = new File(rootFolder + Constants.DASH + path);
         return Arrays.asList(file.listFiles());
     }
 
     @Override
     public boolean checkFileExist(String filePath) {
-        File file = new File(filePath);
+        File file = new File(rootFolder + Constants.DASH + filePath);
 
         return file.exists();
     }
