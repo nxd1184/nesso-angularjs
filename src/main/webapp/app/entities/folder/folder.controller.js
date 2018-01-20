@@ -3,15 +3,13 @@
 
     angular
         .module('nessoApp')
-        .controller('UserSettingController', UserSettingController);
+        .controller('FolderController', FolderController);
 
-    UserSettingController.$inject = ['$state', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope'];
+    FolderController.$inject = ['$state', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope', '$timeout'];
 
-    function UserSettingController($state, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope) {
+    function FolderController($state, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope, $timeout) {
 
         var vm = this;
-        vm.createOrUpdateSetting = createOrUpdateSetting;
-
         vm.dtInstance = {};
         vm.searchText = $state.searchText;
         vm.search = search;
@@ -110,37 +108,25 @@
             return nRow;
         }
 
-        function createOrUpdateSetting(userSetting) {
-
-            if(!userSetting) {
-                userSetting = {
-                    auto: true,
-                    active: true
-                }
-            }
-
-            $uibModal.open({
-                templateUrl: 'app/entities/user-setting/user-setting-dialog.html',
-                controller: 'UserSettingDialogController',
-                controllerAs: 'vm',
-                backdrop: 'static',
-                resolve: {
-                    entity: function () {
-                        return userSetting;
-                    }
-                }
-            }).result.then(function() {
-                $state.go('user-setting', null, { reload: 'user-setting' });
-            }, function() {
-                $state.go('user-setting');
-            });
-
-            //id="editConfig"
-        }
-
         angular.element(document).ready(function () {
-            console.log("initializeSelectPicker");
-            $('#option_search').selectpicker('show');
+            console.log("initialize Folder Tree");
+
+            $('#tree_1').jstree({
+                                "core" : {
+                                    "themes" : {
+                                        "responsive": false
+                                    }
+                                },
+                                "types" : {
+                                    "default" : {
+                                        "icon" : "fa fa-folder icon-state-warning icon-lg"
+                                    },
+                                    "file" : {
+                                        "icon" : "fa fa-file icon-state-warning icon-lg"
+                                    }
+                                },
+                                "plugins": ["types"]
+                            });
         });
     }
 

@@ -1,0 +1,826 @@
+
+<div class="page-content">
+	<!-- BEGIN PAGE HEAD -->
+	<div class="page-head">
+		<!-- BEGIN PAGE TITLE -->
+		<div class="page-title">
+			<h1>Folder Management</h1>
+		</div>
+		<!-- END PAGE TITLE -->
+		<!-- BEGIN PAGE TOOLBAR -->
+		<div class="page-toolbar">
+			<div class="search" >
+				<div class="input-group" style="width:375px" style="float:left">
+						<input type="text" class="form-control" placeholder="Search Folder">
+						<span class="input-group-btn">
+						<button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+						</span>
+
+					</div>
+				</div>
+				<a class="btn btn-primary pull-right btn-add-project" data-toggle="modal" > Refresh </a>
+				<!-- END THEME PANEL -->
+		</div>
+		<!-- END PAGE TOOLBAR -->
+	</div>
+	<!-- END PAGE HEAD -->
+	<!-- BEGIN PAGE BREADCRUMB -->
+	<ul class="page-breadcrumb breadcrumb hide">
+		<li>
+			<a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+		</li>
+		<li class="active">
+			 Project
+		</li>
+	</ul> 
+	<style type="text/css">
+
+		.jstree-default .jstree-open>.jstree-ocl,
+		.jstree-default .jstree-closed>.jstree-ocl,
+		.jstree-default .jstree-node,
+		.jstree-default .jstree-icon{
+			background: none;
+		}
+		.jstree-default .jstree-node{
+			padding: 5px 0;
+		}
+		.jstree-default .jstree-open>.jstree-ocl:before,
+		.jstree-default .jstree-closed>.jstree-ocl:before{
+			width: 10px;
+		    float: left;
+		    margin-right: 5px;
+		    margin-left: 5px;
+		    display: inline;
+		    font-size: 16px;
+		    font-family: FontAwesome;
+		    height: auto;
+		    content: "\f106";
+		    font-weight: 300;
+		    text-shadow: none;
+		    font-weight: bold;
+		    font-style: normal;
+		}
+		.jstree-default .jstree-closed>.jstree-ocl:before{
+			content: "\f107";
+		}
+		.fa-folder:before{
+			color: #0079c7;
+		}
+		.fa-file:before{
+			color: #78909d
+		}
+		.folder{
+			background: #fff;
+			border-radius: 4px;
+			border: 1px solid #dae3ea;
+			box-shadow: 0 1px 2px 0 rgba(55, 71, 79, 0.15);
+			overflow: hidden;
+		}
+		.folder .portlet.box.blue-hoki{
+			border: 0 !important;
+			border-radius: 0;
+			background: none;
+			overflow: hidden;
+			overflow-x: auto
+		}
+		.folder .portlet-title{
+			background-color: #fff !important;
+			color: #37474f;
+			padding: 0;
+		}
+		.folder .portlet-body{
+			padding: 0;
+
+		}
+		.folder .portlet-title .caption{
+			color: #37474f !important;
+		}
+		.folder .left{
+			border-right: 1px solid #dae3ea;
+		}
+		.folder .right{
+			border: 0;
+			border-radius: 0;
+			border-left: 1px solid #dae3ea;
+			overflow: hidden;
+			margin-left: -1px;
+		}
+		.folder .right .folder-right-content{
+			border:0;
+		}
+
+		.folder .right .head-break{
+		    padding: 20px 15px 0;
+		    border-bottom: 1px solid #dae3ea;
+		    margin: 0 -15px;
+		    display: block;
+		    overflow: hidden;
+		}
+		.folder .right .head-break ul li a{
+			font-family: Roboto;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 1.43;
+			letter-spacing: 0.2px;
+			text-align: left;
+			color: #37474f;
+			text-decoration: none;
+		}
+		.folder .right .head-break .breadcrumb{
+
+		}
+		.folder .right .head-break .breadcrumb .fa {
+		    font-size: 16px;
+		    margin: 0 2px 0 4px;
+		    position: relative;
+		    top: 0px;
+		}
+		.folder .right .head-break  .action a{
+			text-decoration: none;
+			font-family: Roboto;
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 1.43;
+			letter-spacing: 0.2px;
+			text-align: left;
+			color: #0079c7;
+			margin-left: 20px;
+		}
+		.folder .right .head-break  .action a i{
+			margin-right: 5px;
+		}
+		.folder .right .head-break  .action a.atc_clean{
+			color:#dd484b;
+		}
+	</style>
+	<div class="margin-top-20 folder">
+		<div class="col-md-3 left">
+				<div class="portlet blue-hoki box">
+					<div class="portlet-title">
+						<div class="caption">
+							All Folder
+						</div>
+					</div>
+					<div class="portlet-body">
+						<div id="tree_1" class="tree-folder">
+							<ul>
+								<li data-jstree='{ "opened" : true,"selected" : true}'>
+									Project 1
+									<ul>
+										<li data-jstree='{ "opened" : false}'>
+											BackLogs
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+														<li data-jstree='{ "opened" : false  }'>
+															Rework_AAA
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											To do
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													07/09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+
+												<li data-jstree='{ "opened" : false  }'>
+													Rework_AAAA
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											To check
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													07/09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+
+												<li data-jstree='{ "opened" : false  }'>
+													Rework_AAAA
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Done
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+														<li data-jstree='{ "opened" : false  }'>
+															Rework_ACB
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Delivery
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Error
+											<ul>
+												<li data-jstree='{ "opened" : true  }'>
+													Image
+
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									Project 2
+									<ul>
+										<li data-jstree='{ "opened" : false}'>
+											BackLogs
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+														<li data-jstree='{ "opened" : false  }'>
+															Rework_AAA
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											To do
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													07/09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+
+												<li data-jstree='{ "opened" : false  }'>
+													Rework_AAAA
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											To check
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													07/09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+
+												<li data-jstree='{ "opened" : false  }'>
+													Rework_AAAA
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Done
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+														<li data-jstree='{ "opened" : false  }'>
+															Rework_ACB
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Delivery
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Error
+											<ul>
+												<li data-jstree='{ "opened" : true  }'>
+													Image
+
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									Project 3
+									<ul>
+										<li data-jstree='{ "opened" : false}'>
+											BackLogs
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+														<li data-jstree='{ "opened" : false  }'>
+															Rework_AAA
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											To do
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													07/09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+
+												<li data-jstree='{ "opened" : false  }'>
+													Rework_AAAA
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											To check
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													07/09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+
+												<li data-jstree='{ "opened" : false  }'>
+													Rework_AAAA
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															ThoMasMuller
+															<ul>
+																<li data-jstree='{ "opened" : false  }'>
+																	Image
+																</li>
+
+															</ul>
+														</li>
+
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Done
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+														<li data-jstree='{ "opened" : false  }'>
+															Rework_ACB
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Delivery
+											<ul>
+												<li data-jstree='{ "opened" : false  }'>
+													09/2017
+
+													<ul>
+														<li data-jstree='{ "opened" : false  }'>
+															Image
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li data-jstree='{ "opened" : false }'>
+											Error
+											<ul>
+												<li data-jstree='{ "opened" : true  }'>
+													Image
+
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+		</div>
+
+		<div class="col-md-9 right">
+
+				<div class="head-break">
+					<ul class="page-breadcrumb breadcrumb pull-left">
+						<li>
+							<a href="javascript:;">Nesso</a>
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</li>
+						<li>
+							<a href="javascript:;">Project 1</a>
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</li>
+						<li class="active">
+							 Sub Project 1A
+						</li>
+					</ul>
+					<!--
+					<div class="action pull-right">
+						<a href="javascript:;" class="atc_index"><i class="fa fa-list-alt" aria-hidden="true"></i> Index</a>
+						<a href="javascript:;" class="atc_checkin"><i class="fa fa-check-circle" aria-hidden="true"></i> Check in</a>
+						<a href="javascript:;" class="atc_clean"><i class="fa fa-trash-o" aria-hidden="true"></i> Clean</a>
+					</div>
+					-->
+				</div>
+				<div class="wrap-table-radius table-responsive folder-right-content">
+					<table class="table table-hover" id="folder-right-content">
+						<thead>
+							<tr>
+								<th></th>
+								<th>
+									Name
+								</th>
+								<th>
+									Type
+								</th>
+								<th>
+									Create
+								</th>
+								<th>
+									Last Modified
+								</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+							<tr>
+								<td>
+									<input type="checkbox" class="checkboxes" value="1"/>
+								</td>
+								<td>
+									<i class="fa fa-file" aria-hidden="true"></i> File 000
+								</td>
+
+								<td>
+									JPEG
+								</td>
+								<td>
+									06/01/2017 06:57PM
+								</td>
+								<td>
+									06/03/2017 03:57PM
+								</td>
+
+							</tr>
+						</tbody>
+						</table>
+				</div>
+
+		</div>
+	</div>
+
+	<!-- END PAGE BREADCRUMB -->
+	<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+	<div class="modal fade modal-scroll popupModal" id="addNewFolderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Add Folder</h4>
+				</div>
+				<div class="modal-body">
+					<!-- <div class="alert alert-danger alert-dismissable">
+					    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+					    <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Oh snap! Change a few things up and try submitting again.
+					</div> -->
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label>Folder name</label>
+								<input type="text" name="folder_name" class="form-control" placeholder="Folder Name">
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<div class="row">
+
+						<div class="col-md-12 text-center">
+							<button type="button" class="btn default btn-cancel" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-save">Add</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+</div>
+<!-- END CONTENT -->

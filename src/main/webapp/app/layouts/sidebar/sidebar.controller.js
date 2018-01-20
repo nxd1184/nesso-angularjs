@@ -26,7 +26,8 @@
             }, {
                 title: 'Folder',
                 icon: 'fa fa-folder-open',
-                state: 'folder'
+                state: 'folder',
+                url: '#!/folder'
             }, {
                 title: 'Setting',
                 icon: 'fa fa-cog',
