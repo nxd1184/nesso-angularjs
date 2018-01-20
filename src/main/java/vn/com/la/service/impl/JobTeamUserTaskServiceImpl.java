@@ -22,6 +22,8 @@ import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing JobTeamUserTask.
@@ -60,6 +62,14 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         JobTeamUserTask jobTeamUserTask = jobTeamUserTaskMapper.toEntity(jobTeamUserTaskDTO);
         jobTeamUserTask = jobTeamUserTaskRepository.save(jobTeamUserTask);
         return jobTeamUserTaskMapper.toDto(jobTeamUserTask);
+    }
+
+    @Override
+    public List<JobTeamUserTaskDTO> save(List<JobTeamUserTaskDTO> jobTeamUserTaskDTOList) {
+        log.debug("Request to save List JobTeamUserTask : {}", jobTeamUserTaskDTOList);
+        List<JobTeamUserTask> jobTeamUserTaskList = jobTeamUserTaskMapper.toEntity(jobTeamUserTaskDTOList);
+        jobTeamUserTaskList = jobTeamUserTaskRepository.save(jobTeamUserTaskList);
+        return jobTeamUserTaskMapper.toDto(jobTeamUserTaskList);
     }
 
     /**

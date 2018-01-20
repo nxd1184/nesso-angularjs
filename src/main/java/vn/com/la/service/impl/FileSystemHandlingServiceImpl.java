@@ -83,7 +83,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     @Override
     public void makeDirectory(String path) throws Exception {
         File newDir = new File(rootFolder + Constants.DASH + path);
-        newDir.createNewFile();
+        newDir.mkdir();
     }
 
     @Override

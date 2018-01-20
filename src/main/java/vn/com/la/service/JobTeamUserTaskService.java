@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
+import java.util.List;
+
 /**
  * Service Interface for managing JobTeamUserTask.
  */
@@ -18,6 +20,7 @@ public interface JobTeamUserTaskService {
      * @return the persisted entity
      */
     JobTeamUserTaskDTO save(JobTeamUserTaskDTO jobTeamUserTaskDTO);
+    List<JobTeamUserTaskDTO> save(List<JobTeamUserTaskDTO> jobTeamUserTaskDTOList);
 
     /**
      *  Get all the jobTeamUserTasks.

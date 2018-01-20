@@ -26,6 +26,8 @@ public final class Constants {
     public static final Integer ZERO = 0;
     public static final Integer ONE = 1;
 
+    public static final String NESSO_GLOBAL_SEQUENCE = "SQ_NESSO_GLOBAL_SEQUENCE";
+
     private Constants() {
     }
 }

@@ -55,4 +55,9 @@
 
     <include file="config/liquibase/changelog/20180120025248_update_entity_Job_add_sync_date_column.xml" relativeToChangelogFile="false"/>
 
+
+    <include file="config/liquibase/changelog/20180120113002_insert_sequence_data_for_job_team_user_task.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180120151105_update_SequenceData_remove_default_values.xml" relativeToChangelogFile="false"/>
+
+
 </databaseChangeLog>

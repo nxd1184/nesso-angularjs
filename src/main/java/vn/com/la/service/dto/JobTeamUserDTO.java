@@ -27,6 +27,8 @@ public class JobTeamUserDTO implements Serializable {
 
     private Long capacity;
 
+    private Set<JobTeamUserTaskDTO> jobTeamUserTasks = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -81,6 +83,14 @@ public class JobTeamUserDTO implements Serializable {
 
     public void setCapacity(Long capacity) {
         this.capacity = capacity;
+    }
+
+    public Set<JobTeamUserTaskDTO> getJobTeamUserTasks() {
+        return jobTeamUserTasks;
+    }
+
+    public void setJobTeamUserTasks(Set<JobTeamUserTaskDTO> jobTeamUserTasks) {
+        this.jobTeamUserTasks = jobTeamUserTasks;
     }
 
     @Override

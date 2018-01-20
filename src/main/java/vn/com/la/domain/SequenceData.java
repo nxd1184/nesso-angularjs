@@ -14,19 +14,19 @@ public class SequenceData {
     private String sequenceName;
 
     @Column(name = "sequenceIncrement", nullable = false, length = 10)
-    private int sequenceIncrement;
+    private int sequenceIncrement = 1;
 
     @Column(name = "sequenceMinValue", nullable = false, length = 10)
-    private int sequenceMinValue;
+    private int sequenceMinValue = 1;
 
     @Column(name = "sequenceMaxValue", nullable = false, length = 19)
-    private long sequenceMaxValue;
+    private long sequenceMaxValue = 1844674407370955169L;
 
     @Column(name = "sequenceCurValue", nullable = true, length = 19)
-    private long sequenceCurValue;
+    private long sequenceCurValue = 1;
 
     @Column(name = "sequenceCycle", nullable = false)
-    private boolean sequenceCycle;
+    private boolean sequenceCycle = false;
 
     public Long getId() {
         return id;

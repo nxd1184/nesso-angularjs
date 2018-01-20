@@ -6,7 +6,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A JobTeamUser.
@@ -33,6 +35,10 @@ public class JobTeamUser extends AbstractAuditingEntity {
     @ManyToOne(optional = false)
     @NotNull
     private User user;
+
+    @OneToMany(mappedBy = "jobTeamUser", cascade = CascadeType.ALL, orphanRemoval=true)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<JobTeamUserTask> jobTeamUserTasks = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -82,6 +88,15 @@ public class JobTeamUser extends AbstractAuditingEntity {
         this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public Set<JobTeamUserTask> getJobTeamUserTasks() {
+        return jobTeamUserTasks;
+    }
+
+    public void setJobTeamUserTasks(Set<JobTeamUserTask> jobTeamUserTasks) {
+        this.jobTeamUserTasks = jobTeamUserTasks;
+    }
 
     @Override
     public boolean equals(Object o) {

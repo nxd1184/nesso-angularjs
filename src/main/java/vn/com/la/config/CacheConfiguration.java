@@ -55,6 +55,7 @@ public class CacheConfiguration {
             cm.createCache(vn.com.la.domain.JobTeam.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeam.class.getName() + ".jobTeamUsers", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeamUser.class.getName(), jcacheConfiguration);
+            cm.createCache(vn.com.la.domain.JobTeamUser.class.getName() + ".jobTeamUserTasks", jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeamUserTask.class.getName(), jcacheConfiguration);
             cm.createCache(vn.com.la.domain.JobTeamUserTaskTracking.class.getName(), jcacheConfiguration);
 

@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="set-default-value-for-sequence-data-column" author="steven (generated)">
+        <addDefaultValue columnName="sequence_cur_value"
+                         defaultValue="1"
+                         tableName="sequence_data"/>
+
+        <addDefaultValue columnName="sequence_increment"
+                         defaultValue="1"
+                         tableName="sequence_data"/>
+
+        <addDefaultValue columnName="sequence_cycle"
+                         defaultValueBoolean="false"
+                         tableName="sequence_data"/>
+
+        <addDefaultValue columnName="sequence_max_value"
+                         defaultValueNumeric="1844674407370955169"
+                         tableName="sequence_data"/>
+
+        <addDefaultValue columnName="sequence_min_value"
+                         defaultValue="1"
+                         tableName="sequence_data"/>
+
+    </changeSet>
+    <changeSet author="steven (generated)" id="create-sequence-data-for-job-team-user-task">
+        <sqlFile encoding="utf8"
+                 splitStatements="false"
+                 stripComments="false" path="config/liquibase/sequence-job-team-user-task.sql" />
+    </changeSet>
+</databaseChangeLog>

@@ -4,7 +4,9 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.domain.enumeration.FileStatusEnum;
+import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
 import vn.com.la.service.dto.JobDTO;
 import vn.com.la.service.dto.JobTeamDTO;
@@ -18,6 +20,8 @@ import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,13 +33,16 @@ public class PlanServiceImpl implements PlanService {
     private final JobTeamService jobTeamService;
     private final FileSystemHandlingService fileSystemHandlingService;
     private final JobTeamUserTaskService jobTeamUserTaskService;
+    private final SequenceDataDao sequenceDataDao;
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
-                           JobTeamUserTaskService jobTeamUserTaskService) {
+                           JobTeamUserTaskService jobTeamUserTaskService,
+                           SequenceDataDao sequenceDataDao) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
         this.jobTeamUserTaskService = jobTeamUserTaskService;
+        this.sequenceDataDao = sequenceDataDao;
     }
 
     @Override
@@ -115,6 +122,7 @@ public class PlanServiceImpl implements PlanService {
 
                             if (jobTeamDTO.getTotalFiles() != null) {
                                 long iActualTotalFiles = Constants.ZERO;
+                                Set<JobTeamUserTaskDTO> jobTeamUserTaskDTOs = new HashSet<>();
                                 for (iActualTotalFiles = Constants.ONE; iActualTotalFiles <= jobTeamUserDTO.getTotalFiles(); iActualTotalFiles++) {
 
                                     File file = files.get(iFile++);
@@ -139,10 +147,11 @@ public class PlanServiceImpl implements PlanService {
                                     jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
                                     // setup file name
-                                    String newFileName = job.getProjectCode() + Constants.UNDERSCORE + job.getName() + Constants.UNDERSCORE + jobTeamUserTaskDTO.getId() + Constants.UNDERSCORE + remoteFileName;
+                                    String newFileName = job.getProjectCode() + Constants.UNDERSCORE + job.getName() + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + remoteFileName;
                                     jobTeamUserTaskDTO.setFileName(newFileName);
 
-
+                                    jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId());
+                                    jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
                                     fileSystemHandlingService.copy(backLogItemPath + remoteFileName, toDoFolderOfUser, newFileName);
 
                                     totalFilesForJobTeam++;
@@ -152,6 +161,7 @@ public class PlanServiceImpl implements PlanService {
                                     }
                                 }
                                 jobTeamUserDTO.setTotalFiles(iActualTotalFiles - Constants.ONE);
+                                jobTeamUserDTO.setJobTeamUserTasks(jobTeamUserTaskDTOs);
                             }
 
                         }

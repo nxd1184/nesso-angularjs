@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="steven (generated)" id="1516461075319-1">
+        <dropDefaultValue columnDataType="bigint" columnName="sequence_cur_value" tableName="sequence_data"/>
+    </changeSet>
+    <changeSet author="steven (generated)" id="1516461075319-2">
+        <dropDefaultValue columnDataType="boolean" columnName="sequence_cycle" tableName="sequence_data"/>
+    </changeSet>
+    <changeSet author="steven (generated)" id="1516461075319-3">
+        <dropDefaultValue columnDataType="int" columnName="sequence_increment" tableName="sequence_data"/>
+    </changeSet>
+    <changeSet author="steven (generated)" id="1516461075319-4">
+        <dropDefaultValue columnDataType="bigint" columnName="sequence_max_value" tableName="sequence_data"/>
+    </changeSet>
+    <changeSet author="steven (generated)" id="1516461075319-5">
+        <dropDefaultValue columnDataType="int" columnName="sequence_min_value" tableName="sequence_data"/>
+    </changeSet>
+</databaseChangeLog>
