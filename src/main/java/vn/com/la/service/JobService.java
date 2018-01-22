@@ -40,7 +40,7 @@ public interface JobService {
      */
     void delete(Long id);
 
-    JobDTO findByName(String name);
+    JobDTO findByNameAndProjectCode(String name, String projectCode);
 
     int updateJobToStart(Long id);
 }

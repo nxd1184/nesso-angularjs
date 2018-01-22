@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
-    Job findByName(String name);
+    Job findByNameAndProjectCode(String name, String projectCode);
 
     @Modifying
     @Query("UPDATE Job SET started = true WHERE id = ?1")

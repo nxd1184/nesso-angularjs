@@ -34,15 +34,17 @@ public class PlanServiceImpl implements PlanService {
     private final FileSystemHandlingService fileSystemHandlingService;
     private final JobTeamUserTaskService jobTeamUserTaskService;
     private final SequenceDataDao sequenceDataDao;
+    private final JobTeamUserService jobTeamUserService;
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService,
-                           SequenceDataDao sequenceDataDao) {
+                           SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
         this.jobTeamUserTaskService = jobTeamUserTaskService;
         this.sequenceDataDao = sequenceDataDao;
+        this.jobTeamUserService = jobTeamUserService;
     }
 
     @Override
@@ -103,6 +105,11 @@ public class PlanServiceImpl implements PlanService {
 
                     // create user folder (as login name) into todo, tocheck, done of backlog item
                     for (JobTeamUserDTO jobTeamUserDTO : jobTeamDTO.getJobTeamUsers()) {
+
+                        if(jobTeamUserDTO.getId() == null) {
+
+                        }
+
                         // To-do folder
                         String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName(), jobTeamUserDTO.getUserLogin());
                         fileSystemHandlingService.makeDirectory(toDoFolderOfUser);

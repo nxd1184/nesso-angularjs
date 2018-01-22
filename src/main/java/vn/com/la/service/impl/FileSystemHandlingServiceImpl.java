@@ -10,6 +10,8 @@ import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
 import vn.com.la.config.audit.FtpProperties;
 import vn.com.la.service.FileSystemHandlingService;
+import vn.com.la.service.dto.LAFolderDTO;
+import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -102,5 +104,20 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         File file = new File(rootFolder + Constants.DASH + filePath);
 
         return file.exists();
+    }
+
+    @Override
+    public ListFolderResponseVM listNfsFolderFromPath(String path) {
+        File file = new File(path);
+        List<LAFolderDTO> folders = new ArrayList<>();
+        for(File subFile: file.listFiles()){
+            if(subFile.isDirectory()) {
+                LAFolderDTO laFolderDTO = new LAFolderDTO();
+                laFolderDTO.setName(subFile.getName());
+                laFolderDTO.setFullPath(subFile.getPath());
+                folders.add(laFolderDTO);
+            }
+        }
+        return null;
     }
 }

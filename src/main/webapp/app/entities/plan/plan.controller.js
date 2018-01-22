@@ -31,7 +31,7 @@
 
                     vm.rows.push({
                         id: project.id,
-                        cssClass: 'parent treegrid-' + i,
+                        cssClass: 'parent treegrid-' + (i + 1),
                         type: 'project',
                         name: project.name,
                         code: project.code,
@@ -47,7 +47,7 @@
 
                         vm.rows.push({
                             id: job.id,
-                            cssClass: 'parent treegrid-parent-' + i + ' treegrid-' + i + j,
+                            cssClass: 'parent treegrid-parent-' + (i + 1) + ' treegrid-' + (i + 1) + '' + (j + 1),
                             type: 'job',
                             name: job.name,
                             total: 0,
@@ -56,6 +56,22 @@
                             done: 0,
                             delivery: 0
                         });
+
+                        for(var k = 0; k < job.jobTeams.length; k++) {
+                            var team = job.jobTeams[k];
+
+                            vm.rows.push({
+                                id: team.id,
+                                cssClass: 'parent treegrid-parent-' + (i + 1) + '' + (j + 1) + ' treegrid-' + (i + 1) + '' + (j + 1 + k + 1),
+                                type: 'team',
+                                name: team.teamName,
+                                total: 0,
+                                toDo: 0,
+                                toCheck: 0,
+                                done: 0,
+                                delivery: 0
+                            });
+                        }
                     }
 
                 }

@@ -85,9 +85,9 @@ public class JobServiceImpl implements JobService{
     }
 
     @Override
-    public JobDTO findByName(String name) {
+    public JobDTO findByNameAndProjectCode(String name, String projectCode) {
         log.debug("Request get Job by name : {}", name);
-        Job job = jobRepository.findByName(name);
+        Job job = jobRepository.findByNameAndProjectCode(name, projectCode);
         return jobMapper.toDto(job);
     }
 

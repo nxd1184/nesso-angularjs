@@ -152,7 +152,7 @@ public class ProjectServiceImpl implements ProjectService{
                         projectDTO.addJob(jobDTO);
 
                     }else {
-                        jobDTO = jobService.findByName(backLog);
+                        jobDTO = jobService.findByNameAndProjectCode(backLog, projectCode);
 
                         jobDTO.setName(backLog);
                         jobDTO.setProjectId(projectDTO.getId());
