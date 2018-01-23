@@ -8,15 +8,17 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity JobTeamUserTaskTracking and its DTO JobTeamUserTaskTrackingDTO.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, })
+@Mapper(componentModel = "spring", uses = {UserMapper.class, JobTeamUserTaskMapper.class })
 public interface JobTeamUserTaskTrackingMapper extends EntityMapper <JobTeamUserTaskTrackingDTO, JobTeamUserTaskTracking> {
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "userLogin")
-    JobTeamUserTaskTrackingDTO toDto(JobTeamUserTaskTracking jobTeamUserTaskTracking); 
+    @Mapping(source = "jobTeamUserTask.id", target = "jobTeamUserTaskId")
+    JobTeamUserTaskTrackingDTO toDto(JobTeamUserTaskTracking jobTeamUserTaskTracking);
 
     @Mapping(source = "userId", target = "user")
-    JobTeamUserTaskTracking toEntity(JobTeamUserTaskTrackingDTO jobTeamUserTaskTrackingDTO); 
+    @Mapping(source = "jobTeamUserTaskId", target = "jobTeamUserTask")
+    JobTeamUserTaskTracking toEntity(JobTeamUserTaskTrackingDTO jobTeamUserTaskTrackingDTO);
     default JobTeamUserTaskTracking fromId(Long id) {
         if (id == null) {
             return null;

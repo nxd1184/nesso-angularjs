@@ -1,0 +1,13 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="steven (generated)" id="1516745057713-1">
+        <addColumn tableName="job_team_user_task_tracking">
+            <column name="job_team_user_task_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="steven (generated)" id="1516745057713-2">
+        <addForeignKeyConstraint baseColumnNames="job_team_user_task_id" baseTableName="job_team_user_task_tracking" constraintName="FK3gwlfsxq330hh6nitspe62k7e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="job_team_user_task"/>
+    </changeSet>
+</databaseChangeLog>

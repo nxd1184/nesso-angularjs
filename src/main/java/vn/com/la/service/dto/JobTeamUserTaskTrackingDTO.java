@@ -3,6 +3,7 @@ package vn.com.la.service.dto;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -21,6 +22,10 @@ public class JobTeamUserTaskTrackingDTO implements Serializable {
     private Long userId;
 
     private String userLogin;
+
+    private Long jobTeamUserTaskId;
+
+    private ZonedDateTime trackingTime;
 
     public Long getId() {
         return id;
@@ -52,6 +57,22 @@ public class JobTeamUserTaskTrackingDTO implements Serializable {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
+    }
+
+    public Long getJobTeamUserTaskId() {
+        return jobTeamUserTaskId;
+    }
+
+    public void setJobTeamUserTaskId(Long jobTeamUserTaskId) {
+        this.jobTeamUserTaskId = jobTeamUserTaskId;
+    }
+
+    public ZonedDateTime getTrackingTime() {
+        return trackingTime;
+    }
+
+    public void setTrackingTime(ZonedDateTime trackingTime) {
+        this.trackingTime = trackingTime;
     }
 
     @Override

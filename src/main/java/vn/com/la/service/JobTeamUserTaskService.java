@@ -4,6 +4,7 @@ import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
+import vn.com.la.service.dto.param.UpdateJobTeamUserTaskStatusParamDTO;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 import java.util.List;
@@ -47,5 +48,10 @@ public interface JobTeamUserTaskService {
 
     Page<JobTeamUserTaskDTO> search(Pageable pageable, SearchJobTeamUserTaskParamDTO params);
 
+    public JobTeamUserTaskDTO findByFileName(String fileName);
+
     EmptyResponseVM checkIn(Long id) throws Exception;
+    EmptyResponseVM rework(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception;
+    EmptyResponseVM qcEdit(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception;
+    EmptyResponseVM done(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception;
 }

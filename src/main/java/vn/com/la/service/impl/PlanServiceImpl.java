@@ -84,12 +84,13 @@ public class PlanServiceImpl implements PlanService {
                 job.setSequence(Constants.ONE);
             }
 
-            jobService.save(job);
+            job = jobService.save(job);
 
             // create backlog item folder inside todo, tocheck, done
             fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName()));
             fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName()));
             fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName()));
+            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DELIVERY, job.getName()));
             // move files from backlogs to to-do
 
             long totalFilesInBacklogItem = job.getTotalFiles();
@@ -103,11 +104,16 @@ public class PlanServiceImpl implements PlanService {
                 long totalFilesForJobTeam = 0;
                 if (jobTeamDTO.getJobTeamUsers() != null) {
 
+
                     // create user folder (as login name) into todo, tocheck, done of backlog item
                     for (JobTeamUserDTO jobTeamUserDTO : jobTeamDTO.getJobTeamUsers()) {
 
-                        if(jobTeamUserDTO.getId() == null) {
+                        if(jobTeamUserDTO.getJobTeamId() == null) {
+                            jobTeamUserDTO.setJobTeamId(jobTeamDTO.getId());
+                        }
 
+                        if(jobTeamUserDTO.getId() == null) {
+                            jobTeamUserDTO = jobTeamUserService.save(jobTeamUserDTO);
                         }
 
                         // To-do folder
@@ -169,6 +175,8 @@ public class PlanServiceImpl implements PlanService {
                                 }
                                 jobTeamUserDTO.setTotalFiles(iActualTotalFiles - Constants.ONE);
                                 jobTeamUserDTO.setJobTeamUserTasks(jobTeamUserTaskDTOs);
+
+                                System.out.println("Test");
                             }
 
                         }
@@ -178,7 +186,7 @@ public class PlanServiceImpl implements PlanService {
             }
 
             // re-update job
-            jobService.save(job);
+            job = jobService.save(job);
 
         }
 

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import vn.com.la.domain.enumeration.FileStatus;
@@ -32,6 +33,13 @@ public class JobTeamUserTaskTracking extends AbstractAuditingEntity {
     @ManyToOne(optional = false)
     @NotNull
     private User user;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    private JobTeamUserTask jobTeamUserTask;
+
+    @Column(name = "tracking_time", nullable = false)
+    private ZonedDateTime trackingTime;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -68,6 +76,23 @@ public class JobTeamUserTaskTracking extends AbstractAuditingEntity {
         this.user = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public JobTeamUserTask getJobTeamUserTask() {
+        return jobTeamUserTask;
+    }
+
+    public void setJobTeamUserTask(JobTeamUserTask jobTeamUserTask) {
+        this.jobTeamUserTask = jobTeamUserTask;
+    }
+
+    public ZonedDateTime getTrackingTime() {
+        return trackingTime;
+    }
+
+    public void setTrackingTime(ZonedDateTime trackingTime) {
+        this.trackingTime = trackingTime;
+    }
 
     @Override
     public boolean equals(Object o) {

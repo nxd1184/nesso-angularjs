@@ -2,14 +2,20 @@ package vn.com.la.service.impl;
 
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.JobTeamUser;
+import vn.com.la.domain.JobTeamUserTaskTracking;
+import vn.com.la.domain.User;
+import vn.com.la.domain.enumeration.FileStatus;
 import vn.com.la.domain.enumeration.FileStatusEnum;
-import vn.com.la.service.FileSystemHandlingService;
-import vn.com.la.service.JobService;
-import vn.com.la.service.JobTeamUserTaskService;
+import vn.com.la.service.*;
 import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.repository.JobTeamUserTaskRepository;
+import vn.com.la.service.dto.JobTeamUserDTO;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
+import vn.com.la.service.dto.JobTeamUserTaskTrackingDTO;
+import vn.com.la.service.dto.UserDTO;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
+import vn.com.la.service.dto.param.UpdateJobTeamUserTaskStatusParamDTO;
 import vn.com.la.service.mapper.JobTeamUserTaskMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +28,7 @@ import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -40,14 +47,23 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
 
     private final JobService jobService;
 
-    private final FileSystemHandlingService ftpService;
+    private final FileSystemHandlingService fileSystemHandlingService;
+
+    private final UserService userService;
+    private final JobTeamUserService jobTeamUserService;
+    private final JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService;
 
     public JobTeamUserTaskServiceImpl(JobTeamUserTaskRepository jobTeamUserTaskRepository, JobTeamUserTaskMapper jobTeamUserTaskMapper,
-                                      JobService jobService, FileSystemHandlingService ftpService) {
+                                      JobService jobService, FileSystemHandlingService fileSystemHandlingService,
+                                      UserService userService, JobTeamUserService jobTeamUserService,
+                                      JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService) {
         this.jobTeamUserTaskRepository = jobTeamUserTaskRepository;
         this.jobTeamUserTaskMapper = jobTeamUserTaskMapper;
         this.jobService = jobService;
-        this.ftpService = ftpService;
+        this.fileSystemHandlingService = fileSystemHandlingService;
+        this.userService = userService;
+        this.jobTeamUserService  = jobTeamUserService;
+        this.jobTeamUserTaskTrackingService = jobTeamUserTaskTrackingService;
     }
 
     /**
@@ -100,6 +116,14 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         return jobTeamUserTaskMapper.toDto(jobTeamUserTask);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public JobTeamUserTaskDTO findByFileName(String fileName) {
+        log.debug("Request to get JobTeamUserTask : {}", fileName);
+        JobTeamUserTask jobTeamUserTask = jobTeamUserTaskRepository.findByFileName(fileName);
+        return jobTeamUserTaskMapper.toDto(jobTeamUserTask);
+    }
+
     /**
      *  Delete the  jobTeamUserTask by id.
      *
@@ -126,17 +150,113 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         String path = LAStringUtil.buildFolderPath(Constants.DASH + jobTeamUserTaskDTO.getProjectCode(),
                                                             Constants.TO_CHECK,
                                                             jobTeamUserTaskDTO.getJobName(), jobTeamUserTaskDTO.getJobTeamUserLogin()) + jobTeamUserTaskDTO.getFileName();
-        boolean fileExistOnToCheck = ftpService.checkFileExist(path);
+        boolean fileExistOnToCheck = fileSystemHandlingService.checkFileExist(path);
+
+        User loginedUser = userService.getUserWithAuthorities();
+
+        JobTeamUserDTO jobTeamUserDTO = jobTeamUserService.findOne(jobTeamUserTaskDTO.getJobTeamUserId());
+
+        if(jobTeamUserDTO == null || jobTeamUserDTO.getUserId() == null || jobTeamUserDTO.getUserId() != loginedUser.getId()) {
+            throw new CustomParameterizedException("You can not check in this file because you are not assigned to this file");
+        }
+
 
         if(fileExistOnToCheck) {
+            jobTeamUserTaskDTO.setLastCheckInTime(ZonedDateTime.now());
             jobTeamUserTaskDTO.setStatus(FileStatusEnum.TOCHECK);
-            save(jobTeamUserTaskDTO);
+            jobTeamUserTaskDTO = save(jobTeamUserTaskDTO);
             jobService.updateJobToStart(jobTeamUserTaskDTO.getJobId());
+
+            JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
+            trackingDTO.setStatus(FileStatus.TOCHECK);
+            trackingDTO.setJobTeamUserTaskId(jobTeamUserTaskDTO.getId());
+            trackingDTO.setUserId(loginedUser.getId());
+            trackingDTO.setTrackingTime(ZonedDateTime.now());
+            trackingDTO = jobTeamUserTaskTrackingService.save(trackingDTO);
+
             return new EmptyResponseVM();
         }
 
         throw new CustomParameterizedException("File " + jobTeamUserTaskDTO.getFileName() + " not found in to-check folder");
+    }
 
+    @Override
+    public EmptyResponseVM rework(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception {
+        JobTeamUserTaskDTO taskDTO = findByFileName(params.getFileName());
 
+        if(taskDTO.getStatus() != FileStatusEnum.TOCHECK) {
+            throw new CustomParameterizedException("File status is not To Check");
+        }
+
+        User loginedUser = userService.getUserWithAuthorities();
+
+        taskDTO.setStatus(FileStatusEnum.REWORK);
+        taskDTO.setQcId(loginedUser.getId());
+        Integer numberOfRework = taskDTO.getNumberOfRework();
+        if(numberOfRework == null) {
+            numberOfRework = 1;
+        }else {
+            numberOfRework++;
+        }
+        taskDTO.setNumberOfRework(numberOfRework);
+        taskDTO = save(taskDTO);
+
+        JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
+        trackingDTO.setStatus(FileStatus.TOCHECK);
+        trackingDTO.setJobTeamUserTaskId(taskDTO.getId());
+        trackingDTO.setUserId(loginedUser.getId());
+        trackingDTO.setTrackingTime(ZonedDateTime.now());
+        trackingDTO = jobTeamUserTaskTrackingService.save(trackingDTO);
+
+        return new EmptyResponseVM();
+    }
+
+    @Override
+    public EmptyResponseVM qcEdit(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception {
+        JobTeamUserTaskDTO taskDTO = findByFileName(params.getFileName());
+
+        if(taskDTO.getStatus() != FileStatusEnum.TOCHECK) {
+            throw new CustomParameterizedException("File status is not To Check");
+        }
+
+        User loginedUser = userService.getUserWithAuthorities();
+
+        taskDTO.setStatus(FileStatusEnum.DONE);
+        taskDTO.setQcId(loginedUser.getId());
+        taskDTO.setQcEdit(true);
+        taskDTO = save(taskDTO);
+
+        JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
+        trackingDTO.setStatus(FileStatus.DONE);
+        trackingDTO.setJobTeamUserTaskId(taskDTO.getId());
+        trackingDTO.setUserId(loginedUser.getId());
+        trackingDTO.setTrackingTime(ZonedDateTime.now());
+        trackingDTO = jobTeamUserTaskTrackingService.save(trackingDTO);
+
+        return new EmptyResponseVM();
+    }
+
+    @Override
+    public EmptyResponseVM done(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception {
+        JobTeamUserTaskDTO taskDTO = findByFileName(params.getFileName());
+
+        if(taskDTO.getStatus() != FileStatusEnum.TOCHECK) {
+            throw new CustomParameterizedException("File status is not To Check");
+        }
+
+        User loginedUser = userService.getUserWithAuthorities();
+
+        taskDTO.setStatus(FileStatusEnum.DONE);
+        taskDTO.setQcId(loginedUser.getId());
+        taskDTO = save(taskDTO);
+
+        JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
+        trackingDTO.setStatus(FileStatus.DONE);
+        trackingDTO.setJobTeamUserTaskId(taskDTO.getId());
+        trackingDTO.setUserId(loginedUser.getId());
+        trackingDTO.setTrackingTime(ZonedDateTime.now());
+        trackingDTO = jobTeamUserTaskTrackingService.save(trackingDTO);
+
+        return new EmptyResponseVM();
     }
 }

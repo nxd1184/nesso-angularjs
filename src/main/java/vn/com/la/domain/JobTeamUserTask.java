@@ -38,7 +38,7 @@ public class JobTeamUserTask extends AbstractAuditingEntity {
     @Column(name = "status", nullable = false)
     private FileStatusEnum status;
 
-    @Column(name = "file_name")
+    @Column(name = "file_name", unique = true)
     private String fileName;
 
     @NotNull

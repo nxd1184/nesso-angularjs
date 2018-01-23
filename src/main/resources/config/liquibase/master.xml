@@ -59,5 +59,9 @@
     <include file="config/liquibase/changelog/20180120113002_insert_sequence_data_for_job_team_user_task.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180120151105_update_SequenceData_remove_default_values.xml" relativeToChangelogFile="false"/>
 
+    <include file="config/liquibase/changelog/20180123220406_update_entity_JobTeamUserTaskTracking_add_constraint_JobTeamUserTask.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20180123224610_update_entity_JobTeamUserTaskTracking_add_tracking_time.xml" relativeToChangelogFile="false"/>
+
 
 </databaseChangeLog>
