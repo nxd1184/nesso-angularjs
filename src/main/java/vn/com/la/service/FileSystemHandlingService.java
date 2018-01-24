@@ -1,6 +1,7 @@
 package vn.com.la.service;
 
 import org.apache.commons.net.ftp.FTPFile;
+import vn.com.la.web.rest.vm.response.ListFileResponseVM;
 import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
 import java.io.File;
@@ -18,7 +19,10 @@ public interface FileSystemHandlingService {
 
     List<File> listFileFromPath(String path) throws Exception;
 
+    List<File> listFileRecursiveFromPath(String path) throws Exception;
+
     boolean checkFileExist(String filePath);
 
     ListFolderResponseVM listNfsFolderFromPath(String path);
+    ListFileResponseVM listNfsFileFromPath(String path);
 }

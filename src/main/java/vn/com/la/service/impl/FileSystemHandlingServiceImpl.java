@@ -1,19 +1,20 @@
 package vn.com.la.service.impl;
 
 import com.google.common.io.Files;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
-import vn.com.la.config.audit.FtpProperties;
 import vn.com.la.service.FileSystemHandlingService;
+import vn.com.la.service.dto.LAFileDTO;
 import vn.com.la.service.dto.LAFolderDTO;
+import vn.com.la.service.util.LADateTimeUtil;
+import vn.com.la.web.rest.vm.response.ListFileResponseVM;
 import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
 import java.io.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,14 +95,36 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
-    public void copy(String fromSrouce, String toSource) throws Exception {
-        Files.copy(new File(fromSrouce), new File(toSource));
+    public void copy(String fromSource, String toSource) throws Exception {
+        Files.copy(new File(fromSource), new File(toSource));
     }
 
     @Override
     public List<File> listFileFromPath(String path) throws Exception {
         File file = new File(rootFolder + Constants.DASH + path);
         return Arrays.asList(file.listFiles());
+    }
+
+    private List<File> walk(String path) {
+        List<File> result = new ArrayList<>();
+        File dir = new File(path);
+        if(dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for (File file : files) {
+                if (file.isDirectory()) {
+
+                    result.addAll(walk(path));
+                } else {
+                    result.add(file);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<File> listFileRecursiveFromPath(String path) throws Exception {
+        return walk(rootFolder + Constants.DASH + path);
     }
 
     @Override
@@ -113,16 +136,52 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public ListFolderResponseVM listNfsFolderFromPath(String path) {
-        File file = new File(path);
+        if(StringUtils.isBlank(path)) {
+            path = Constants.DASH;
+        }
+        File file = new File(rootFolder + Constants.DASH + path);
         List<LAFolderDTO> folders = new ArrayList<>();
-        for(File subFile: file.listFiles()){
-            if(subFile.isDirectory()) {
+        for(File dir: file.listFiles()){
+            if(dir.isDirectory()) {
                 LAFolderDTO laFolderDTO = new LAFolderDTO();
-                laFolderDTO.setName(subFile.getName());
-                laFolderDTO.setFullPath(subFile.getPath());
+                laFolderDTO.setName(dir.getName());
+                laFolderDTO.setRelativePath(dir.getPath().substring(rootFolder.length()));
                 folders.add(laFolderDTO);
             }
         }
-        return null;
+        ListFolderResponseVM rs = new ListFolderResponseVM();
+        rs.setDirectories(folders);
+        return rs;
+    }
+
+    @Override
+    public ListFileResponseVM listNfsFileFromPath(String path) {
+        File file = new File(rootFolder + Constants.DASH + path);
+        List<LAFileDTO> fileDTOs = new ArrayList<>();
+        for(File f: file.listFiles()){
+            if(f.isFile()) {
+                LAFileDTO fileDTO = new LAFileDTO();
+                fileDTO.setName(Files.getNameWithoutExtension(f.getName()));
+                fileDTO.setType(Files.getFileExtension(f.getName()));
+                fileDTO.setRelativePath(f.getPath().substring(rootFolder.length()));
+
+                try
+                {
+                    BasicFileAttributes attributes = java.nio.file.Files.readAttributes(f.toPath(), BasicFileAttributes.class);
+                    fileDTO.setCreatedDate(LADateTimeUtil.fileTimeToZonedDateTime(attributes.creationTime()));
+                    fileDTO.setLastModifiedDate(LADateTimeUtil.fileTimeToZonedDateTime(attributes.lastModifiedTime()));
+                }
+                catch (IOException exception)
+                {
+                    System.out.println("Exception handled when trying to get file " +
+                        "attributes: " + exception.getMessage());
+                }
+                fileDTOs.add(fileDTO);
+
+            }
+        }
+        ListFileResponseVM rs = new ListFileResponseVM();
+        rs.setFiles(fileDTOs);
+        return rs;
     }
 }

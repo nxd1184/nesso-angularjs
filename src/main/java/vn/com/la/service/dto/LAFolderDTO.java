@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class LAFolderDTO implements Serializable{
 
     private String name;
-    private String fullPath;
+    private String relativePath;
 
     public String getName() {
         return name;
@@ -15,11 +15,11 @@ public class LAFolderDTO implements Serializable{
         this.name = name;
     }
 
-    public String getFullPath() {
-        return fullPath;
+    public String getRelativePath() {
+        return relativePath;
     }
 
-    public void setFullPath(String fullPath) {
-        this.fullPath = fullPath;
+    public void setRelativePath(String relativePath) {
+        this.relativePath = relativePath;
     }
 }

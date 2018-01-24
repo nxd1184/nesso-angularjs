@@ -8,6 +8,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.attribute.FileTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
@@ -64,5 +66,9 @@ public class LADateTimeUtil {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static ZonedDateTime fileTimeToZonedDateTime(FileTime fileTime) {
+        return fileTime.toInstant().atZone(ZoneId.systemDefault());
     }
 }

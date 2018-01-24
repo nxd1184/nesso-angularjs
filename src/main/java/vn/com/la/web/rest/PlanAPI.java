@@ -2,21 +2,29 @@ package vn.com.la.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.PlanService;
+import vn.com.la.service.dto.ProjectDTO;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
 import vn.com.la.service.util.LACommonUtil;
 import vn.com.la.service.util.LADateTimeUtil;
+import vn.com.la.web.rest.util.PaginationUtil;
 import vn.com.la.web.rest.vm.request.CreateOrUpdatePlanRequestVM;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +37,15 @@ public class PlanAPI {
 
     public PlanAPI(PlanService planService) {
         this.planService = planService;
+    }
+
+
+    @GetMapping("/plans")
+    @Timed
+    public ResponseEntity<List<ProjectDTO>> getAllPlans(@ApiParam Pageable pageable) {
+        log.debug("REST request to get all plans");
+
+        return null;
     }
 
     @GetMapping("/plan/job-detail/{jobId}")

@@ -96,7 +96,7 @@ public class PlanServiceImpl implements PlanService {
             long totalFilesInBacklogItem = job.getTotalFiles();
             // list file from backlog item
             String backLogItemPath = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.BACK_LOGS, job.getName());
-            List<File> files = fileSystemHandlingService.listFileFromPath(backLogItemPath);
+            List<File> files = fileSystemHandlingService.listFileRecursiveFromPath(backLogItemPath);
             int iFile = 0;
 
             Set<JobTeamDTO> jobTeamDTOs = job.getJobTeams();

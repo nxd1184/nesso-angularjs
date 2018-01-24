@@ -13,11 +13,11 @@ import java.util.List;
 @Repository
 public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask, Long>, JpaSpecificationExecutor<JobTeamUserTask> {
 
-    @Query("select job_team_user_task from JobTeamUserTask job_team_user_task where job_team_user_task.assignee.login = ?#{principal.username}")
-    List<JobTeamUserTask> findByAssigneeIsCurrentUser();
-
-    @Query("select job_team_user_task from JobTeamUserTask job_team_user_task where job_team_user_task.qc.login = ?#{principal.username}")
-    List<JobTeamUserTask> findByQcIsCurrentUser();
+//    @Query("select job_team_user_task from JobTeamUserTask job_team_user_task where job_team_user_task.assignee.login = ?#{principal.username}")
+//    List<JobTeamUserTask> findByAssigneeIsCurrentUser();
+//
+//    @Query("select job_team_user_task from JobTeamUserTask job_team_user_task where job_team_user_task.qc.login = ?#{principal.username}")
+//    List<JobTeamUserTask> findByQcIsCurrentUser();
 
     JobTeamUserTask findByFileName(String fileName);
 
