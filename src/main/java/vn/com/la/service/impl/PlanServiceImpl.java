@@ -4,14 +4,13 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.JobTeam;
+import vn.com.la.domain.JobTeamUser;
 import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
-import vn.com.la.service.dto.JobDTO;
-import vn.com.la.service.dto.JobTeamDTO;
-import vn.com.la.service.dto.JobTeamUserDTO;
-import vn.com.la.service.dto.JobTeamUserTaskDTO;
+import vn.com.la.service.dto.*;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
 import vn.com.la.service.util.LAStringUtil;
@@ -35,16 +34,19 @@ public class PlanServiceImpl implements PlanService {
     private final JobTeamUserTaskService jobTeamUserTaskService;
     private final SequenceDataDao sequenceDataDao;
     private final JobTeamUserService jobTeamUserService;
+    private final ProjectService projectService;
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService,
-                           SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService) {
+                           SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService,
+                           ProjectService projectService) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
         this.jobTeamUserTaskService = jobTeamUserTaskService;
         this.sequenceDataDao = sequenceDataDao;
         this.jobTeamUserService = jobTeamUserService;
+        this.projectService = projectService;
     }
 
     @Override
@@ -194,5 +196,25 @@ public class PlanServiceImpl implements PlanService {
         rs.setJob(job);
 
         return rs;
+    }
+
+    @Override
+    public List<ProjectDTO> getAllPlans() {
+
+        List<ProjectDTO> projectDTOs = projectService.findAll();
+        List<Long> userIds = new ArrayList<>();
+        for(ProjectDTO projectDTO: projectDTOs) {
+            for(JobDTO jobDTO: projectDTO.getJobs()) {
+                for(JobTeamDTO jobTeamDTO: jobDTO.getJobTeams()) {
+                    for(JobTeamUserDTO jobTeamUserDTO: jobTeamDTO.getJobTeamUsers()) {
+                        userIds.add(jobTeamUserDTO.getUserId());
+                    }
+                }
+            }
+        }
+
+
+
+        return null;
     }
 }

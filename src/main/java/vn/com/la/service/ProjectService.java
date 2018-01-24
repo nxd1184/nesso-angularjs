@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
+import java.util.List;
+
 /**
  * Service Interface for managing Project.
  */
@@ -25,6 +27,13 @@ public interface ProjectService {
      *  @return the list of entities
      */
     Page<ProjectDTO> findAll(Pageable pageable);
+
+    /**
+     *  Get all the projects.
+     *
+     *  @return the list of entities
+     */
+    List<ProjectDTO> findAll();
 
     /**
      *  Get the "id" project.

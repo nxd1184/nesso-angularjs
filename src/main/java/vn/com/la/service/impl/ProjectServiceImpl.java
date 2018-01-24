@@ -26,6 +26,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static vn.com.la.service.specification.ProjectSpecifications.codeContainsIgnoreCase;
 
@@ -81,6 +82,11 @@ public class ProjectServiceImpl implements ProjectService{
         log.debug("Request to get all Projects");
         return projectRepository.findAll(pageable)
             .map(projectMapper::toDto);
+    }
+
+    @Override
+    public List<ProjectDTO> findAll() {
+        return projectRepository.findAll().stream().map(projectMapper::toDto).collect(Collectors.toList());
     }
 
     /**

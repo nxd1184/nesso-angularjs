@@ -27,6 +27,11 @@ public class JobTeamUserDTO implements Serializable {
 
     private Long capacity;
 
+    private Long totalToDoFiles;
+    private Long totalToCheckFiles;
+    private Long totalDoneFiles;
+    private Long totalDeliveryFiles;
+
     private Set<JobTeamUserTaskDTO> jobTeamUserTasks = new HashSet<>();
 
     public Long getId() {
@@ -91,6 +96,38 @@ public class JobTeamUserDTO implements Serializable {
 
     public void setJobTeamUserTasks(Set<JobTeamUserTaskDTO> jobTeamUserTasks) {
         this.jobTeamUserTasks = jobTeamUserTasks;
+    }
+
+    public Long getTotalToDoFiles() {
+        return totalToDoFiles;
+    }
+
+    public void setTotalToDoFiles(Long totalToDoFiles) {
+        this.totalToDoFiles = totalToDoFiles;
+    }
+
+    public Long getTotalToCheckFiles() {
+        return totalToCheckFiles;
+    }
+
+    public void setTotalToCheckFiles(Long totalToCheckFiles) {
+        this.totalToCheckFiles = totalToCheckFiles;
+    }
+
+    public Long getTotalDoneFiles() {
+        return totalDoneFiles;
+    }
+
+    public void setTotalDoneFiles(Long totalDoneFiles) {
+        this.totalDoneFiles = totalDoneFiles;
+    }
+
+    public Long getTotalDeliveryFiles() {
+        return totalDeliveryFiles;
+    }
+
+    public void setTotalDeliveryFiles(Long totalDeliveryFiles) {
+        this.totalDeliveryFiles = totalDeliveryFiles;
     }
 
     @Override
