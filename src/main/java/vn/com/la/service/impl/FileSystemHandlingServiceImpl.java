@@ -94,6 +94,11 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
+    public void copy(String fromSrouce, String toSource) throws Exception {
+        Files.copy(new File(fromSrouce), new File(toSource));
+    }
+
+    @Override
     public List<File> listFileFromPath(String path) throws Exception {
         File file = new File(rootFolder + Constants.DASH + path);
         return Arrays.asList(file.listFiles());

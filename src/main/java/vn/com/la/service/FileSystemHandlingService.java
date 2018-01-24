@@ -14,6 +14,7 @@ public interface FileSystemHandlingService {
     void makeDirectory(String path) throws Exception;
 
     void copy(String from, String toPath, String fileName) throws Exception;
+    void copy(String fromSrouce, String toSource) throws Exception;
 
     List<File> listFileFromPath(String path) throws Exception;
 
