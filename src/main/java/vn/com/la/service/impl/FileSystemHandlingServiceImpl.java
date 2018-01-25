@@ -134,7 +134,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
             for (File file : files) {
                 if (file.isDirectory()) {
 
-                    result.addAll(walk(path));
+                    result.addAll(walk(file.getPath()));
                 } else {
                     result.add(file);
                 }
@@ -163,10 +163,18 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         File file = new File(rootFolder + Constants.DASH + path);
         List<LAFolderDTO> folders = new ArrayList<>();
         for(File dir: file.listFiles()){
-            if(dir.isDirectory()) {
+            if(dir.isDirectory() && !dir.isHidden()) {
                 LAFolderDTO laFolderDTO = new LAFolderDTO();
                 laFolderDTO.setName(dir.getName());
                 laFolderDTO.setRelativePath(dir.getPath().substring(rootFolder.length()));
+                File[] listFiles = dir.listFiles(new FileFilter() {
+                    @Override
+                    public boolean accept(File f) {
+                        return f.isDirectory();
+                    }
+                });
+                laFolderDTO.setHasChild(listFiles.length > 0);
+                System.out.println(dir.length());
                 folders.add(laFolderDTO);
             }
         }
@@ -180,7 +188,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         File file = new File(rootFolder + Constants.DASH + path);
         List<LAFileDTO> fileDTOs = new ArrayList<>();
         for(File f: file.listFiles()){
-            if(f.isFile()) {
+            if(f.isFile() && !f.isHidden()) {
                 LAFileDTO fileDTO = new LAFileDTO();
                 fileDTO.setName(Files.getNameWithoutExtension(f.getName()));
                 fileDTO.setType(Files.getFileExtension(f.getName()));

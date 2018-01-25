@@ -2,25 +2,40 @@
     'use strict';
     angular
         .module('nessoApp')
-        .factory('Folder', Folder);
+        .factory('FolderService', FolderService);
 
-    Folder.$inject = ['$resource'];
+    FolderService.$inject = ['$http', '$q'];
 
-    function Folder ($resource) {
-        var resourceUrl =  'api/user-settings/:id';
+    function FolderService ($http, $q) {
+        var service = {
+            getDirectories: getDirectories,
+            getFiles: getFiles
+        };
 
-        return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
-            'get': {
-                method: 'GET',
-                transformResponse: function (data) {
-                    if (data) {
-                        data = angular.fromJson(data);
-                    }
-                    return data;
-                }
-            },
-            'update': { method:'PUT' }
-        });
+        function getDirectories(path) {
+            var url = 'api/nfs/directories?path=' + path; 
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function getFiles(path) {
+            var url = 'api/nfs/files?path=' + path; 
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        return service;
     }
 })();

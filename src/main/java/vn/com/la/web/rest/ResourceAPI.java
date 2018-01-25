@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vn.com.la.service.FileSystemHandlingService;
 import vn.com.la.service.dto.JobDTO;
@@ -44,9 +45,9 @@ public class ResourceAPI {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of jobs in body
      */
-    @GetMapping("/nfs/directory/{path}")
+    @GetMapping("/nfs/directories")
     @Timed
-    public ResponseEntity<ListFolderResponseVM> getDirectories(@ApiParam String path) {
+    public ResponseEntity<ListFolderResponseVM> getDirectories(@RequestParam(required = false) String path) {
         log.debug("REST request to get directories from path : {}", path);
         ListFolderResponseVM rs = fileSystemHandlingService.listNfsFolderFromPath(path);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
@@ -57,9 +58,9 @@ public class ResourceAPI {
      *
      * @return the ResponseEntity with status 200 (OK) and the list of jobs in body
      */
-    @GetMapping("/nfs/file/{path}")
+    @GetMapping("/nfs/files")
     @Timed
-    public ResponseEntity<ListFileResponseVM> getFiles(@ApiParam String path) {
+    public ResponseEntity<ListFileResponseVM> getFiles(@RequestParam String path) {
         log.debug("REST request to get files from path : {}", path);
         ListFileResponseVM rs = fileSystemHandlingService.listNfsFileFromPath(path);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));

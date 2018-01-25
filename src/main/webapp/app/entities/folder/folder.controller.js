@@ -5,128 +5,144 @@
         .module('nessoApp')
         .controller('FolderController', FolderController);
 
-    FolderController.$inject = ['$state', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope', '$timeout'];
+    FolderController.$inject = ['$state', '$uibModal', 'FolderService', 'moment', '$scope', '$timeout'];
 
-    function FolderController($state, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope, $timeout) {
+    function FolderController($state, $uibModal, FolderService, moment, $scope, $timeout) {
 
         var vm = this;
-        vm.dtInstance = {};
-        vm.searchText = $state.searchText;
-        vm.search = search;
-        vm.searchType = "Name";
+        vm.project_tree        = $('#project_tree');
+        vm.project_tree_object = {};
+        vm.root_node           = { id: "#", li_attr : { relative_path: "" } };
+        vm.node_being_opened   = {};
+        vm.node_being_selected = {};
+        vm.loadRootTree        = loadRootTree;
+        vm.currentFileList     = [];
+        vm.checkAll            = false;
 
-        function search() {
+        vm.showResourceDateTime   = showResourceDateTime;
+        vm.reloadCurrentDirectory = reloadCurrentDirectory;
+        vm.delivery               = delivery;
+        vm.checkAllFiles          = checkAllFiles;
+
+        function showResourceDateTime(isoStr) {
+            if (!isoStr)
+                return "";
+
+            return moment(isoStr,'YYYY-MM-DD HH:mm:ss:SSS ZZ').format("DD/MM/YYYY hh:mmA");
+        }
+
+        /*function search() {
             console.log("Searching user setting by " + vm.searchType);
             var resetPaging = false;
             vm.dtInstance.reloadData(searchCallback, resetPaging);
+        }*/
+
+        function loadRootTree() {
+            vm.node_being_opened = vm.root_node;
+            loadDirectories(vm.root_node);
         }
 
-        function searchCallback(data) {
-
+        function checkAllFiles() {
+            vm.currentFileList.forEach(function(file) {
+                file.checked = vm.checkAll;
+            })
         }
 
-
-        vm.dtOptions = DTOptionsBuilder.newOptions()
-            .withOption('ajax', {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
-                },
-                // Either you specify the AjaxDataProp here
-                // dataSrc: 'data',
-                url: 'api/search-user-settings',
-                data: function(d){
-                    var params = {};
-
-                    if(vm.searchType === "Name") {
-                        params.name = vm.searchText;
-                    }
-                    else if (vm.searchType === "Date") {
-                        if (vm.searchText)
-                        {
-                            //params.date = new Date(vm.searchText).toISOString();
-                            params.date = LA.StringUtils.urlEncode(LA.StringUtils.toIsoFromMoment(moment(vm.searchText, "DD/MM/YYYY")));
-                            console.log(params.date);
-                        }
-                    }
-
-                    if(d.order && d.order.length) {
-                        params.sort = d.columns[d.order[0].column].data + ',' + d.order[0].dir;
-                        for(var i = 1; i < d.order.length; i++) {
-                            params.sort += d.columns[d.order[i].column].data + ',' + d.order[i].dir;
-                        }
-                    }
-                    params.page = d.start / d.length;
-                    params.size = d.length;
-
-                    return params;
-                },
-                type: 'GET'
-            })
-            .withDataProp('data')
-            .withPaginationType('full_numbers')
-            .withOption('bFilter', false)
-            .withOption('processing', true) // required
-            .withOption('serverSide', true)// required
-            .withOption('rowCallback', rowClick);
-        ;
-
-        vm.dtColumns = [
-            DTColumnBuilder.newColumn('id').withTitle('#'),
-            DTColumnBuilder.newColumn('name').withTitle('NAME'),
-            DTColumnBuilder.newColumn('configInfo').withTitle('CONFIG INFO'),
-            DTColumnBuilder.newColumn('auto').withTitle('AUTO').renderWith(function (data) {
-                var html = '';
-                if(data) {
-                    html = '<i class="fa fa-check" aria-hidden="true"></i>';
+        function delivery() {
+            var movedFiles = [];
+            vm.currentFileList.filter(
+            function (file) {
+                if(file.checked == 1) {
+                    movedFiles.push(file.name + '.' + file.type);
                 }
-                return html;
-            }),
-            DTColumnBuilder.newColumn('type').withTitle('TYPE'),
-            DTColumnBuilder.newColumn('userConfigName').withTitle('USER CONFIG'),
-            DTColumnBuilder.newColumn('createdDate').withTitle('CREATE DATE').renderWith(function(data) {
-                var value = data;
-                if(data) {
-                    value = moment(data).format('DD/MM/YYYY hh:mm');
-                }
-                return value;
-            })
-        ];
-
-        function rowClick(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-            // Unbind first in order to avoid any duplicate handler (see https://github.com/l-lin/angular-datatables/issues/87)
-            $('td', nRow).unbind('click');
-            $('td', nRow).bind('click', function () {
-                var project = aData;
-                if (project['startDate']) {
-                    project['startDate'] = moment(project['startDate']).toDate();
-                }
-
-                $scope.$apply(function () {
-                    vm.createOrUpdateSetting(project);
-                });
             });
-            return nRow;
+            console.log(movedFiles);
+            //FolderService.delivery(movedFiles).then(onGetDirectoriesSuccess);
         }
+
+        function onNodeOpen(event, data) {
+            var ref = vm.project_tree.jstree(true);
+            console.log("open node" + data.node.id);
+            vm.node_being_opened = data.node;
+            ref.delete_node(data.node.children);
+            loadDirectories(vm.node_being_opened);
+        }
+
+        function onNodeSelected(event, data) {
+            console.log("select node" + data.node.id);
+            var ref = vm.project_tree.jstree(true);
+            vm.node_being_selected = ref.get_node(ref.get_selected());
+            loadFiles(vm.node_being_selected);
+        }
+
+
+        function loadDirectories(node) {
+            if (node.id === "#") {
+                var ref = vm.project_tree.jstree(true);
+                ref.delete_node(ref.get_node("#").children);
+            }
+            FolderService.getDirectories(node.li_attr.relative_path).then(onGetDirectoriesSuccess);
+        }
+
+        function onGetDirectoriesSuccess(response) {
+            console.log("get Directories successfully");
+            if (response.success ) {
+                var directories = response.directories;
+                for (var i = 0; i < directories.length; ++i) {
+                    var ref = vm.project_tree.jstree();
+                    var node = {
+                                    text: directories[i].name,
+                                    state:    {
+                                        opened : false
+                                    },
+                                    li_attr : { relative_path: directories[i].relativePath }
+                                };
+
+                    if (directories[i].hasChild)
+                        node.children = [''];
+
+                    var result =  ref.create_node(vm.node_being_opened.id, node, 'last');
+                    console.log(result);
+                }
+            }
+        }
+
+        function reloadCurrentDirectory() {
+            vm.checkAll = false;
+            loadFiles(vm.node_being_selected);
+        }
+
+        function loadFiles(node) {
+            FolderService.getFiles(node.li_attr.relative_path).then(onGetFilesSuccess);
+        }
+
+        function onGetFilesSuccess(response) {
+            console.log("get Files successfully");
+            if (response.success) {
+                vm.currentFileList = response.files;
+            }
+        }
+
+
 
         angular.element(document).ready(function () {
+            // Initialize jstree object
             console.log("initialize Folder Tree");
-
-            $('#tree_1').jstree({
-                                "core" : {
-                                    "themes" : {
-                                        "responsive": false
-                                    }
+            vm.project_tree.jstree({"core" : {
+                                    "themes" : { "responsive": false },
+                                    "check_callback" : true
                                 },
                                 "types" : {
-                                    "default" : {
-                                        "icon" : "fa fa-folder icon-state-warning icon-lg"
-                                    },
-                                    "file" : {
-                                        "icon" : "fa fa-file icon-state-warning icon-lg"
-                                    }
+                                    "default" : { "icon" : "fa fa-folder icon-state-warning icon-lg" },
+                                    "file"    : { "icon" : "fa fa-file icon-state-warning icon-lg" }
                                 },
                                 "plugins": ["types"]
                             });
+            vm.project_tree.on('open_node.jstree', onNodeOpen);
+            vm.project_tree.on('select_node.jstree', onNodeSelected);
+
+            //Load root directories
+            loadRootTree();
         });
     }
 
