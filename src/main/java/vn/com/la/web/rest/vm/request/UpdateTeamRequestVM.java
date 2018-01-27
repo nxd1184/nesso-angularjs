@@ -11,8 +11,8 @@ public class UpdateTeamRequestVM extends AbstractRequestVM{
 
     @NotNull
     private Long teamId;
+
     @NotNull
-    @Size(min=6)
     private String teamName;
 
     private Long leaderId;

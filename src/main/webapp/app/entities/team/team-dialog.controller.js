@@ -165,6 +165,12 @@
         }
 
         function updateTeam() {
+
+            if(vm.selectedTeamLeader) {
+                vm.team.leaderId = vm.selectedTeamLeader.id;
+            }
+
+
             teamService.update(vm.team).then(onSuccess,onError);
 
             function onSuccess(result) {

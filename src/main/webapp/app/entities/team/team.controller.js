@@ -69,7 +69,7 @@
                 data: function(d){
                     var params = {};
 
-                    params.search = vm.searchText;
+                    params.searchTerm = vm.searchText;
 
                     if(d.order && d.order.length) {
                         params.sort = d.columns[d.order[0].column].data + ',' + d.order[0].dir;
