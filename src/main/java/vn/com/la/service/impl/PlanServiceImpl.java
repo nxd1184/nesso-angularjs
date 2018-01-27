@@ -89,10 +89,21 @@ public class PlanServiceImpl implements PlanService {
             job = jobService.save(job);
 
             // create backlog item folder inside todo, tocheck, done
-            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName()));
-            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName()));
-            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName()));
-            fileSystemHandlingService.makeDirectory(LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DELIVERY, job.getName()));
+            String toDoFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName());
+            fileSystemHandlingService.deleteDirectory(toDoFolder);
+            fileSystemHandlingService.makeDirectory(toDoFolder);
+
+            String toCheckFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName());
+            fileSystemHandlingService.deleteDirectory(toCheckFolder);
+            fileSystemHandlingService.makeDirectory(toCheckFolder);
+
+            String doneFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName());
+            fileSystemHandlingService.deleteDirectory(doneFolder);
+            fileSystemHandlingService.makeDirectory(doneFolder);
+
+            String deliveryFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DELIVERY, job.getName());
+            fileSystemHandlingService.deleteDirectory(deliveryFolder);
+            fileSystemHandlingService.makeDirectory(deliveryFolder);
             // move files from backlogs to to-do
 
             long totalFilesInBacklogItem = job.getTotalFiles();

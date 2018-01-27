@@ -53,7 +53,7 @@
                                 <td>{{task.jobName}}</td>
                                 <td>{{task.filePath}}</td>
                                 <td>{{task.fileName}}</td>
-                                <td>{{task.lastCheckInTime}}</td>
+                                <td>{{vm.showLastCheckInTime(task.lastCheckInTime)}}</td>
                                 <td>
                                     <p class="active">
                                         <a ng-click="vm.checkIn(task, $index)" class="btn btn-primary btn-xs btn-checkin">Check in</a>

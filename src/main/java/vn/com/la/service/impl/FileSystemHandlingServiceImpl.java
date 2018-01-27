@@ -1,6 +1,7 @@
 package vn.com.la.service.impl;
 
 import com.google.common.io.Files;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.ApplicationProperties;
@@ -13,6 +14,8 @@ import vn.com.la.web.rest.vm.response.ListFileResponseVM;
 import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
 import java.io.*;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -90,13 +93,31 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
+    public boolean deleteDirectory(String path) throws Exception {
+        File oldDir = new File(rootFolder + Constants.DASH + path);
+        return oldDir.delete();
+    }
+
+    @Override
     public void copy(String fromSource, String toPath, String fileName) throws Exception {
         Files.copy(new File( rootFolder + Constants.DASH +fromSource), new File(rootFolder + Constants.DASH + toPath + Constants.DASH + fileName));
     }
 
     @Override
     public void copy(String fromSource, String toSource) throws Exception {
-        Files.copy(new File(fromSource), new File(toSource));
+        Files.copy(new File(rootFolder + Constants.DASH + fromSource), new File(rootFolder + Constants.DASH +toSource));
+    }
+
+    @Override
+    public boolean move(String source, String toFolder) {
+        try {
+            FileUtils.moveFileToDirectory(
+                FileUtils.getFile(rootFolder + Constants.DASH + source),
+                FileUtils.getFile(rootFolder + Constants.DASH + toFolder), true);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override

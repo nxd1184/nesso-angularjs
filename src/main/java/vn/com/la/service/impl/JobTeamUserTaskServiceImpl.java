@@ -147,6 +147,11 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     @Override
     public EmptyResponseVM checkIn(Long id) throws Exception{
         JobTeamUserTaskDTO jobTeamUserTaskDTO = findOne(id);
+
+        if(jobTeamUserTaskDTO.getStatus() != FileStatusEnum.TODO && jobTeamUserTaskDTO.getStatus() != FileStatusEnum.REWORK) {
+            throw new CustomParameterizedException("File status should be To Do or Rework");
+        }
+
         String path = LAStringUtil.buildFolderPath(Constants.DASH + jobTeamUserTaskDTO.getProjectCode(),
                                                             Constants.TO_CHECK,
                                                             jobTeamUserTaskDTO.getJobName(), jobTeamUserTaskDTO.getJobTeamUserLogin()) + jobTeamUserTaskDTO.getFileName();
@@ -193,7 +198,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         }
 
         String filePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
-            Constants.TO_DO,
+            Constants.TO_CHECK,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnTodoFolder = fileSystemHandlingService.checkFileExist(filePath);
         if(!fileExistOnTodoFolder) {
@@ -214,7 +219,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         taskDTO = save(taskDTO);
 
         JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
-        trackingDTO.setStatus(FileStatus.TOCHECK);
+        trackingDTO.setStatus(FileStatus.REWORK);
         trackingDTO.setJobTeamUserTaskId(taskDTO.getId());
         trackingDTO.setUserId(loginedUser.getId());
         trackingDTO.setTrackingTime(ZonedDateTime.now());
@@ -235,13 +240,13 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             throw new CustomParameterizedException("File status is not To Check");
         }
 
-        // check file exist on to do folder
+        // check file exist on to check folder
         String filePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
-            Constants.TO_DO,
+            Constants.TO_CHECK,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnTodoFolder = fileSystemHandlingService.checkFileExist(filePath);
         if(!fileExistOnTodoFolder) {
-            throw new CustomParameterizedException("File " + params.getFileName() + " not found in to do folder");
+            throw new CustomParameterizedException("File " + params.getFileName() + " not found in to check folder");
         }
 
         // check file exist on done folder, uploaded by qc
@@ -282,25 +287,24 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             throw new CustomParameterizedException("File status is not To Check");
         }
 
-        // check file exist on to do folder
-        String filePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
-            Constants.TO_DO,
+        // check file exist on to check folder
+        String toCheckFilePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+            Constants.TO_CHECK,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
-        boolean fileExistOnTodoFolder = fileSystemHandlingService.checkFileExist(filePath);
-        if(!fileExistOnTodoFolder) {
+        boolean fileExistOnToCheckFolder = fileSystemHandlingService.checkFileExist(toCheckFilePath);
+        if(!fileExistOnToCheckFolder) {
             throw new CustomParameterizedException("File " + params.getFileName() + " not found in to do folder");
         }
 
 
-
-        String copyToDoneFolderPath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+        String doneFolderPath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
             Constants.DONE,
-            taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
+            taskDTO.getJobName(), taskDTO.getJobTeamUserLogin());
 
 
-        boolean fileExistOnDoneFolder = fileSystemHandlingService.checkFileExist(copyToDoneFolderPath);
-        if(!fileExistOnDoneFolder) {
-            throw new CustomParameterizedException("File " + params.getFileName() + " not found in done folder");
+        boolean moveResult = fileSystemHandlingService.move(toCheckFilePath, doneFolderPath);
+        if(!moveResult) {
+            throw new CustomParameterizedException("Can not move file from to check to done");
         }
 
         User loginedUser = userService.getUserWithAuthorities();

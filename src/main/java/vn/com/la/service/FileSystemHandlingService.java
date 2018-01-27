@@ -12,6 +12,7 @@ public interface FileSystemHandlingService {
     boolean validateProjectStructure(String projectCode);
     List<String> backLogs(String projectCode) throws Exception;
     Long countFilesFromPath(String path) throws Exception;
+    boolean deleteDirectory(String path) throws Exception;
     void makeDirectory(String path) throws Exception;
 
     void copy(String from, String toPath, String fileName) throws Exception;
@@ -22,6 +23,8 @@ public interface FileSystemHandlingService {
     List<File> listFileRecursiveFromPath(String path) throws Exception;
 
     boolean checkFileExist(String filePath);
+
+    boolean move(String source, String target);
 
     ListFolderResponseVM listNfsFolderFromPath(String path);
     ListFileResponseVM listNfsFileFromPath(String path);
