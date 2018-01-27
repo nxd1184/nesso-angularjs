@@ -3,6 +3,7 @@ package vn.com.la.service.impl;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
 import vn.com.la.domain.JobTeam;
 import vn.com.la.domain.JobTeamUser;
@@ -35,11 +36,13 @@ public class PlanServiceImpl implements PlanService {
     private final SequenceDataDao sequenceDataDao;
     private final JobTeamUserService jobTeamUserService;
     private final ProjectService projectService;
+    private final ApplicationProperties applicationProperties;
+
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService,
                            SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService,
-                           ProjectService projectService) {
+                           ProjectService projectService, ApplicationProperties applicationProperties) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
@@ -47,6 +50,7 @@ public class PlanServiceImpl implements PlanService {
         this.sequenceDataDao = sequenceDataDao;
         this.jobTeamUserService = jobTeamUserService;
         this.projectService = projectService;
+        this.applicationProperties = applicationProperties;
     }
 
     @Override
@@ -131,14 +135,17 @@ public class PlanServiceImpl implements PlanService {
 
                         // To-do folder
                         String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName(), jobTeamUserDTO.getUserLogin());
+                        fileSystemHandlingService.deleteDirectory(toDoFolderOfUser);
                         fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
 
                         // to-check folder
                         String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName(), jobTeamUserDTO.getUserLogin());
+                        fileSystemHandlingService.deleteDirectory(toCheckFolderOfUser);
                         fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
 
                         // done folder
                         String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName(), jobTeamUserDTO.getUserLogin());
+                        fileSystemHandlingService.deleteDirectory(doneFolderOfUser);
                         fileSystemHandlingService.makeDirectory(doneFolderOfUser);
 
                         // move files from backlogs into todo folder
@@ -178,7 +185,7 @@ public class PlanServiceImpl implements PlanService {
 
                                     jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId());
                                     jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
-                                    fileSystemHandlingService.copy(backLogItemPath + remoteFileName, toDoFolderOfUser, newFileName);
+                                    fileSystemHandlingService.copy(file.getPath().substring(this.applicationProperties.getRootFolder().length()), toDoFolderOfUser, newFileName);
 
                                     totalFilesForJobTeam++;
                                     if (iFile >= files.size()) {

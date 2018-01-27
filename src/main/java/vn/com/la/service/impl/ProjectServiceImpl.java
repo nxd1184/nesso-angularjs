@@ -158,20 +158,25 @@ public class ProjectServiceImpl implements ProjectService{
                         projectDTO.addJob(jobDTO);
 
                     }else {
-                        jobDTO = jobService.findByNameAndProjectCode(backLog, projectCode);
+                        jobDTO = jobsMap.get(backLog);
 
                         jobDTO.setName(backLog);
                         jobDTO.setProjectId(projectDTO.getId());
                         String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
                         Long newTotalFiles = fileSystemHandlingService.countFilesFromPath(jobPath);
-                        if(newTotalFiles > jobDTO.getTotalFiles()) {
-                            jobDTO.setTotalFiles(newTotalFiles);
-                        }else {
-                            if(BooleanUtils.isTrue(jobDTO.getStarted())) {
-                                throw new CustomParameterizedException("Total files is less than the current one");
-                            }
+                        if(BooleanUtils.isTrue(jobDTO.getStarted())) {
+                            if(newTotalFiles > jobDTO.getTotalFiles()) {
+                                jobDTO.setTotalFiles(newTotalFiles);
+                            }else {
+                                if(BooleanUtils.isTrue(jobDTO.getStarted())) {
+                                    throw new CustomParameterizedException("Total files is less than the current one");
+                                }
 
+                            }
+                        }else {
+                            jobDTO.setTotalFiles(newTotalFiles);
                         }
+
 
                         if(BooleanUtils.isNotTrue(jobDTO.getStarted())) {
                             jobDTO.setSyncDate(ZonedDateTime.now());
@@ -179,9 +184,7 @@ public class ProjectServiceImpl implements ProjectService{
 
                         jobDTO.setStatus(JobStatusEnum.ACTIVE);
 
-                        jobService.save(jobDTO);
                     }
-
 
                     syncJobs.add(jobDTO);
                 }

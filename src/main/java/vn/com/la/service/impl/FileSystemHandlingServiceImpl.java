@@ -81,7 +81,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         Long totalFiles = 0L;
 
         File file = new File(rootFolder + Constants.DASH + path);
-        totalFiles = new Long(file.list().length);
+        totalFiles = new Long(walk(file.getPath()).size());
 
         return totalFiles;
     }
@@ -94,8 +94,14 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public boolean deleteDirectory(String path) throws Exception {
-        File oldDir = new File(rootFolder + Constants.DASH + path);
-        return oldDir.delete();
+        try {
+            File oldDir = new File(rootFolder + Constants.DASH + path);
+            FileUtils.deleteDirectory(oldDir);
+        }
+        catch(Exception ex) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -135,7 +141,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
                 if (file.isDirectory()) {
 
                     result.addAll(walk(file.getPath()));
-                } else {
+                } else if (!file.isHidden()) {
                     result.add(file);
                 }
             }
