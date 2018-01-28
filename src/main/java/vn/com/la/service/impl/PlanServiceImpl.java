@@ -76,133 +76,136 @@ public class PlanServiceImpl implements PlanService {
         JobDTO job = jobService.findOne(params.getJobId());
         if (job != null) {
 
-            if(BooleanUtils.isTrue(job.getStarted())) {
-                throw new CustomParameterizedException("This job was stared. You can not update it");
-            }
-
             job.setDeadline(params.getDeadline());
             job.setCustomerRequirements(params.getCustomerRequirements());
-            job.setJobTasks(params.getTasks());
-            job.setJobTeams(params.getTeams());
-            job.setTotalFiles(params.getTotalFiles());
-            if (job.getSequenceTask() == null) {
-                job.setSequenceTask(params.getSequenceTask());
-                job.setSequence(Constants.ONE);
-            }
+            if(BooleanUtils.isNotTrue(job.getStarted())) {
+                job.setDeadline(params.getDeadline());
+                job.setCustomerRequirements(params.getCustomerRequirements());
+                job.setJobTasks(params.getTasks());
+                job.setJobTeams(params.getTeams());
+                job.setTotalFiles(params.getTotalFiles());
+                if (job.getSequenceTask() == null) {
+                    job.setSequenceTask(params.getSequenceTask());
+                    job.setSequence(Constants.ONE);
+                }
 
-            job = jobService.save(job);
+                job = jobService.save(job);
 
-            // create backlog item folder inside todo, tocheck, done
-            String toDoFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName());
-            fileSystemHandlingService.deleteDirectory(toDoFolder);
-            fileSystemHandlingService.makeDirectory(toDoFolder);
+                // create backlog item folder inside todo, tocheck, done
+                String toDoFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName());
+                fileSystemHandlingService.deleteDirectory(toDoFolder);
+                fileSystemHandlingService.makeDirectory(toDoFolder);
 
-            String toCheckFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName());
-            fileSystemHandlingService.deleteDirectory(toCheckFolder);
-            fileSystemHandlingService.makeDirectory(toCheckFolder);
+                String toCheckFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName());
+                fileSystemHandlingService.deleteDirectory(toCheckFolder);
+                fileSystemHandlingService.makeDirectory(toCheckFolder);
 
-            String doneFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName());
-            fileSystemHandlingService.deleteDirectory(doneFolder);
-            fileSystemHandlingService.makeDirectory(doneFolder);
+                String doneFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName());
+                fileSystemHandlingService.deleteDirectory(doneFolder);
+                fileSystemHandlingService.makeDirectory(doneFolder);
 
-            String deliveryFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DELIVERY, job.getName());
-            fileSystemHandlingService.deleteDirectory(deliveryFolder);
-            fileSystemHandlingService.makeDirectory(deliveryFolder);
-            // move files from backlogs to to-do
+                String deliveryFolder = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DELIVERY, job.getName());
+                fileSystemHandlingService.deleteDirectory(deliveryFolder);
+                fileSystemHandlingService.makeDirectory(deliveryFolder);
+                // move files from backlogs to to-do
 
-            long totalFilesInBacklogItem = job.getTotalFiles();
-            // list file from backlog item
-            String backLogItemPath = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.BACK_LOGS, job.getName());
-            List<File> files = fileSystemHandlingService.listFileRecursiveFromPath(backLogItemPath);
-            int iFile = 0;
+                long totalFilesInBacklogItem = job.getTotalFiles();
+                // list file from backlog item
+                String backLogItemPath = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.BACK_LOGS, job.getName());
+                List<File> files = fileSystemHandlingService.listFileRecursiveFromPath(backLogItemPath);
+                int iFile = 0;
 
-            Set<JobTeamDTO> jobTeamDTOs = job.getJobTeams();
-            for (JobTeamDTO jobTeamDTO : jobTeamDTOs) {
-                long totalFilesForJobTeam = 0;
-                if (jobTeamDTO.getJobTeamUsers() != null) {
+                Set<JobTeamDTO> jobTeamDTOs = job.getJobTeams();
+                for (JobTeamDTO jobTeamDTO : jobTeamDTOs) {
+                    long totalFilesForJobTeam = 0;
+                    if (jobTeamDTO.getJobTeamUsers() != null) {
 
 
-                    // create user folder (as login name) into todo, tocheck, done of backlog item
-                    for (JobTeamUserDTO jobTeamUserDTO : jobTeamDTO.getJobTeamUsers()) {
+                        // create user folder (as login name) into todo, tocheck, done of backlog item
+                        for (JobTeamUserDTO jobTeamUserDTO : jobTeamDTO.getJobTeamUsers()) {
 
-                        if(jobTeamUserDTO.getJobTeamId() == null) {
-                            jobTeamUserDTO.setJobTeamId(jobTeamDTO.getId());
-                        }
-
-                        if(jobTeamUserDTO.getId() == null) {
-                            jobTeamUserDTO = jobTeamUserService.save(jobTeamUserDTO);
-                        }
-
-                        // To-do folder
-                        String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName(), jobTeamUserDTO.getUserLogin());
-                        fileSystemHandlingService.deleteDirectory(toDoFolderOfUser);
-                        fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
-
-                        // to-check folder
-                        String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName(), jobTeamUserDTO.getUserLogin());
-                        fileSystemHandlingService.deleteDirectory(toCheckFolderOfUser);
-                        fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
-
-                        // done folder
-                        String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName(), jobTeamUserDTO.getUserLogin());
-                        fileSystemHandlingService.deleteDirectory(doneFolderOfUser);
-                        fileSystemHandlingService.makeDirectory(doneFolderOfUser);
-
-                        // move files from backlogs into todo folder
-                        if (iFile >= files.size()) {
-                            jobTeamDTO.setTotalFiles(new Long(Constants.ZERO));
-                        } else {
-
-                            if (jobTeamDTO.getTotalFiles() != null) {
-                                long iActualTotalFiles = Constants.ZERO;
-                                Set<JobTeamUserTaskDTO> jobTeamUserTaskDTOs = new HashSet<>();
-                                for (iActualTotalFiles = Constants.ONE; iActualTotalFiles <= jobTeamUserDTO.getTotalFiles(); iActualTotalFiles++) {
-
-                                    File file = files.get(iFile++);
-                                    if (file.isDirectory()) {
-                                        continue;
-                                    }
-
-                                    if(iActualTotalFiles > jobTeamUserDTO.getTotalFiles()) {
-                                        break;
-                                    }
-
-                                    String remoteFileName = file.getName();
-
-                                    JobTeamUserTaskDTO jobTeamUserTaskDTO = new JobTeamUserTaskDTO();
-                                    jobTeamUserTaskDTO.setFilePath(toDoFolderOfUser);
-
-                                    jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
-
-                                    jobTeamUserTaskDTO.setOriginalFilePath(backLogItemPath);
-                                    jobTeamUserTaskDTO.setOriginalFileName(remoteFileName);
-
-                                    jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
-
-                                    // setup file name
-                                    String newFileName = job.getProjectCode() + Constants.UNDERSCORE + job.getName() + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + remoteFileName;
-                                    jobTeamUserTaskDTO.setFileName(newFileName);
-
-                                    jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId());
-                                    jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
-                                    fileSystemHandlingService.copy(file.getPath().substring(this.applicationProperties.getRootFolder().length()), toDoFolderOfUser, newFileName);
-
-                                    totalFilesForJobTeam++;
-                                    if (iFile >= files.size()) {
-
-                                        break;
-                                    }
-                                }
-                                jobTeamUserDTO.setTotalFiles(iActualTotalFiles - Constants.ONE);
-                                jobTeamUserDTO.setJobTeamUserTasks(jobTeamUserTaskDTOs);
-
-                                System.out.println("Test");
+                            if(jobTeamUserDTO.getJobTeamId() == null) {
+                                jobTeamUserDTO.setJobTeamId(jobTeamDTO.getId());
                             }
 
+                            if(jobTeamUserDTO.getId() == null) {
+                                jobTeamUserDTO = jobTeamUserService.save(jobTeamUserDTO);
+                            }
+
+                            // To-do folder
+                            String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_DO, job.getName(), jobTeamUserDTO.getUserLogin());
+                            fileSystemHandlingService.deleteDirectory(toDoFolderOfUser);
+                            fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
+
+                            // to-check folder
+                            String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.TO_CHECK, job.getName(), jobTeamUserDTO.getUserLogin());
+                            fileSystemHandlingService.deleteDirectory(toCheckFolderOfUser);
+                            fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
+
+                            // done folder
+                            String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + job.getProjectCode(), Constants.DONE, job.getName(), jobTeamUserDTO.getUserLogin());
+                            fileSystemHandlingService.deleteDirectory(doneFolderOfUser);
+                            fileSystemHandlingService.makeDirectory(doneFolderOfUser);
+
+                            // move files from backlogs into todo folder
+                            if (iFile >= files.size()) {
+                                jobTeamDTO.setTotalFiles(new Long(Constants.ZERO));
+                            } else {
+
+                                if (jobTeamDTO.getTotalFiles() != null) {
+                                    long iActualTotalFiles = Constants.ZERO;
+                                    Set<JobTeamUserTaskDTO> jobTeamUserTaskDTOs = new HashSet<>();
+                                    for (iActualTotalFiles = Constants.ONE; iActualTotalFiles <= jobTeamUserDTO.getTotalFiles(); iActualTotalFiles++) {
+
+                                        File file = files.get(iFile++);
+                                        if (file.isDirectory()) {
+                                            continue;
+                                        }
+
+                                        if(iActualTotalFiles > jobTeamUserDTO.getTotalFiles()) {
+                                            break;
+                                        }
+
+                                        String remoteFileName = file.getName();
+
+                                        JobTeamUserTaskDTO jobTeamUserTaskDTO = new JobTeamUserTaskDTO();
+                                        jobTeamUserTaskDTO.setFilePath(toDoFolderOfUser);
+
+                                        jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
+
+                                        jobTeamUserTaskDTO.setOriginalFilePath(backLogItemPath);
+                                        jobTeamUserTaskDTO.setOriginalFileName(remoteFileName);
+
+                                        jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
+
+                                        // setup file name
+                                        String newFileName = job.getProjectCode() + Constants.UNDERSCORE + job.getName() + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + remoteFileName;
+                                        jobTeamUserTaskDTO.setFileName(newFileName);
+
+                                        jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId());
+                                        jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
+                                        fileSystemHandlingService.copy(file.getPath().substring(this.applicationProperties.getRootFolder().length()), toDoFolderOfUser, newFileName);
+
+                                        totalFilesForJobTeam++;
+                                        if (iFile >= files.size()) {
+
+                                            break;
+                                        }
+                                    }
+                                    jobTeamUserDTO.setTotalFiles(iActualTotalFiles - Constants.ONE);
+                                    jobTeamUserDTO.setJobTeamUserTasks(jobTeamUserTaskDTOs);
+
+                                    System.out.println("Test");
+                                }
+
+                            }
                         }
                     }
+                    jobTeamDTO.setTotalFiles(totalFilesForJobTeam);
                 }
-                jobTeamDTO.setTotalFiles(totalFilesForJobTeam);
+
+            }else {
+
             }
 
             // re-update job
