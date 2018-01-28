@@ -50,6 +50,12 @@ public class JobTeamUserTask extends AbstractAuditingEntity {
 
     @Column(name = "last_check_in_time")
     private ZonedDateTime lastCheckInTime;
+    @Column(name = "last_rework_time")
+    private ZonedDateTime lastReworkTime;
+    @Column(name = "last_done_time")
+    private ZonedDateTime lastDoneTime;
+    @Column(name = "last_delivery_time")
+    private ZonedDateTime lastDeliveryTime;
 
     @Column(name = "qc_edit")
     private Boolean qcEdit;
@@ -216,6 +222,39 @@ public class JobTeamUserTask extends AbstractAuditingEntity {
         this.qc = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+
+    public ZonedDateTime getLastReworkTime() {
+        return lastReworkTime;
+    }
+
+    public void setLastReworkTime(ZonedDateTime lastReworkTime) {
+        this.lastReworkTime = lastReworkTime;
+    }
+
+    public ZonedDateTime getLastDoneTime() {
+        return lastDoneTime;
+    }
+
+    public void setLastDoneTime(ZonedDateTime lastDoneTime) {
+        this.lastDoneTime = lastDoneTime;
+    }
+
+    public ZonedDateTime getLastDeliveryTime() {
+        return lastDeliveryTime;
+    }
+
+    public void setLastDeliveryTime(ZonedDateTime lastDeliveryTime) {
+        this.lastDeliveryTime = lastDeliveryTime;
+    }
+
+    public Boolean getQcEdit() {
+        return qcEdit;
+    }
+
+    public Boolean getRework() {
+        return rework;
+    }
 
     @Override
     public boolean equals(Object o) {

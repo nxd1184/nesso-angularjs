@@ -4,6 +4,9 @@ import vn.com.la.service.dto.JobDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.ZonedDateTime;
+import java.util.List;
+
 /**
  * Service Interface for managing Job.
  */
@@ -43,4 +46,8 @@ public interface JobService {
     JobDTO findByNameAndProjectCode(String name, String projectCode);
 
     int updateJobToStart(Long id);
+
+    Long getTotalReceiverByDateTime(ZonedDateTime fromDate, ZonedDateTime toDate);
+
+    List<JobDTO> findByDeadlineBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
 }

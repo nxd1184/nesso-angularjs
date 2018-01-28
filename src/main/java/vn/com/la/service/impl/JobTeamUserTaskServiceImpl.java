@@ -28,6 +28,7 @@ import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -216,6 +217,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             numberOfRework++;
         }
         taskDTO.setNumberOfRework(numberOfRework);
+
         taskDTO = save(taskDTO);
 
         JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
@@ -321,5 +323,10 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         trackingDTO = jobTeamUserTaskTrackingService.save(trackingDTO);
 
         return new EmptyResponseVM();
+    }
+
+    @Override
+    public Long countByStatusAndDateRange(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate) {
+        return jobTeamUserTaskRepository.countByStatusInAndLastModifiedDateIsBetween(statusList, fromDate,toDate);
     }
 }

@@ -2,6 +2,7 @@ package vn.com.la.service.dto;
 
 
 import java.time.ZonedDateTime;
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -35,6 +36,9 @@ public class JobTeamUserTaskDTO implements Serializable {
     private Integer numberOfRework;
 
     private ZonedDateTime lastCheckInTime;
+    private ZonedDateTime lastReworkTime;
+    private ZonedDateTime lastDoneTime;
+    private ZonedDateTime lastDeliveryTime;
 
     private Boolean qcEdit;
 
@@ -194,6 +198,30 @@ public class JobTeamUserTaskDTO implements Serializable {
 
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
+    }
+
+    public ZonedDateTime getLastReworkTime() {
+        return lastReworkTime;
+    }
+
+    public void setLastReworkTime(ZonedDateTime lastReworkTime) {
+        this.lastReworkTime = lastReworkTime;
+    }
+
+    public ZonedDateTime getLastDoneTime() {
+        return lastDoneTime;
+    }
+
+    public void setLastDoneTime(ZonedDateTime lastDoneTime) {
+        this.lastDoneTime = lastDoneTime;
+    }
+
+    public ZonedDateTime getLastDeliveryTime() {
+        return lastDeliveryTime;
+    }
+
+    public void setLastDeliveryTime(ZonedDateTime lastDeliveryTime) {
+        this.lastDeliveryTime = lastDeliveryTime;
     }
 
     @Override

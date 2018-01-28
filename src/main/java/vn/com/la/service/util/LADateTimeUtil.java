@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
@@ -70,5 +71,9 @@ public class LADateTimeUtil {
 
     public static ZonedDateTime fileTimeToZonedDateTime(FileTime fileTime) {
         return fileTime.toInstant().atZone(ZoneId.systemDefault());
+    }
+
+    public static Instant zonedDateTimeToInstant(ZonedDateTime zonedDateTime) {
+        return zonedDateTime.toInstant();
     }
 }

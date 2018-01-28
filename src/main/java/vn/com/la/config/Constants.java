@@ -1,6 +1,10 @@
 package vn.com.la.config;
 
 import io.swagger.models.auth.In;
+import vn.com.la.domain.enumeration.FileStatusEnum;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Application constants.
@@ -27,6 +31,10 @@ public final class Constants {
     public static final Integer ONE = 1;
 
     public static final String NESSO_GLOBAL_SEQUENCE = "SQ_NESSO_GLOBAL_SEQUENCE";
+
+    public static final List<FileStatusEnum> TO_DO_STATUS_LIST = Arrays.asList(FileStatusEnum.TODO, FileStatusEnum.REWORK);
+    public static final List<FileStatusEnum> TO_CHECK_STATUS_LIST = Arrays.asList(FileStatusEnum.TOCHECK);
+    public static final List<FileStatusEnum> DONE_STATUS_LIST = Arrays.asList(FileStatusEnum.DONE);
 
     private Constants() {
     }

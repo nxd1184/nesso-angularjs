@@ -4,6 +4,10 @@ import vn.com.la.domain.JobTeamUserTask;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+import vn.com.la.domain.enumeration.FileStatusEnum;
+
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -20,5 +24,7 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
 //    List<JobTeamUserTask> findByQcIsCurrentUser();
 
     JobTeamUserTask findByFileName(String fileName);
+
+    Long countByStatusInAndLastModifiedDateIsBetween(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate);
 
 }

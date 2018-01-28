@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZonedDateTime;
+import java.util.List;
+
 
 /**
  * Service Implementation for managing Job.
@@ -94,5 +97,16 @@ public class JobServiceImpl implements JobService{
     @Override
     public int updateJobToStart(Long id) {
         return jobRepository.updateJobToStarted(id);
+    }
+
+    @Override
+    public Long getTotalReceiverByDateTime(ZonedDateTime fromDate, ZonedDateTime toDate) {
+        return jobRepository.sumReceiveByDateRange(fromDate, toDate);
+    }
+
+    @Override
+    public List<JobDTO> findByDeadlineBetween(ZonedDateTime fromDate, ZonedDateTime toDate) {
+        List<Job> jobs = jobRepository.findByDeadlineBetween(fromDate, toDate);
+        return jobMapper.toDto(jobs);
     }
 }

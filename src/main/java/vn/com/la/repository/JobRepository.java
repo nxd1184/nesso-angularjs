@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 
+import java.time.ZonedDateTime;
+import java.util.List;
+
 
 /**
  * Spring Data JPA repository for the Job entity.
@@ -17,4 +20,9 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Modifying
     @Query("UPDATE Job SET started = true WHERE id = ?1")
     int updateJobToStarted(final Long id);
+
+    @Query("SELECT SUM(totalFiles) FROM Job WHERE syncDate BETWEEN ?1 AND ?2")
+    Long sumReceiveByDateRange(ZonedDateTime fromDate, ZonedDateTime toDate);
+
+    List<Job> findByDeadlineBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
 }
