@@ -5,4 +5,5 @@ import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 
 public interface ReportService {
     DashboardResponseVM getDashboardData(DashboardReportParam param);
+    DashboardResponseVM getDashboardDataForThisMonth();
 }
