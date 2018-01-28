@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
 import vn.com.la.service.FileSystemHandlingService;
+import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import vn.com.la.service.dto.LAFileDTO;
 import vn.com.la.service.dto.LAFolderDTO;
 import vn.com.la.service.util.LADateTimeUtil;
+import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.vm.response.ListFileResponseVM;
 import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
@@ -218,5 +220,23 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         ListFileResponseVM rs = new ListFileResponseVM();
         rs.setFiles(fileDTOs);
         return rs;
+    }
+
+    @Override
+    public boolean deliverFileToDelivery(JobTeamUserTaskDTO task, String login) throws Exception {
+        File fileInDone = new File((rootFolder + task.getFilePath() + task.getFileName()).replaceFirst(Constants.TO_DO, Constants.DONE));
+        File folderDelivery = new File((rootFolder + task.getOriginalFilePath()).replaceFirst(Constants.BACK_LOGS, Constants.DELIVERY));
+        File fileInDelivery = new File(folderDelivery, task.getOriginalFileName());
+
+        if (!fileInDone.exists()) {
+            return false;
+        }
+
+        // Create whole path in Delivery folder
+        folderDelivery.mkdirs();
+
+        Files.copy(fileInDone, fileInDelivery);
+
+        return fileInDelivery.exists();
     }
 }

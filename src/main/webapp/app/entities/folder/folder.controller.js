@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('FolderController', FolderController);
 
-    FolderController.$inject = ['$state', '$uibModal', 'FolderService', 'moment', '$scope', '$timeout'];
+    FolderController.$inject = ['$state', '$uibModal', 'FolderService', 'moment', '$scope', '$timeout', 'AlertService'];
 
-    function FolderController($state, $uibModal, FolderService, moment, $scope, $timeout) {
+    function FolderController($state, $uibModal, FolderService, moment, $scope, $timeout, AlertService) {
 
         var vm = this;
         vm.project_tree        = $('#project_tree');
@@ -18,11 +18,14 @@
         vm.loadRootTree        = loadRootTree;
         vm.currentFileList     = [];
         vm.checkAll            = false;
+        vm.checkAllDisabled    = true;
+        vm.checkCount          = 0;
 
         vm.showResourceDateTime   = showResourceDateTime;
         vm.reloadCurrentDirectory = reloadCurrentDirectory;
         vm.delivery               = delivery;
         vm.checkAllFiles          = checkAllFiles;
+        vm.checkboxIsChecked      = checkboxIsChecked;
 
         function showResourceDateTime(isoStr) {
             if (!isoStr)
@@ -46,20 +49,23 @@
             vm.currentFileList.forEach(function(file) {
                 file.checked = vm.checkAll;
             })
+
+            if (vm.checkAll === true)
+                vm.checkCount = vm.currentFileList.length;
+            else
+                vm.checkCount = 0;
         }
 
-        function delivery() {
-            var movedFiles = [];
-            vm.currentFileList.filter(
-            function (file) {
-                if(file.checked == 1) {
-                    movedFiles.push(file.name + '.' + file.type);
-                }
-            });
-            console.log(movedFiles);
-            //FolderService.delivery(movedFiles).then(onGetDirectoriesSuccess);
+        function checkboxIsChecked(index) {
+            if (vm.currentFileList[index].checked)
+                vm.checkCount++;
+            else
+                vm.checkCount--;
+
+            vm.checkAll = vm.checkCount === vm.currentFileList.length;
         }
 
+        /************************* Handle open/select node in folder tree *************************/        
         function onNodeOpen(event, data) {
             var ref = vm.project_tree.jstree(true);
             console.log("open node" + data.node.id);
@@ -71,11 +77,22 @@
         function onNodeSelected(event, data) {
             console.log("select node" + data.node.id);
             var ref = vm.project_tree.jstree(true);
+
+            if (!data.node.state.opened) {
+                data.node.state.opened = true;
+                ref.trigger('open_node.jstree', data);
+            }
+
             vm.node_being_selected = ref.get_node(ref.get_selected());
             loadFiles(vm.node_being_selected);
+
+            vm.checkAll = false;
         }
+        /******************************************************************************************/
 
 
+
+        /************************************ Load directory ************************************/
         function loadDirectories(node) {
             if (node.id === "#") {
                 var ref = vm.project_tree.jstree(true);
@@ -85,7 +102,7 @@
         }
 
         function onGetDirectoriesSuccess(response) {
-            console.log("get Directories successfully");
+            console.log("Get directories successfully");
             if (response.success ) {
                 var directories = response.directories;
                 for (var i = 0; i < directories.length; ++i) {
@@ -106,25 +123,69 @@
                 }
             }
         }
+        /************************************************************************************ßßßßß*****/
 
+
+
+        /************************************ Load directory ************************************/
         function reloadCurrentDirectory() {
-            vm.checkAll = false;
             loadFiles(vm.node_being_selected);
         }
 
         function loadFiles(node) {
+            vm.checkAll = false;
+            vm.checkCount = 0;
             FolderService.getFiles(node.li_attr.relative_path).then(onGetFilesSuccess);
         }
 
         function onGetFilesSuccess(response) {
-            console.log("get Files successfully");
+            console.log("Get files successfully");
             if (response.success) {
                 vm.currentFileList = response.files;
+                if (vm.currentFileList.length > 0)
+                    vm.checkAllDisabled = false;
+                else
+                    vm.checkAllDisabled = true;
+            }
+        }
+        /****************************************************************************************/
+
+
+
+        /************************************ Deliver files ************************************/
+        function delivery() {
+            var movedFiles = [];
+            vm.currentFileList.filter(
+            function (file) {
+                if(file.checked == 1) {
+                    movedFiles.push(file.name + '.' + file.type);
+                }
+            });
+            console.log(movedFiles);
+            FolderService.deliverFilesFromDoneFolder(movedFiles).then(onSuccessDeliverFiles, onFailedDeliverFiles);
+        }
+
+        function onSuccessDeliverFiles(response) {
+            if (response.failedList.length > 0) {
+                var error_message = "The following files are failed to be delivered:\n";
+                for (var i = 0; i < response.failedList.length; ++i) {
+                    error_message += " - " + response.failedList[i] + "\n";
+                }
+                AlertService.error(error_message);
+            }
+            else {
+                AlertService.success("Delivered files successfully");
             }
         }
 
+        function onFailedDeliverFiles(response) {
+            AlertService.failed("Delivered files failed");
+        }
+        /************************************************************ßßß***************************/
 
 
+
+        /************************************ Initialize jstree ************************************/
         angular.element(document).ready(function () {
             // Initialize jstree object
             console.log("initialize Folder Tree");
@@ -144,6 +205,7 @@
             //Load root directories
             loadRootTree();
         });
+        /******************************************************************************************/
     }
 
 })();

@@ -14,6 +14,7 @@ import vn.com.la.service.dto.JobTeamUserDTO;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import vn.com.la.service.dto.JobTeamUserTaskTrackingDTO;
 import vn.com.la.service.dto.UserDTO;
+import vn.com.la.service.dto.param.DeliveryFilesParamDTO;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.service.dto.param.UpdateJobTeamUserTaskStatusParamDTO;
 import vn.com.la.service.mapper.JobTeamUserTaskMapper;
@@ -27,6 +28,7 @@ import vn.com.la.service.specification.JobTeamUserTaskSpecifications;
 import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
+import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -325,6 +327,41 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         trackingDTO = jobTeamUserTaskTrackingService.save(trackingDTO);
 
         return new EmptyResponseVM();
+    }
+
+    @Override
+    public DeliveryFilesResponseVM delivery(DeliveryFilesParamDTO params) throws Exception {
+
+        List<JobTeamUserTaskDTO> tasks = jobTeamUserTaskMapper.toDto(jobTeamUserTaskRepository.findByFileNameInAndStatus(params.getFileNames(), FileStatusEnum.DONE));
+
+        ZonedDateTime now = ZonedDateTime.now();
+
+        User loginedUser = userService.getUserWithAuthorities();
+
+        DeliveryFilesResponseVM rs = new DeliveryFilesResponseVM();
+
+        rs.setFailedList(params.getFileNames());
+
+        for (JobTeamUserTaskDTO task : tasks) {
+            task.setLastDeliveryTime(now);
+            JobTeamUserTaskTrackingDTO jobTeamUserTaskTrackingDTO = new JobTeamUserTaskTrackingDTO();
+            jobTeamUserTaskTrackingDTO.setJobTeamUserTaskId(task.getId());
+            jobTeamUserTaskTrackingDTO.setStatus(FileStatus.DELIVERY);
+            jobTeamUserTaskTrackingDTO.setTrackingTime(now);
+            jobTeamUserTaskTrackingDTO.setUserId(loginedUser.getId());
+
+            jobTeamUserTaskTrackingService.save(jobTeamUserTaskTrackingDTO);
+
+            if (fileSystemHandlingService.deliverFileToDelivery(task, loginedUser.getLogin())) {
+                rs.getSuccessList().add(task.getFileName());
+            }
+        }
+
+        rs.getFailedList().removeAll(rs.getSuccessList());
+
+        save(tasks);
+
+        return rs;
     }
 
     @Override

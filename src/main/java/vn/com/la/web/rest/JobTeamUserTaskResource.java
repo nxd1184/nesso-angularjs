@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.security.SecurityUtils;
 import vn.com.la.service.JobTeamUserTaskService;
+import vn.com.la.service.dto.param.DeliveryFilesParamDTO;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
@@ -20,7 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.web.rest.vm.request.CheckInJobTeamUserTaskRequestVM;
+import vn.com.la.web.rest.vm.request.DeliveryFilesRequestVM;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
+import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -167,6 +170,18 @@ public class JobTeamUserTaskResource {
         log.debug("REST request to checkin JobTeamUserTask : {}", request.getId());
 
         EmptyResponseVM rs = jobTeamUserTaskService.checkIn(request.getId());
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @PutMapping("/delivery")
+    @Timed
+    public ResponseEntity<DeliveryFilesResponseVM> deliverFilesFromDoneToDeliveryFolder(@Valid @RequestBody DeliveryFilesRequestVM request) throws Exception {
+        log.debug("REST request to deliver files from Done to Delivery");
+
+        DeliveryFilesParamDTO params = new DeliveryFilesParamDTO();
+        params.setFileNames(request.getFileNames());
+
+        DeliveryFilesResponseVM rs = jobTeamUserTaskService.delivery(params);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

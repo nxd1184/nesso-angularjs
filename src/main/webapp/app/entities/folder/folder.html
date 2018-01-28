@@ -17,9 +17,9 @@
 
 					</div>
 				</div>
-				<a class="btn btn-primary pull-right btn-add-project" data-toggle="modal" 
-						ng-click="vm.reloadCurrentDirectory()"> 
-					Refresh 
+				<a class="btn btn-primary pull-right btn-add-project" data-toggle="modal"
+						ng-click="vm.reloadCurrentDirectory()">
+					Refresh
 				</a>
 				<!-- END THEME PANEL -->
 		</div>
@@ -34,7 +34,7 @@
 		<li class="active">
 			 Project
 		</li>
-	</ul> 
+	</ul>
 	<style type="text/css">
 
 		.jstree-default .jstree-open>.jstree-ocl,
@@ -170,9 +170,8 @@
 				</div>
 
 		</div>
-
+		<jhi-alert></jhi-alert>
 		<div class="col-md-9 right">
-
 				<div class="head-break">
 					<ul class="page-breadcrumb breadcrumb pull-left">
 						<li>
@@ -187,7 +186,7 @@
 							 Sub Project 1A
 						</li>
 					</ul>
-					
+
 					<div class="action pull-right">
 						<!-- <a href="javascript:;" class="atc_index"><i class="fa fa-list-alt" aria-hidden="true"></i>Index</a> -->
 						<a href="" class="atc_checkin" ng-click="vm.delivery()"><i class="fa fa-check-circle" aria-hidden="true" ></i> Delivery </a>
@@ -199,7 +198,7 @@
 					<table class="table table-hover" id="folder-right-content">
 						<thead>
 							<tr>
-								<th> <input type="checkbox" ng-model="vm.checkAll" class="checkboxes" style="position: relative; left: 0px" 
+								<th> <input type="checkbox" ng-model="vm.checkAll" ng-disabled="vm.checkAllDisabled" class="checkboxes" style="position: relative; left: 0px"
 										ng-click="vm.checkAllFiles()"/> </th>
 								<th> Name </th>
 								<th> Type </th>
@@ -209,8 +208,8 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="file in vm.currentFileList">
-								<td> <input type="checkbox" class="checkboxes" style="position: relative; left: 0px" 
-										ng-model="file.checked"/> </td>
+								<td> <input type="checkbox" class="checkboxes" style="position: relative; left: 0px"
+										ng-model="file.checked" ng-click="vm.checkboxIsChecked($index)"/> </td>
 								<td> <i class="fa fa-file" aria-hidden="true"></i> {{ file.name }} </td>
 								<td> {{ file.type | uppercase }} </td>
 								<td> {{ vm.showResourceDateTime(file.createdDate) }} </td>
@@ -218,7 +217,6 @@
 						</tbody>
 						</table>
 				</div>
-
 		</div>
 	</div>
 

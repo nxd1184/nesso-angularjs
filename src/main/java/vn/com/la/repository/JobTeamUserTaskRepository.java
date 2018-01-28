@@ -25,6 +25,8 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
 
     JobTeamUserTask findByFileName(String fileName);
 
+    List<JobTeamUserTask> findByFileNameInAndStatus(List<String> fileNames, FileStatusEnum status);
+
     Long countByStatusInAndLastModifiedDateIsBetween(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate);
 
 }

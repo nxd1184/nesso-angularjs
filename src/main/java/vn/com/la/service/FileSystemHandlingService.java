@@ -1,6 +1,7 @@
 package vn.com.la.service;
 
 import org.apache.commons.net.ftp.FTPFile;
+import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import vn.com.la.web.rest.vm.response.ListFileResponseVM;
 import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
@@ -28,4 +29,6 @@ public interface FileSystemHandlingService {
 
     ListFolderResponseVM listNfsFolderFromPath(String path);
     ListFileResponseVM listNfsFileFromPath(String path);
+
+    boolean deliverFileToDelivery(JobTeamUserTaskDTO task, String login) throws Exception;
 }
