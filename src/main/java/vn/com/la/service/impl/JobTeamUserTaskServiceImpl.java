@@ -217,7 +217,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             numberOfRework++;
         }
         taskDTO.setNumberOfRework(numberOfRework);
-
+        taskDTO.setLastReworkTime(ZonedDateTime.now());
         taskDTO = save(taskDTO);
 
         JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
@@ -265,6 +265,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         taskDTO.setStatus(FileStatusEnum.DONE);
         taskDTO.setQcId(loginedUser.getId());
         taskDTO.setQcEdit(true);
+        taskDTO.setLastDoneTime(ZonedDateTime.now());
         taskDTO = save(taskDTO);
 
         JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
@@ -313,6 +314,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
 
         taskDTO.setStatus(FileStatusEnum.DONE);
         taskDTO.setQcId(loginedUser.getId());
+        taskDTO.setLastDoneTime(ZonedDateTime.now());
         taskDTO = save(taskDTO);
 
         JobTeamUserTaskTrackingDTO trackingDTO = new JobTeamUserTaskTrackingDTO();
