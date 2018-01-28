@@ -106,7 +106,7 @@ public class JobServiceImpl implements JobService{
 
     @Override
     public List<JobDTO> findByDeadlineBetween(ZonedDateTime fromDate, ZonedDateTime toDate) {
-        List<Job> jobs = jobRepository.findByDeadlineBetween(fromDate, toDate);
+        List<Job> jobs = jobRepository.findByDeadlineBetweenOrderByDeadlineAsc(fromDate, toDate);
         return jobMapper.toDto(jobs);
     }
 }

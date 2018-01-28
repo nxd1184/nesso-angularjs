@@ -36,16 +36,23 @@ public class ReportAPI {
     }
 
     @GetMapping("/report/dashboard/this-week")
-    public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisWeek(@ApiParam(required = true) String fromDate, @ApiParam(required = true) String toDate) {
+    public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisWeek(@ApiParam(required = true) String fromDate,
+                                                                                   @ApiParam(required = true) String toDate,
+                                                                                   @ApiParam(required = true) String fromDeadlineDate,
+                                                                                   @ApiParam(required = true) String toDeadlineDate) {
 
         log.debug("Request to get productivity for dashboard");
 
         ZonedDateTime fromDateZDT = LADateTimeUtil.isoStringToZonedDateTime(fromDate);
         ZonedDateTime toDateZDT = LADateTimeUtil.isoStringToZonedDateTime(toDate);
+        ZonedDateTime fromDeadlineZDT = LADateTimeUtil.isoStringToZonedDateTime(fromDeadlineDate);
+        ZonedDateTime toDeadlineZDT = LADateTimeUtil.isoStringToZonedDateTime(toDeadlineDate);
 
         DashboardReportParam param = new DashboardReportParam();
         param.setFromDate(fromDateZDT);
         param.setToDate(toDateZDT);
+        param.setFromDealineDate(fromDeadlineZDT);
+        param.setToDealineDate(toDeadlineZDT);
 
         DashboardResponseVM rs = reportService.getDashboardData(param);
 

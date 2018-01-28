@@ -19,8 +19,10 @@
 
             var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
             var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+            var fromDeadlineDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDeadlineDate));
+            var toDeadlineDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDeadlineDate));
 
-            var url = 'api/report/dashboard/this-week?fromDate=' + fromDate + '&toDate=' + toDate;
+            var url = 'api/report/dashboard/this-week?fromDate=' + fromDate + '&toDate=' + toDate + '&fromDeadlineDate=' + fromDeadlineDate + '&toDeadlineDate=' + toDeadlineDate;
 
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
