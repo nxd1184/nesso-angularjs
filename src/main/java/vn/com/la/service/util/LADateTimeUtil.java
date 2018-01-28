@@ -76,4 +76,12 @@ public class LADateTimeUtil {
     public static Instant zonedDateTimeToInstant(ZonedDateTime zonedDateTime) {
         return zonedDateTime.toInstant();
     }
+
+    public static DateTime toTimeAtStartOfDay(DateTime dt) {
+        return dt.withTimeAtStartOfDay();
+    }
+
+    public static DateTime toTimeAtEndOfDay(DateTime dt) {
+        return dt.plusDays(1).withTimeAtStartOfDay().minusMillis(1);
+    }
 }

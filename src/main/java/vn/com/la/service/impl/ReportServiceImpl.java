@@ -55,10 +55,10 @@ public class ReportServiceImpl implements ReportService{
         DashboardResponseVM rs = new DashboardResponseVM();
 
         DateTime now = DateTime.now();
-        DateTime startDateOfMonth = now.dayOfMonth().withMinimumValue();
-        DateTime endDateOfMonth = now.dayOfMonth().withMaximumValue();
+        DateTime startDateOfMonth = LADateTimeUtil.toTimeAtStartOfDay(now.dayOfMonth().withMinimumValue());
+        DateTime endDateOfMonth = LADateTimeUtil.toTimeAtEndOfDay(now.dayOfMonth().withMaximumValue());
 
-        sqlBuilder.append("SELECT sum(task.task_credit) FROM nesso.job_team_user_task jtut ");
+        sqlBuilder.append("SELECT sum(task.task_credit) FROM job_team_user_task jtut ");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
@@ -90,7 +90,7 @@ public class ReportServiceImpl implements ReportService{
 
         // for best month
         sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT MONTH(jtut.last_done_time), sum(task.task_credit) as total_credit FROM nesso.job_team_user_task jtut ");
+        sqlBuilder.append("SELECT MONTH(jtut.last_done_time), sum(task.task_credit) as total_credit FROM job_team_user_task jtut ");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
@@ -109,8 +109,9 @@ public class ReportServiceImpl implements ReportService{
 
         // productivity of users
         sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT ju.last_name, sum(task.task_credit) as total_credit FROM nesso.job_team_user_task jtut ");
+        sqlBuilder.append("SELECT ju.last_name, sum(task.task_credit) as total_credit FROM job_team_user_task jtut ");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
