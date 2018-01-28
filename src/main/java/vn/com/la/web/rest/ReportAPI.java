@@ -1,18 +1,26 @@
 package vn.com.la.web.rest;
 
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.com.la.service.JobService;
+import vn.com.la.service.ReportService;
+import vn.com.la.service.dto.param.DashboardReportParam;
+import vn.com.la.service.util.LACommonUtil;
+import vn.com.la.service.util.LADateTimeUtil;
+import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.vm.request.DashboardRequestVM;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 
 import javax.validation.Valid;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @RestController
@@ -21,17 +29,25 @@ public class ReportAPI {
 
     private final Logger log = LoggerFactory.getLogger(ReportAPI.class);
 
-    private final JobService jobService;
+    private final ReportService reportService;
 
-    public ReportAPI(JobService jobService) {
-        this.jobService = jobService;
+    public ReportAPI(ReportService reportService) {
+        this.reportService = reportService;
     }
 
-    public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisWeek(@Valid @RequestBody DashboardRequestVM request) {
+    @GetMapping("/report/dashboard/this-week")
+    public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisWeek(@ApiParam(required = true) String fromDate, @ApiParam(required = true) String toDate) {
 
         log.debug("Request to get productivity for dashboard");
 
-        DashboardResponseVM rs = new DashboardResponseVM();
+        ZonedDateTime fromDateZDT = LADateTimeUtil.isoStringToZonedDateTime(fromDate);
+        ZonedDateTime toDateZDT = LADateTimeUtil.isoStringToZonedDateTime(toDate);
+
+        DashboardReportParam param = new DashboardReportParam();
+        param.setFromDate(fromDateZDT);
+        param.setToDate(toDateZDT);
+
+        DashboardResponseVM rs = reportService.getDashboardData(param);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

@@ -1,10 +1,15 @@
 package vn.com.la.web.rest.vm.request;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 
 public class DashboardRequestVM extends AbstractRequestVM{
 
+    @NotBlank
     private String fromDate;
+    @NotBlank
     private String toDate;
 
     public String getFromDate() {
