@@ -173,7 +173,10 @@ public class PlanServiceImpl implements PlanService {
 
                                         jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
 
-                                        jobTeamUserTaskDTO.setOriginalFilePath(backLogItemPath);
+                                        String filePath = file.getParent();
+                                        String originalRelativeFilePath = filePath.substring(filePath.indexOf(backLogItemPath));
+
+                                        jobTeamUserTaskDTO.setOriginalFilePath(originalRelativeFilePath);
                                         jobTeamUserTaskDTO.setOriginalFileName(remoteFileName);
 
                                         jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
