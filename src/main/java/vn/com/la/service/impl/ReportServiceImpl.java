@@ -1,6 +1,7 @@
 package vn.com.la.service.impl;
 
 import org.joda.time.DateTime;
+import org.springframework.stereotype.Service;
 import vn.com.la.config.Constants;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.JobService;
@@ -11,6 +12,7 @@ import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.ZonedDateTime;
@@ -18,6 +20,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ReportServiceImpl implements ReportService{
 
     private final JobService jobService;
@@ -43,7 +46,7 @@ public class ReportServiceImpl implements ReportService{
 
         rs.setUrgentJobs(jobService.findByDeadlineBetween(param.getFromDate(), param.getToDate()));
 
-        return null;
+        return rs;
     }
 
     @Override

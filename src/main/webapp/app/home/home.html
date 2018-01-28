@@ -40,8 +40,8 @@
                         <div class="text">
                             <h3>Receive</h3>
                         </div>
-                        <div class="number down">
-                            <span>1,000</span>
+                        <div class="number">
+                            <span>{{vm.productivityThisWeek.totalReceive}}</span>
                         </div>
                     </div>
                 </div>
@@ -50,8 +50,8 @@
                         <div class="text">
                             <h3>To do</h3>
                         </div>
-                        <div class="number up">
-                            <span>200</span>
+                        <div class="number">
+                            <span>{{vm.productivityThisWeek.totalToDo}}</span>
                         </div>
                     </div>
                 </div>
@@ -60,8 +60,8 @@
                         <div class="text">
                             <h3>To check</h3>
                         </div>
-                        <div class="number down">
-                            <span>1,000</span>
+                        <div class="number">
+                            <span>{{vm.productivityThisWeek.totalToCheck}}</span>
                         </div>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
                         <div class="text">
                             <h3>Done</h3>
                         </div>
-                        <div class="number up">
-                            <span>200</span>
+                        <div class="number">
+                            <span>{{vm.productivityThisWeek.totalDone}}</span>
                         </div>
                     </div>
                 </div>
@@ -458,7 +458,7 @@
                 },
 
                 series: [{
-                    name: 'Data',
+                    name: 'ToDo/Receive',
                     data: [80],
                     tooltip: {
                         valueSuffix: ' %'
@@ -466,23 +466,9 @@
                 }]
 
             },
-// Add some life
+            // Add some life
             function (chart) {
                 if (!chart.renderer.forExport) {
-                    // setInterval(function () {
-                    //     var point = chart.series[0].points[0],
-                    //         newVal,
-                    //         inc = Math.round((Math.random() - 0.5) * 20);
-                    //
-                    //     newVal = point.y + inc;
-                    //     if (newVal < 0 || newVal > 100) {
-                    //         newVal = point.y - inc;
-                    //     }
-                    //
-                    //     point.update(newVal);
-                    //
-                    // }, 3000);
-
                     var point = chart.series[0].points[0],
                         newVal,
                         inc = Math.round((Math.random() - 0.5) * 20);
@@ -491,12 +477,11 @@
                     if (newVal < 0 || newVal > 100) {
                         newVal = point.y - inc;
                     }
-
-                    point.update(newVal);
+                    var totalReceive = $('[ng-controller="HomeController"]').scope().vm.productivityThisWeek.totalReceive;
+                    var totalToDo = $('[ng-controller="HomeController"]').scope().vm.productivityThisWeek.totalToDo;
+                    point.update(vm);
                 }
             });
-
-
     });
 
 </script>
