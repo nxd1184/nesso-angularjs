@@ -24,5 +24,5 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Query("SELECT SUM(totalFiles) FROM Job WHERE syncDate BETWEEN ?1 AND ?2")
     Long sumReceiveByDateRange(ZonedDateTime fromDate, ZonedDateTime toDate);
 
-    List<Job> findByDeadlineBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
+    List<Job> findByDeadlineBetweenOrderByDeadlineAsc(ZonedDateTime fromDate, ZonedDateTime toDate);
 }
