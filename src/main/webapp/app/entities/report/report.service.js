@@ -12,7 +12,7 @@
     function reportService ($http, $q, StringUtils) {
         var service = {
             getProductivityForThisWeek: getProductivityForThisWeek,
-            update: update
+            getProductivityForThisMonth: getProductivityForThisMonth
         };
 
         function getProductivityForThisWeek(params) {
@@ -34,10 +34,11 @@
             return defer.promise;
         }
 
-        function update(data) {
-            var url = 'api/plan/update/';
+        function getProductivityForThisMonth() {
+            var url = 'api/report/dashboard/this-month';
+
             var defer = $q.defer();
-            $http(LA.RequestUtils.put(url, data)).then(function (result) {
+            $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);
             }, function(error) {
                 defer.reject(error);

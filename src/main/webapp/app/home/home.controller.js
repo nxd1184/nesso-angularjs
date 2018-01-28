@@ -14,6 +14,7 @@
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.productivityThisWeek = null;
+        vm.productivityThisMonth = null;
         vm.register = register;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
@@ -21,6 +22,7 @@
 
         getProductivityThisWeek();
         getAccount();
+        getProductivityThisMonth();
 
         function getAccount() {
             Principal.identity().then(function(account) {
@@ -45,6 +47,7 @@
                     if (deadLineTime == 0){
                         deadLineTime = "ToDay";
                     }
+                    item.index = index + 1;
                     item.deadLineTime = deadLineTime;
                 });
                 vm.productivityThisWeek = result;
@@ -167,6 +170,16 @@
                 });
         }
 
+
+        function getProductivityThisMonth() {
+            reportService.getProductivityForThisMonth().then(function (result) {
+                result.urgentJobs.forEach(function (item, index) {
+                    if (index == 0 || index == 1 || index == 2)
+                        item.troppy = true;
+                });
+                vm.productivityThisMonth = result;
+            });
+        }
 
     }
 })();

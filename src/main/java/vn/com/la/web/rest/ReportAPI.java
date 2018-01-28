@@ -1,5 +1,6 @@
 package vn.com.la.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class ReportAPI {
     }
 
     @GetMapping("/report/dashboard/this-week")
+    @Timed
     public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisWeek(@ApiParam(required = true) String fromDate,
                                                                                    @ApiParam(required = true) String toDate,
                                                                                    @ApiParam(required = true) String fromDeadlineDate,
@@ -56,6 +58,13 @@ public class ReportAPI {
 
         DashboardResponseVM rs = reportService.getDashboardData(param);
 
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+    @GetMapping("/report/dashboard/this-month")
+    @Timed
+    public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisMonth() {
+        log.debug("Request to get productivity for dashboard");
+        DashboardResponseVM rs = reportService.getDashboardDataForThisMonth();
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

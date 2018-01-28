@@ -109,7 +109,7 @@
 
                                     <tr ng-repeat="urgentJob in vm.productivityThisWeek.urgentJobs">
                                         <td>
-                                            {{urgentJob.index + 1}}
+                                            {{urgentJob.index}}
                                         </td>
                                         <td>
                                             {{urgentJob.projectName}}
@@ -152,7 +152,7 @@
                             <h3>This month</h3>
                         </div>
                         <div class="number">
-                            <span>12,040</span>
+                            <span>{{vm.productivityThisMonth.countTotalDoneForThisMonth}}</span>
                         </div>
                     </div>
                     <div class="dashboard-st month last-month">
@@ -160,7 +160,7 @@
                             <h3>Last month</h3>
                         </div>
                         <div class="number">
-                            <span>120,340</span>
+                            <span>{{vm.productivityThisMonth.countTotalDoneForLastMonth}}</span>
                         </div>
                     </div>
                     <div class="dashboard-st month best-month">
@@ -168,7 +168,7 @@
                             <h3>Best month</h3>
                         </div>
                         <div class="number">
-                            <span>120,340</span>
+                            <span>{{vm.productivityThisMonth.countTotalDoneForBestMonth}}</span>
                         </div>
                     </div>
                 </div>
@@ -189,78 +189,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr  ng-repeat="item in vm.productivityThisMonth.userProductivityList">
                                 <td>
-                                    <i class="fa fa-trophy" aria-hidden="true"></i>
+
+                                    <i class="fa {{item.troppy ? 'fa-trophy': ''}}" aria-hidden="true"></i>
                                 </td>
                                 <td>
-                                    Urgent Project 1
+                                    {{item.name}}
                                 </td>
                                 <td>
-                                    2987
+                                    {{item.totalCredit}}
                                 </td>
 
                             </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-trophy" aria-hidden="true"></i>
-                                </td>
-                                <td>
-                                    Urgent Project 2
-                                </td>
-                                <td>
-                                    2876
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-trophy" aria-hidden="true"></i>
-                                </td>
-                                <td>
-                                    Urgent Project 3
-                                </td>
-                                <td>
-                                    2765
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    4
-                                </td>
-                                <td>
-                                    Urgent Project 4
-                                </td>
-                                <td>
-                                    2654
-                                </td>
-
-                            </tr><tr>
-                                <td>
-                                    5
-                                </td>
-                                <td>
-                                    Urgent Project 5
-                                </td>
-                                <td>
-                                    2543
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    6
-                                </td>
-                                <td>
-                                    Urgent Project 6
-                                </td>
-                                <td>
-                                    2432
-                                </td>
-
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
