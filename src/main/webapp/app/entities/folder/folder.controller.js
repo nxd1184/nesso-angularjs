@@ -89,8 +89,14 @@
 
         function onNodeSelected(event, data) {
             console.log("select node" + data.node.id);
-            if (vm.node_being_selected === data.node)
-                return 
+            var ref = vm.project_tree.jstree(true);
+
+            if (vm.node_being_selected === data.node) {
+                if (data.node.state.opened) { 
+                    ref.close_node(data.node);
+                    return;
+                }
+            }
 
             var ref = vm.project_tree.jstree(true);
             if (!data.node.state.opened) {
