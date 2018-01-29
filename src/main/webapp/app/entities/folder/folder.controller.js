@@ -20,12 +20,14 @@
         vm.checkAll            = false;
         vm.checkAllDisabled    = true;
         vm.checkCount          = 0;
+        vm.folderList          = [];
 
         vm.showResourceDateTime   = showResourceDateTime;
         vm.reloadCurrentDirectory = reloadCurrentDirectory;
         vm.delivery               = delivery;
         vm.checkAllFiles          = checkAllFiles;
         vm.checkboxIsChecked      = checkboxIsChecked;
+        vm.selectNode             = selectNode;
 
         function showResourceDateTime(isoStr) {
             if (!isoStr)
@@ -65,28 +67,46 @@
             vm.checkAll = vm.checkCount === vm.currentFileList.length;
         }
 
-        /************************* Handle open/select node in folder tree *************************/        
-        function onNodeOpen(event, data) {
+        /************************* Handle open/select node in folder tree *************************/
+        function buildFolderList(node) {
+            vm.folderList = [];
             var ref = vm.project_tree.jstree(true);
-            console.log("open node" + data.node.id);
+
+            //vm.folderList.unshift(node.text);
+            vm.folderList.unshift(node);
+            for (var i = 0; i < node.parents.length - 1; ++i) {
+                vm.folderList.unshift(ref.get_node(node.parents[i]));
+            }
+        }
+
+        function onNodeOpen(event, data) {
+           console.log("open node" + data.node.id);
+            var ref = vm.project_tree.jstree(true);
             vm.node_being_opened = data.node;
-            ref.delete_node(data.node.children);
+            ref.delete_node(vm.node_being_opened.children);
             loadDirectories(vm.node_being_opened);
         }
 
         function onNodeSelected(event, data) {
             console.log("select node" + data.node.id);
+            if (vm.node_being_selected === data.node)
+                return 
+
             var ref = vm.project_tree.jstree(true);
-
             if (!data.node.state.opened) {
-                data.node.state.opened = true;
-                ref.trigger('open_node.jstree', data);
+                ref.open_node(data.node);
             }
-
-            vm.node_being_selected = ref.get_node(ref.get_selected());
-            loadFiles(vm.node_being_selected);
-
+            
+            vm.node_being_selected = data.node;
             vm.checkAll = false;
+            loadFiles(vm.node_being_selected);
+            buildFolderList(vm.node_being_selected);
+        }
+
+        function selectNode(node) {
+            var ref = vm.project_tree.jstree(true);
+            ref.deselect_node(vm.node_being_selected);
+            ref.select_node(node);
         }
         /******************************************************************************************/
 

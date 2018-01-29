@@ -10,11 +10,10 @@
 		<div class="page-toolbar">
 			<div class="search" >
 				<div class="input-group" style="width:375px" style="float:left">
-						<input type="text" class="form-control" placeholder="Search Folder">
+						<!--<input type="text" class="form-control" placeholder="Search Folder">
 						<span class="input-group-btn">
 						<button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-						</span>
-
+						</span>-->
 					</div>
 				</div>
 				<a class="btn btn-primary pull-right btn-add-project" data-toggle="modal"
@@ -173,18 +172,14 @@
 		<jhi-alert></jhi-alert>
 		<div class="col-md-9 right">
 				<div class="head-break">
-					<ul class="page-breadcrumb breadcrumb pull-left">
+					<ul id="folder_list" ng-repeat="folder in vm.folderList" class="page-breadcrumb breadcrumb pull-left">
 						<li>
-							<a href="javascript:;">Nesso</a>
+							<a ng-click="vm.selectNode(folder)"> {{ folder.text }} </a>
 							<i class="fa fa-angle-right" aria-hidden="true"></i>
 						</li>
-						<li>
-							<a href="javascript:;">Project 1</a>
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</li>
-						<li class="active">
+						<!--<li class="active">
 							 Sub Project 1A
-						</li>
+						</li>-->
 					</ul>
 
 					<div class="action pull-right">
@@ -214,6 +209,7 @@
 								<td> {{ file.type | uppercase }} </td>
 								<td> {{ vm.showResourceDateTime(file.createdDate) }} </td>
 								<td> {{ vm.showResourceDateTime(file.lastModifiedDate) }} </td>
+							</tr>
 						</tbody>
 						</table>
 				</div>
