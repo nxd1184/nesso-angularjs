@@ -166,6 +166,7 @@ public class UserService {
         Team team = null;
         if(userDTO.getTeamId() != null) {
             team = teamRepository.findOne(userDTO.getTeamId());
+            team.addMember(user);
         }
         user.setTeam(team);
         user.setCapacity(userDTO.getCapacity());
@@ -241,11 +242,21 @@ public class UserService {
                 }
                 user.setStartDate(userDTO.getStartDate());
 
-                Team team = null;
+                Team newTeam = null;
                 if(userDTO.getTeamId() != null) {
-                    team = teamRepository.findOne(userDTO.getTeamId());
+                    newTeam = teamRepository.findOne(userDTO.getTeamId());
+                    if(user.getTeam() == null) {
+                        newTeam.addMember(user);
+                    }else {
+
+                        if(newTeam != null && (newTeam.getId() != user.getTeam().getId())) {
+                            Team oldTeam = user.getTeam();
+                            oldTeam.getMembers().remove(user);
+                            teamRepository.save(oldTeam);
+                        }
+                    }
                 }
-                user.setTeam(team);
+                user.setTeam(newTeam);
                 user.setCapacity(userDTO.getCapacity());
 
 
