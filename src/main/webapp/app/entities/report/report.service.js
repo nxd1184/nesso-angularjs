@@ -12,7 +12,8 @@
     function reportService ($http, $q, StringUtils) {
         var service = {
             getProductivityForThisWeek: getProductivityForThisWeek,
-            getProductivityForThisMonth: getProductivityForThisMonth
+            getProductivityForThisMonth: getProductivityForThisMonth,
+            getProductionBonus: getProductionBonus
         };
 
         function getProductivityForThisWeek(params) {
@@ -36,6 +37,23 @@
 
         function getProductivityForThisMonth() {
             var url = 'api/report/dashboard/this-month';
+
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function getProductionBonus(params) {
+
+            var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
+            var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+
+            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
 
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {

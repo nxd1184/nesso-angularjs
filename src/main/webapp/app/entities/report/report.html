@@ -1,0 +1,1441 @@
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Report</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+        <!-- BEGIN PAGE TOOLBAR -->
+        <div class="page-toolbar">
+            <div class="search" >
+                <style type="text/css">
+
+                </style>
+                <div class="form-group group-date" style="overflow:hidden;width:270px;">
+                    <label class="text-left control-label margin-top-10" style="float:left">Date: </label>
+                    <div class="" style="margin-left:10px;display:inline-block;">
+                        <div class="input-icon">
+                            <i class="fa fa-calendar"></i>
+                            <input date-range-picker class="form-control date-picker" type="text" ng-model="vm.dateRangePicker"
+                                   min="'2014-02-23'" max="'2015-02-25'" options="{locale: {separator: ':'}}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style type="text/css">
+                .daterangepicker.ltr{
+                    margin-top: 10px;
+                }
+                .export-action .dropdown-menu::before{
+                    right: 9px;
+                    left: initial;
+                }
+                .export-action .dropdown-menu::after{
+                    right: 10px;
+                    left: initial;
+                }
+                .export-action .dropdown-menu{
+                    min-width: 94px;
+                }
+                .export-action .btn.dropdown-toggle{
+                    border-left: 1px solid rgba(55, 71, 79, 0.2);
+                }
+            </style>
+            <div class="btn-group pull-right export-action">
+                <button type="button" class="btn btn-primary">Export</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Excel</a></li>
+                    <li><a href="#">PDF</a></li>
+                </ul>
+            </div>
+
+            <!-- END THEME PANEL -->
+        </div>
+        <!-- END PAGE TOOLBAR -->
+        <div class="clearfix"></div>
+        <div class="page-breadcrumb breadcrumb profile plan-head">
+            <ul class="nav nav-tabs pull-left">
+                <li class="active">
+                    <a href="#tab_1_11" data-toggle="tab">
+                        Production Bonus Report</a>
+                </li>
+                <li class="">
+                    <a href="#tab_1_22" data-toggle="tab">
+                        Quality Report</a>
+                </li>
+                <li class="">
+                    <a href="#tab_1_33" data-toggle="tab">
+                        Delivery & Quality</a>
+                </li>
+                <li class="">
+                    <a href="#tab_1_44" data-toggle="tab">
+                        Freelancer</a>
+                </li>
+                <li class="">
+                    <a href="#tab_1_55" data-toggle="tab">
+                        Check in</a>
+                </li>
+                <li class="">
+                    <a href="#tab_1_66" data-toggle="tab">
+                        Project And Member Report</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- END PAGE HEAD -->
+    <div class="margin-top-20">
+
+        <!-- <div class="wrap-table-radius plan"> -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1_11">
+                <div class="title">
+                    <h3>Production Bonus Report</h3>
+                    <p>01/07/2017 – 31/07/2017</p>
+                </div>
+                <style type="text/css">
+                    .product-bonus th.fr_name,.product-bonus th.fr_proname{
+
+                    }
+                    .product-bonus .fr_name,.product-bonus .fr_proname{
+                        width: 18%;
+                        font-weight: 500;
+                        color: #afbec6;
+                    }
+                    .product-bonus .fr_job{
+                        width: 15%;
+                    }
+                    .product-bonus b{
+                        font-weight: bold;
+                        color: #37474f;
+                    }
+                    .product-bonus .fr_total_credit{
+                        width: 15%;
+                        text-align: right !important;
+                    }
+                    .product-bonus .fr_credit{
+                        width: 10%;
+                        text-align: center !important;
+                    }
+                </style>
+                <div class="wrap-table-radius plan  table-responsive">
+                    <table class="table table-hover freelancer product-bonus">
+                        <thead>
+                        <tr>
+                            <th class="fr_index">#</th>
+                            <th class="fr_name">Employee</th>
+                            <th class="fr_proname">Project</th>
+                            <th class="fr_job">Job</th>
+                            <th class="fr_vol">Volumn</th>
+                            <th class="fr_credit">Credit</th>
+                            <th class="fr_total_credit">Total Credit</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <style type="text/css">
+
+                        </style>
+                        <tr>
+                            <td colspan="7">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">1</td>
+                                        <td class="fr_name"><b>Billy George</b></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_vol"><b>2,000</b></td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit"><b>4,500</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"><b>Project AA</b></td>
+                                        <td class="fr_job"></td>
+
+                                        <td class="fr_vol"><b>2,000</b></td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit"><b>200</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job A</td>
+
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_credit"><b>1</b></td>
+                                        <td class="fr_total_credit">1,000</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job B</td>
+
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_credit"><b>1</b></td>
+                                        <td class="fr_total_credit">1,000</td>
+
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">2</td>
+                                        <td class="fr_name"><b>Quốc Tuấn</b></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_vol"><b>2,000</b></td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit"><b>4,500</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"><b>Project AAA</b></td>
+                                        <td class="fr_job"></td>
+
+                                        <td class="fr_vol"><b>2,000</b></td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit"><b>200</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job AA</td>
+
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_credit"><b>1</b></td>
+                                        <td class="fr_total_credit">1,000</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job BB</td>
+
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_credit"><b>1</b></td>
+                                        <td class="fr_total_credit">1,000</td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">3</td>
+                                        <td class="fr_name">William Mata</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+
+                                        <td class="fr_vol">4,000</td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit">6,000</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"><b>Project CC</b></td>
+                                        <td class="fr_job"></td>
+
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit">4,000</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job A</td>
+
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_credit">1</td>
+                                        <td class="fr_total_credit">2,000</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job B</td>
+
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_credit">1</td>
+                                        <td class="fr_total_credit">2,000</td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">4</td>
+                                        <td class="fr_name"><b>Jolie Nab</b></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_vol"><b>2,000</b></td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit"><b>4,500</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"><b>Project DD</b></td>
+                                        <td class="fr_job"></td>
+
+                                        <td class="fr_vol"><b>2,000</b></td>
+                                        <td class="fr_credit"></td>
+                                        <td class="fr_total_credit"><b>200</b></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job A</td>
+
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_credit"><b>1</b></td>
+                                        <td class="fr_total_credit">1,000</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job B</td>
+
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_credit"><b>1</b></td>
+                                        <td class="fr_total_credit">1,000</td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab_1_22">
+                <div class="title">
+                    <h3>Quality Report</h3>
+                    <p>01/07/2017 – 31/07/2017</p>
+                </div>
+                <div class="wrap-table-radius plan  table-responsive">
+                    <table class="table table-hover quanlity-control">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="">Quality Control</th>
+                            <th class="">Retoucher</th>
+                            <th class="col_volumn text-right">Volumn</th>
+                            <th class="col_err text-right">Error</th>
+                            <th class="col_err_volumn text-right">ERROR/Volumn (%)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Shane Fisher</td>
+                            <td>Raymond Caldwell</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>NGoc Hoa</td>
+                            <td>Lien Khuong</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">13</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Đan Nhi</td>
+                            <td>NGoc Diem</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Phuong Trinh</td>
+                            <td>Tuan Khanh</td>
+                            <td class="col_volumn text-right">140</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Anh Tuan</td>
+                            <td>Ngoc Diem</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Phuong Trang</td>
+                            <td>THuy Vi</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">13</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Nhoc Nu</td>
+                            <td>Raymond Caldwell</td>
+                            <td class="col_volumn text-right">190</td>
+                            <td class="col_err text-right">16</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Shane</td>
+                            <td>Caldwell</td>
+                            <td class="col_volumn text-right">170</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Fisher</td>
+                            <td>Raymond</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Hoang</td>
+                            <td>Chien</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>Son</td>
+                            <td>Tuan Vu</td>
+                            <td class="col_volumn text-right">120</td>
+                            <td class="col_err text-right">12</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>Kiue Hanh</td>
+                            <td>Ngoc Hoa</td>
+                            <td class="col_volumn text-right">150</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>HOng Dao</td>
+                            <td>Quang Minh</td>
+                            <td class="col_volumn text-right">140</td>
+                            <td class="col_err text-right">11</td>
+                            <td class="col_err_volumn text-right">0.85</td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab_1_33">
+                <div class="title">
+                    <h3>Delivery & Quality</h3>
+                    <p>01/07/2017 – 31/07/2017</p>
+                </div>
+                <div class="wrap-table-radius plan table-responsive">
+                    <table class="table table-hover freelancer">
+                        <thead>
+                        <tr>
+                            <th class="fr_index">#</th>
+                            <th class="fr_name">Employee</th>
+                            <th class="fr_proname">Project</th>
+                            <th class="fr_job">Job</th>
+                            <th class="fr_done">Done</th>
+                            <th class="fr_vol">Volumn</th>
+                            <th class="fr_err">Error</th>
+                            <th class="fr_err_vl">ERROR/Volumn (%)</th>
+                            <th class="fr_receive">Received Date</th>
+                            <th class="fr_return">Return Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <style type="text/css">
+
+                        </style>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">1</td>
+                                        <td class="fr_name">Billy Geo</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project AA</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job A</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job A2</td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">2</td>
+                                        <td class="fr_name">Belgo</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project BB</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job B1</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job B2</td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">3</td>
+                                        <td class="fr_name">Quoc Tan</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project CC</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job C1</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job C2</td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">4</td>
+                                        <td class="fr_name">Jimmy Jongtehalm</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project DD</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job D1</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job D2</td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab_1_44">
+                <div class="title">
+                    <h3>Freelancer Report</h3>
+                    <p>01/07/2017 – 31/07/2017</p>
+                </div>
+                <div class="wrap-table-radius plan table-responsive">
+                    <table class="table table-hover freelancer">
+                        <thead>
+                        <tr>
+                            <th class="fr_index">#</th>
+                            <th class="fr_name">Freelancer</th>
+                            <th class="fr_proname">Project</th>
+                            <th class="fr_job">Job</th>
+                            <th class="fr_done">Done</th>
+                            <th class="fr_vol">Volumn</th>
+                            <th class="fr_err">Error</th>
+                            <th class="fr_err_vl">ERROR/Volumn (%)</th>
+                            <th class="fr_receive">Received Date</th>
+                            <th class="fr_return">Return Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <style type="text/css">
+
+                        </style>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">1</td>
+                                        <td class="fr_name">Billy George</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project A</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job A</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job B</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">2</td>
+                                        <td class="fr_name">Quốc Tuấn</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project AA</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job AA</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job BB</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table class="table">
+                                    <tr class="fr_fistline">
+                                        <td class="fr_index">3</td>
+                                        <td class="fr_name">Châu Nguyễn</td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err">11</td>
+                                        <td class="fr_err_vl">0.11</td>
+                                        <td class="fr_receive"></td>
+                                        <td class="fr_return"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname">Project AAA</td>
+                                        <td class="fr_job"></td>
+                                        <td class="fr_done">2,000</td>
+                                        <td class="fr_vol">2,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job AAA</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fr_index"></td>
+                                        <td class="fr_name"></td>
+                                        <td class="fr_proname"></td>
+                                        <td class="fr_job">Job BBB</td>
+                                        <td class="fr_done">1,000</td>
+                                        <td class="fr_vol">1,000</td>
+                                        <td class="fr_err"></td>
+                                        <td class="fr_err_vl"></td>
+                                        <td class="fr_receive">20/06/2017</td>
+                                        <td class="fr_return">20/06/2017</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab_1_55">
+                <div class="title">
+                    <div class="pull-left">
+                        <h3>Check in Report</h3>
+                        <p>01/07/2017 – 31/07/2017</p>
+                    </div>
+                    <div class="form-group margin-bottom-0 margin-top-0 view_base pull-right">
+
+                        <div class="btn-group">
+                            <button type="button" class="active btn btn-default btn-xs btn-date">Date</button>
+                            <button type="button" class="btn btn-default btn-xs btn-user">User</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="wrap-table-radius plan  table-responsive">
+                    <style type="text/css">
+                        .checkintbl .col_in,.checkintbl .col_out,.checkintbl .col_type,.checkintbl .col_workinghours{
+                            text-align: center;
+                        }
+                    </style>
+                    <table class="tree table table-hover checkintbl datecheckintbl">
+                        <thead>
+                        <tr>
+
+                            <th class="col_date">Date</th>
+                            <th class="col_username">User name</th>
+                            <th class="col_in">IN</th>
+                            <th class="col_out">Out</th>
+                            <th class="col_workinghours">Hours Working</th>
+                            <th class="col_type">Type</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td class="col_date">10/09/2017</td>
+                            <td class="col_username">Franklin Lawrence</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1">
+                            <td class="col_date"></td>
+                            <td class="col_username">Manh Ha</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-1">
+                            <td class="col_date"></td>
+                            <td class="col_username">Duc Son</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-13 treegrid-parent-1">
+                            <td class="col_date"></td>
+                            <td class="col_username">Hoa Nguyen</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-14 treegrid-parent-1">
+                            <td class="col_date"></td>
+                            <td class="col_username">Ngoc Hoan</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td class="col_date">11/09/2017</td>
+                            <td class="col_username">Hao Hoa</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2">
+                            <td class="col_date"></td>
+                            <td class="col_username">Franklin Lawrence 2</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-2">
+                            <td class="col_date"></td>
+                            <td class="col_username">Tian Vu</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Mon</td>
+                        </tr>
+                        <tr class="treegrid-23 treegrid-parent-2">
+                            <td class="col_date"></td>
+                            <td class="col_username">Thanh NU</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Wed</td>
+                        </tr>
+                        <tr class="treegrid-24 treegrid-parent-2">
+                            <td class="col_date"></td>
+                            <td class="col_username">LayManh</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-3 parent last">
+                            <td class="col_date">12/09/2017</td>
+                            <td class="col_username">Thiet Quyen</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Wed</td>
+                        </tr>
+                        <tr class="treegrid-31 treegrid-parent-3">
+                            <td class="col_date"></td>
+                            <td class="col_username">Thuy Mapp</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-32 treegrid-parent-3">
+                            <td class="col_date"></td>
+                            <td class="col_username">Ha Tuyen</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-33 treegrid-parent-3">
+                            <td class="col_date"></td>
+                            <td class="col_username">Hoa Tranh</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Mon</td>
+                        </tr>
+                        <tr class="treegrid-34 treegrid-parent-3">
+                            <td class="col_date"></td>
+                            <td class="col_username">FQuan Tinh</td>
+                            <td class="col_in">09:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="tree table table-hover checkintbl usercheckintbl" style="display:none">
+                        <thead>
+                        <tr>
+                            <th class="col_username">User name</th>
+                            <th class="col_date">Date</th>
+                            <th class="col_in">IN</th>
+                            <th class="col_out">Out</th>
+                            <th class="col_workinghours">Hours Working</th>
+                            <th class="col_type">Type</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td class="col_username">Franklin</td>
+                            <td class="col_date">10/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Mon</td>
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1">
+                            <td class="col_username"></td>
+                            <td class="col_date">11/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-1">
+                            <td class="col_username"></td>
+                            <td class="col_date">12/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Thu</td>
+                        </tr>
+                        <tr class="treegrid-13 treegrid-parent-1">
+                            <td class="col_username"></td>
+                            <td class="col_date">13/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-14 treegrid-parent-1">
+                            <td class="col_username"></td>
+                            <td class="col_date">14/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td class="col_username">Lawrence</td>
+                            <td class="col_date">10/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2">
+                            <td class="col_username"></td>
+                            <td class="col_date">11/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-2">
+                            <td class="col_username"></td>
+                            <td class="col_date">12/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-23 treegrid-parent-2">
+                            <td class="col_username"></td>
+                            <td class="col_date">13/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-24 treegrid-parent-2">
+                            <td class="col_username"></td>
+                            <td class="col_date">14/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-3 parent last">
+                            <td class="col_username">Quan Tuan</td>
+                            <td class="col_date">10/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-31 treegrid-parent-3">
+                            <td class="col_username"></td>
+                            <td class="col_date">12/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Fri</td>
+                        </tr>
+                        <tr class="treegrid-32 treegrid-parent-3">
+                            <td class="col_username"></td>
+                            <td class="col_date">13/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-33 treegrid-parent-3">
+                            <td class="col_username"></td>
+                            <td class="col_date">14/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        <tr class="treegrid-34 treegrid-parent-3">
+                            <td class="col_username"></td>
+                            <td class="col_date">15/09/2017</td>
+                            <td class="col_in">08:00AM</td>
+                            <td class="col_out">06:00PM</td>
+                            <td class="col_workinghours">08</td>
+                            <td class="col_type">Tue</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab_1_66">
+                <div class="title">
+                    <div class="pull-left">
+                        <h3>Project And Member Report</h3>
+                        <p>01/07/2017 – 31/07/2017</p>
+                    </div>
+
+                </div>
+                <style type="text/css">
+                    .project_member tr th{
+                        color: #37474f !important;
+                    }
+                    .project_member tr th:nth-child(1),
+                    .project_member tr th:nth-child(2),
+                    .project_member tr th:nth-child(3),
+                    .project_member tr th:nth-child(4){
+                        color: #afbec6 !important;
+                    }
+                    .project_member tr.parent td{
+                        font-weight: normal !important;
+                    }
+                    .project_member tr.parent td:nth-child(2){
+                        font-weight: bold !important;
+                    }
+                    .project_member tr.parent td:nth-child(1),
+                    .project_member tr.parent td:nth-child(2),
+                    .project_member tr.parent td:nth-child(3),
+                    .project_member tr.parent td:nth-child(4){
+                        border-top: 1px solid #dae3ea;
+                    }
+                    .project_member tr td:nth-child(1),
+                    .project_member tr td:nth-child(2),
+                    .project_member tr td:nth-child(3),
+                    .project_member tr td:nth-child(4){
+                        border: 0;
+                    }
+                    .project_member tr td,.project_member tr th{
+                        border: 1px solid #dae3ea;
+
+                    }
+                    .project_member tr:last-of-type td:nth-child(1),
+                    .project_member tr:last-of-type td:nth-child(2),
+                    .project_member tr:last-of-type td:nth-child(3),
+                    .project_member tr:last-of-type td:nth-child(4){
+                        border-bottom: 1px solid #dae3ea;
+                    }
+                    .project_member .treegrid-expander{
+                        display: none;
+                    }
+                </style>
+                <div class="wrap-table-radius plan   table-responsive">
+                    <table class="tree table table-hover project_member">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Project</th>
+                            <th>Job</th>
+                            <th>Credit</th>
+                            <th colspan="2">Sam Pay</th>
+                            <th colspan="2">Jashsom Working</th>
+                            <th colspan="2">Meal Yum</th>
+                            <th colspan="2">Cristo Pho Hm</th>
+                            <th colspan="2">Oliver Giroud</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="treegrid-1 parent">
+                            <td>1</td>
+                            <td>Project AAA</td>
+                            <td>Job A</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-11 treegrid-parent-1">
+                            <td></td>
+                            <td></td>
+                            <td>Job A2</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-12 treegrid-parent-1">
+                            <td></td>
+                            <td></td>
+                            <td>Job A3</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-2 parent">
+                            <td>2</td>
+                            <td>Project BB</td>
+                            <td>Job B1</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-21 treegrid-parent-2">
+                            <td></td>
+                            <td></td>
+                            <td>Job B2</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-22 treegrid-parent-2">
+                            <td></td>
+                            <td></td>
+                            <td>Job A3</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-3 parent">
+                            <td>3</td>
+                            <td>Project CC</td>
+                            <td>Job C1</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-31 treegrid-parent-3">
+                            <td></td>
+                            <td></td>
+                            <td>Job C2</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        <tr class="treegrid-32 treegrid-parent-3">
+                            <td></td>
+                            <td></td>
+                            <td>Job A3</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                            <td>101</td>
+                            <td>101</td>
+                            <td>102</td>
+                            <td>102</td>
+                            <td>103</td>
+                            <td>103</td>
+                            <td>104</td>
+                            <td>104</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <style type="text/css">
+
+            </style>
+
+        </div>
+    </div>
+    <!-- </div> -->
+</div>
