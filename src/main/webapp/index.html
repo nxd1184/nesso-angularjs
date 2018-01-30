@@ -18,7 +18,6 @@
     <link href="content/assets/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
     <!-- END GLOBAL MANDATORY STYLES -->
 
-    <link href="content/assets/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="content/assets/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/morris/morris.css" rel="stylesheet" type="text/css">
@@ -34,6 +33,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
     <link rel="stylesheet" href="bower_components/angular-datatables/dist/css/angular-datatables.css">
@@ -100,7 +100,8 @@
                                                                         'page-plan' : $state.includes('plan'),
                                                                         'page-checkin': $state.includes('check-in'),
                                                                         'page-config': $state.includes('user-setting'),
-                                                                        'page-folder': $state.includes('folder')}">
+                                                                        'page-folder': $state.includes('folder'),
+                                                                        'page-report': $state.includes('report')}">
 
         </div>
         <!-- END CONTENT -->
@@ -146,6 +147,7 @@
     <script src="bower_components/datatables.net/js/jquery.dataTables.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -175,6 +177,7 @@
     <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-ui-slider/src/slider.js"></script>
+    <script src="bower_components/angular-daterangepicker/js/angular-daterangepicker.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
@@ -319,7 +322,11 @@
 
     <script src="app/entities/setting-info/setting-info.controller.js"></script>
 
+    <script src="app/entities/report/report.state.js"></script>
+
     <script src="app/entities/report/report.service.js"></script>
+
+    <script src="app/entities/report/report.controller.js"></script>
 
     <script src="app/entities/project/project-dialog.controller.js"></script>
 

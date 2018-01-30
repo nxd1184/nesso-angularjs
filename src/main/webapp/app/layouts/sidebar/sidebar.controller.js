@@ -22,7 +22,8 @@
             }, {
                 title: 'Report',
                 icon: 'fa fa-area-chart',
-                state: 'report'
+                state: 'report',
+                url: '#!/report'
             }, {
                 title: 'Folder',
                 icon: 'fa fa-folder-open',

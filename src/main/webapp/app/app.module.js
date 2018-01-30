@@ -18,7 +18,8 @@
             'frapontillo.bootstrap-switch',
             'ngSanitize', 'ui.select', 'ui.slider',
             'datatables',
-            'angularMoment'
+            'angularMoment',
+            'daterangepicker'
         ])
         .run(run);
 
