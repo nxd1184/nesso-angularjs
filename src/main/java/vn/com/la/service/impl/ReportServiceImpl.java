@@ -7,10 +7,12 @@ import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.ReportService;
+import vn.com.la.service.dto.ProductionBonusDTO;
 import vn.com.la.service.dto.UserProductivityDTO;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
+import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
 
 
 import javax.persistence.EntityManager;
@@ -142,6 +144,44 @@ public class ReportServiceImpl implements ReportService{
         }
 
 
+        return rs;
+    }
+
+    @Override
+    public ProductionBonusReportResponseVM getProductBonusReport(DateTime fromDate, DateTime toDate) {
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT ju.last_name, p.name as project_name, j.name as job_name, count(jtut.id) as volumn, sum(task.task_credit) as credit, count(jtut.id) * sum(task.task_credit) as total_credit");
+        sqlBuilder.append(" FROM job_team_user_task jtut");
+        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
+        sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join job j on jt.job_id = j.id");
+        sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
+        sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
+        sqlBuilder.append(" group by ju.last_name, p.name, j.name;");
+
+        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
+        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
+        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
+        List<Object[]> rows = query.getResultList();
+
+        List<ProductionBonusDTO> report = new ArrayList<>();
+        for(Object[] row: rows) {
+            ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
+            productionBonusDTO.setEmployee(row[0].toString());
+            productionBonusDTO.setProjectName(row[1].toString());
+            productionBonusDTO.setJobName(row[2].toString());
+            productionBonusDTO.setVolumn(Long.parseLong(row[3].toString()));
+            productionBonusDTO.setCredit(Long.parseLong(row[4].toString()));
+            productionBonusDTO.setTotalCredit(Long.parseLong(row[5].toString()));
+        }
+
+        ProductionBonusReportResponseVM rs = new ProductionBonusReportResponseVM();
+
+        rs.setReport(report);
         return rs;
     }
 }

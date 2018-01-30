@@ -3,6 +3,7 @@ package vn.com.la.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.vm.request.DashboardRequestVM;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
+import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
 
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
@@ -60,11 +62,26 @@ public class ReportAPI {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
+
     @GetMapping("/report/dashboard/this-month")
     @Timed
     public ResponseEntity<DashboardResponseVM> getProductivityForDashboardThisMonth() {
         log.debug("Request to get productivity for dashboard");
         DashboardResponseVM rs = reportService.getDashboardDataForThisMonth();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @GetMapping("/report/production-bonus")
+    @Timed
+    public ResponseEntity<ProductionBonusReportResponseVM> getProductionBonusReport(@ApiParam(required = true) String fromDate,
+                                                                                    @ApiParam(required = true) String toDate) {
+        log.debug("Request to get production bonus report");
+
+        DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
+        DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
+
+        ProductionBonusReportResponseVM rs = reportService.getProductBonusReport(fromDateZDT, toDateZDT);
+
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

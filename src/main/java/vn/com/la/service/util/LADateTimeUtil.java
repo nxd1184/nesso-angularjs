@@ -84,4 +84,12 @@ public class LADateTimeUtil {
     public static DateTime toTimeAtEndOfDay(DateTime dt) {
         return dt.plusDays(1).withTimeAtStartOfDay().minusMillis(1);
     }
+
+    public static DateTime isoStringToDateTime(final String isoDateTimeStr) {
+        if (StringUtils.isBlank(isoDateTimeStr)) {
+            return null;
+        }
+        return DATETIME_ISO_FORMATTER.parseDateTime(isoDateTimeStr);
+    }
+
 }
