@@ -19,11 +19,10 @@ import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,12 +36,14 @@ public class PlanServiceImpl implements PlanService {
     private final JobTeamUserService jobTeamUserService;
     private final ProjectService projectService;
     private final ApplicationProperties applicationProperties;
+    private final EntityManager em;
 
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService,
                            SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService,
-                           ProjectService projectService, ApplicationProperties applicationProperties) {
+                           ProjectService projectService, ApplicationProperties applicationProperties,
+                           EntityManager em) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
@@ -51,6 +52,7 @@ public class PlanServiceImpl implements PlanService {
         this.jobTeamUserService = jobTeamUserService;
         this.projectService = projectService;
         this.applicationProperties = applicationProperties;
+        this.em = em;
     }
 
     @Override
@@ -174,7 +176,7 @@ public class PlanServiceImpl implements PlanService {
                                         jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
 
                                         String filePath = file.getParent();
-                                        String originalRelativeFilePath = LAStringUtil.removeRoolPath(filePath, this.applicationProperties.getRootFolder());
+                                        String originalRelativeFilePath = LAStringUtil.removeRootPath(filePath, this.applicationProperties.getRootFolder());
 
                                         jobTeamUserTaskDTO.setOriginalFilePath(originalRelativeFilePath);
                                         jobTeamUserTaskDTO.setOriginalFileName(remoteFileName);
@@ -227,18 +229,100 @@ public class PlanServiceImpl implements PlanService {
 
         List<ProjectDTO> projectDTOs = projectService.findAll();
         List<Long> userIds = new ArrayList<>();
+        Map<Long, JobTeamUserDTO> userIdsMap = new HashMap<>();
         for(ProjectDTO projectDTO: projectDTOs) {
             for(JobDTO jobDTO: projectDTO.getJobs()) {
                 for(JobTeamDTO jobTeamDTO: jobDTO.getJobTeams()) {
                     for(JobTeamUserDTO jobTeamUserDTO: jobTeamDTO.getJobTeamUsers()) {
                         userIds.add(jobTeamUserDTO.getUserId());
+                        userIdsMap.put(jobTeamUserDTO.getUserId(), jobTeamUserDTO);
                     }
                 }
             }
         }
 
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT ju.id,");
+        sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') then 1 else 0 end) as TODO,");
+        sqlBuilder.append("     sum(case when jtut.status = 'TOCHECK' then 1 else 0 end) as TOCHECK,");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' then 1 else 0 end) as DONE,");
+        sqlBuilder.append("     sum(case when jtut.last_delivery_time IS NOT NULL then 1 else 0 end) as DELIVERY");
+        sqlBuilder.append(" FROM job_team_user_task jtut");
+        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
+        sqlBuilder.append(" WHERE ju.id IN :userIds");
+        sqlBuilder.append(" GROUP BY ju.id");
 
+        Query query = em.createNativeQuery(sqlBuilder.toString());
+        query.setParameter("userIds", userIds);
 
-        return null;
+        List<Object[]> rows = query.getResultList();
+        Map<Long, Object[]> userProductivityMap = new HashMap<>();
+
+        for(Object[] row: rows) {
+            JobTeamUserDTO jobTeamUserDTO = userIdsMap.get(Long.parseLong(row[0].toString()));
+            if(jobTeamUserDTO != null) {
+                jobTeamUserDTO.setTotalToDoFiles(Long.parseLong(row[1].toString()));
+                jobTeamUserDTO.setTotalToCheckFiles(Long.parseLong(row[2].toString()));
+                jobTeamUserDTO.setTotalDoneFiles(Long.parseLong(row[3].toString()));
+                jobTeamUserDTO.setTotalDeliveryFiles(Long.parseLong(row[4].toString()));
+            }
+        }
+
+        for(ProjectDTO projectDTO: projectDTOs) {
+
+            Long totalToDoFilesForProject = 0L;
+            Long totalToCheckFilesForProject = 0L;
+            Long totalDoneFilesForProject = 0L;
+            Long totalDeliveryFilesForProject = 0L;
+
+            for(JobDTO jobDTO: projectDTO.getJobs()) {
+                Long totalToDoFilesForJob = 0L;
+                Long totalToCheckFilesForJob = 0L;
+                Long totalDoneFilesForJob = 0L;
+                Long totalDeliveryFilesForJob = 0L;
+
+                for(JobTeamDTO jobTeamDTO: jobDTO.getJobTeams()) {
+                    Long totalToDoFilesForTeam = 0L;
+                    Long totalToCheckFilesForTeam = 0L;
+                    Long totalDoneFilesForTeam = 0L;
+                    Long totalDeliveryFilesForTeam = 0L;
+
+                    for(JobTeamUserDTO jobTeamUserDTO: jobTeamDTO.getJobTeamUsers()) {
+                        totalToDoFilesForTeam += jobTeamUserDTO.getTotalToDoFiles();
+                        totalToCheckFilesForTeam += jobTeamUserDTO.getTotalToCheckFiles();
+                        totalDoneFilesForTeam += jobTeamUserDTO.getTotalDoneFiles();
+                        totalDeliveryFilesForTeam += jobTeamUserDTO.getTotalDeliveryFiles();
+                    }
+
+                    totalToDoFilesForJob += totalToDoFilesForTeam;
+                    totalToCheckFilesForJob += totalToCheckFilesForTeam;
+                    totalDoneFilesForJob += totalDoneFilesForTeam;
+                    totalDeliveryFilesForJob += totalDeliveryFilesForTeam;
+
+                    jobTeamDTO.setTotalToDoFiles(totalToDoFilesForTeam);
+                    jobTeamDTO.setTotalToCheckFiles(totalToCheckFilesForTeam);
+                    jobTeamDTO.setTotalDoneFiles(totalDoneFilesForTeam);
+                    jobTeamDTO.setTotalDeliveryFiles(totalDeliveryFilesForTeam);
+                }
+
+                totalToDoFilesForProject += totalToDoFilesForJob;
+                totalToCheckFilesForProject += totalToCheckFilesForJob;
+                totalDoneFilesForProject += totalDoneFilesForJob;
+                totalDeliveryFilesForProject += totalDeliveryFilesForJob;
+
+                jobDTO.setTotalToDoFiles(totalToDoFilesForJob);
+                jobDTO.setTotalToCheckFiles(totalToCheckFilesForJob);
+                jobDTO.setTotalDoneFiles(totalDoneFilesForJob);
+                jobDTO.setTotalDeliveryFiles(totalDeliveryFilesForJob);
+            }
+
+            projectDTO.setTotalToDoFiles(totalToDoFilesForProject);
+            projectDTO.setTotalToCheckFiles(totalToCheckFilesForProject);
+            projectDTO.setTotalDoneFiles(totalDoneFilesForProject);
+            projectDTO.setTotalDeliveryFiles(totalDeliveryFilesForProject);
+        }
+
+        return projectDTOs;
     }
 }

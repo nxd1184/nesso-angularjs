@@ -45,7 +45,9 @@ public class PlanAPI {
     public ResponseEntity<List<ProjectDTO>> getAllPlans(@ApiParam Pageable pageable) {
         log.debug("REST request to get all plans");
 
-        return null;
+        List<ProjectDTO> rs = planService.getAllPlans();
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 
     @GetMapping("/plan/job-detail/{jobId}")

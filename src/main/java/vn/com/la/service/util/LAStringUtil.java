@@ -12,7 +12,7 @@ public class LAStringUtil {
         return pathBuilder.toString();
     }
 
-    public static String removeRoolPath(String fullPath, String rootPath) {
-        return fullPath.substring(fullPath.indexOf(rootPath));
+    public static String removeRootPath(String fullPath, String rootPath) {
+        return fullPath.substring(rootPath.length());
     }
 }

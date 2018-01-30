@@ -46,6 +46,11 @@ public class JobDTO implements Serializable {
 
     private ZonedDateTime syncDate;
 
+    private Long totalToDoFiles;
+    private Long totalToCheckFiles;
+    private Long totalDoneFiles;
+    private Long totalDeliveryFiles;
+
     public Long getId() {
         return id;
     }
@@ -164,6 +169,38 @@ public class JobDTO implements Serializable {
 
     public void setSyncDate(ZonedDateTime syncDate) {
         this.syncDate = syncDate;
+    }
+
+    public Long getTotalToDoFiles() {
+        return totalToDoFiles;
+    }
+
+    public void setTotalToDoFiles(Long totalToDoFiles) {
+        this.totalToDoFiles = totalToDoFiles;
+    }
+
+    public Long getTotalToCheckFiles() {
+        return totalToCheckFiles;
+    }
+
+    public void setTotalToCheckFiles(Long totalToCheckFiles) {
+        this.totalToCheckFiles = totalToCheckFiles;
+    }
+
+    public Long getTotalDoneFiles() {
+        return totalDoneFiles;
+    }
+
+    public void setTotalDoneFiles(Long totalDoneFiles) {
+        this.totalDoneFiles = totalDoneFiles;
+    }
+
+    public Long getTotalDeliveryFiles() {
+        return totalDeliveryFiles;
+    }
+
+    public void setTotalDeliveryFiles(Long totalDeliveryFiles) {
+        this.totalDeliveryFiles = totalDeliveryFiles;
     }
 
     @Override
