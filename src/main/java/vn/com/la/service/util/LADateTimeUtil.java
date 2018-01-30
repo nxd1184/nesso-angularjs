@@ -23,6 +23,7 @@ public class LADateTimeUtil {
 
     // example: 2016-05-13 03:18:28:000 +0700
     public static final String DATETIME_ISO_FORMAT = "yyyy-MM-dd HH:mm:ss:SSS Z";
+    public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final DateTimeFormatter DATETIME_ISO_FORMATTER = DateTimeFormat.forPattern(DATETIME_ISO_FORMAT);
     public static final DateTimeFormatter FLIGHT_DATETIME_ISO_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm Z");
 

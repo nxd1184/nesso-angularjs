@@ -72,8 +72,8 @@ public class ReportServiceImpl implements ReportService{
 
         // for this month
         try {
-            query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
-            query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
+            query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
+            query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
             Object singleResult = query.getSingleResult();
             if(singleResult != null) {
                 rs.setCountTotalDoneForThisMonth(Long.parseLong(singleResult.toString()));
@@ -84,8 +84,8 @@ public class ReportServiceImpl implements ReportService{
 
         // for last month
         try {
-            query.setParameter(1, startDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
-            query.setParameter(2, endDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
+            query.setParameter(1, startDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
+            query.setParameter(2, endDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
             Object singleResult = query.getSingleResult();
             if(singleResult != null) {
                 rs.setCountTotalDoneForLastMonth(Long.parseLong(singleResult.toString()));
@@ -131,8 +131,8 @@ public class ReportServiceImpl implements ReportService{
         sqlBuilder.append(" LIMIT 6");
         try {
             query = entityManager.createNativeQuery(sqlBuilder.toString());
-            query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
-            query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
+            query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
+            query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
             List<Object[]> rows = query.getResultList();
             List<UserProductivityDTO> userProductivityDTOS = new ArrayList<>();
             for(Object[] row: rows) {
@@ -171,8 +171,8 @@ public class ReportServiceImpl implements ReportService{
         sqlBuilder.append(" group by ju.last_name, p.name, j.name;");
 
         Query query = entityManager.createNativeQuery(sqlBuilder.toString());
-        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
-        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
+        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
         List<Object[]> rows = query.getResultList();
 
         List<ProductionBonusDTO> report = new ArrayList<>();
@@ -184,6 +184,8 @@ public class ReportServiceImpl implements ReportService{
             productionBonusDTO.setVolumn(Long.parseLong(row[3].toString()));
             productionBonusDTO.setCredit(Long.parseLong(row[4].toString()));
             productionBonusDTO.setTotalCredit(Long.parseLong(row[5].toString()));
+
+            report.add(productionBonusDTO);
         }
 
         ProductionBonusReportResponseVM rs = new ProductionBonusReportResponseVM();
