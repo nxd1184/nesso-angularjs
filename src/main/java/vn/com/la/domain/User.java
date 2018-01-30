@@ -1,5 +1,7 @@
 package vn.com.la.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import vn.com.la.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,12 +23,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.time.Instant;
 
+
 /**
  * A user.
  */
 @Entity
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,8 @@
 package vn.com.la.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -19,6 +21,9 @@ import vn.com.la.domain.enumeration.TeamStatusEnum;
 @Entity
 @Table(name = "team")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 public class Team extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +42,7 @@ public class Team extends AbstractAuditingEntity {
     private TeamStatusEnum status;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonBackReference
     private User leader;
 
     @OneToMany(mappedBy = "team")

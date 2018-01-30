@@ -110,6 +110,7 @@ public class UserResource {
         } else {
             User newUser = userService.createUserWithPassword(managedUserVM);
             mailService.sendCreationEmail(newUser);
+            newUser.getTeam().setLeader(null);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
                 .headers(HeaderUtil.createAlert( "A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
                 .body(newUser);
