@@ -75,7 +75,9 @@ public class ReportServiceImpl implements ReportService{
             query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
             query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
             Object singleResult = query.getSingleResult();
-            rs.setCountTotalDoneForThisMonth(Long.parseLong(singleResult.toString()));
+            if(singleResult != null) {
+                rs.setCountTotalDoneForThisMonth(Long.parseLong(singleResult.toString()));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -85,7 +87,9 @@ public class ReportServiceImpl implements ReportService{
             query.setParameter(1, startDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
             query.setParameter(2, endDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_ISO_FORMAT));
             Object singleResult = query.getSingleResult();
-            rs.setCountTotalDoneForLastMonth(Long.parseLong(singleResult.toString()));
+            if(singleResult != null) {
+                rs.setCountTotalDoneForLastMonth(Long.parseLong(singleResult.toString()));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -104,7 +108,10 @@ public class ReportServiceImpl implements ReportService{
         try {
             query = entityManager.createNativeQuery(sqlBuilder.toString());
             List<Object[]> rows = query.getResultList();
-            rs.setCountTotalDoneForBestMonth(Long.parseLong(rows.get(0)[1].toString()));
+            if(rows != null && rows.size() > 0) {
+                rs.setCountTotalDoneForBestMonth(Long.parseLong(rows.get(0)[1].toString()));
+            }
+
         }catch (Exception ex) {
             ex.printStackTrace();
         }

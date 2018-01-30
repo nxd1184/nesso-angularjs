@@ -101,7 +101,9 @@ public class JobServiceImpl implements JobService{
 
     @Override
     public Long getTotalReceiverByDateTime(ZonedDateTime fromDate, ZonedDateTime toDate) {
-        return jobRepository.sumReceiveByDateRange(fromDate, toDate);
+        Long total = jobRepository.sumReceiveByDateRange(fromDate, toDate);
+        if(total == null) total = 0L;
+        return total;
     }
 
     @Override

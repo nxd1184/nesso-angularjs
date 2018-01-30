@@ -11,4 +11,8 @@ public class LAStringUtil {
         }
         return pathBuilder.toString();
     }
+
+    public static String removeRoolPath(String fullPath, String rootPath) {
+        return fullPath.substring(fullPath.indexOf(rootPath));
+    }
 }

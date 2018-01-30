@@ -250,7 +250,7 @@ public class UserService {
                     }
                 }
 
-                if((user.getTeam() != null && newTeam == null) || (newTeam != null && (newTeam.getId() != user.getTeam().getId()))) {
+                if((user.getTeam() != null && newTeam == null) || (user.getTeam() != null && newTeam != null && (newTeam.getId() != user.getTeam().getId()))) {
                     Team oldTeam = user.getTeam();
                     oldTeam.getMembers().remove(user);
                     teamRepository.save(oldTeam);
