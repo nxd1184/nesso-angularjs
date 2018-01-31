@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.com.la.service.ReportService;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
-import vn.com.la.web.rest.vm.response.DashboardResponseVM;
-import vn.com.la.web.rest.vm.response.DeliveryQualityResponseVM;
-import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
-import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
+import vn.com.la.web.rest.vm.response.*;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
@@ -117,6 +114,20 @@ public class ReportAPI {
         DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
 
         DeliveryQualityResponseVM rs = reportService.getDeliveryQualityReportForFreelancer(fromDateZDT, toDateZDT);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @GetMapping("/report/checkin")
+    @Timed
+    public ResponseEntity<CheckInResponseVM> getCheckin(@ApiParam(required = true) String fromDate,
+                                                                         @ApiParam(required = true) String toDate) {
+        log.debug("Request to get quality checkin");
+
+        DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
+        DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
+
+        CheckInResponseVM rs = reportService.getCheckinReport(fromDateZDT, toDateZDT);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

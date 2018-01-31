@@ -7,16 +7,10 @@ import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.ReportService;
-import vn.com.la.service.dto.DeliveryQualityReportDTO;
-import vn.com.la.service.dto.ProductionBonusDTO;
-import vn.com.la.service.dto.QualitiDTO;
-import vn.com.la.service.dto.UserProductivityDTO;
+import vn.com.la.service.dto.*;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
-import vn.com.la.web.rest.vm.response.DashboardResponseVM;
-import vn.com.la.web.rest.vm.response.DeliveryQualityResponseVM;
-import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
-import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
+import vn.com.la.web.rest.vm.response.*;
 
 
 import javax.persistence.EntityManager;
@@ -296,4 +290,39 @@ public class ReportServiceImpl implements ReportService {
         rs.setReport(report);
         return rs;
     }
+
+    @Override
+    public CheckInResponseVM getCheckinReport(DateTime fromDate, DateTime toDate) {
+        StringBuilder sqlBuilder = new StringBuilder();
+
+
+        sqlBuilder.append("SELECT ju.last_name, DATE(jtutt.created_date) as date, min(jtutt.created_date) as checkin, max(jtutt.created_date) as checkout");
+        sqlBuilder.append(" FROM job_team_user_task_tracking jtutt");
+        sqlBuilder.append(" inner join jhi_user ju on jtutt.user_id = ju.id");
+        sqlBuilder.append(" where jtutt.created_date between ? and ?");
+        sqlBuilder.append(" group by ju.id, DATE(jtutt.created_date), jtutt.status");
+        sqlBuilder.append(" having jtutt.status = 'TOCHECK';");
+
+        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
+        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        List<Object[]> rows = query.getResultList();
+
+
+        List<CheckInReport> report = new ArrayList<CheckInReport>();
+        for (Object[] row : rows) {
+            CheckInReport checkInReport = new CheckInReport();
+            checkInReport.setEmployee(row[0].toString());
+            checkInReport.setDay(ZonedDateTime.parse(row[1].toString()));
+            checkInReport.setCheckin(ZonedDateTime.parse(row[2].toString()));
+            checkInReport.setCheckout(ZonedDateTime.parse(row[3].toString()));
+
+            report.add(checkInReport);
+        }
+        CheckInResponseVM rs = new CheckInResponseVM();
+
+        rs.setReport(report);
+        return rs;
+    }
+
 }
