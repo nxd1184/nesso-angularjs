@@ -9,27 +9,7 @@
 
     function ReportController($scope, $state, $timeout, reportService, $window) {
         var vm = this;
-
-        vm.dateRangePicker = { "startDate": "2017-12-31T17:00:00.000Z", "endDate": "2018-01-30T16:59:59.999Z" };
-
-        vm.options = {
-            applyClass: 'btn-green',
-            locale: {
-                applyLabel: "Apply",
-                fromLabel: "From",
-                format: "YYYY-MM-DD", //will give you 2017-01-06
-                //format: "D-MMM-YY", //will give you 6-Jan-17
-                //format: "D-MMMM-YY", //will give you 6-January-17
-                toLabel: "To",
-                cancelLabel: 'Cancel',
-                customRangeLabel: 'Custom range'
-            },
-            ranges: {
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()]
-            }
-        }
-
+        vm.productionBonusProject = [];
         function _getProductionBonusReport() {
             var params = {
                 fromDate : moment().startOf('isoWeek').toDate(),
@@ -37,6 +17,67 @@
             };
             reportService.getProductionBonus(params).then(function (result) {
                 console.log(result);
+                var data_group_by_user = {};
+                result.report.forEach(function (item, index) {
+                    var employee = {'projects': {}, 'totalCredit': 0,  'totalVolumn': 0};
+                    if (data_group_by_user[item.userId] != null) {
+                        employee = data_group_by_user[item.userId];
+                    }
+                    employee.name = item.employee;
+                    employee.id = item.userId;
+
+                    var project = {'totalCredit': 0,  'totalVolumn': 0, 'jobs': {}};
+                    if (employee.projects[item.projectId] != null) {
+                        project = employee.projects[item.projectId];
+                    }
+                    project.name = item.projectName;
+                    project.id = item.projectId;
+
+                    var job = {'volumn': 0, 'credit': 0, 'totalCredit': 0};
+                    if (project.jobs[item.jobId] != null) {
+                        job = project.jobs[item.jobId];
+                    }
+                    job.name = item.jobName;
+                    job.id = item.jobId;
+                    job.volumn += item.volumn;
+                    job.credit += item.credit;
+                    job.totalCredit += item.totalCredit;
+
+                    project.jobs[item.jobId] = job;
+                    project.totalCredit += job.totalCredit;
+                    project.totalVolumn += job.volumn;
+
+                    employee.totalCredit += job.totalCredit;
+                    employee.totalVolumn += job.volumn;
+                    employee.projects[item.projectId] = project;
+                    data_group_by_user[item.userId] = employee;
+                });
+                console.log("data_group_by_user", data_group_by_user);
+                var idx_user = 1;
+                for (var user_id in data_group_by_user) {
+                    var list_rows = [];
+                    var user = data_group_by_user[user_id];
+                    console.log("user", user)
+                    var user_row = {'employee': user.name, 'project' : '', 'job': '', 'volumn': user.totalVolumn, 'credit': '', 'totalCredit': user.totalCredit};
+                    user_row.idx_user = idx_user++;
+                    list_rows.push(user_row);
+
+                    for (var projectId in user.projects) {
+                        var project = user.projects[projectId];
+                        var project_row = {'employee': '', 'project' : project.name, 'job': '', 'volumn': project.totalVolumn, 'credit': '', 'totalCredit': project.totalCredit};
+                        list_rows.push(project_row);
+
+                        for (var jobId in project.jobs) {
+                            var job = project.jobs[jobId];
+                            var job_row = {'employee': '', 'project' : '', 'job': job.name, 'volumn': job.volumn, 'credit': job.credit, 'totalCredit': job.totalCredit};
+                            list_rows.push(job_row);
+                        }
+                    }
+                    user.list_rows = list_rows;
+
+                    vm.productionBonusProject.push(user);
+                }
+                console.log("vm.productionBonusProject", vm.productionBonusProject);
             });
         }
 

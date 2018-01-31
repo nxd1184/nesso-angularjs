@@ -1,5 +1,6 @@
 package vn.com.la.service.impl;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.Constants;
@@ -154,7 +155,7 @@ public class ReportServiceImpl implements ReportService {
     public ProductionBonusReportResponseVM getProductBonusReport(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id, p.name as project_name, j.id, j.name as job_name, count(jtut.id) as volumn, sum(task.task_credit) as credit, count(jtut.id) * sum(task.task_credit) as total_credit");
+        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, count(jtut.id) as volumn, sum(task.task_credit) as credit, count(jtut.id) * sum(task.task_credit) as total_credit");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
@@ -164,7 +165,7 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
         sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
         sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
-        sqlBuilder.append(" group by ju,id, ju.last_name, p.id, p.name, j.id, j.name;");
+        sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
 
         Query query = entityManager.createNativeQuery(sqlBuilder.toString());
         query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
@@ -184,6 +185,21 @@ public class ReportServiceImpl implements ReportService {
             productionBonusDTO.setCredit(Long.parseLong(row[7].toString()));
             productionBonusDTO.setTotalCredit(Long.parseLong(row[8].toString()));
 
+            report.add(productionBonusDTO);
+        }
+
+        //TODO: Fake data:
+        for (int i = 0; i < 5; i++) {
+            ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
+            productionBonusDTO.setUserId(new Long(i));
+            productionBonusDTO.setProjectId(new Long(i));
+            productionBonusDTO.setJobId(new Long(i));
+            productionBonusDTO.setEmployee("User 0" + i);
+            productionBonusDTO.setProjectName("ProjectName 0" + i);
+            productionBonusDTO.setJobName("Job 0" + i);
+            productionBonusDTO.setVolumn(RandomUtils.nextLong(100, 2000));
+            productionBonusDTO.setCredit(RandomUtils.nextLong(100, 2000));
+            productionBonusDTO.setTotalCredit(productionBonusDTO.getCredit() * productionBonusDTO.getVolumn());
             report.add(productionBonusDTO);
         }
 

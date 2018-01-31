@@ -62,27 +62,27 @@
             <div class="page-breadcrumb breadcrumb profile plan-head">
                 <ul class="nav nav-tabs pull-left">
                     <li class="active">
-                        <a href="#tab_1_11" data-toggle="tab">
+                        <a data-target="#tab_1_11" data-toggle="tab">
                             Production Bonus Report</a>
                     </li>
                     <li class="">
-                        <a href="#tab_1_22" data-toggle="tab">
+                        <a data-target="#tab_1_22" data-toggle="tab">
                             Quality Report</a>
                     </li>
                     <li class="">
-                        <a href="#tab_1_33" data-toggle="tab">
+                        <a data-target="#tab_1_33" data-toggle="tab">
                             Delivery & Quality</a>
                     </li>
                     <li class="">
-                        <a href="#tab_1_44" data-toggle="tab">
+                        <a data-target="#tab_1_44" data-toggle="tab">
                             Freelancer</a>
                     </li>
                     <li class="">
-                        <a href="#tab_1_55" data-toggle="tab">
+                        <a data-target="#tab_1_55" data-toggle="tab">
                             Check in</a>
                     </li>
                     <li class="">
-                        <a href="#tab_1_66" data-toggle="tab">
+                        <a data-target="#tab_1_66" data-toggle="tab">
                             Project And Member Report</a>
                     </li>
                 </ul>
@@ -141,205 +141,23 @@
                             <style type="text/css">
 
                             </style>
-                            <tr>
+                            <tr ng-repeat="user in vm.productionBonusProject track by $index">
                                 <td colspan="7">
                                     <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">1</td>
-                                            <td class="fr_name"><b>Billy George</b></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_vol"><b>2,000</b></td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit"><b>4,500</b></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"><b>Project AA</b></td>
-                                            <td class="fr_job"></td>
-
-                                            <td class="fr_vol"><b>2,000</b></td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit"><b>200</b></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job A</td>
-
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_credit"><b>1</b></td>
-                                            <td class="fr_total_credit">1,000</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job B</td>
-
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_credit"><b>1</b></td>
-                                            <td class="fr_total_credit">1,000</td>
-
-                                        </tr>
-
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="7">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">2</td>
-                                            <td class="fr_name"><b>Quốc Tuấn</b></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_vol"><b>2,000</b></td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit"><b>4,500</b></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"><b>Project AAA</b></td>
-                                            <td class="fr_job"></td>
-
-                                            <td class="fr_vol"><b>2,000</b></td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit"><b>200</b></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job AA</td>
-
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_credit"><b>1</b></td>
-                                            <td class="fr_total_credit">1,000</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job BB</td>
-
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_credit"><b>1</b></td>
-                                            <td class="fr_total_credit">1,000</td>
+                                        <tr class="fr_fistline" ng-repeat="item in user.list_rows ">
+                                            <td class="fr_index">{{user.idx_user}}</td>
+                                            <td class="fr_name"><b>{{item.employee}}</b></td>
+                                            <td class="fr_proname">{{item.project}}</td>
+                                            <td class="fr_job">{{item.job}}</td>
+                                            <td class="fr_vol"><b>{{item.volumn}}</b></td>
+                                            <td class="fr_credit">{{item.credit}}</td>
+                                            <td class="fr_total_credit"><b>{{item.totalCredit}}</b></td>
 
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="7">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">3</td>
-                                            <td class="fr_name">William Mata</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-
-                                            <td class="fr_vol">4,000</td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit">6,000</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"><b>Project CC</b></td>
-                                            <td class="fr_job"></td>
-
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit">4,000</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job A</td>
-
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_credit">1</td>
-                                            <td class="fr_total_credit">2,000</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job B</td>
-
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_credit">1</td>
-                                            <td class="fr_total_credit">2,000</td>
-
-                                        </tr>
-                                    </table>
-                                </td>
                             </tr>
-                            <tr>
-                                <td colspan="7">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">4</td>
-                                            <td class="fr_name"><b>Jolie Nab</b></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_vol"><b>2,000</b></td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit"><b>4,500</b></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"><b>Project DD</b></td>
-                                            <td class="fr_job"></td>
-
-                                            <td class="fr_vol"><b>2,000</b></td>
-                                            <td class="fr_credit"></td>
-                                            <td class="fr_total_credit"><b>200</b></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job A</td>
-
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_credit"><b>1</b></td>
-                                            <td class="fr_total_credit">1,000</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job B</td>
-
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_credit"><b>1</b></td>
-                                            <td class="fr_total_credit">1,000</td>
-
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
