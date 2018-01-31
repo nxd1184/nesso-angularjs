@@ -17,6 +17,8 @@ public final class AuthoritiesConstants {
 
     public static final String QC = "ROLE_QC";
 
+    public static final String FREELANCER = "ROLE_FREELANCER";
+
     private AuthoritiesConstants() {
     }
 }

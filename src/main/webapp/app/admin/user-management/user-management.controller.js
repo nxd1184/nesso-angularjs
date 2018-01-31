@@ -78,7 +78,8 @@
                     ROLE_PROJECT_MANAGER: 'Project Manager',
                     ROLE_TEAM_LEADER: 'Team Leader',
                     ROLE_ADMIN: 'Admin',
-                    ROLE_QC: 'QC'
+                    ROLE_QC: 'QC',
+                    ROLE_FREELANCER: 'Freelancer'
                 };
 
                 if(data) {

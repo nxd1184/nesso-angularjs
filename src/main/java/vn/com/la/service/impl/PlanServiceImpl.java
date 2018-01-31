@@ -228,21 +228,9 @@ public class PlanServiceImpl implements PlanService {
     public List<ProjectDTO> getAllPlans() {
 
         List<ProjectDTO> projectDTOs = projectService.findAll();
-        List<Long> userIds = new ArrayList<>();
-        Map<Long, JobTeamUserDTO> userIdsMap = new HashMap<>();
-        for(ProjectDTO projectDTO: projectDTOs) {
-            for(JobDTO jobDTO: projectDTO.getJobs()) {
-                for(JobTeamDTO jobTeamDTO: jobDTO.getJobTeams()) {
-                    for(JobTeamUserDTO jobTeamUserDTO: jobTeamDTO.getJobTeamUsers()) {
-                        userIds.add(jobTeamUserDTO.getUserId());
-                        userIdsMap.put(jobTeamUserDTO.getUserId(), jobTeamUserDTO);
-                    }
-                }
-            }
-        }
 
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT ju.id,");
+        sqlBuilder.append("SELECT ");
         sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') then 1 else 0 end) as TODO,");
         sqlBuilder.append("     sum(case when jtut.status = 'TOCHECK' then 1 else 0 end) as TOCHECK,");
         sqlBuilder.append("     sum(case when jtut.status = 'DONE' then 1 else 0 end) as DONE,");
@@ -250,49 +238,47 @@ public class PlanServiceImpl implements PlanService {
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
-        sqlBuilder.append(" WHERE ju.id IN :userIds");
-        sqlBuilder.append(" GROUP BY ju.id");
-
+        sqlBuilder.append(" WHERE jtu.id = ?");
         Query query = em.createNativeQuery(sqlBuilder.toString());
-        query.setParameter("userIds", userIds);
-
-        List<Object[]> rows = query.getResultList();
-        Map<Long, Object[]> userProductivityMap = new HashMap<>();
-
-        for(Object[] row: rows) {
-            JobTeamUserDTO jobTeamUserDTO = userIdsMap.get(Long.parseLong(row[0].toString()));
-            if(jobTeamUserDTO != null) {
-                jobTeamUserDTO.setTotalToDoFiles(Long.parseLong(row[1].toString()));
-                jobTeamUserDTO.setTotalToCheckFiles(Long.parseLong(row[2].toString()));
-                jobTeamUserDTO.setTotalDoneFiles(Long.parseLong(row[3].toString()));
-                jobTeamUserDTO.setTotalDeliveryFiles(Long.parseLong(row[4].toString()));
-            }
-        }
 
         for(ProjectDTO projectDTO: projectDTOs) {
 
+            Long totalFilesForProject = 0L;
             Long totalToDoFilesForProject = 0L;
             Long totalToCheckFilesForProject = 0L;
             Long totalDoneFilesForProject = 0L;
             Long totalDeliveryFilesForProject = 0L;
 
             for(JobDTO jobDTO: projectDTO.getJobs()) {
+
                 Long totalToDoFilesForJob = 0L;
                 Long totalToCheckFilesForJob = 0L;
                 Long totalDoneFilesForJob = 0L;
                 Long totalDeliveryFilesForJob = 0L;
 
                 for(JobTeamDTO jobTeamDTO: jobDTO.getJobTeams()) {
+
                     Long totalToDoFilesForTeam = 0L;
                     Long totalToCheckFilesForTeam = 0L;
                     Long totalDoneFilesForTeam = 0L;
                     Long totalDeliveryFilesForTeam = 0L;
 
                     for(JobTeamUserDTO jobTeamUserDTO: jobTeamDTO.getJobTeamUsers()) {
-                        totalToDoFilesForTeam += jobTeamUserDTO.getTotalToDoFiles();
-                        totalToCheckFilesForTeam += jobTeamUserDTO.getTotalToCheckFiles();
-                        totalDoneFilesForTeam += jobTeamUserDTO.getTotalDoneFiles();
-                        totalDeliveryFilesForTeam += jobTeamUserDTO.getTotalDeliveryFiles();
+
+                        query.setParameter(1, jobTeamUserDTO.getId());
+                        List<Object[]> rows = query.getResultList();
+
+                        for(Object[] row: rows) {
+                            jobTeamUserDTO.setTotalToDoFiles(Long.parseLong(row[0].toString()));
+                            jobTeamUserDTO.setTotalToCheckFiles(Long.parseLong(row[1].toString()));
+                            jobTeamUserDTO.setTotalDoneFiles(Long.parseLong(row[2].toString()));
+                            jobTeamUserDTO.setTotalDeliveryFiles(Long.parseLong(row[3].toString()));
+
+                            totalToDoFilesForTeam += Optional.ofNullable(jobTeamUserDTO.getTotalToDoFiles()).orElse(0L);
+                            totalToCheckFilesForTeam += Optional.ofNullable(jobTeamUserDTO.getTotalToCheckFiles()).orElse(0L);
+                            totalDoneFilesForTeam += Optional.ofNullable(jobTeamUserDTO.getTotalDoneFiles()).orElse(0L);
+                            totalDeliveryFilesForTeam += Optional.ofNullable(jobTeamUserDTO.getTotalDeliveryFiles()).orElse(0L);
+                        }
                     }
 
                     totalToDoFilesForJob += totalToDoFilesForTeam;
@@ -306,6 +292,7 @@ public class PlanServiceImpl implements PlanService {
                     jobTeamDTO.setTotalDeliveryFiles(totalDeliveryFilesForTeam);
                 }
 
+                totalFilesForProject += jobDTO.getTotalFiles();
                 totalToDoFilesForProject += totalToDoFilesForJob;
                 totalToCheckFilesForProject += totalToCheckFilesForJob;
                 totalDoneFilesForProject += totalDoneFilesForJob;
@@ -317,6 +304,7 @@ public class PlanServiceImpl implements PlanService {
                 jobDTO.setTotalDeliveryFiles(totalDeliveryFilesForJob);
             }
 
+            projectDTO.setTotalFiles(totalFilesForProject);
             projectDTO.setTotalToDoFiles(totalToDoFilesForProject);
             projectDTO.setTotalToCheckFiles(totalToCheckFilesForProject);
             projectDTO.setTotalDoneFiles(totalDoneFilesForProject);

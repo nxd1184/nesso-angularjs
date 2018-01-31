@@ -15,7 +15,7 @@ public interface ReportService {
     DashboardResponseVM getDashboardDataForThisMonth();
 
     ProductionBonusReportResponseVM getProductBonusReport(DateTime fromDate, DateTime toDate);
-    QualitiReportResponseVM getQualitiReport(DateTime fromDate, DateTime toDate);
+    QualitiReportResponseVM getQualityReport(DateTime fromDate, DateTime toDate);
 
     DeliveryQualityResponseVM getDeliveryQualityReportForUser( DateTime fromDate, DateTime toDate);
     DeliveryQualityResponseVM getDeliveryQualityReportForFreelancer( DateTime fromDate, DateTime toDate);

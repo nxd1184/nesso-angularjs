@@ -105,10 +105,10 @@
                                 </div>
 
                             </td>
-                            <td>{{row.toDo}}</td>
-                            <td>{{row.toCheck}}</td>
-                            <td>{{row.done}}</td>
-                            <td>{{row.delivery}}</td>
+                            <td class="col_todo">{{row.toDo}}</td>
+                            <td class="col_tocheck">{{row.toCheck}}</td>
+                            <td class="col_done">{{row.done}}</td>
+                            <td class="col_delivery">{{row.delivery}}</td>
                             <td class="action">
                                 <a ng-if="row.type == 'job'" class="btn-editJob" ui-sref="plan.edit({id: row.id})">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -116,6 +116,10 @@
 
                                 <a ng-if="row.type == 'project'" class="btn-editJob" ng-click="vm.syncUp(row.code)">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
+                                </a>
+
+                                <a ng-if="row.type == 'user'" class="btn-editJob" ng-click="vm.adjustFiles(row.code)">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>

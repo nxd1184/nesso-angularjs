@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('PlanController', PlanController);
 
-    PlanController.$inject = ['$scope','$state', 'Project', '$timeout', 'projectService', '$window'];
+    PlanController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window'];
 
-    function PlanController($scope, $state, Project, $timeout, projectService, $window) {
+    function PlanController($scope, $state, planService, $timeout, projectService, $window) {
 
         var vm = this;
         vm.projects = [];
@@ -15,13 +15,13 @@
 
         vm.rows = [];
 
-        vm.editJob = editJob;
         vm.syncUp = syncUp;
 
-        _loadProjects();
+        _getAllPlans();
 
-        function _loadProjects() {
-            Project.query({}, onSuccess, onError);
+        function _getAllPlans() {
+            vm.rows = [];
+            planService.getAllPlans().then(onSuccess, onError);
 
             function onSuccess(result) {
                 vm.projects = result;
@@ -36,11 +36,11 @@
                         type: 'project',
                         name: project.name,
                         code: project.code,
-                        total: 0,
-                        toDo: 0,
-                        toCheck: 0,
-                        done: 0,
-                        delivery: 0
+                        total: project.totalFiles,
+                        toDo: project.totalToDoFiles,
+                        toCheck: project.totalToCheckFiles,
+                        done: project.totalDoneFiles,
+                        delivery: project.totalDeliveryFiles
                     });
 
 
@@ -53,11 +53,11 @@
                             cssClass: 'parent treegrid-' + jobTreeGrid + ' treegrid-parent-' + projectTreeLevel,
                             type: 'job',
                             name: job.name,
-                            total: 0,
-                            toDo: 0,
-                            toCheck: 0,
-                            done: 0,
-                            delivery: 0
+                            total: job.totalFiles,
+                            toDo: job.totalToDoFiles,
+                            toCheck: job.totalToCheckFiles,
+                            done: job.totalDoneFiles,
+                            delivery: job.totalDeliveryFiles
                         });
 
                         for(var k = 0; k < job.jobTeams.length; k++) {
@@ -68,11 +68,11 @@
                                 cssClass: 'parent treegrid-' + teamTreeGrid + ' treegrid-parent-' + jobTreeGrid,
                                 type: 'team',
                                 name: team.teamName,
-                                total: 0,
-                                toDo: 0,
-                                toCheck: 0,
-                                done: 0,
-                                delivery: 0
+                                total: team.totalFiles,
+                                toDo: team.totalToDoFiles,
+                                toCheck: team.totalToCheckFiles,
+                                done: team.totalDoneFiles,
+                                delivery: team.totalDeliveryFiles
                             });
 
 
@@ -87,11 +87,11 @@
                                     cssClass: 'treegrid-' + userTreeGrid + ' treegrid-parent-' + teamTreeGrid,
                                     type: 'user',
                                     name: user.name,
-                                    total: 0,
-                                    toDo: 0,
-                                    toCheck: 0,
-                                    done: 0,
-                                    delivery: 0
+                                    total: user.totalFiles,
+                                    toDo: user.totalToDoFiles,
+                                    toCheck: user.totalToCheckFiles,
+                                    done: user.totalDoneFiles,
+                                    delivery: user.totalDeliveryFiles
                                 });
                             }
                         }
@@ -110,15 +110,11 @@
             }
         }
 
-        function editJob(job) {
-
-        }
-
         function syncUp(projectCode) {
             projectService.syncUp(projectCode).then(onSuccess);
 
             function onSuccess(result) {
-                $window.location.reload();
+                _getAllPlans();
             }
         }
 
