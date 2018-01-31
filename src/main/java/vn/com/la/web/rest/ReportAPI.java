@@ -20,6 +20,7 @@ import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.vm.request.DashboardRequestVM;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
+import vn.com.la.web.rest.vm.response.DeliveryQualityResponseVM;
 import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
 import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
 
@@ -96,6 +97,33 @@ public class ReportAPI {
         DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
 
         QualitiReportResponseVM rs = reportService.getQualitiReport(fromDateZDT, toDateZDT);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @GetMapping("/report/delivery-quality-report")
+    @Timed
+    public ResponseEntity<DeliveryQualityResponseVM> getDeliveryQualityReport(@ApiParam(required = true) String fromDate,
+                                                                      @ApiParam(required = true) String toDate) {
+        log.debug("Request to get quality delivery report");
+
+        DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
+        DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
+
+        DeliveryQualityResponseVM rs = reportService.getDeliveryQualityReportForUser(fromDateZDT, toDateZDT);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @GetMapping("/report/freelancer-report")
+    @Timed
+    public ResponseEntity<DeliveryQualityResponseVM> getFreelancerReport(@ApiParam(required = true) String fromDate,
+                                                                              @ApiParam(required = true) String toDate) {
+        log.debug("Request to get quality freelancer report");
+
+        DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
+        DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
+
+        DeliveryQualityResponseVM rs = reportService.getDeliveryQualityReportForFreelancer(fromDateZDT, toDateZDT);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

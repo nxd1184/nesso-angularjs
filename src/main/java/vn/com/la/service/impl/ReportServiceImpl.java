@@ -7,12 +7,14 @@ import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.ReportService;
+import vn.com.la.service.dto.DeliveryQualityReportDTO;
 import vn.com.la.service.dto.ProductionBonusDTO;
 import vn.com.la.service.dto.QualitiDTO;
 import vn.com.la.service.dto.UserProductivityDTO;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
+import vn.com.la.web.rest.vm.response.DeliveryQualityResponseVM;
 import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
 import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
 
@@ -230,5 +232,68 @@ public class ReportServiceImpl implements ReportService {
         rs.setReport(report);
         return rs;
 
+    }
+
+    @Override
+    public DeliveryQualityResponseVM getDeliveryQualityReportForUser(DateTime fromDate, DateTime toDate) {
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT ju.last_name, p.name as project_name, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, count(jtut.id) / sum(jtut.number_of_rework) as error_rate, min(jtu.created_date) as received_date");
+        sqlBuilder.append(" FROM job_team_user_task jtut");
+        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
+        sqlBuilder.append(" inner join jhi_user_authority jua on jua.user_id = ju.id");
+        sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join job j on jt.job_id = j.id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" where jua.authority_name <> 'FREELANCER' AND created_date between ? and ? ");
+        sqlBuilder.append(" group by ju.last_name, p.name, j.name;");
+
+        return getDeliveryReportFromQuery(sqlBuilder.toString(), fromDate, toDate);
+    }
+
+    @Override
+    public DeliveryQualityResponseVM getDeliveryQualityReportForFreelancer(DateTime fromDate, DateTime toDate) {
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT ju.last_name, p.name as project_name, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, count(jtut.id) / sum(jtut.number_of_rework) as error_rate, min(jtu.created_date) as received_date");
+        sqlBuilder.append(" FROM job_team_user_task jtut");
+        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
+        sqlBuilder.append(" inner join jhi_user_authority jua on jua.user_id = ju.id");
+        sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join job j on jt.job_id = j.id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" where jua.authority_name = 'FREELANCER' AND created_date between ? and ? ");
+        sqlBuilder.append(" group by ju.last_name, p.name, j.name;");
+
+        return getDeliveryReportFromQuery(sqlBuilder.toString(), fromDate, toDate);
+
+    }
+
+    private DeliveryQualityResponseVM getDeliveryReportFromQuery(String sql,DateTime fromDate, DateTime toDate ) {
+        Query query = entityManager.createNativeQuery(sql);
+
+        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        List<Object[]> rows = query.getResultList();
+
+
+        List<DeliveryQualityReportDTO> report = new ArrayList<DeliveryQualityReportDTO>();
+        for (Object[] row : rows) {
+            DeliveryQualityReportDTO deliveryQualityReportDTO = new DeliveryQualityReportDTO();
+            deliveryQualityReportDTO.setEmployee(row[0].toString());
+            deliveryQualityReportDTO.setProjectName(row[1].toString());
+            deliveryQualityReportDTO.setJobName(row[2].toString());
+            deliveryQualityReportDTO.setVolumn(Long.parseLong(row[3].toString()));
+            deliveryQualityReportDTO.setDone(Long.parseLong(row[4].toString()));
+            deliveryQualityReportDTO.setError(Long.parseLong(row[5].toString()));
+            deliveryQualityReportDTO.setError_rate(Double.parseDouble(row[6].toString()));
+            deliveryQualityReportDTO.setReceived_date(ZonedDateTime.parse(row[7].toString()));
+            report.add(deliveryQualityReportDTO);
+        }
+        DeliveryQualityResponseVM rs = new DeliveryQualityResponseVM();
+        rs.setReport(report);
+        return rs;
     }
 }
