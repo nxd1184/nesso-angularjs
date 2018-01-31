@@ -3,14 +3,17 @@ package vn.com.la.service.dto;
 import java.time.ZonedDateTime;
 
 public class DeliveryQualityReportDTO {
+    private Long userId;
     private String employee;
+    private Long projectId;
     private String projectName;
+    private Long jobId;
     private String jobName;
     private Long volumn;
     private Long done;
     private Long error;
-    private Double error_rate;
-    private ZonedDateTime received_date;
+    private Double errorRate;
+    private ZonedDateTime receivedDate;
 
     public String getEmployee() {
         return employee;
@@ -60,19 +63,43 @@ public class DeliveryQualityReportDTO {
         this.error = error;
     }
 
-    public Double getError_rate() {
-        return error_rate;
+    public Double getErrorRate() {
+        return errorRate;
     }
 
-    public void setError_rate(Double error_rate) {
-        this.error_rate = error_rate;
+    public void setErrorRate(Double errorRate) {
+        this.errorRate = errorRate;
     }
 
-    public ZonedDateTime getReceived_date() {
-        return received_date;
+    public ZonedDateTime getReceivedDate() {
+        return receivedDate;
     }
 
-    public void setReceived_date(ZonedDateTime received_date) {
-        this.received_date = received_date;
+    public void setReceivedDate(ZonedDateTime receivedDate) {
+        this.receivedDate = receivedDate;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 }

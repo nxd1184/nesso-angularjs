@@ -1,8 +1,11 @@
 package vn.com.la.service.dto;
 
 public class ProductionBonusDTO {
+    private Long userId;
     private String employee;
+    private Long projectId;
     private String projectName;
+    private Long jobId;
     private String jobName;
     private Long volumn;
     private Long credit;
@@ -54,5 +57,29 @@ public class ProductionBonusDTO {
 
     public void setTotalCredit(Long totalCredit) {
         this.totalCredit = totalCredit;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 }
