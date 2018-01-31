@@ -201,7 +201,7 @@ public class ReportServiceImpl implements ReportService {
 
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT toucher.last_name as toucher, qc.last_name as qc, count (jtut.id) as volumn, sum(jtut.number_of_rework) as error, count (jtut.id) / sum(jtut.number_of_rework) as error_rate");
+        sqlBuilder.append("SELECT toucher.last_name as toucher, qc.last_name as qc, count(jtut.id) as volumn, sum(jtut.number_of_rework) as error, count(jtut.id) / sum(jtut.number_of_rework) as error_rate");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user toucher on jtu.user_id = toucher.id");
