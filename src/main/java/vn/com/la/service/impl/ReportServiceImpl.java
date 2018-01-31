@@ -8,11 +8,13 @@ import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.ReportService;
 import vn.com.la.service.dto.ProductionBonusDTO;
+import vn.com.la.service.dto.QualitiDTO;
 import vn.com.la.service.dto.UserProductivityDTO;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
+import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
 
 
 import javax.persistence.EntityManager;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ReportServiceImpl implements ReportService{
+public class ReportServiceImpl implements ReportService {
 
     private final JobService jobService;
     private final JobTeamUserTaskService jobTeamUserTaskService;
@@ -75,7 +77,7 @@ public class ReportServiceImpl implements ReportService{
             query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
             query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
             Object singleResult = query.getSingleResult();
-            if(singleResult != null) {
+            if (singleResult != null) {
                 rs.setCountTotalDoneForThisMonth(Long.parseLong(singleResult.toString()));
             }
         } catch (Exception ex) {
@@ -87,7 +89,7 @@ public class ReportServiceImpl implements ReportService{
             query.setParameter(1, startDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
             query.setParameter(2, endDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
             Object singleResult = query.getSingleResult();
-            if(singleResult != null) {
+            if (singleResult != null) {
                 rs.setCountTotalDoneForLastMonth(Long.parseLong(singleResult.toString()));
             }
         } catch (Exception ex) {
@@ -108,11 +110,11 @@ public class ReportServiceImpl implements ReportService{
         try {
             query = entityManager.createNativeQuery(sqlBuilder.toString());
             List<Object[]> rows = query.getResultList();
-            if(rows != null && rows.size() > 0) {
+            if (rows != null && rows.size() > 0) {
                 rs.setCountTotalDoneForBestMonth(Long.parseLong(rows.get(0)[1].toString()));
             }
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -135,18 +137,18 @@ public class ReportServiceImpl implements ReportService{
             query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
             List<Object[]> rows = query.getResultList();
             List<UserProductivityDTO> userProductivityDTOS = new ArrayList<>();
-            for(Object[] row: rows) {
+            for (Object[] row : rows) {
                 UserProductivityDTO userProductivityDTO = new UserProductivityDTO();
-                if(row[0] != null) {
+                if (row[0] != null) {
                     userProductivityDTO.setName(row[0].toString());
                 }
-                if(row[1] != null) {
+                if (row[1] != null) {
                     userProductivityDTO.setTotalCredit(Long.parseLong(row[1].toString()));
                 }
 
             }
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -176,7 +178,7 @@ public class ReportServiceImpl implements ReportService{
         List<Object[]> rows = query.getResultList();
 
         List<ProductionBonusDTO> report = new ArrayList<>();
-        for(Object[] row: rows) {
+        for (Object[] row : rows) {
             ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
             productionBonusDTO.setEmployee(row[0].toString());
             productionBonusDTO.setProjectName(row[1].toString());
@@ -192,5 +194,41 @@ public class ReportServiceImpl implements ReportService{
 
         rs.setReport(report);
         return rs;
+    }
+
+    @Override
+    public QualitiReportResponseVM getQualitiReport(DateTime fromDate, DateTime toDate) {
+
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT toucher.last_name as toucher, qc.last_name as qc, count (jtut.id) as volumn, sum(jtut.number_of_rework) as error, count (jtut.id) / sum(jtut.number_of_rework) as error_rate");
+        sqlBuilder.append(" FROM job_team_user_task jtut");
+        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user toucher on jtu.user_id = toucher.id");
+        sqlBuilder.append(" inner join jhi_user qc on jtut.qc_id = qc.id");
+        sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
+        sqlBuilder.append(" group by toucher.last_name, qc.last_name;");
+
+        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
+        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        List<Object[]> rows = query.getResultList();
+
+
+        List<QualitiDTO> report = new ArrayList<>();
+        for (Object[] row : rows) {
+            QualitiDTO qualitiDTO = new QualitiDTO();
+            qualitiDTO.setRetoucher(row[0].toString());
+            qualitiDTO.setQc(row[1].toString());
+            qualitiDTO.setVolumn(Long.parseLong(row[2].toString()));
+            qualitiDTO.setError(Long.parseLong(row[3].toString()));
+            qualitiDTO.setError_rate(Double.parseDouble(row[4].toString()));
+            report.add(qualitiDTO);
+        }
+        QualitiReportResponseVM rs = new QualitiReportResponseVM();
+
+        rs.setReport(report);
+        return rs;
+
     }
 }
