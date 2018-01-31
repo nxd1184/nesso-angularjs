@@ -21,6 +21,7 @@ import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.vm.request.DashboardRequestVM;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
+import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
 
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
@@ -81,6 +82,20 @@ public class ReportAPI {
         DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
 
         ProductionBonusReportResponseVM rs = reportService.getProductBonusReport(fromDateZDT, toDateZDT);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @GetMapping("/report/quality-report")
+    @Timed
+    public ResponseEntity<QualitiReportResponseVM> getQualityReport(@ApiParam(required = true) String fromDate,
+                                                                                    @ApiParam(required = true) String toDate) {
+        log.debug("Request to get quality report");
+
+        DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
+        DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
+
+        QualitiReportResponseVM rs = reportService.getQualitiReport(fromDateZDT, toDateZDT);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
