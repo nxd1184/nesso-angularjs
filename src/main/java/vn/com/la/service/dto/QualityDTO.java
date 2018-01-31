@@ -1,11 +1,13 @@
 package vn.com.la.service.dto;
 
-public class QualitiDTO {
+public class QualityDTO {
+    private Long retoucherId;
     private String retoucher;
+    private Long qcId;
     private String qc;
     private Long volumn;
     private Long error;
-    private Double error_rate;
+    private Double errorRate;
 
     public String getRetoucher() {
         return retoucher;
@@ -43,12 +45,27 @@ public class QualitiDTO {
 
 
 
-    public Double getError_rate() {
-        return error_rate;
+    public Double getErrorRate() {
+        return errorRate;
     }
 
-    public void setError_rate(Double error_rate) {
-        this.error_rate = error_rate;
+    public void setErrorRate(Double errorRate) {
+        this.errorRate = errorRate;
     }
 
+    public Long getRetoucherId() {
+        return retoucherId;
+    }
+
+    public void setRetoucherId(Long retoucherId) {
+        this.retoucherId = retoucherId;
+    }
+
+    public Long getQcId() {
+        return qcId;
+    }
+
+    public void setQcId(Long qcId) {
+        this.qcId = qcId;
+    }
 }
