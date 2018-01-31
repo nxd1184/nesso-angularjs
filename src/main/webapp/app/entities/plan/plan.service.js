@@ -8,9 +8,22 @@
 
     function planService ($http, $q) {
         var service = {
+            getAllPlans: getAllPlans,
             getJobPlanDetail: getJobPlanDetail,
             update: update
         };
+
+        function getAllPlans() {
+            var url = 'api/plans';
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
 
         function getJobPlanDetail(jobId) {
             var url = 'api/plan/job-detail/' + jobId;

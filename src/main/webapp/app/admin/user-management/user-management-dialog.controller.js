@@ -34,6 +34,9 @@
             }, {
                 id: 'ROLE_QC',
                 name: 'QC'
+            }, {
+                id: 'ROLE_FREELANCER',
+                name: 'Freelancer'
             }
         ];
 

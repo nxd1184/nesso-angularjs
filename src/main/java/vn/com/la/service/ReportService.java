@@ -13,5 +13,5 @@ public interface ReportService {
     DashboardResponseVM getDashboardDataForThisMonth();
 
     ProductionBonusReportResponseVM getProductBonusReport(DateTime fromDate, DateTime toDate);
-    public QualitiReportResponseVM getQualitiReport(DateTime fromDate, DateTime toDate);
+    public QualitiReportResponseVM getQualityReport(DateTime fromDate, DateTime toDate);
 }

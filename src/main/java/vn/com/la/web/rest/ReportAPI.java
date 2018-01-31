@@ -8,22 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import vn.com.la.service.JobService;
 import vn.com.la.service.ReportService;
 import vn.com.la.service.dto.param.DashboardReportParam;
-import vn.com.la.service.util.LACommonUtil;
 import vn.com.la.service.util.LADateTimeUtil;
-import vn.com.la.service.util.LAStringUtil;
-import vn.com.la.web.rest.util.HeaderUtil;
-import vn.com.la.web.rest.vm.request.DashboardRequestVM;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 import vn.com.la.web.rest.vm.response.ProductionBonusReportResponseVM;
 import vn.com.la.web.rest.vm.response.QualitiReportResponseVM;
 
-import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -95,7 +88,7 @@ public class ReportAPI {
         DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
         DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
 
-        QualitiReportResponseVM rs = reportService.getQualitiReport(fromDateZDT, toDateZDT);
+        QualitiReportResponseVM rs = reportService.getQualityReport(fromDateZDT, toDateZDT);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

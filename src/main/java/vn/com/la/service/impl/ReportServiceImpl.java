@@ -197,7 +197,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public QualitiReportResponseVM getQualitiReport(DateTime fromDate, DateTime toDate) {
+    public QualitiReportResponseVM getQualityReport(DateTime fromDate, DateTime toDate) {
 
         StringBuilder sqlBuilder = new StringBuilder();
 

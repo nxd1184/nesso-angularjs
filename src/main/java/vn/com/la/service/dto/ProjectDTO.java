@@ -46,6 +46,7 @@ public class ProjectDTO implements Serializable {
 
     private Set<JobDTO> jobs = new HashSet<>();
 
+    private Long totalFiles;
     private Long totalToDoFiles;
     private Long totalToCheckFiles;
     private Long totalDoneFiles;
@@ -181,6 +182,14 @@ public class ProjectDTO implements Serializable {
 
     public void setTotalDeliveryFiles(Long totalDeliveryFiles) {
         this.totalDeliveryFiles = totalDeliveryFiles;
+    }
+
+    public Long getTotalFiles() {
+        return totalFiles;
+    }
+
+    public void setTotalFiles(Long totalFiles) {
+        this.totalFiles = totalFiles;
     }
 
     @Override
