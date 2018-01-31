@@ -51,7 +51,9 @@
                     item.deadLineTime = deadLineTime;
                 });
                 vm.productivityThisWeek = result;
-                var quality = Number((vm.productivityThisWeek.totalToDo * 100/ vm.productivityThisWeek.totalReceive).toFixed(2));
+                var quality = 0;
+                if (vm.productivityThisWeek.totalReceive != 0)
+                    quality = Number((vm.productivityThisWeek.totalToDo * 100/ vm.productivityThisWeek.totalReceive).toFixed(2));
                 bindingQualityChart(quality);
             });
         }
