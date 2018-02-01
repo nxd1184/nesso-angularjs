@@ -13,7 +13,8 @@
         vm.qualityReport = [];
         vm.deliveryQualityReport = [];
         vm.freelancerReport = [];
-        vm.checkInReport = [];
+        vm.checkInReportByDate = [];
+        vm.checkInReportByUser = [];
         vm.projectAndMemberReport = [];
 
         vm.getProductionBonusReport = _getProductionBonusReport;
@@ -261,7 +262,97 @@
             };
             reportService.getCheckInReport(params).then(function (result) {
                 console.log(result);
-                vm.checkInReport = result;
+                var data_group_by_user = {};
+                var data_group_by_date = {};
+                result.report.forEach(function (item, index) {
+                    var date = moment(item.day).format("DD/MM/YYYY");
+                    if (data_group_by_date[date] == null) {
+                        data_group_by_date[date] = {};
+                    }
+                    data_group_by_date[date][item.userId] = item;
+
+                    var user = {'name': item.employee, 'dates': {}};
+                    if (data_group_by_user[item.userId] != null) {
+                        user = data_group_by_user[item.userId];
+                    }
+                    user.dates[date] = item;
+                    data_group_by_user[item.userId] = user;
+                });
+
+                vm.checkInReportByDate = [];
+                vm.checkInReportByUser = [];
+                var idx_first_row = 0;
+                var count = 0;
+                for (var idx_date in data_group_by_date) {
+                    var item = data_group_by_date[idx_date];
+                    var is_first = true;
+                    for (var idx_user in item) {
+                        count++;
+                        var user = item[idx_user];
+                        var checkin = moment(user.checkin).format("hh:mm A");
+                        var checkout = moment(user.checkout).format("hh:mm A");
+                        var diff_sec = moment(user.checkout).diff(moment(user.checkin))/1000;
+                        var diff = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        var type = "";
+                        if (moment(idx_date, "DD/MM/YYYY").day() == 0) {
+                            type = "SUN";
+                        }
+                        if (moment(idx_date, "DD/MM/YYYY").day() == 6) {
+                            type = "SAT";
+                        }
+                        var css_class = "";
+                        var row = {'date': '', 'user_name' : user.employee, 'in': checkin, 'out': checkout, 'hours_working' : diff, 'type': type}
+                        if (is_first) {
+                            is_first = false;
+                            row.date = idx_date;
+                            idx_first_row = count;
+                            row.css_class = "parent treegrid-" + count;
+                        } else {
+                            row.css_class = "treegrid-" + count + " treegrid-parent-" + idx_first_row;
+                        }
+                        vm.checkInReportByDate.push(row);
+                    }
+                }
+
+                console.log("vm.checkInReportByDate", vm.checkInReportByDate);
+
+                idx_first_row = 0;
+                count = 0;
+                for (var idx_user in data_group_by_user) {
+                    var item = data_group_by_user[idx_user];
+                    var is_first = true;
+                    for (var idx_date in item.dates) {
+                        count++;
+                        var user = item.dates[idx_date];
+                        var checkin = moment(user.checkin).format("hh:mm A");
+                        var checkout = moment(user.checkout).format("hh:mm A");
+                        var diff_sec = moment(user.checkout).diff(moment(user.checkin))/1000;
+                        var diff = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        var type = "";
+                        if (moment(idx_date, "DD/MM/YYYY").day() == 0) {
+                            type = "SUN";
+                        }
+                        if (moment(idx_date, "DD/MM/YYYY").day() == 6) {
+                            type = "SAT";
+                        }
+                        var css_class = "";
+                        var row = {'user_name' : '', 'date': idx_date,  'in': checkin, 'out': checkout, 'hours_working' : diff, 'type': type}
+                        if (is_first) {
+                            is_first = false;
+                            row.user_name = item.name;
+                            idx_first_row = count;
+                            row.css_class = "parent treegrid-" + count;
+                        } else {
+                            row.css_class = "treegrid-" + count + " treegrid-parent-" + idx_first_row;
+                        }
+                        vm.checkInReportByUser.push(row);
+                    }
+                }
+                console.log("vm.checkInReportByUser", vm.checkInReportByUser);
+                $timeout(function() {
+                    angular.element('.tree').treegrid();
+                }, 2);
+
             });
         }
 

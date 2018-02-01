@@ -336,7 +336,7 @@ public class ReportServiceImpl implements ReportService {
         StringBuilder sqlBuilder = new StringBuilder();
 
 
-        sqlBuilder.append("SELECT ju.last_name, DATE(jtutt.created_date) as date, min(jtutt.created_date) as checkin, max(jtutt.created_date) as checkout");
+        sqlBuilder.append("SELECT ju.last_name, DATE(jtutt.created_date) as date, min(jtutt.created_date) as checkin, max(jtutt.created_date) as checkout, ju.id as userId");
         sqlBuilder.append(" FROM job_team_user_task_tracking jtutt");
         sqlBuilder.append(" inner join jhi_user ju on jtutt.user_id = ju.id");
         sqlBuilder.append(" where jtutt.created_date between ? and ?");
@@ -356,9 +356,21 @@ public class ReportServiceImpl implements ReportService {
             checkInReport.setDay(ZonedDateTime.parse(row[1].toString()));
             checkInReport.setCheckin(ZonedDateTime.parse(row[2].toString()));
             checkInReport.setCheckout(ZonedDateTime.parse(row[3].toString()));
-
+            checkInReport.setCheckout(ZonedDateTime.parse(row[3].toString()));
+            checkInReport.setUserId(Long.parseLong(row[4].toString()));
             report.add(checkInReport);
         }
+        //TODO: Fake data
+        for (int i = 0; i < 10; i++) {
+            CheckInReport checkInReport = new CheckInReport();
+            checkInReport.setUserId(RandomUtils.nextLong(0, 9));
+            checkInReport.setEmployee("User " + checkInReport.getUserId());
+            checkInReport.setDay(ZonedDateTime.now().plusDays(RandomUtils.nextInt(0, 4)));
+            checkInReport.setCheckin(ZonedDateTime.now());
+            checkInReport.setCheckout(ZonedDateTime.now().plusHours(RandomUtils.nextInt(3, 6)).plusMinutes(RandomUtils.nextInt(0, 50)));
+            report.add(checkInReport);
+        }
+
         CheckInResponseVM rs = new CheckInResponseVM();
 
         rs.setReport(report);
