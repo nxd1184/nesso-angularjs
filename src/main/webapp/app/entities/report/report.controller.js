@@ -16,7 +16,7 @@
         vm.checkInReportByDate = [];
         vm.checkInReportByUser = [];
         vm.projectAndMemberReport = [];
-
+        vm.currentScreen = 1;
         vm.getProductionBonusReport = _getProductionBonusReport;
         vm.getQualityReport = _getQualityReport;
         vm.getDeliveryQualityReport = _getDeliveryQualityReport;
@@ -25,10 +25,8 @@
         vm.getProjectAndMemberReport = _getProjectAndMemberReport;
 
         function _getProductionBonusReport() {
-            var params = {
-                fromDate : moment().startOf('isoWeek').toDate(),
-                toDate : moment().endOf('isoWeek').toDate()
-            };
+            vm.currentScreen = 1;
+            var params = _getParamsDatePicker();
             reportService.getProductionBonus(params).then(function (result) {
                 console.log(result);
                 vm.productionBonusProject = [];
@@ -95,21 +93,17 @@
             });
         }
         function _getQualityReport() {
-            var params = {
-                fromDate : moment().startOf('isoWeek').toDate(),
-                toDate : moment().endOf('isoWeek').toDate()
-            };
+            vm.currentScreen = 2;
+            var params = _getParamsDatePicker();
             reportService.getQualityReport(params).then(function (result) {
                 console.log(result);
-                vm.qualityReport = result;
+                vm.qualityReport = result.report;
             });
         }
 
         function _getDeliveryQualityReport() {
-            var params = {
-                fromDate : moment().startOf('isoWeek').toDate(),
-                toDate : moment().endOf('isoWeek').toDate()
-            };
+            vm.currentScreen = 3;
+            var params = _getParamsDatePicker();
             reportService.getDeliveryQualityReport(params).then(function (result) {
                 console.log(result);
                 vm.deliveryQualityReport = [];
@@ -181,10 +175,8 @@
         }
 
         function _getFreelancerReport() {
-            var params = {
-                fromDate : moment().startOf('isoWeek').toDate(),
-                toDate : moment().endOf('isoWeek').toDate()
-            };
+            vm.currentScreen = 4;
+            var params = _getParamsDatePicker();
             reportService.getFreelancerReport(params).then(function (result) {
                 console.log(result);
                 vm.freelancerReport = [];
@@ -256,10 +248,8 @@
         }
 
         function _getCheckInReport() {
-            var params = {
-                fromDate : moment().startOf('isoWeek').toDate(),
-                toDate : moment().endOf('isoWeek').toDate()
-            };
+            vm.currentScreen = 5;
+            var params = _getParamsDatePicker();
             reportService.getCheckInReport(params).then(function (result) {
                 console.log(result);
                 var data_group_by_user = {};
@@ -357,17 +347,83 @@
         }
 
         function _getProjectAndMemberReport() {
-            var params = {
-                fromDate : moment().startOf('isoWeek').toDate(),
-                toDate : moment().endOf('isoWeek').toDate()
-            };
+            vm.currentScreen = 6;
+            var params = _getParamsDatePicker();
             reportService.getProjectAndMemberReport(params).then(function (result) {
                 console.log(result);
                 vm.projectAndMemberReport = result;
             });
         }
 
+        function _initDateRangePicker() {
+            $('input[name="datefilter"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                startDate : moment().subtract(7, 'days'),
+                endDate : moment(),
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(30, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                "opens": "left",
+            });
 
+            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                $('.range-date').html(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+                _fetchDataCurrentScreen();
+            });
+
+            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+            var picker = $("#datepicker").data('daterangepicker');
+            $('input[name="datefilter"]').val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+            $('.range-date').html(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        }
+
+        function _getParamsDatePicker() {
+            var picker = $("#datepicker").data('daterangepicker');
+            var fromDate = picker.startDate.startOf('day').toDate();
+            var toDate = picker.endDate.endOf('day').toDate();
+            var params = {
+                fromDate : fromDate,
+                toDate : toDate
+            };
+            console.log("Params: ", params);
+            return params;
+        }
+        function _fetchDataCurrentScreen() {
+            switch (vm.currentScreen) {
+                case 1:
+                    _getProductionBonusReport();
+                    break;
+                case 2:
+                    _getQualityReport();
+                    break;
+                case 3:
+                    _getDeliveryQualityReport();
+                    break;
+                case 4:
+                    _getFreelancerReport();
+                    break;
+                case 5:
+                    _getCheckInReport();
+                    break;
+                case 6:
+                    _getProjectAndMemberReport();
+                    break;
+                default:
+                    break;
+            }
+        }
+        _initDateRangePicker();
         _getProductionBonusReport();
     }
 })();

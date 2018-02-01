@@ -19,7 +19,7 @@
                         <div class="" style="margin-left:10px;display:inline-block;">
                             <div class="input-icon">
                                 <i class="fa fa-calendar"></i>
-                                <input  type="text" name="datefilter" value="" class="form-control" placeholder="Choose Date">
+                                <input id="datepicker"  type="text" name="datefilter" value="" class="form-control" placeholder="Choose Date">
                             </div>
                         </div>
                     </div>
@@ -43,17 +43,17 @@
                         border-left: 1px solid rgba(55, 71, 79, 0.2);
                     }
                 </style>
-                <div class="btn-group pull-right export-action">
-                    <button type="button" class="btn btn-primary">Export</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Excel</a></li>
-                        <li><a href="#">PDF</a></li>
-                    </ul>
-                </div>
+                <!--<div class="btn-group pull-right export-action">-->
+                    <!--<button type="button" class="btn btn-primary">Export</button>-->
+                    <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                        <!--<span class="caret"></span>-->
+                        <!--<span class="sr-only">Toggle Dropdown</span>-->
+                    <!--</button>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="#">Excel</a></li>-->
+                        <!--<li><a href="#">PDF</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
 
                 <!-- END THEME PANEL -->
             </div>
@@ -96,7 +96,7 @@
                 <div class="tab-pane active" id="tab_1_11">
                     <div class="title">
                         <h3>Production Bonus Report</h3>
-                        <p>01/07/2017 – 31/07/2017</p>
+                        <p class="range-date"></p>
                     </div>
                     <style type="text/css">
                         .product-bonus th.fr_name,.product-bonus th.fr_proname{
@@ -165,7 +165,7 @@
                 <div class="tab-pane" id="tab_1_22">
                     <div class="title">
                         <h3>Quality Report</h3>
-                        <p>01/07/2017 – 31/07/2017</p>
+                        <p class="range-date"></p>
                     </div>
                     <div class="wrap-table-radius plan  table-responsive">
                         <table class="table table-hover quanlity-control">
@@ -180,124 +180,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Shane Fisher</td>
-                                <td>Raymond Caldwell</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
+                            <tr ng-repeat="item in vm.qualityReport track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.qc}}</td>
+                                <td>{{item.retoucher}}</td>
+                                <td class="col_volumn text-right">{{item.volumn}}</td>
+                                <td class="col_err text-right">{{item.error}}</td>
+                                <td class="col_err_volumn text-right">{{item.errorRate}}</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>NGoc Hoa</td>
-                                <td>Lien Khuong</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">13</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Đan Nhi</td>
-                                <td>NGoc Diem</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Phuong Trinh</td>
-                                <td>Tuan Khanh</td>
-                                <td class="col_volumn text-right">140</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Anh Tuan</td>
-                                <td>Ngoc Diem</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Phuong Trang</td>
-                                <td>THuy Vi</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">13</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Nhoc Nu</td>
-                                <td>Raymond Caldwell</td>
-                                <td class="col_volumn text-right">190</td>
-                                <td class="col_err text-right">16</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Shane</td>
-                                <td>Caldwell</td>
-                                <td class="col_volumn text-right">170</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>Fisher</td>
-                                <td>Raymond</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Hoang</td>
-                                <td>Chien</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>Son</td>
-                                <td>Tuan Vu</td>
-                                <td class="col_volumn text-right">120</td>
-                                <td class="col_err text-right">12</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>Kiue Hanh</td>
-                                <td>Ngoc Hoa</td>
-                                <td class="col_volumn text-right">150</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-                            <tr>
-                                <td>13</td>
-                                <td>HOng Dao</td>
-                                <td>Quang Minh</td>
-                                <td class="col_volumn text-right">140</td>
-                                <td class="col_err text-right">11</td>
-                                <td class="col_err_volumn text-right">0.85</td>
-
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -306,7 +196,7 @@
                 <div class="tab-pane" id="tab_1_33">
                     <div class="title">
                         <h3>Delivery & Quality</h3>
-                        <p>01/07/2017 – 31/07/2017</p>
+                        <p class="range-date"></p>
                     </div>
                     <div class="wrap-table-radius plan table-responsive">
                         <table class="table table-hover freelancer">
@@ -353,7 +243,7 @@
                 <div class="tab-pane" id="tab_1_44">
                     <div class="title">
                         <h3>Freelancer Report</h3>
-                        <p>01/07/2017 – 31/07/2017</p>
+                        <p class="range-date"></p>
                     </div>
                     <div class="wrap-table-radius plan table-responsive">
                         <table class="table table-hover freelancer">
@@ -401,7 +291,7 @@
                     <div class="title">
                         <div class="pull-left">
                             <h3>Check in Report</h3>
-                            <p>01/07/2017 – 31/07/2017</p>
+                            <p class="range-date"></p>
                         </div>
                         <div class="form-group margin-bottom-0 margin-top-0 view_base pull-right">
 
@@ -469,7 +359,7 @@
                     <div class="title">
                         <div class="pull-left">
                             <h3>Project And Member Report</h3>
-                            <p>01/07/2017 – 31/07/2017</p>
+                            <p class="range-date"></p>
                         </div>
 
                     </div>
@@ -712,30 +602,6 @@
             $('#option_search').selectpicker('render');
             $('#option_search').selectpicker('refresh');
 
-        });
-
-        $('input[name="datefilter"]').daterangepicker({
-            autoUpdateInput: false,
-            locale: {
-                cancelLabel: 'Clear'
-            },
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            "opens": "left",
-        });
-
-        $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        });
-
-        $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
         });
 
     });
