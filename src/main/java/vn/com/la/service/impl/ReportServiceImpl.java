@@ -240,6 +240,18 @@ public class ReportServiceImpl implements ReportService {
             qualityDTO.setErrorRate(Double.parseDouble(row[6].toString()));
             report.add(qualityDTO);
         }
+
+        for (int i = 0; i < 10; i++ ) {
+            QualityDTO qualityDTO = new QualityDTO();
+            qualityDTO.setRetoucherId(RandomUtils.nextLong(0, 9));
+            qualityDTO.setRetoucher("Retoucher " + qualityDTO.getRetoucherId());
+            qualityDTO.setQcId(RandomUtils.nextLong(0, 9));
+            qualityDTO.setQc("QC " + qualityDTO.getQcId());
+            qualityDTO.setVolumn(RandomUtils.nextLong(100, 200));
+            qualityDTO.setError(RandomUtils.nextLong(0, 30));
+            qualityDTO.setErrorRate((double) (qualityDTO.getError()*1.0/qualityDTO.getVolumn()));
+            report.add(qualityDTO);
+        }
         QualitiReportResponseVM rs = new QualitiReportResponseVM();
 
         rs.setReport(report);
