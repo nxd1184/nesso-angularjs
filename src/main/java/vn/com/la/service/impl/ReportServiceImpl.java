@@ -308,6 +308,24 @@ public class ReportServiceImpl implements ReportService {
             deliveryQualityReportDTO.setReceivedDate(ZonedDateTime.parse(row[10].toString()));
             report.add(deliveryQualityReportDTO);
         }
+
+        for (int i = 0 ; i < 10; i++) {
+            DeliveryQualityReportDTO deliveryQualityReportDTO = new DeliveryQualityReportDTO();
+            deliveryQualityReportDTO.setUserId(new Long(i));
+            deliveryQualityReportDTO.setEmployee("User" + i);
+            deliveryQualityReportDTO.setProjectId(new Long(i));
+            deliveryQualityReportDTO.setProjectName("Project " + i);
+            deliveryQualityReportDTO.setJobId(new Long(i));
+            deliveryQualityReportDTO.setJobName("Job " + 1);
+            deliveryQualityReportDTO.setVolumn(RandomUtils.nextLong(0, 200));
+            deliveryQualityReportDTO.setDone(RandomUtils.nextLong(0, 100));
+            deliveryQualityReportDTO.setError(RandomUtils.nextLong(0, 50));
+            deliveryQualityReportDTO.setErrorRate(new Double(deliveryQualityReportDTO.getError()/deliveryQualityReportDTO.getVolumn()));
+            deliveryQualityReportDTO.setReceivedDate(ZonedDateTime.parse(ZonedDateTime.now().toString()));
+            deliveryQualityReportDTO.setReturnDate(ZonedDateTime.parse(ZonedDateTime.now().toString()));
+            report.add(deliveryQualityReportDTO);
+        }
+
         DeliveryQualityResponseVM rs = new DeliveryQualityResponseVM();
         rs.setReport(report);
         return rs;

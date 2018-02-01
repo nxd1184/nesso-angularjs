@@ -14,6 +14,7 @@ public class DeliveryQualityReportDTO {
     private Long error;
     private Double errorRate;
     private ZonedDateTime receivedDate;
+    private ZonedDateTime returnDate;
 
     public String getEmployee() {
         return employee;
@@ -101,5 +102,13 @@ public class DeliveryQualityReportDTO {
 
     public void setJobId(Long jobId) {
         this.jobId = jobId;
+    }
+
+    public ZonedDateTime getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(ZonedDateTime returnDate) {
+        this.returnDate = returnDate;
     }
 }

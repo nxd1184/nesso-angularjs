@@ -328,224 +328,24 @@
                             <style type="text/css">
 
                             </style>
-                            <tr>
+                            <tr ng-repeat="user in vm.deliveryQualityReport track by $index">
                                 <td colspan="10">
                                     <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">1</td>
-                                            <td class="fr_name">Billy Geo</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project AA</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job A</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job A2</td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="10">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">2</td>
-                                            <td class="fr_name">Belgo</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project BB</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job B1</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job B2</td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
+                                        <tr class="fr_fistline" ng-repeat="item in user.list_rows">
+                                            <td class="fr_index">{{user.idx_user}}</td>
+                                            <td class="fr_name">{{item.employee}}</td>
+                                            <td class="fr_proname">{{item.project}}</td>
+                                            <td class="fr_job">{{item.job}}</td>
+                                            <td class="fr_done">{{item.done}}</td>
+                                            <td class="fr_vol">{{item.volumn}}</td>
+                                            <td class="fr_err">{{item.error}}</td>
+                                            <td class="fr_err_vl">{{item.error_rate}}</td>
+                                            <td class="fr_receive">{{item.received_date}}</td>
+                                            <td class="fr_return">{{item.return_date}}</td>
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="10">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">3</td>
-                                            <td class="fr_name">Quoc Tan</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project CC</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job C1</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job C2</td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="10">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">4</td>
-                                            <td class="fr_name">Jimmy Jongtehalm</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project DD</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job D1</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job D2</td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -575,170 +375,24 @@
                             <style type="text/css">
 
                             </style>
-                            <tr>
+                            <tr ng-repeat="user in vm.freelancerReport track by $index">
                                 <td colspan="10">
                                     <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">1</td>
-                                            <td class="fr_name">Billy George</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project A</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job A</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job B</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="10">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">2</td>
-                                            <td class="fr_name">Quốc Tuấn</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project AA</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job AA</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job BB</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
+                                        <tr class="fr_fistline" ng-repeat="item in user.list_rows">
+                                            <td class="fr_index">{{user.idx_user}}</td>
+                                            <td class="fr_name">{{item.employee}}</td>
+                                            <td class="fr_proname">{{item.project}}</td>
+                                            <td class="fr_job">{{item.job}}</td>
+                                            <td class="fr_done">{{item.done}}</td>
+                                            <td class="fr_vol">{{item.volumn}}</td>
+                                            <td class="fr_err">{{item.error}}</td>
+                                            <td class="fr_err_vl">{{item.error_rate}}</td>
+                                            <td class="fr_receive">{{item.received_date}}</td>
+                                            <td class="fr_return">{{item.return_date}}</td>
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="10">
-                                    <table class="table">
-                                        <tr class="fr_fistline">
-                                            <td class="fr_index">3</td>
-                                            <td class="fr_name">Châu Nguyễn</td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err">11</td>
-                                            <td class="fr_err_vl">0.11</td>
-                                            <td class="fr_receive"></td>
-                                            <td class="fr_return"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname">Project AAA</td>
-                                            <td class="fr_job"></td>
-                                            <td class="fr_done">2,000</td>
-                                            <td class="fr_vol">2,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job AAA</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fr_index"></td>
-                                            <td class="fr_name"></td>
-                                            <td class="fr_proname"></td>
-                                            <td class="fr_job">Job BBB</td>
-                                            <td class="fr_done">1,000</td>
-                                            <td class="fr_vol">1,000</td>
-                                            <td class="fr_err"></td>
-                                            <td class="fr_err_vl"></td>
-                                            <td class="fr_receive">20/06/2017</td>
-                                            <td class="fr_return">20/06/2017</td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
