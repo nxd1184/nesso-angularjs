@@ -17,6 +17,7 @@
             };
             reportService.getProductionBonus(params).then(function (result) {
                 console.log(result);
+                vm.productionBonusProject = [];
                 var data_group_by_user = {};
                 result.report.forEach(function (item, index) {
                     var employee = {'projects': {}, 'totalCredit': 0,  'totalVolumn': 0};
@@ -74,13 +75,11 @@
                         }
                     }
                     user.list_rows = list_rows;
-
                     vm.productionBonusProject.push(user);
                 }
                 console.log("vm.productionBonusProject", vm.productionBonusProject);
             });
         }
-
         _getProductionBonusReport();
     }
 })();
