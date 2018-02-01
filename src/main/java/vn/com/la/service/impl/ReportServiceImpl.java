@@ -259,7 +259,7 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
-        sqlBuilder.append(" where jua.authority_name <> 'FREELANCER' AND created_date between ? and ? ");
+        sqlBuilder.append(" where jua.authority_name <> 'FREELANCER' AND jtut.created_date between ? and ? ");
         sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
 
         return getDeliveryReportFromQuery(sqlBuilder.toString(), fromDate, toDate);
@@ -277,7 +277,7 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
-        sqlBuilder.append(" where jua.authority_name = 'FREELANCER' AND created_date between ? and ? ");
+        sqlBuilder.append(" where jua.authority_name = 'FREELANCER' AND jtut.created_date between ? and ? ");
         sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
 
         return getDeliveryReportFromQuery(sqlBuilder.toString(), fromDate, toDate);
