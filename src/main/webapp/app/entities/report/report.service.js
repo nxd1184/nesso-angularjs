@@ -13,7 +13,12 @@
         var service = {
             getProductivityForThisWeek: getProductivityForThisWeek,
             getProductivityForThisMonth: getProductivityForThisMonth,
-            getProductionBonus: getProductionBonus
+            getProductionBonus: getProductionBonus,
+            getQualityReport: getQualityReport,
+            getDeliveryQualityReport: getDeliveryQualityReport,
+            getFreelancerReport: getFreelancerReport,
+            getCheckInReport: getCheckInReport,
+            getProjectAndMemberReport: getProjectAndMemberReport,
         };
 
         function getProductivityForThisWeek(params) {
@@ -49,6 +54,88 @@
         }
 
         function getProductionBonus(params) {
+
+            var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
+            var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+
+            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function getQualityReport(params) {
+
+            var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
+            var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+
+            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function getDeliveryQualityReport(params) {
+
+            var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
+            var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+
+            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+        function getFreelancerReport(params) {
+
+            var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
+            var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+
+            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+        function getCheckInReport(params) {
+
+            var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
+            var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
+
+            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+
+            var defer = $q.defer();
+            $http(LA.RequestUtils.get(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+        function getProjectAndMemberReport(params) {
 
             var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
             var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));

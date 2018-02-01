@@ -10,6 +10,19 @@
     function ReportController($scope, $state, $timeout, reportService, $window) {
         var vm = this;
         vm.productionBonusProject = [];
+        vm.qualityReport = [];
+        vm.deliveryQualityReport = [];
+        vm.freelancerReport = [];
+        vm.checkInReport = [];
+        vm.projectAndMemberReport = [];
+
+        vm.getProductionBonusReport = _getProductionBonusReport;
+        vm.getQualityReport = _getQualityReport;
+        vm.getDeliveryQualityReport = _getDeliveryQualityReport;
+        vm.getFreelancerReport = _getFreelancerReport;
+        vm.getCheckInReport = _getCheckInReport;
+        vm.getProjectAndMemberReport = _getProjectAndMemberReport;
+
         function _getProductionBonusReport() {
             var params = {
                 fromDate : moment().startOf('isoWeek').toDate(),
@@ -80,6 +93,62 @@
                 console.log("vm.productionBonusProject", vm.productionBonusProject);
             });
         }
+        function _getQualityReport() {
+            var params = {
+                fromDate : moment().startOf('isoWeek').toDate(),
+                toDate : moment().endOf('isoWeek').toDate()
+            };
+            reportService.getQualityReport(params).then(function (result) {
+                console.log(result);
+                vm.qualityReport = result;
+            });
+        }
+
+        function _getDeliveryQualityReport() {
+            var params = {
+                fromDate : moment().startOf('isoWeek').toDate(),
+                toDate : moment().endOf('isoWeek').toDate()
+            };
+            reportService.getDeliveryQualityReport(params).then(function (result) {
+                console.log(result);
+                vm.deliveryQualityReport = result;
+            });
+        }
+
+        function _getFreelancerReport() {
+            var params = {
+                fromDate : moment().startOf('isoWeek').toDate(),
+                toDate : moment().endOf('isoWeek').toDate()
+            };
+            reportService.getProductionBonus(params).then(function (result) {
+                console.log(result);
+                vm.freelancerReport = result;
+            });
+        }
+
+        function _getCheckInReport() {
+            var params = {
+                fromDate : moment().startOf('isoWeek').toDate(),
+                toDate : moment().endOf('isoWeek').toDate()
+            };
+            reportService.getCheckInReport(params).then(function (result) {
+                console.log(result);
+                vm.checkInReport = result;
+            });
+        }
+
+        function _getProjectAndMemberReport() {
+            var params = {
+                fromDate : moment().startOf('isoWeek').toDate(),
+                toDate : moment().endOf('isoWeek').toDate()
+            };
+            reportService.getProjectAndMemberReport(params).then(function (result) {
+                console.log(result);
+                vm.projectAndMemberReport = result;
+            });
+        }
+
+
         _getProductionBonusReport();
     }
 })();
