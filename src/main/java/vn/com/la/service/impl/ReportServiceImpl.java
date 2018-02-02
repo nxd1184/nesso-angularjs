@@ -1,5 +1,6 @@
 package vn.com.la.service.impl;
 
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.RandomUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,13 @@ import vn.com.la.web.rest.vm.response.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.time.ZonedDateTime;
+import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -315,9 +322,13 @@ public class ReportServiceImpl implements ReportService {
             deliveryQualityReportDTO.setJobName(row[5].toString());
             deliveryQualityReportDTO.setVolumn(Long.parseLong(row[6].toString()));
             deliveryQualityReportDTO.setDone(Long.parseLong(row[7].toString()));
-            deliveryQualityReportDTO.setError(Long.parseLong(row[8].toString()));
-            deliveryQualityReportDTO.setErrorRate(Double.parseDouble(row[9].toString()));
-            deliveryQualityReportDTO.setReceivedDate(ZonedDateTime.parse(row[10].toString()));
+            if (row[8] != null) {
+                deliveryQualityReportDTO.setError(Long.parseLong(row[8].toString()));
+            }
+            if (row[9] != null) {
+                deliveryQualityReportDTO.setErrorRate(Double.parseDouble(row[9].toString()));
+            }
+            deliveryQualityReportDTO.setReceivedDate(convertByteArrayToInstant( (byte[])row[10]));
             report.add(deliveryQualityReportDTO);
         }
 
@@ -333,8 +344,8 @@ public class ReportServiceImpl implements ReportService {
             deliveryQualityReportDTO.setDone(RandomUtils.nextLong(0, 100));
             deliveryQualityReportDTO.setError(RandomUtils.nextLong(0, 50));
             deliveryQualityReportDTO.setErrorRate(new Double(deliveryQualityReportDTO.getError()/deliveryQualityReportDTO.getVolumn()));
-            deliveryQualityReportDTO.setReceivedDate(ZonedDateTime.parse(ZonedDateTime.now().toString()));
-            deliveryQualityReportDTO.setReturnDate(ZonedDateTime.parse(ZonedDateTime.now().toString()));
+            deliveryQualityReportDTO.setReceivedDate(Instant.now());
+            deliveryQualityReportDTO.setReturnDate(Instant.now());
             report.add(deliveryQualityReportDTO);
         }
 
@@ -342,6 +353,8 @@ public class ReportServiceImpl implements ReportService {
         rs.setReport(report);
         return rs;
     }
+
+
 
     @Override
     public CheckInResponseVM getCheckinReport(DateTime fromDate, DateTime toDate) {
@@ -365,10 +378,9 @@ public class ReportServiceImpl implements ReportService {
         for (Object[] row : rows) {
             CheckInReport checkInReport = new CheckInReport();
             checkInReport.setEmployee(row[0].toString());
-            checkInReport.setDay(ZonedDateTime.parse(row[1].toString()));
-            checkInReport.setCheckin(ZonedDateTime.parse(row[2].toString()));
-            checkInReport.setCheckout(ZonedDateTime.parse(row[3].toString()));
-            checkInReport.setCheckout(ZonedDateTime.parse(row[3].toString()));
+            checkInReport.setDay(convertStringDateToInstant(row[1].toString()));
+            checkInReport.setCheckin(convertByteArrayToInstant((byte[])row[2]));
+            checkInReport.setCheckout(convertByteArrayToInstant((byte[])row[3]));
             checkInReport.setUserId(Long.parseLong(row[4].toString()));
             report.add(checkInReport);
         }
@@ -377,9 +389,9 @@ public class ReportServiceImpl implements ReportService {
             CheckInReport checkInReport = new CheckInReport();
             checkInReport.setUserId(RandomUtils.nextLong(0, 9));
             checkInReport.setEmployee("User " + checkInReport.getUserId());
-            checkInReport.setDay(ZonedDateTime.now().plusDays(RandomUtils.nextInt(0, 4)));
-            checkInReport.setCheckin(ZonedDateTime.now());
-            checkInReport.setCheckout(ZonedDateTime.now().plusHours(RandomUtils.nextInt(3, 6)).plusMinutes(RandomUtils.nextInt(0, 50)));
+            checkInReport.setDay(Instant.now().plusSeconds(RandomUtils.nextInt(0, 4)*37440));
+            checkInReport.setCheckin(Instant.now());
+            checkInReport.setCheckout(Instant.now().plusSeconds(RandomUtils.nextInt(3, 6)*3600).plusSeconds(RandomUtils.nextInt(0, 50)*60));
             report.add(checkInReport);
         }
 
@@ -387,6 +399,20 @@ public class ReportServiceImpl implements ReportService {
 
         rs.setReport(report);
         return rs;
+    }
+
+    private Instant convertByteArrayToInstant(byte[] bytes) {
+        DateTimeFormatter fmt =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime ld = LocalDateTime.parse(new String(bytes, StandardCharsets.US_ASCII), fmt);
+        Instant instant = ld.toInstant(ZoneOffset.UTC);
+        return instant;
+    }
+
+    private Instant convertStringDateToInstant(String str) {
+        DateTimeFormatter fmt =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate ld = LocalDate.parse(str, fmt);
+        Instant instant = ld.atStartOfDay(ZoneOffset.UTC).toInstant();
+        return instant;
     }
 
 }
