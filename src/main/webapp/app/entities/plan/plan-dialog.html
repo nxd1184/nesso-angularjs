@@ -38,7 +38,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label">Task Code</label>
-                    <ui-select multiple ng-model="vm.selectedTasks" theme="select2" class="selectpicker form-control">
+                    <ui-select multiple ng-model="vm.selectedTasks" on-select="vm.onTaskSelected($item)" on-remove="vm.onTaskRemoved($item)" theme="select2" class="selectpicker form-control">
                         <ui-select-match placeholder="Select task in the list">
                             {{$item.name}}
                         </ui-select-match>
