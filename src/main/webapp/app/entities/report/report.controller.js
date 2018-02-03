@@ -398,14 +398,16 @@
                 // };
 
                 var projects = [];
+                var numProject = 0;
                 for (var idx_project in result.report.projects) {
                     var first_row = true;
                     var project = result.report.projects[idx_project];
                     for (var idx_job in project.jobs) {
                         var job = project.jobs[idx_job];
-                        var itemRow = {'project_name': '', 'job_name': job.name, 'job_credit': job.credit, 'users': []};
+                        var itemRow = {'index': '', 'project_name': '', 'job_name': job.name, 'job_credit': job.credit, 'users': []};
                         if (first_row) {
                             itemRow.project_name = project.name;
+                            itemRow.index = ++numProject;
                             first_row = false;
                         }
                         var list_users = [];
