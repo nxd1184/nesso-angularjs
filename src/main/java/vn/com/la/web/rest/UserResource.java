@@ -14,6 +14,7 @@ import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import org.springframework.data.web.PageableDefault;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,7 +157,7 @@ public class UserResource {
      */
     @GetMapping("/users")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
+    public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam @PageableDefault(page = 0, value = Integer.MAX_VALUE) Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
         final Page<UserDTO> page = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
