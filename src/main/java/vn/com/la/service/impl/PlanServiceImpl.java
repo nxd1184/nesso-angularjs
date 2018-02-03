@@ -1,21 +1,21 @@
 package vn.com.la.service.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
-import vn.com.la.domain.JobTeam;
 import vn.com.la.domain.JobTeamUser;
-import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
 import vn.com.la.service.dto.*;
+import vn.com.la.service.dto.param.GetAllPlanParamDTO;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
 import vn.com.la.service.util.LAStringUtil;
-import vn.com.la.web.rest.errors.CustomParameterizedException;
+import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
@@ -225,8 +225,20 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public List<ProjectDTO> getAllPlans() {
+    public GetAllPlanResponseVM getAllPlans(GetAllPlanParamDTO params) {
 
+        GetAllPlanResponseVM rs = new GetAllPlanResponseVM();
+
+        if(PlanViewEnumDTO.PROJECT == params.getView()) {
+            rs.setProjects(buildPlansByProject());
+        }else if(PlanViewEnumDTO.USER == params.getView()) {
+            rs.setTeams(buildPlansByTeams());
+        }
+
+        return rs;
+    }
+
+    private List<ProjectDTO> buildPlansByProject() {
         List<ProjectDTO> projectDTOs = projectService.findAll();
 
         StringBuilder sqlBuilder = new StringBuilder();
@@ -310,7 +322,49 @@ public class PlanServiceImpl implements PlanService {
             projectDTO.setTotalDoneFiles(totalDoneFilesForProject);
             projectDTO.setTotalDeliveryFiles(totalDeliveryFilesForProject);
         }
-
         return projectDTOs;
     }
+
+    private Map<Long, PlanTeamDTO> buildPlansByTeams() {
+
+        Map<Long, PlanTeamDTO> teams = new HashMap<>();
+
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT jt.team_id as team_id, t.name as team_name,  jtu.user_id as user_id, jhi_user.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, ");
+        sqlBuilder.append(" jtu.total_files as TotalFiles,");
+        sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') then 1 else 0 end) as TODO,");
+        sqlBuilder.append("     sum(case when jtut.status = 'TOCHECK' then 1 else 0 end) as TOCHECK,");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' then 1 else 0 end) as DONE,");
+        sqlBuilder.append("     sum(case when jtut.last_delivery_time IS NOT NULL then 1 else 0 end) as DELIVERY");
+        sqlBuilder.append(" from job_team jt");
+        sqlBuilder.append(" inner join team t on jt.team_id = t.id");
+        sqlBuilder.append(" inner join job j on j.id = jt.job_id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" inner join job_team_user jtu on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join jhi_user jhi_user on jhi_user.id = jtu.user_id");
+        sqlBuilder.append(" inner join job_team_user_task jtut on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" group by jt.team_id, t.name, jtu.user_id, jhi_user.last_name, p.id, p.name, j.id, j.name, jtu.total_files");
+        Query query = em.createNativeQuery(sqlBuilder.toString());
+
+        List<Object[]> rows = query.getResultList();
+        for(Object[] row: rows) {
+            PlanTeamDTO team = null;
+            Long teamId = Long.parseLong(row[0].toString());
+            if(teams.containsKey(teamId)) {
+                team = teams.get(teamId);
+            }else {
+                team = new PlanTeamDTO();
+                team.setTeamId(teamId);
+                if(row[1] != null) {
+                    team.setTeamName(row[1].toString());
+                }
+                teams.put(teamId, team);
+            }
+            team.update(row);
+        }
+
+        return teams;
+    }
+
 }
+

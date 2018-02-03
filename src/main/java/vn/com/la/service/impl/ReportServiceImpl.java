@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -64,7 +65,7 @@ public class ReportServiceImpl implements ReportService {
         DateTime startDateOfMonth = LADateTimeUtil.toTimeAtStartOfDay(now.dayOfMonth().withMinimumValue());
         DateTime endDateOfMonth = LADateTimeUtil.toTimeAtEndOfDay(now.dayOfMonth().withMaximumValue());
 
-        sqlBuilder.append("SELECT sum(task.task_credit) FROM job_team_user_task jtut ");
+        sqlBuilder.append("SELECT sum(task.task_credit) as total FROM job_team_user_task jtut ");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
@@ -78,7 +79,8 @@ public class ReportServiceImpl implements ReportService {
         try {
             query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
             query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
-            Object singleResult = query.getSingleResult();
+            Optional opt = Optional.ofNullable(query.getSingleResult());
+            Object singleResult = opt.orElse(0L);
             if (singleResult != null) {
                 rs.setCountTotalDoneForThisMonth(Long.parseLong(singleResult.toString()));
             }
@@ -90,7 +92,8 @@ public class ReportServiceImpl implements ReportService {
         try {
             query.setParameter(1, startDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
             query.setParameter(2, endDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
-            Object singleResult = query.getSingleResult();
+            Optional value = Optional.ofNullable(query.getSingleResult());
+            Object singleResult = value.orElse(0L);
             if (singleResult != null) {
                 rs.setCountTotalDoneForLastMonth(Long.parseLong(singleResult.toString()));
             }

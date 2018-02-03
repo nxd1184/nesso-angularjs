@@ -47,8 +47,8 @@
             <div class="form-group margin-bottom-0 view_base pull-right">
                 <label class="margin-top-15">View base on: </label>
                 <div class="btn-group">
-                    <button type="button" class="active btn btn-default btn-xs btn-project">Project</button>
-                    <button type="button" class="btn btn-default btn-xs btn-user">User</button>
+                    <button type="button" ng-click="vm.changeViewBaseOn('PROJECT')" ng-class="{'active': vm.projectView}" class="btn btn-default btn-xs btn-project">Project</button>
+                    <button type="button" ng-click="vm.changeViewBaseOn('USER')" ng-class="{'active': vm.userView}" class="btn btn-default btn-xs btn-user">User</button>
                 </div>
             </div>
         </div>
@@ -114,17 +114,15 @@
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
 
-                                <a ng-if="row.type == 'project'" class="btn-editJob" ng-click="vm.syncUp(row.code)">
+                                <a ng-if="row.type == 'project' && vm.currentView == 'PROJECT'" class="btn-editJob" ng-click="vm.syncUp(row.code)">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </a>
 
-                                <a ng-if="row.type == 'user'" class="btn-editJob" ng-click="vm.adjustFiles(row.code)">
+                                <a ng-if="row.type == 'user' && vm.currentView == 'PROJECT'" class="btn-editJob" ng-click="vm.adjustFiles(row.code)">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>
-
-
                         </tbody>
                     </table>
 
