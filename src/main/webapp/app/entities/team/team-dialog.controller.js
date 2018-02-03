@@ -42,18 +42,21 @@
 
         function _loadTeamMembers() {
 
-            User.query({}, onSuccess);
+            vm.users = [];
 
-            function onSuccess(data) {
-                vm.users = data;
 
-                if(vm.team.id) {
-                    for(var i = 0; i < vm.users.length; i++) {
-                        var user = vm.users[i];
-                        if(user.id === vm.team.leaderId) {
-                            vm.selectedTeamLeader = user;
-                            break;
-                        }
+            for (var i = 0; i < vm.team.members.length; i++) {
+                if(vm.team.members[i].authorities.indexOf("ROLE_TEAM_LEADER") != -1) {
+                    vm.users.push(vm.team.members[i]);
+                }
+            }
+
+                if (vm.team.id) {
+                for (var i = 0; i < vm.users.length; i++) {
+                    var user = vm.users[i];
+                    if (user.id === vm.team.leaderId) {
+                        vm.selectedTeamLeader = user;
+                        break;
                     }
                 }
             }
