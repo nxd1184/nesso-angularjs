@@ -1,188 +1,195 @@
-(function() {
-    'use strict';
+(function () {
+        'use strict';
 
-    angular
-        .module('nessoApp')
-        .controller('TeamDialogController', TeamDialogController);
+        angular
+            .module('nessoApp')
+            .controller('TeamDialogController', TeamDialogController);
 
-    TeamDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Team', 'User', 'teamService'];
+        TeamDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Team', 'User', 'teamService'];
 
-    function TeamDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Team, User, teamService) {
-        var vm = this;
+        function TeamDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Team, User, teamService) {
+            var vm = this;
 
-        vm.team = entity;
-        vm.workingShifts = ['Day','Night','Freelance'];
-        vm.selectedShift = null;
-        vm.selectedMember = {};
-        vm.clear = clear;
-        vm.save = save;
+            vm.team = entity;
+            vm.workingShifts = ['Day', 'Night', 'Freelance'];
+            vm.selectedShift = null;
+            vm.selectedMember = {};
+            vm.clear = clear;
+            vm.save = save;
 
-        vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
+            vm.datePickerOpenStatus = {};
+            vm.openCalendar = openCalendar;
 
-        vm.selectedTeamLeader = {};
+            vm.selectedTeamLeader = {};
 
-        vm.edit = edit;
-        vm.changeStatus = changeStatus;
-        vm.remove = remove;
-        vm.showChangeStatusAction = showChangeStatusAction;
+            vm.edit = edit;
+            vm.changeStatus = changeStatus;
+            vm.remove = remove;
+            vm.showChangeStatusAction = showChangeStatusAction;
 
-        vm.status = 'ACTIVE';
-        vm.startDate = null;
-        vm.endDate = null;
-        vm.onSelectMember = onSelectMember;
-        vm.updateMember = updateMember;
-        vm.updateTeam = updateTeam;
+            vm.status = 'ACTIVE';
+            vm.startDate = null;
+            vm.endDate = null;
+            vm.onSelectMember = onSelectMember;
+            vm.updateMember = updateMember;
+            vm.updateTeam = updateTeam;
 
-        $timeout(function (){
-            angular.element('.form-group:eq(1)>input').focus();
-        });
+            $timeout(function () {
+                angular.element('.form-group:eq(1)>input').focus();
+            });
 
-        _loadTeamMembers();
+            _loadTeamMembers();
 
-        function _loadTeamMembers() {
-
-            vm.users = [];
-
-
-            for (var i = 0; i < vm.team.members.length; i++) {
-                if(vm.team.members[i].authorities.indexOf("ROLE_TEAM_LEADER") != -1) {
-                    vm.users.push(vm.team.members[i]);
+            function _loadTeamMembers() {
+                vm.leaders = [];
+                vm.users = [];
+                for (var i = 0; i < vm.team.members.length; i++) {
+                    if (vm.team.members[i].authorities.indexOf("ROLE_TEAM_LEADER") != -1) {
+                        vm.leaders.push(vm.team.members[i]);
+                    }
                 }
-            }
 
                 if (vm.team.id) {
-                for (var i = 0; i < vm.users.length; i++) {
-                    var user = vm.users[i];
-                    if (user.id === vm.team.leaderId) {
-                        vm.selectedTeamLeader = user;
-                        break;
+                    for (var i = 0; i < vm.leaders.length; i++) {
+                        var user = vm.leaders[i];
+                        if (user.id === vm.team.leaderId) {
+                            vm.selectedTeamLeader = user;
+                            break;
+                        }
+                    }
+                }
+
+                User.query({}, onSuccess);
+
+                function onSuccess(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var user = data[i];
+                        if (!user.teamId) {
+                            vm.users.push(data[i]);
+                        }
                     }
                 }
             }
 
-
-        }
-
-        function clear () {
-            $uibModalInstance.dismiss('cancel');
-        }
-
-        function save () {
-            vm.isSaving = true;
-
-            if(vm.selectedTeamLeader) {
-                vm.team.leaderId = vm.selectedTeamLeader.id;
+            function clear() {
+                $uibModalInstance.dismiss('cancel');
             }
 
-            if (vm.team.id !== null) {
-                Team.update(vm.team, onSaveSuccess, onSaveError);
-            } else {
-                Team.save(vm.team, onSaveSuccess, onSaveError);
-            }
-        }
+            function save() {
+                vm.isSaving = true;
 
-        function onSaveSuccess (result) {
-            $scope.$emit('nessoApp:teamUpdate', result);
-            $uibModalInstance.close(result);
-            vm.isSaving = false;
-        }
+                if (vm.selectedTeamLeader) {
+                    vm.team.leaderId = vm.selectedTeamLeader.id;
+                }
 
-        function onSaveError () {
-            vm.isSaving = false;
-        }
-
-        if(!vm.team.status) {
-            vm.team.status = 'ACTIVE';
-        }
-
-        vm.datePickerOpenStatus.startDate = false;
-        vm.datePickerOpenStatus.endDate = false;
-
-        function openCalendar (field) {
-            vm.datePickerOpenStatus[field] = true;
-        }
-
-        function edit(member) {
-            vm.selectedMember = member;
-            onSelectMember(member);
-        }
-
-        function changeStatus(member) {
-            if(member.status === 'ACTIVE') {
-                member.status = 'INACTIVE';
-            }else {
-                member.status = 'ACTIVE';
-            }
-        }
-
-        function remove(index) {
-            vm.team.members.splice(index, 1);
-        }
-
-        function showChangeStatusAction(member) {
-            if(member.status === 'ACTIVE') {
-                return 'Disable';
-            }
-            return 'Enable';
-        }
-
-        function onSelectMember(member) {
-            vm.status = member.status;
-            if(member.startDate) {
-                vm.startDate = moment(member.startDate).toDate();
+                if (vm.team.id !== null) {
+                    Team.update(vm.team, onSaveSuccess, onSaveError);
+                } else {
+                    Team.save(vm.team, onSaveSuccess, onSaveError);
+                }
             }
 
-            if(member.endDate) {
-                vm.endDate = moment(member.endDate).toDate();
+            function onSaveSuccess(result) {
+                $scope.$emit('nessoApp:teamUpdate', result);
+                $uibModalInstance.close(result);
+                vm.isSaving = false;
             }
-        }
 
-        function updateMember() {
-            if(vm.selectedMember && vm.selectedMember.id) {
+            function onSaveError() {
+                vm.isSaving = false;
+            }
 
-                vm.selectedMember.shit = vm.selectedShift;
-                vm.selectedMember.startDate = vm.startDate;
-                vm.selectedMember.endDate = vm.endDate;
-                vm.selectedMember.status = vm.status;
+            if (!vm.team.status) {
+                vm.team.status = 'ACTIVE';
+            }
 
-                var memberExists = false;
-                for(var i = 0; i < vm.team.members.length; i++) {
-                    if(vm.team.members[i].id === vm.selectedMember.id) {
-                        memberExists = true;
-                        vm.team.members[i] = vm.selectedMember;
-                        break;
+            vm.datePickerOpenStatus.startDate = false;
+            vm.datePickerOpenStatus.endDate = false;
+
+            function openCalendar(field) {
+                vm.datePickerOpenStatus[field] = true;
+            }
+
+            function edit(member) {
+                vm.selectedMember = member;
+                onSelectMember(member);
+            }
+
+            function changeStatus(member) {
+                if (member.status === 'ACTIVE') {
+                    member.status = 'INACTIVE';
+                } else {
+                    member.status = 'ACTIVE';
+                }
+            }
+
+            function remove(index) {
+                vm.team.members.splice(index, 1);
+            }
+
+            function showChangeStatusAction(member) {
+                if (member.status === 'ACTIVE') {
+                    return 'Disable';
+                }
+                return 'Enable';
+            }
+
+            function onSelectMember(member) {
+                vm.status = member.status;
+                if (member.startDate) {
+                    vm.startDate = moment(member.startDate).toDate();
+                }
+
+                if (member.endDate) {
+                    vm.endDate = moment(member.endDate).toDate();
+                }
+            }
+
+            function updateMember() {
+                if (vm.selectedMember && vm.selectedMember.id) {
+
+                    vm.selectedMember.shit = vm.selectedShift;
+                    vm.selectedMember.startDate = vm.startDate;
+                    vm.selectedMember.endDate = vm.endDate;
+                    vm.selectedMember.status = vm.status;
+
+                    var memberExists = false;
+                    for (var i = 0; i < vm.team.members.length; i++) {
+                        if (vm.team.members[i].id === vm.selectedMember.id) {
+                            memberExists = true;
+                            vm.team.members[i] = vm.selectedMember;
+                            break;
+                        }
                     }
+
+                    if (!memberExists) {
+                        vm.team.members.push(vm.selectedMember);
+                    }
+
+                    vm.selectedMember = null;
+                    vm.selectedShift = null;
+                    vm.status = 'ACTIVE';
+                    vm.startDate = null;
+                    vm.endDate = null;
+                }
+            }
+
+            function updateTeam() {
+
+                if (vm.selectedTeamLeader) {
+                    vm.team.leaderId = vm.selectedTeamLeader.id;
                 }
 
-                if(!memberExists) {
-                    vm.team.members.push(vm.selectedMember);
+
+                teamService.update(vm.team).then(onSuccess, onError);
+
+                function onSuccess(result) {
+                    onSaveSuccess(result);
                 }
 
-                vm.selectedMember = null;
-                vm.selectedShift = null;
-                vm.status = 'ACTIVE';
-                vm.startDate = null;
-                vm.endDate = null;
+                function onError(error) {
+
+                }
             }
         }
-
-        function updateTeam() {
-
-            if(vm.selectedTeamLeader) {
-                vm.team.leaderId = vm.selectedTeamLeader.id;
-            }
-
-
-            teamService.update(vm.team).then(onSuccess,onError);
-
-            function onSuccess(result) {
-                onSaveSuccess(result);
-            }
-
-            function onError(error) {
-
-            }
-        }
-    }
-})();
+    })();

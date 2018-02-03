@@ -21,7 +21,7 @@
                             {{$select.selected.lastName}}
                         </ui-select-match>
                         <ui-select-choices
-                            repeat="leader in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
+                            repeat="leader in vm.leaders | propsFilter: {login: $select.search, lastName: $select.search}">
                             <div ng-bind-html="leader.lastName | highlight: $select.search"></div>
                             <small>
                                 <span ng-bind-html="leader.login | highlight: $select.search"></span>
