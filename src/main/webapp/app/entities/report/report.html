@@ -413,157 +413,16 @@
                                 <th>Project</th>
                                 <th>Job</th>
                                 <th>Credit</th>
-                                <th colspan="2">Sam Pay</th>
-                                <th colspan="2">Jashsom Working</th>
-                                <th colspan="2">Meal Yum</th>
-                                <th colspan="2">Cristo Pho Hm</th>
-                                <th colspan="2">Oliver Giroud</th>
+                                <th colspan="2" ng-repeat="user in vm.projectAndMemberReport.members">{{user.userName}}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="treegrid-1 parent">
-                                <td>1</td>
-                                <td>Project AAA</td>
-                                <td>Job A</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-11 treegrid-parent-1">
-                                <td></td>
-                                <td></td>
-                                <td>Job A2</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-12 treegrid-parent-1">
-                                <td></td>
-                                <td></td>
-                                <td>Job A3</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-2 parent">
-                                <td>2</td>
-                                <td>Project BB</td>
-                                <td>Job B1</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-21 treegrid-parent-2">
-                                <td></td>
-                                <td></td>
-                                <td>Job B2</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-22 treegrid-parent-2">
-                                <td></td>
-                                <td></td>
-                                <td>Job A3</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-3 parent">
-                                <td>3</td>
-                                <td>Project CC</td>
-                                <td>Job C1</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-31 treegrid-parent-3">
-                                <td></td>
-                                <td></td>
-                                <td>Job C2</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
-                            </tr>
-                            <tr class="treegrid-32 treegrid-parent-3">
-                                <td></td>
-                                <td></td>
-                                <td>Job A3</td>
-                                <td>1</td>
-                                <td>100</td>
-                                <td>100</td>
-                                <td>101</td>
-                                <td>101</td>
-                                <td>102</td>
-                                <td>102</td>
-                                <td>103</td>
-                                <td>103</td>
-                                <td>104</td>
-                                <td>104</td>
+                            <tr class="treegrid-1 parent" ng-repeat="itemRow in vm.projectAndMemberReport.projects track by $index">
+                                <td>{{$index + 1}}</td>
+                                <td>{{itemRow.project_name}}</td>
+                                <td >{{itemRow.job_name}}</td>
+                                <td>{{itemRow.job_credit}}</td>
+                                <td ng-repeat="userData in itemRow.users track by $index">{{userData}}</td>
                             </tr>
                             </tbody>
                         </table>

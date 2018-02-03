@@ -132,7 +132,7 @@
                     job.done += item.done;
                     job.volumn += item.volumn;
                     job.error += item.error;
-                    job.returnDate = moment(item.returnDate).format("DD/MM/YYYY");
+                    job.returnDate = (job.returnDate == null)? "" : moment(item.returnDate).format("DD/MM/YYYY");
                     job.receivedDate = moment(item.receivedDate).format("DD/MM/YYYY");
 
                     project.jobs[item.jobId] = job;
@@ -350,8 +350,81 @@
             vm.currentScreen = 6;
             var params = _getParamsDatePicker();
             reportService.getProjectAndMemberReport(params).then(function (result) {
-                console.log(result);
-                vm.projectAndMemberReport = result;
+                // console.log(result);
+                // result = {
+                //     'members':
+                //         [
+                //             {
+                //             'id' : 1,
+                //             'userName': 'User 1'
+                //             },
+                //             {
+                //                 'id' : 2,
+                //                 'userName': 'User 2'
+                //             }
+                //         ],
+                //     'projects':
+                //         {
+                //             '1':
+                //                 {
+                //                     'id': 1,
+                //                     'name': 'Project A',
+                //                     'jobs': {
+                //                         '1':
+                //                             {
+                //                                 'id': 1,
+                //                                 'credit': 3,
+                //                                 'name': 'Job A',
+                //                                 'members': {
+                //                                     '1' :
+                //                                         {
+                //                                             'id': 1,
+                //                                             'userName': 'User 1',
+                //                                             'done': 100,
+                //                                             'volume': 100
+                //                                         },
+                //                                     '2' :
+                //                                         {
+                //                                             'id': 2,
+                //                                             'userName': 'User 2',
+                //                                             'done': 102,
+                //                                             'volume': 102
+                //                                         }
+                //                                 }
+                //                             }
+                //                     }
+                //                 }
+                //         }
+                // };
+
+                var projects = [];
+                for (var idx_project in result.report.projects) {
+                    var first_row = true;
+                    var project = result.report.projects[idx_project];
+                    for (var idx_job in project.jobs) {
+                        var job = project.jobs[idx_job];
+                        var itemRow = {'project_name': '', 'job_name': job.name, 'job_credit': job.credit, 'users': []};
+                        if (first_row) {
+                            itemRow.project_name = project.name;
+                            first_row = false;
+                        }
+                        var list_users = [];
+                        for (var idx_user in result.report.members) {
+                            var user =  result.report.members[idx_user];
+                            if (job.members[user.id] != null) {
+                                user.done = job.members[user.id].done;
+                                user.volume = job.members[user.id].volume;
+                            }
+                            itemRow.users.push(user.done)
+                            itemRow.users.push(user.volume)
+                        }
+                        projects.push(itemRow);
+                    }
+                    vm.projectAndMemberReport.projects = projects;
+                    vm.projectAndMemberReport.members = result.report.members;
+                    console.log("vm.projectAndMemberReport: ", vm.projectAndMemberReport);
+                }
+
             });
         }
 
