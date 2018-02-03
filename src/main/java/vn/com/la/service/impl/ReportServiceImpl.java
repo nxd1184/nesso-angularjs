@@ -403,7 +403,7 @@ public class ReportServiceImpl implements ReportService {
     private List<ProductionBonusDTO> getListProductionBonusReport(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, count(jtut.id) as volumn, sum(task.task_credit) as credit, count(jtut.id) * sum(task.task_credit) as total_credit");
+        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, count(distinct jtut.id) as volumn, sum(task.task_credit) as credit, count(distinct jtut.id) * sum(task.task_credit) as total_credit");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
