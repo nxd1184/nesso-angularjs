@@ -411,9 +411,9 @@
                         var list_users = [];
                         for (var idx_user in result.report.members) {
                             var user =  result.report.members[idx_user];
-                            if (job.members[user.id] != null) {
-                                user.done = job.members[user.id].done;
-                                user.volume = job.members[user.id].volume;
+                            if (job.users[user.id] != null) {
+                                user.done = job.users[user.id].done;
+                                user.volume = job.users[user.id].volume;
                             }
                             itemRow.users.push(user.done)
                             itemRow.users.push(user.volume)
