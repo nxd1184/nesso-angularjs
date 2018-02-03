@@ -418,7 +418,7 @@
                             </thead>
                             <tbody>
                             <tr class="treegrid-1 parent" ng-repeat="itemRow in vm.projectAndMemberReport.projects track by $index">
-                                <td>{{$index + 1}}</td>
+                                <td>{{itemRow.index}}</td>
                                 <td>{{itemRow.project_name}}</td>
                                 <td >{{itemRow.job_name}}</td>
                                 <td>{{itemRow.job_credit}}</td>
