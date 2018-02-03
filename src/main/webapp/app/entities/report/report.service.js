@@ -75,7 +75,7 @@
             var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
             var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
 
-            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+            var url = 'api/report/quality-report?fromDate=' + fromDate + '&toDate=' + toDate;
 
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
@@ -92,7 +92,7 @@
             var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
             var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
 
-            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+            var url = 'api/report/delivery-quality-report?fromDate=' + fromDate + '&toDate=' + toDate;
 
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
@@ -108,7 +108,7 @@
             var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
             var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
 
-            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+            var url = 'api/report/freelancer-report?fromDate=' + fromDate + '&toDate=' + toDate;
 
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
@@ -124,7 +124,7 @@
             var fromDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.fromDate));
             var toDate = StringUtils.encode(StringUtils.toIsoTrimToMinute(params.toDate));
 
-            var url = 'api/report/production-bonus?fromDate=' + fromDate + '&toDate=' + toDate;
+            var url = 'api/report/checkin?fromDate=' + fromDate + '&toDate=' + toDate;
 
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {

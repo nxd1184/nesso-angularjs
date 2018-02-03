@@ -1,5 +1,6 @@
 package vn.com.la.service.dto;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 public class DeliveryQualityReportDTO {
@@ -13,7 +14,8 @@ public class DeliveryQualityReportDTO {
     private Long done;
     private Long error;
     private Double errorRate;
-    private ZonedDateTime receivedDate;
+    private Instant receivedDate;
+    private Instant returnDate;
 
     public String getEmployee() {
         return employee;
@@ -71,11 +73,11 @@ public class DeliveryQualityReportDTO {
         this.errorRate = errorRate;
     }
 
-    public ZonedDateTime getReceivedDate() {
+    public Instant getReceivedDate() {
         return receivedDate;
     }
 
-    public void setReceivedDate(ZonedDateTime receivedDate) {
+    public void setReceivedDate(Instant receivedDate) {
         this.receivedDate = receivedDate;
     }
 
@@ -101,5 +103,13 @@ public class DeliveryQualityReportDTO {
 
     public void setJobId(Long jobId) {
         this.jobId = jobId;
+    }
+
+    public Instant getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Instant returnDate) {
+        this.returnDate = returnDate;
     }
 }

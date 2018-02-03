@@ -74,6 +74,9 @@
 
         vm.updatePlan = updatePlan;
 
+        vm.onTaskSelected = onTaskSelected;
+        vm.onTaskRemoved = onTaskRemoved;
+
         function openCalendar(field) {
             vm.datePickerOpenStatus[field] = true;
         }
@@ -99,7 +102,6 @@
 
                 if (vm.job) {
                     _loadTasks(vm.job.projectId, vm.job.jobTasks);
-
                 }
             });
         }
@@ -129,6 +131,7 @@
                     var taskResource = result.data[0];
                     taskResource.jobTaskId = jobTaskId;
                     vm.selectedTasks.push(taskResource);
+                    vm.totalCredit += taskResource.taskCredit;
                 }
             })
         }
@@ -180,9 +183,6 @@
                 totalProcessingFiles: 0
             };
 
-            if(jobTeam) {
-
-            }
 
             if (team.members) {
                 for (var i = 0; i < team.members.length; i++) {
@@ -193,7 +193,6 @@
                         capacity: member.capacity,
                         totalFiles: member.capacity
                     });
-                    jobTeam.totalFiles += member.capacity;
                 }
             }
 
@@ -203,15 +202,18 @@
             } else {
                 vm.job.jobTeams[index] = jobTeam;
             }
+
+            _buildUserAssignments();
         }
 
         function onTeamRemoved(team) {
             for (var i = 0; i < vm.job.jobTeams.length; i++) {
                 if (team.id == vm.job.jobTeams[i].teamId) {
                     vm.job.jobTeams.splice(i, 1);
-                    return;
+                    break;
                 }
             }
+            _buildUserAssignments();
         }
 
         function updatePlan() {
@@ -246,6 +248,53 @@
 
         function clear() {
             $uibModalInstance.dismiss('cancel');
+        }
+
+        function onTaskSelected(task){
+            _buildUserAssignments();
+        }
+
+        function onTaskRemoved(task) {
+            _buildUserAssignments();
+        }
+
+        function _buildUserAssignments() {
+            var total = vm.job.totalFiles;
+            var totalCredit = 0;
+            for(var i = 0; i < vm.selectedTasks.length; i++) {
+                totalCredit += vm.selectedTasks[i].taskCredit;
+            }
+
+            if(totalCredit <= 0) {
+                totalCredit = 1;
+            }
+
+            total *= totalCredit;
+
+            for(var i = 0; i < vm.job.jobTeams.length; i++) {
+                var selectedTeam = vm.job.jobTeams[i];
+                var totalFilesForTeam = 0;
+                for(var j = 0; j < selectedTeam.jobTeamUsers.length; j++) {
+                    var member = selectedTeam.jobTeamUsers[j];
+                    var capacity = member.capacity;
+
+                    var totalFiles = 0;
+
+                    if(total > 0 && capacity && capacity > 0) {
+                        totalFiles = Math.ceil(total / capacity);
+                        if(totalFiles > total) {
+                            totalFiles = total;
+                        }
+                        total -= totalFiles;
+                    }
+
+                    member.totalFiles = totalFiles;
+                    totalFilesForTeam += totalFiles;
+
+                }
+
+                selectedTeam.totalFiles = totalFilesForTeam;
+            }
         }
 
     }

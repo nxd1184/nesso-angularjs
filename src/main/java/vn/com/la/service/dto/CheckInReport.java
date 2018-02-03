@@ -1,12 +1,14 @@
 package vn.com.la.service.dto;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 public class CheckInReport {
+    private Long userId;
     private String employee;
-    private ZonedDateTime day;
-    private ZonedDateTime checkin;
-    private ZonedDateTime checkout;
+    private Instant day;
+    private Instant checkin;
+    private Instant checkout;
 
     public String getEmployee() {
         return employee;
@@ -16,27 +18,35 @@ public class CheckInReport {
         this.employee = employee;
     }
 
-    public ZonedDateTime getDay() {
+    public Instant getDay() {
         return day;
     }
 
-    public void setDay(ZonedDateTime day) {
+    public void setDay(Instant day) {
         this.day = day;
     }
 
-    public ZonedDateTime getCheckin() {
+    public Instant getCheckin() {
         return checkin;
     }
 
-    public void setCheckin(ZonedDateTime checkin) {
+    public void setCheckin(Instant checkin) {
         this.checkin = checkin;
     }
 
-    public ZonedDateTime getCheckout() {
+    public Instant getCheckout() {
         return checkout;
     }
 
-    public void setCheckout(ZonedDateTime checkout) {
+    public void setCheckout(Instant checkout) {
         this.checkout = checkout;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
