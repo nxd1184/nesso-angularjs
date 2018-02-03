@@ -131,4 +131,18 @@ public class ReportAPI {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
+
+    @GetMapping("/report/project-member")
+    @Timed
+    public ResponseEntity<ProjectMemberReportResponseVM> getProjectMemberReport(@ApiParam(required = true) String fromDate,
+                                                        @ApiParam(required = true) String toDate) {
+        log.debug("Request to get quality checkin");
+
+        DateTime fromDateZDT = LADateTimeUtil.isoStringToDateTime(fromDate);
+        DateTime toDateZDT = LADateTimeUtil.isoStringToDateTime(toDate);
+
+        ProjectMemberReportResponseVM rs = reportService.getProjectMemberReport(fromDateZDT, toDateZDT);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
 }

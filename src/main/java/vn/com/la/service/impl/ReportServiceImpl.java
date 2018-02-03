@@ -160,41 +160,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ProductionBonusReportResponseVM getProductBonusReport(DateTime fromDate, DateTime toDate) {
-        StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, count(jtut.id) as volumn, sum(task.task_credit) as credit, count(jtut.id) * sum(task.task_credit) as total_credit");
-        sqlBuilder.append(" FROM job_team_user_task jtut");
-        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
-        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
-        sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
-        sqlBuilder.append(" inner join job j on jt.job_id = j.id");
-        sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
-        sqlBuilder.append(" inner join project p on p.id = j.project_id");
-        sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
-        sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
-        sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
-
-        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
-        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
-        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
-        List<Object[]> rows = query.getResultList();
-
-        List<ProductionBonusDTO> report = new ArrayList<>();
-        for (Object[] row : rows) {
-            ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
-            productionBonusDTO.setUserId(Long.parseLong(row[0].toString()));
-            productionBonusDTO.setEmployee(row[1].toString());
-            productionBonusDTO.setProjectId(Long.parseLong(row[2].toString()));
-            productionBonusDTO.setProjectName(row[3].toString());
-            productionBonusDTO.setJobId(Long.parseLong(row[4].toString()));
-            productionBonusDTO.setJobName(row[5].toString());
-            productionBonusDTO.setVolumn(Long.parseLong(row[6].toString()));
-            productionBonusDTO.setCredit(Long.parseLong(row[7].toString()));
-            productionBonusDTO.setTotalCredit(Long.parseLong(row[8].toString()));
-
-            report.add(productionBonusDTO);
-        }
-
+        List<ProductionBonusDTO> report = getListProductionBonusReport(fromDate, toDate);
         //TODO: Fake data:
         /*for (int i = 0; i < 5; i++) {
             ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
@@ -242,19 +209,19 @@ public class ReportServiceImpl implements ReportService {
             qualityDTO.setRetoucher(row[1].toString());
             qualityDTO.setQcId(Long.parseLong(row[2].toString()));
             qualityDTO.setQc(row[3].toString());
-            if(row[4] != null ){
+            if (row[4] != null) {
                 qualityDTO.setVolumn(Long.parseLong(row[4].toString()));
             } else {
                 qualityDTO.setVolumn(0L);
             }
 
-            if(row[5] != null ){
+            if (row[5] != null) {
                 qualityDTO.setError(Long.parseLong(row[5].toString()));
             } else {
                 qualityDTO.setError(0L);
             }
 
-            if(row[6] != null ){
+            if (row[6] != null) {
                 qualityDTO.setErrorRate(Double.parseDouble(row[6].toString()));
             } else {
                 qualityDTO.setErrorRate(0d);
@@ -319,7 +286,7 @@ public class ReportServiceImpl implements ReportService {
 
     }
 
-    private DeliveryQualityResponseVM getDeliveryReportFromQuery(String sql,DateTime fromDate, DateTime toDate ) {
+    private DeliveryQualityResponseVM getDeliveryReportFromQuery(String sql, DateTime fromDate, DateTime toDate) {
         Query query = entityManager.createNativeQuery(sql);
 
         query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
@@ -348,7 +315,7 @@ public class ReportServiceImpl implements ReportService {
             } else {
                 deliveryQualityReportDTO.setErrorRate(0d);
             }
-            deliveryQualityReportDTO.setReceivedDate(convertByteArrayToInstant( (byte[])row[10]));
+            deliveryQualityReportDTO.setReceivedDate(convertByteArrayToInstant((byte[]) row[10]));
             report.add(deliveryQualityReportDTO);
         }
 
@@ -375,7 +342,6 @@ public class ReportServiceImpl implements ReportService {
     }
 
 
-
     @Override
     public CheckInResponseVM getCheckinReport(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
@@ -399,8 +365,8 @@ public class ReportServiceImpl implements ReportService {
             CheckInReport checkInReport = new CheckInReport();
             checkInReport.setEmployee(row[0].toString());
             checkInReport.setDay(convertStringDateToInstant(row[1].toString()));
-            checkInReport.setCheckin(convertByteArrayToInstant((byte[])row[2]));
-            checkInReport.setCheckout(convertByteArrayToInstant((byte[])row[3]));
+            checkInReport.setCheckin(convertByteArrayToInstant((byte[]) row[2]));
+            checkInReport.setCheckout(convertByteArrayToInstant((byte[]) row[3]));
             checkInReport.setUserId(Long.parseLong(row[4].toString()));
             report.add(checkInReport);
         }
@@ -421,18 +387,68 @@ public class ReportServiceImpl implements ReportService {
         return rs;
     }
 
+    public ProjectMemberReportResponseVM getProjectMemberReport(DateTime fromDate, DateTime toDate) {
+        List<ProductionBonusDTO> productionBonusDTOS = getListProductionBonusReport(fromDate, toDate);
+        ProjectMemberDTO report = ProjectMemberDTO.processDataset(productionBonusDTOS);
+
+        ProjectMemberReportResponseVM rs = new ProjectMemberReportResponseVM();
+
+        rs.setReport(report);
+        return rs;
+    }
+
+    private List<ProductionBonusDTO> getListProductionBonusReport(DateTime fromDate, DateTime toDate) {
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, count(jtut.id) as volumn, sum(task.task_credit) as credit, count(jtut.id) * sum(task.task_credit) as total_credit");
+        sqlBuilder.append(" FROM job_team_user_task jtut");
+        sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
+        sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
+        sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join job j on jt.job_id = j.id");
+        sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
+        sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
+        sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
+
+        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
+        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+        List<Object[]> rows = query.getResultList();
+
+        List<ProductionBonusDTO> report = new ArrayList<>();
+        for (Object[] row : rows) {
+            ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
+            productionBonusDTO.setUserId(Long.parseLong(row[0].toString()));
+            productionBonusDTO.setEmployee(row[1].toString());
+            productionBonusDTO.setProjectId(Long.parseLong(row[2].toString()));
+            productionBonusDTO.setProjectName(row[3].toString());
+            productionBonusDTO.setJobId(Long.parseLong(row[4].toString()));
+            productionBonusDTO.setJobName(row[5].toString());
+            productionBonusDTO.setVolumn(Long.parseLong(row[6].toString()));
+            productionBonusDTO.setCredit(Long.parseLong(row[7].toString()));
+            productionBonusDTO.setTotalCredit(Long.parseLong(row[8].toString()));
+
+            report.add(productionBonusDTO);
+        }
+        ;
+        return report;
+    }
+
     private Instant convertByteArrayToInstant(byte[] bytes) {
-        DateTimeFormatter fmt =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime ld = LocalDateTime.parse(new String(bytes, StandardCharsets.US_ASCII), fmt);
         Instant instant = ld.toInstant(ZoneOffset.UTC);
         return instant;
     }
 
     private Instant convertStringDateToInstant(String str) {
-        DateTimeFormatter fmt =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate ld = LocalDate.parse(str, fmt);
         Instant instant = ld.atStartOfDay(ZoneOffset.UTC).toInstant();
         return instant;
     }
+
 
 }
