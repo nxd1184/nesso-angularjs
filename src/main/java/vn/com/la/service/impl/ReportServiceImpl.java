@@ -196,7 +196,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
         //TODO: Fake data:
-        for (int i = 0; i < 5; i++) {
+        /*for (int i = 0; i < 5; i++) {
             ProductionBonusDTO productionBonusDTO = new ProductionBonusDTO();
             productionBonusDTO.setUserId(new Long(i));
             productionBonusDTO.setProjectId(new Long(i));
@@ -208,7 +208,7 @@ public class ReportServiceImpl implements ReportService {
             productionBonusDTO.setCredit(RandomUtils.nextLong(100, 2000));
             productionBonusDTO.setTotalCredit(productionBonusDTO.getCredit() * productionBonusDTO.getVolumn());
             report.add(productionBonusDTO);
-        }
+        }*/
 
         ProductionBonusReportResponseVM rs = new ProductionBonusReportResponseVM();
 
@@ -221,7 +221,7 @@ public class ReportServiceImpl implements ReportService {
 
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT toucher.id as toucher_id, toucher.last_name as toucher, qc.id as qc_id, qc.last_name as qc, count(jtut.id) as volumn, sum(jtut.number_of_rework) as error, count(jtut.id) / sum(jtut.number_of_rework) as error_rate");
+        sqlBuilder.append("SELECT toucher.id as toucher_id, toucher.last_name as toucher, qc.id as qc_id, qc.last_name as qc, count(jtut.id) as volumn, sum(jtut.number_of_rework) as error, (count(jtut.id) / sum(jtut.number_of_rework))*100 as error_rate");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user toucher on jtu.user_id = toucher.id");
@@ -242,13 +242,29 @@ public class ReportServiceImpl implements ReportService {
             qualityDTO.setRetoucher(row[1].toString());
             qualityDTO.setQcId(Long.parseLong(row[2].toString()));
             qualityDTO.setQc(row[3].toString());
-            qualityDTO.setVolumn(Long.parseLong(row[4].toString()));
-            qualityDTO.setError(Long.parseLong(row[5].toString()));
-            qualityDTO.setErrorRate(Double.parseDouble(row[6].toString()));
+            if(row[4] != null ){
+                qualityDTO.setVolumn(Long.parseLong(row[4].toString()));
+            } else {
+                qualityDTO.setVolumn(0L);
+            }
+
+            if(row[5] != null ){
+                qualityDTO.setError(Long.parseLong(row[5].toString()));
+            } else {
+                qualityDTO.setError(0L);
+            }
+
+            if(row[6] != null ){
+                qualityDTO.setErrorRate(Double.parseDouble(row[6].toString()));
+            } else {
+                qualityDTO.setErrorRate(0d);
+            }
+
+
             report.add(qualityDTO);
         }
 
-        for (int i = 0; i < 10; i++ ) {
+        /*for (int i = 0; i < 10; i++ ) {
             QualityDTO qualityDTO = new QualityDTO();
             qualityDTO.setRetoucherId(RandomUtils.nextLong(0, 9));
             qualityDTO.setRetoucher("Retoucher " + qualityDTO.getRetoucherId());
@@ -258,7 +274,7 @@ public class ReportServiceImpl implements ReportService {
             qualityDTO.setError(RandomUtils.nextLong(0, 30));
             qualityDTO.setErrorRate((double) (qualityDTO.getError()*1.0/qualityDTO.getVolumn()));
             report.add(qualityDTO);
-        }
+        }*/
         QualitiReportResponseVM rs = new QualitiReportResponseVM();
 
         rs.setReport(report);
@@ -270,7 +286,7 @@ public class ReportServiceImpl implements ReportService {
     public DeliveryQualityResponseVM getDeliveryQualityReportForUser(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, count(jtut.id) / sum(jtut.number_of_rework) as error_rate, min(jtu.created_date) as received_date");
+        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, (count(jtut.id) / sum(jtut.number_of_rework))*100 as error_rate, min(jtu.created_date) as received_date");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
@@ -288,7 +304,7 @@ public class ReportServiceImpl implements ReportService {
     public DeliveryQualityResponseVM getDeliveryQualityReportForFreelancer(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, count(jtut.id) / sum(jtut.number_of_rework) as error_rate, min(jtu.created_date) as received_date");
+        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, (count(jtut.id) / sum(jtut.number_of_rework))*100 as error_rate, min(jtu.created_date) as received_date");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
@@ -324,15 +340,19 @@ public class ReportServiceImpl implements ReportService {
             deliveryQualityReportDTO.setDone(Long.parseLong(row[7].toString()));
             if (row[8] != null) {
                 deliveryQualityReportDTO.setError(Long.parseLong(row[8].toString()));
+            } else {
+                deliveryQualityReportDTO.setError(0L);
             }
             if (row[9] != null) {
                 deliveryQualityReportDTO.setErrorRate(Double.parseDouble(row[9].toString()));
+            } else {
+                deliveryQualityReportDTO.setErrorRate(0d);
             }
             deliveryQualityReportDTO.setReceivedDate(convertByteArrayToInstant( (byte[])row[10]));
             report.add(deliveryQualityReportDTO);
         }
 
-        for (int i = 0 ; i < 10; i++) {
+        /*for (int i = 0 ; i < 10; i++) {
             DeliveryQualityReportDTO deliveryQualityReportDTO = new DeliveryQualityReportDTO();
             deliveryQualityReportDTO.setUserId(new Long(i));
             deliveryQualityReportDTO.setEmployee("User" + i);
@@ -347,7 +367,7 @@ public class ReportServiceImpl implements ReportService {
             deliveryQualityReportDTO.setReceivedDate(Instant.now());
             deliveryQualityReportDTO.setReturnDate(Instant.now());
             report.add(deliveryQualityReportDTO);
-        }
+        }*/
 
         DeliveryQualityResponseVM rs = new DeliveryQualityResponseVM();
         rs.setReport(report);
@@ -385,7 +405,7 @@ public class ReportServiceImpl implements ReportService {
             report.add(checkInReport);
         }
         //TODO: Fake data
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             CheckInReport checkInReport = new CheckInReport();
             checkInReport.setUserId(RandomUtils.nextLong(0, 9));
             checkInReport.setEmployee("User " + checkInReport.getUserId());
@@ -393,7 +413,7 @@ public class ReportServiceImpl implements ReportService {
             checkInReport.setCheckin(Instant.now());
             checkInReport.setCheckout(Instant.now().plusSeconds(RandomUtils.nextInt(3, 6)*3600).plusSeconds(RandomUtils.nextInt(0, 50)*60));
             report.add(checkInReport);
-        }
+        }*/
 
         CheckInResponseVM rs = new CheckInResponseVM();
 
