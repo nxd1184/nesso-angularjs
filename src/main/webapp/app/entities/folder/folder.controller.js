@@ -145,7 +145,6 @@
                         node.children = [''];
 
                     var result =  ref.create_node(vm.node_being_opened.id, node, 'last');
-                    console.log(result);
                 }
             }
         }
