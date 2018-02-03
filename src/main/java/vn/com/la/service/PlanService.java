@@ -2,8 +2,10 @@ package vn.com.la.service;
 
 import vn.com.la.service.dto.JobDTO;
 import vn.com.la.service.dto.ProjectDTO;
+import vn.com.la.service.dto.param.GetAllPlanParamDTO;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
+import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
@@ -15,5 +17,5 @@ public interface PlanService {
 
     UpdatePlanResponseVM updatePlan(UpdatePlanParamDTO params) throws Exception;
 
-    List<ProjectDTO> getAllPlans();
+    GetAllPlanResponseVM getAllPlans(GetAllPlanParamDTO params);
 }

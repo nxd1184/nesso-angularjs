@@ -13,13 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.PlanService;
+import vn.com.la.service.dto.PlanViewEnumDTO;
 import vn.com.la.service.dto.ProjectDTO;
+import vn.com.la.service.dto.param.GetAllPlanParamDTO;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
 import vn.com.la.service.util.LACommonUtil;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
 import vn.com.la.web.rest.vm.request.CreateOrUpdatePlanRequestVM;
+import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
 
@@ -42,10 +45,13 @@ public class PlanAPI {
 
     @GetMapping("/plans")
     @Timed
-    public ResponseEntity<List<ProjectDTO>> getAllPlans(@ApiParam Pageable pageable) {
+    public ResponseEntity<GetAllPlanResponseVM> getAllPlans(@ApiParam Pageable pageable, @RequestParam PlanViewEnumDTO view) {
         log.debug("REST request to get all plans");
 
-        List<ProjectDTO> rs = planService.getAllPlans();
+        GetAllPlanParamDTO params = new GetAllPlanParamDTO();
+        params.setView(view);
+
+        GetAllPlanResponseVM rs = planService.getAllPlans(params);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

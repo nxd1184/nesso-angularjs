@@ -48,7 +48,7 @@
                         deadLineTime = "ToDay";
                     }
                     item.index = index + 1;
-                    item.deadLineTime = deadLineTime;
+                    item.deadLineTime = deadLineTime + ' Days';
                 });
                 vm.productivityThisWeek = result;
                 var quality = 0;

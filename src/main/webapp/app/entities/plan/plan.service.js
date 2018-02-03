@@ -13,8 +13,8 @@
             update: update
         };
 
-        function getAllPlans() {
-            var url = 'api/plans';
+        function getAllPlans(view) {
+            var url = 'api/plans?view=' + view;
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);
