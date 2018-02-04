@@ -17,8 +17,8 @@
             }, {
                 title: 'Plan',
                 icon: 'fa fa-calendar',
-                state: 'plan',
-                url: '#!/plan'
+                state: 'plans-status',
+                url: '#!/plans-status'
             }, {
                 title: 'Report',
                 icon: 'fa fa-area-chart',

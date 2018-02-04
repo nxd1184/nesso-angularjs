@@ -103,20 +103,22 @@ public class ReportServiceImpl implements ReportService {
 
         // for best month
         sqlBuilder = new StringBuilder();
-        sqlBuilder.append("SELECT MONTH(jtut.last_done_time), sum(task.task_credit) as total_credit FROM job_team_user_task jtut ");
+        sqlBuilder.append("SELECT MONTH(jtut.last_done_time) as MONTH, YEAR(jtut.last_done_time) as YEAR, sum(task.task_credit) as total_credit FROM job_team_user_task jtut ");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
         sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
         sqlBuilder.append(" where jtut.status = 'DONE'");
-        sqlBuilder.append(" GROUP BY MONTH(jtut.last_done_time)");
-        sqlBuilder.append(" ORDER BY total_credit");
+        sqlBuilder.append(" GROUP BY MONTH(jtut.last_done_time), YEAR(jtut.last_done_time)");
+        sqlBuilder.append(" ORDER BY total_credit desc");
         try {
             query = entityManager.createNativeQuery(sqlBuilder.toString());
             List<Object[]> rows = query.getResultList();
             if (rows != null && rows.size() > 0) {
-                rs.setCountTotalDoneForBestMonth(Long.parseLong(rows.get(0)[1].toString()));
+                if(rows.get(0)[2] != null) {
+                    rs.setCountTotalDoneForBestMonth(Long.parseLong(rows.get(0)[2].toString()));
+                }
             }
 
         } catch (Exception ex) {

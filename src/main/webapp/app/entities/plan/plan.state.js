@@ -9,17 +9,17 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-            .state('plan', {
+            .state('plans-status', {
                 parent: 'entity',
-                url: '/plan',
+                url: '/plans-status',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'],
                     pageTitle: 'Plan Management'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/plan/plans.html',
-                        controller: 'PlanController',
+                        templateUrl: 'app/entities/plan/plans-status.html',
+                        controller: 'PlanStatusController',
                         controllerAs: 'vm'
                     }
                 }

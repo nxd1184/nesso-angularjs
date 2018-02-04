@@ -3,11 +3,11 @@
 
     angular
         .module('nessoApp')
-        .controller('PlanController', PlanController);
+        .controller('PlanStatusController', PlanStatusController);
 
-    PlanController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window'];
+    PlanStatusController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window'];
 
-    function PlanController($scope, $state, planService, $timeout, projectService, $window) {
+    function PlanStatusController($scope, $state, planService, $timeout, projectService, $window) {
 
         var vm = this;
         vm.projects = [];
