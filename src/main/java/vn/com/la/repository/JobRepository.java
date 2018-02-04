@@ -21,6 +21,10 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Query("UPDATE Job SET started = true WHERE id = ?1")
     int updateJobToStarted(final Long id);
 
+    @Modifying
+    @Query("UPDATE Job SET deadline = ?1, customerRequirements = ?2 where id = ?3")
+    int updateDeadLineAndCustomerRequirements(ZonedDateTime deadLine, String customerRequirement, Long jobId);
+
     @Query("SELECT SUM(totalFiles) FROM Job WHERE syncDate BETWEEN ?1 AND ?2")
     Long sumReceiveByDateRange(ZonedDateTime fromDate, ZonedDateTime toDate);
 

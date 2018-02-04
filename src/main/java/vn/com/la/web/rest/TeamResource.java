@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import vn.com.la.service.TeamService;
+import vn.com.la.service.dto.param.SearchTeamParamDTO;
 import vn.com.la.service.dto.param.TeamMemberParamDTO;
 import vn.com.la.service.dto.param.UpdateTeamParamDTO;
 import vn.com.la.service.util.LACollectionUtil;
@@ -120,9 +121,13 @@ public class TeamResource {
 
     @GetMapping("/teams/search")
     @Timed
-    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @ApiParam String searchTerm) {
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @ApiParam String searchTerm, @ApiParam Long teamId) {
 
-        final Page<TeamDTO> page = teamService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+        SearchTeamParamDTO searchTeamCriteria = new SearchTeamParamDTO();
+        searchTeamCriteria.setSearchTerm(searchTerm);
+        searchTeamCriteria.setTeamId(teamId);
+
+        final Page<TeamDTO> page = teamService.search(pageable, searchTeamCriteria);
 
         DatatableResponseVM response = new DatatableResponseVM();
         response.setData(page.getContent());

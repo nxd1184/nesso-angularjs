@@ -368,4 +368,11 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     public Long countByStatusAndDateRange(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate) {
         return jobTeamUserTaskRepository.countByStatusInAndLastModifiedDateIsBetween(statusList, fromDate,toDate);
     }
+
+    @Override
+    public List<JobTeamUserTask> findByJobTeamUserId(Long id) {
+        return jobTeamUserTaskRepository.findByJobTeamUserId(id);
+    }
+
+
 }

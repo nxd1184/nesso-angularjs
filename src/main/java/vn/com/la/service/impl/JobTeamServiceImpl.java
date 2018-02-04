@@ -83,4 +83,9 @@ public class JobTeamServiceImpl implements JobTeamService{
         log.debug("Request to delete JobTeam : {}", id);
         jobTeamRepository.delete(id);
     }
+
+    @Override
+    public int updateTotalFilesByJobTeamId(Long jobTeamId, Long totalFiles) {
+        return jobTeamRepository.updateTotalFilesByJobTeamId(jobTeamId, totalFiles);
+    }
 }

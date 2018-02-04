@@ -1,5 +1,6 @@
 package vn.com.la.service;
 
+import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import org.springframework.data.domain.Page;
@@ -61,4 +62,6 @@ public interface JobTeamUserTaskService {
 
     Long countByStatusAndDateRange(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate);
     DeliveryFilesResponseVM delivery(DeliveryFilesParamDTO params) throws Exception;
+
+    List<JobTeamUserTask> findByJobTeamUserId(Long id);
 }

@@ -29,4 +29,6 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
 
     Long countByStatusInAndLastModifiedDateIsBetween(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate);
 
+    List<JobTeamUserTask> findByJobTeamUserId(Long id);
+
 }

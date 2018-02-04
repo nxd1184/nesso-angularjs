@@ -22,6 +22,7 @@ public interface FileSystemHandlingService {
     List<File> listFileFromPath(String path) throws Exception;
 
     List<File> listFileRecursiveFromPath(String path) throws Exception;
+    List<String> listRelativeFilePathRecursiveFromPath(String path) throws Exception;
 
     boolean checkFileExist(String filePath);
 

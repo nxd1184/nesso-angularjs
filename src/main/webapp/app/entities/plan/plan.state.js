@@ -24,8 +24,8 @@
                     }
                 }
             })
-            .state('plan.edit', {
-                parent: 'plan',
+            .state('plans-status.edit', {
+                parent: 'plans-status',
                 url: '/edit/{id}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER']

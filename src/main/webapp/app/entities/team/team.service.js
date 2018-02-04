@@ -32,11 +32,12 @@
         .module('nessoApp')
         .factory('teamService', teamService);
 
-    teamService.$inject = ['$http', '$q']
+    teamService.$inject = ['$http', '$q', 'StringUtils']
 
-    function teamService ($http, $q) {
+    function teamService ($http, $q, StringUtils) {
         var teamService = {
-            update: update
+            update: update,
+            search: search
         };
 
         function update(params) {
@@ -54,6 +55,23 @@
 
             $http(LA.RequestUtils.put(url, rq)).then(function(result) {
                defer.resolve(result.data);
+            });
+
+            return defer.promise;
+        }
+
+        function search(params) {
+            var url = 'api/teams/search?' +
+                'searchTerm=' + StringUtils.trimToEmpty(params.searchTerm) +
+                '&teamId=' + StringUtils.trimToEmpty(params.teamId) +
+                '&sort=' + StringUtils.trimToEmpty(params.sort) +
+                '&page=' + StringUtils.trimToEmpty(params.page) +
+                '&size=' + StringUtils.trimToEmpty(params.size);
+
+            var defer = $q.defer();
+
+            $http(LA.RequestUtils.get(url)).then(function(result) {
+                defer.resolve(result.data);
             });
 
             return defer.promise;

@@ -1,5 +1,6 @@
 package vn.com.la.web.rest.vm.request;
 
+import org.hibernate.validator.constraints.NotBlank;
 import vn.com.la.domain.JobTask;
 import vn.com.la.domain.JobTeam;
 import vn.com.la.service.dto.JobDTO;
@@ -16,6 +17,7 @@ public class CreateOrUpdatePlanRequestVM extends AbstractRequestVM{
 
     private Long jobId;
 
+    @NotBlank
     private String deadline;
 
     private Set<JobTaskDTO> tasks;

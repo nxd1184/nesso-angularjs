@@ -50,4 +50,6 @@ public interface JobService {
     Long getTotalReceiverByDateTime(ZonedDateTime fromDate, ZonedDateTime toDate);
 
     List<JobDTO> findByDeadlineBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
+
+    int updateDeadLineAndCustomerRequirements(ZonedDateTime deadLine, String customerRequirement, Long jobId);
 }

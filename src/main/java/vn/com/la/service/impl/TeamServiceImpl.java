@@ -9,6 +9,7 @@ import vn.com.la.domain.Team;
 import vn.com.la.repository.TeamRepository;
 import vn.com.la.service.dto.TeamDTO;
 import vn.com.la.service.dto.UserDTO;
+import vn.com.la.service.dto.param.SearchTeamParamDTO;
 import vn.com.la.service.dto.param.TeamMemberParamDTO;
 import vn.com.la.service.dto.param.UpdateTeamParamDTO;
 import vn.com.la.service.mapper.TeamMapper;
@@ -115,10 +116,10 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Page<TeamDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
+    public Page<TeamDTO> search(Pageable pageable, SearchTeamParamDTO criteria) {
         log.debug("Request to search Teams by search term");
 
-        Specification<Team> searchSpec = TeamSpecifications.nameLikePattern(searchTerm);
+        Specification<Team> searchSpec = TeamSpecifications.search(criteria);
         Page<TeamDTO> page = teamRepository.findAll(searchSpec, pageable).map(teamMapper::toDto);
 
         return page;

@@ -41,9 +41,10 @@
         .module('nessoApp')
         .controller('PlanDialogController', PlanDialogController);
 
-    PlanDialogController.$inject = ['$state', '$uibModalInstance', '$stateParams', 'planService', 'taskService', 'Team', 'moment'];
+    PlanDialogController.$inject = ['$state', '$uibModalInstance', '$stateParams', 'planService', 'taskService', 'teamService', 'moment', 'AlertService'];
 
-    function PlanDialogController($state, $uibModalInstance, $stateParams, planService, taskService, Team, moment) {
+    function PlanDialogController($state, $uibModalInstance, $stateParams, planService, taskService, teamService, moment, AlertService) {
+
 
         var vm = this;
         vm.clear = clear;
@@ -138,19 +139,24 @@
 
         function _showCurrentTeams(jobTeams) {
             if(jobTeams) {
-                jobTeams.forEach(function(jobTeam) {
-                    Team.get({id: jobTeam.teamId}, function(result) {
-                       vm.selectedTeams.push(result);
+                for(var i = 0; i < jobTeams.length; i++) {
+                    var jobTeam = jobTeams[i];
+                    teamService.search({
+                        teamId: jobTeam.teamId
+                    }).then(function(result) {
+                        if(result.data && result.data.length) {
+                            vm.selectedTeams.push(result.data[0]);
+                        }
                     });
-                });
+                }
             }
         }
 
         function _loadTeams() {
-            Team.query({}, onSuccess, onError);
+            teamService.search({}).then(onSuccess, onError);
 
             function onSuccess(result) {
-                vm.teams = result;
+                vm.teams = result.data;
             }
 
             function onError(error) {
@@ -164,6 +170,13 @@
         }
 
         function onTeamSelected(team) {
+
+            if(vm.job.started) {
+                AlertService.error('Can not add new team when job is started');
+                vm.selectedTeams.pop();
+                return;
+            }
+
             var exist = false;
             var index = -1;
             for (var i = 0; i < vm.job.jobTeams.length; i++) {
@@ -191,7 +204,7 @@
                         userId: member.id,
                         name: member.lastName,
                         capacity: member.capacity,
-                        totalFiles: member.capacity
+                        totalFiles: 0
                     });
                 }
             }
@@ -207,6 +220,11 @@
         }
 
         function onTeamRemoved(team) {
+            if(vm.job.started) {
+                AlertService.error('Can not remove team when job is started');
+                vm.selectedTeams.push(team);
+                return;
+            }
             for (var i = 0; i < vm.job.jobTeams.length; i++) {
                 if (team.id == vm.job.jobTeams[i].teamId) {
                     vm.job.jobTeams.splice(i, 1);
@@ -251,15 +269,30 @@
         }
 
         function onTaskSelected(task){
+
+            if(vm.job.started) {
+                AlertService.error('Can not add new task when job is started');
+                vm.selectedTasks.pop();
+                return;
+            }
+
             _buildUserAssignments();
         }
 
         function onTaskRemoved(task) {
+
+            if(vm.job.started) {
+                AlertService.error('Can not remove task when job is started');
+                vm.selectedTasks.push(task);
+                return;
+            }
+
             _buildUserAssignments();
         }
 
         function _buildUserAssignments() {
-            var total = vm.job.totalFiles;
+            var totalFilesOfJob = vm.job.totalFiles;
+            var total = totalFilesOfJob;
             var totalCredit = 0;
             for(var i = 0; i < vm.selectedTasks.length; i++) {
                 totalCredit += vm.selectedTasks[i].taskCredit;
@@ -278,18 +311,22 @@
                     var member = selectedTeam.jobTeamUsers[j];
                     var capacity = member.capacity;
 
-                    var totalFiles = 0;
+                    var totalFilesForUser = 0;
 
-                    if(total > 0 && capacity && capacity > 0) {
-                        totalFiles = Math.ceil(total / capacity);
-                        if(totalFiles > total) {
-                            totalFiles = total;
+                    if(totalFilesOfJob > 0 && capacity && capacity > 0) {
+                        totalFilesForUser = Math.ceil(total / capacity);
+
+                        if(totalFilesForUser > totalFilesOfJob) {
+                            totalFilesForUser = totalFilesOfJob;
                         }
-                        total -= totalFiles;
+
+                        // total -= totalFilesForUser;
+                        totalFilesOfJob -= totalFilesForUser;
                     }
 
-                    member.totalFiles = totalFiles;
-                    totalFilesForTeam += totalFiles;
+                    member.totalFiles = totalFilesForUser;
+
+                    totalFilesForTeam += totalFilesForUser;
 
                 }
 

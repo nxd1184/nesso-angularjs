@@ -111,4 +111,9 @@ public class JobServiceImpl implements JobService{
         List<Job> jobs = jobRepository.findByDeadlineBetweenOrderByDeadlineAsc(fromDate, toDate);
         return jobMapper.toDto(jobs);
     }
+
+    @Override
+    public int updateDeadLineAndCustomerRequirements(ZonedDateTime deadLine, String customerRequirement, Long jobId) {
+        return jobRepository.updateDeadLineAndCustomerRequirements(deadLine, customerRequirement, jobId);
+    }
 }

@@ -1,6 +1,8 @@
 package vn.com.la.service.dto;
 
 
+import vn.com.la.domain.JobTeamUserTask;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -27,10 +29,10 @@ public class JobTeamUserDTO implements Serializable {
 
     private Long capacity;
 
-    private Long totalToDoFiles;
-    private Long totalToCheckFiles;
-    private Long totalDoneFiles;
-    private Long totalDeliveryFiles;
+    private Long totalToDoFiles = 0L;
+    private Long totalToCheckFiles = 0L;
+    private Long totalDoneFiles = 0L;
+    private Long totalDeliveryFiles = 0L;
 
     private Set<JobTeamUserTaskDTO> jobTeamUserTasks = new HashSet<>();
 
@@ -128,6 +130,10 @@ public class JobTeamUserDTO implements Serializable {
 
     public void setTotalDeliveryFiles(Long totalDeliveryFiles) {
         this.totalDeliveryFiles = totalDeliveryFiles;
+    }
+
+    public void addJobTeamUserTask(JobTeamUserTaskDTO jobTeamUserTaskDTO) {
+        this.jobTeamUserTasks.add(jobTeamUserTaskDTO);
     }
 
     @Override

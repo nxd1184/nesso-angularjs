@@ -38,6 +38,7 @@ public class ProjectDTO implements Serializable {
     @NotNull
     private ProjectStatusEnum status;
 
+    @NotNull
     private Long managerId;
 
     private String managerName;

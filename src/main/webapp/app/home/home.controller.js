@@ -46,9 +46,11 @@
                     var deadLineTime = moment(item.deadline).diff(toDay, 'days');
                     if (deadLineTime == 0){
                         deadLineTime = "ToDay";
+                    }else {
+                        deadLineTime +=  ' Days';
                     }
                     item.index = index + 1;
-                    item.deadLineTime = deadLineTime + ' Days';
+                    item.deadLineTime = deadLineTime;
                 });
                 vm.productivityThisWeek = result;
                 var quality = 0;

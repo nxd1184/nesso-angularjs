@@ -39,4 +39,6 @@ public interface JobTeamService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    int updateTotalFilesByJobTeamId(Long jobTeamId, Long totalFiles);
 }

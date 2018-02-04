@@ -151,9 +151,31 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         return result;
     }
 
+    private List<String> walkRelativeFileName(String path) {
+        List<String> result = new ArrayList<>();
+        File dir = new File(path);
+        if(dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for (File file : files) {
+                if (file.isDirectory()) {
+
+                    result.addAll(walkRelativeFileName(file.getPath()));
+                } else if (!file.isHidden()) {
+                    result.add(LAStringUtil.removeRootPath(file.getPath(), rootFolder));
+                }
+            }
+        }
+        return result;
+    }
+
     @Override
     public List<File> listFileRecursiveFromPath(String path) throws Exception {
         return walk(rootFolder + Constants.DASH + path);
+    }
+
+    @Override
+    public List<String> listRelativeFilePathRecursiveFromPath(String path) throws Exception {
+        return walkRelativeFileName(rootFolder + Constants.DASH + path);
     }
 
     @Override

@@ -43,9 +43,11 @@
             function _loadTeamMembers() {
                 vm.leaders = [];
                 vm.users = [];
-                for (var i = 0; i < vm.team.members.length; i++) {
-                    if (vm.team.members[i].authorities.indexOf("ROLE_TEAM_LEADER") != -1) {
-                        vm.leaders.push(vm.team.members[i]);
+                if(vm.team && vm.team.members) {
+                    for (var i = 0; i < vm.team.members.length; i++) {
+                        if (vm.team.members[i].authorities.indexOf("ROLE_TEAM_LEADER") != -1) {
+                            vm.leaders.push(vm.team.members[i]);
+                        }
                     }
                 }
 
