@@ -71,14 +71,13 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
         sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
-        sqlBuilder.append(" where jtut.status = 'DONE' AND jtut.last_done_time BETWEEN ? AND ?");
+        sqlBuilder.append(" where jtut.status = 'DONE' AND MONTH(jtut.last_done_time) = ?");
 
         Query query = entityManager.createNativeQuery(sqlBuilder.toString());
 
         // for this month
         try {
-            query.setParameter(1, startDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
-            query.setParameter(2, endDateOfMonth.toString(LADateTimeUtil.DATETIME_FORMAT));
+            query.setParameter(1, now.getMonthOfYear());
             Optional opt = Optional.ofNullable(query.getSingleResult());
             Object singleResult = opt.orElse(0L);
             if (singleResult != null) {
@@ -89,9 +88,9 @@ public class ReportServiceImpl implements ReportService {
         }
 
         // for last month
+        query = entityManager.createNativeQuery(sqlBuilder.toString());
         try {
-            query.setParameter(1, startDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
-            query.setParameter(2, endDateOfMonth.minusMonths(1).toString(LADateTimeUtil.DATETIME_FORMAT));
+            query.setParameter(1, now.minusMonths(1).getMonthOfYear());
             Optional value = Optional.ofNullable(query.getSingleResult());
             Object singleResult = value.orElse(0L);
             if (singleResult != null) {
@@ -150,9 +149,10 @@ public class ReportServiceImpl implements ReportService {
                 if (row[1] != null) {
                     userProductivityDTO.setTotalCredit(Long.parseLong(row[1].toString()));
                 }
+                userProductivityDTOS.add(userProductivityDTO);
 
             }
-
+            rs.setUserProductivityList(userProductivityDTOS);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
