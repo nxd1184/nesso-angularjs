@@ -17,4 +17,5 @@ public interface ReportService {
     DeliveryQualityResponseVM getDeliveryQualityReportForUser( DateTime fromDate, DateTime toDate);
     DeliveryQualityResponseVM getDeliveryQualityReportForFreelancer( DateTime fromDate, DateTime toDate);
     CheckInResponseVM getCheckinReport( DateTime fromDate, DateTime toDate);
+    public ProjectMemberReportResponseVM getProjectMemberReport(DateTime fromDate, DateTime toDate);
 }
