@@ -110,12 +110,11 @@
         _getAllTeam();
 
         function _getAllTeam() {
-            Team.query({
-                sort: ['id,desc']
-            }, onSuccess, onError);
+
+            Team.getAllTeam(onSuccess, onError);
 
             function onSuccess(data) {
-                vm.teams = data;
+                vm.teams = data.teams;
                 if(vm.user.teamId && vm.teams) {
                     for(var i = 0; i < vm.teams.length; i++) {
                         var team = vm.teams[i];
