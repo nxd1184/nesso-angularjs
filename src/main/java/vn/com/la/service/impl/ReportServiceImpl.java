@@ -71,13 +71,14 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
         sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
-        sqlBuilder.append(" where jtut.status = 'DONE' AND MONTH(jtut.last_done_time) = ?");
+        sqlBuilder.append(" where jtut.status = 'DONE' AND MONTH(jtut.last_done_time) = ? AND YEAR(jtut.last_done_time) = ?");
 
         Query query = entityManager.createNativeQuery(sqlBuilder.toString());
 
         // for this month
         try {
             query.setParameter(1, now.getMonthOfYear());
+            query.setParameter(2, now.getYear());
             Optional opt = Optional.ofNullable(query.getSingleResult());
             Object singleResult = opt.orElse(0L);
             if (singleResult != null) {
@@ -91,6 +92,7 @@ public class ReportServiceImpl implements ReportService {
         query = entityManager.createNativeQuery(sqlBuilder.toString());
         try {
             query.setParameter(1, now.minusMonths(1).getMonthOfYear());
+            query.setParameter(2, now.minusMonths(1).getYear());
             Optional value = Optional.ofNullable(query.getSingleResult());
             Object singleResult = value.orElse(0L);
             if (singleResult != null) {
@@ -405,7 +407,16 @@ public class ReportServiceImpl implements ReportService {
     private List<ProductionBonusDTO> getListProductionBonusReport(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, count(distinct jtut.id) as volumn, sum(task.task_credit) as credit, count(distinct jtut.id) * sum(task.task_credit) as total_credit");
+        sqlBuilder.append("SELECT ju.id, ju.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name,");
+        sqlBuilder.append(" count(distinct jtut.id) as volumn,");
+        sqlBuilder.append(" (");
+        sqlBuilder.append("    SELECT SUM(task.task_credit) as credit");
+        sqlBuilder.append("    from job");
+        sqlBuilder.append("    inner join job_task job_task on job_task.job_id = job.id");
+        sqlBuilder.append("    inner join task task on job_task.task_id = task.id");
+        sqlBuilder.append("    where job.id = j.id");
+        sqlBuilder.append(" ) as credit,");
+        sqlBuilder.append(" sum(task.task_credit) as total_credit,");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
