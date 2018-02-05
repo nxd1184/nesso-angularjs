@@ -48,6 +48,30 @@
                         $state.go('^');
                     });
                 }]
+            })
+            .state('plans-status.adjust', {
+                parent: 'plans-status',
+                url: '/adjust/{userId}/{jobId}',
+                data: {
+                    authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', '$uibModalStack', function ($stateParams, $state, $uibModal, $uibModalStack) {
+                    var uibModal = $uibModal.open({
+                        templateUrl: 'app/entities/plan/plan-adjust.html',
+                        controller: 'PlanAdjustController',
+                        controllerAs: 'vm'
+                    });
+
+                    uibModal.rendered.then(function () {
+                        $uibModalStack.getTop().value.modalDomEl.attr('id', 'addJobModal');
+                    });
+
+                    uibModal.result.then(function() {
+                        $state.go('project', null, { reload: 'project' });
+                    }, function() {
+                        $state.go('^');
+                    });
+                }]
             });
     }
 

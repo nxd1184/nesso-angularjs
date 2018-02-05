@@ -31,4 +31,6 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
 
     List<JobTeamUserTask> findByJobTeamUserId(Long id);
 
+    Long countByJobTeamUserIdAndStatusInAndJobTeamUserJobTeamJobId(Long id, List<FileStatusEnum> statusList, Long jobId);
+
 }

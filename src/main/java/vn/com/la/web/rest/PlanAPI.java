@@ -6,28 +6,22 @@ import io.swagger.annotations.ApiParam;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.PlanService;
 import vn.com.la.service.dto.PlanViewEnumDTO;
-import vn.com.la.service.dto.ProjectDTO;
 import vn.com.la.service.dto.param.GetAllPlanParamDTO;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
+import vn.com.la.service.dto.param.GetUserJobDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
 import vn.com.la.service.util.LACommonUtil;
 import vn.com.la.service.util.LADateTimeUtil;
-import vn.com.la.web.rest.util.PaginationUtil;
+import vn.com.la.web.rest.vm.request.AdjustFilesRequestVM;
 import vn.com.la.web.rest.vm.request.CreateOrUpdatePlanRequestVM;
-import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
-import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
-import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
+import vn.com.la.web.rest.vm.response.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -85,5 +79,26 @@ public class PlanAPI {
         UpdatePlanResponseVM rs = planService.updatePlan(params);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
 
+    }
+
+    @GetMapping("/plan/user-detail/{userId}/{jobId}")
+    @Timed
+    public ResponseEntity<UserJobDetailResponseVM> getUserJobDetail(@NotEmpty @PathVariable Long userId,
+                                                                    @NotEmpty @PathVariable Long jobId) {
+
+        GetUserJobDetailParamDTO params = new GetUserJobDetailParamDTO();
+        params.setJobTeamUserId(userId);
+        params.setJobId(jobId);
+
+        UserJobDetailResponseVM rs = planService.getUserJobDetail(params);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @PutMapping("/plan/adjust")
+    @Timed
+    public ResponseEntity<EmptyResponseVM> adjustFiles(@Valid @RequestBody AdjustFilesRequestVM request) {
+
+        return null;
     }
 }

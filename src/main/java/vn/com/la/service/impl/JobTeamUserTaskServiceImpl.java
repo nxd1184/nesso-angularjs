@@ -374,5 +374,8 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         return jobTeamUserTaskRepository.findByJobTeamUserId(id);
     }
 
-
+    @Override
+    public Long countJobToDoList(Long id, Long jobId) {
+        return jobTeamUserTaskRepository.countByJobTeamUserIdAndStatusInAndJobTeamUserJobTeamJobId(id, Constants.TO_DO_STATUS_LIST, jobId);
+    }
 }

@@ -118,7 +118,8 @@
                                 toDo: user.totalToDoFiles,
                                 toCheck: user.totalToCheckFiles,
                                 done: user.totalDoneFiles,
-                                delivery: user.totalDeliveryFiles
+                                delivery: user.totalDeliveryFiles,
+                                jobId: job.id
                             });
                         }
                     }

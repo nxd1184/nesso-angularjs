@@ -29,36 +29,36 @@
         .module('nessoApp')
         .factory('userService', userService);
 
-    userService.$inject = ['$http', '$q'];
+    userService.$inject = ['$http', '$q', 'StringUtils'];
 
-    function userService($http, $q) {
+    function userService($http, $q, StringUtils) {
         var service = {
             search: search
         };
 
-        function search() {
-            function search(param) {
 
-                var url = 'api/users/search';
+        function search(param) {
 
-                var rq = LA.RequestUtils.get(url
-                    + '?page='          + param.page
-                    + '&size='          + param.size
-                    + '&sort='          + param.sortBy
-                    + '&searchTerm='    + param.searchTerm
-                );
+            var url = 'api/users/search';
 
-                var defer = $q.defer();
+            var rq = LA.RequestUtils.get(url
+                + '?page='          + StringUtils.trimToEmpty(param.page)
+                + '&size='          + StringUtils.trimToEmpty(param.size)
+                + '&sort='          + StringUtils.trimToEmpty(param.sortBy)
+                + '&searchTerm='    + StringUtils.trimToEmpty(param.searchTerm)
+            );
 
-                $http(rq).then(function(result) {
-                    defer.resolve(result);
-                }, function(error) {
-                    defer.reject(error);
-                });
+            var defer = $q.defer();
 
-                return defer.promise;
-            }
+            $http(rq).then(function(result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
         }
+
 
         return service;
     }

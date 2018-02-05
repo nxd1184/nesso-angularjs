@@ -64,4 +64,6 @@ public interface JobTeamUserTaskService {
     DeliveryFilesResponseVM delivery(DeliveryFilesParamDTO params) throws Exception;
 
     List<JobTeamUserTask> findByJobTeamUserId(Long id);
+
+    Long countJobToDoList(Long id, Long jobId);
 }

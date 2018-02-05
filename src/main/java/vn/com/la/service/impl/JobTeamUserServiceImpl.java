@@ -88,4 +88,6 @@ public class JobTeamUserServiceImpl implements JobTeamUserService{
     public int updateTotalFilesByJobTeamUserId(Long jobTeamUserId, Long newTotalFiles) {
         return jobTeamUserRepository.updateTotalFilesByJobTeamUserId(jobTeamUserId, newTotalFiles);
     }
+
+
 }

@@ -1,6 +1,8 @@
 package vn.com.la.web.rest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import vn.com.la.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import vn.com.la.domain.User;
@@ -171,13 +173,15 @@ public class UserResource {
      */
     @GetMapping("/users/search")
     @Timed
-    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable, @RequestParam(value = "search", required = false) String searchTerm) {
-        final Page<UserDTO> page = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+    public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable,
+                                                        @RequestParam(value = "search", required = false) String searchTerm) {
+
+        final Page<UserDTO> aPage = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
 
         DatatableResponseVM response = new DatatableResponseVM();
-        response.setData(page.getContent());
-        response.setRecordsFiltered(page.getTotalElements());
-        response.setRecordsTotal(page.getTotalElements());
+        response.setData(aPage.getContent());
+        response.setRecordsFiltered(aPage.getTotalElements());
+        response.setRecordsTotal(aPage.getTotalElements());
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(response));
     }

@@ -12,13 +12,14 @@ import vn.com.la.service.*;
 import vn.com.la.service.dto.*;
 import vn.com.la.service.dto.param.GetAllPlanParamDTO;
 import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
+import vn.com.la.service.dto.param.GetUserJobDetailParamDTO;
 import vn.com.la.service.dto.param.UpdatePlanParamDTO;
-import vn.com.la.service.util.LACollectionUtil;
 import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
 import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
 import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
+import vn.com.la.web.rest.vm.response.UserJobDetailResponseVM;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -318,6 +319,11 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public void adjust() {
+
+    }
+
+    @Override
     public GetAllPlanResponseVM getAllPlans(GetAllPlanParamDTO params) {
 
         GetAllPlanResponseVM rs = new GetAllPlanResponseVM();
@@ -467,5 +473,18 @@ public class PlanServiceImpl implements PlanService {
         return teams;
     }
 
+    @Override
+    public UserJobDetailResponseVM getUserJobDetail(GetUserJobDetailParamDTO params) {
+        UserJobDetailResponseVM rs = new UserJobDetailResponseVM();
+        JobTeamUserDTO jobTeamUserDTO = jobTeamUserService.findOne(params.getJobTeamUserId());
+        jobTeamUserDTO.setTotalToDoFiles(jobTeamUserTaskService.countJobToDoList(params.getJobTeamUserId(), params.getJobId()));
+
+        JobDTO jobDTO = jobService.findOne(params.getJobId());
+
+        rs.setJob(jobDTO);
+        rs.setJobTeamUser(jobTeamUserDTO);
+
+        return rs;
+    }
 }
 

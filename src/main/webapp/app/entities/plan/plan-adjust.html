@@ -1,0 +1,103 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="mySettingInfoLabel">Adjust Files</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <jhi-alert></jhi-alert>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left margin-top-10 project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">Project</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
+                            <b style="color:#4d6a79">{{vm.job.projectCode}}</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left margin-top-10 project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">Job</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
+                            <b style="color:#4d6a79">{{vm.job.name}}</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">Total Files</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
+                            <b style="color:#4d6a79">{{vm.jobTeamUser.totalFiles}}</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4" style="">To Do Files</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8" style="display:inline-block;">
+                            <b style="color:#4d6a79">{{vm.jobTeamUser.totalToDoFiles}}</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left project_row">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4" style="">User</label>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <ui-select ng-model="vm.selectedUser" on-select="vm.onSelectUser($select.selected)" theme="select2" class="selectpicker form-control">
+                                <ui-select-match placeholder="Select">
+                                    {{$select.selected.lastName}}
+                                </ui-select-match>
+                                <ui-select-choices
+                                    refresh="vm.searchUsers($select.search)"
+                                    refresh-delay="0"
+                                    repeat="u in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
+                                    <div ng-bind-html="u.login | highlight: $select.search"></div>
+                                    <small>
+                                        <span ng-bind-html="u.lastName | highlight: $select.search"></span>
+                                    </small>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">To Files</label>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
+                            <input class="form-control" type="number" ng-model="vm.totalFilesAdjustment"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

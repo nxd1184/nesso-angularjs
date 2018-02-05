@@ -118,7 +118,7 @@
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </a>
 
-                                <a ng-if="row.type == 'user' && vm.currentView == 'PROJECT'" class="btn-editJob" ng-click="vm.adjustFiles(row.code)">
+                                <a ng-if="row.type == 'user' && vm.currentView == 'PROJECT'" class="btn-editJob" ui-sref="plans-status.adjust({userId: row.id, jobId: row.jobId})">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
                             </td>
