@@ -182,6 +182,7 @@
             for (var i = 0; i < vm.job.jobTeams.length; i++) {
                 if (team.id == vm.job.jobTeams[i].id) {
                     index = i;
+                    exist = true;
                     break;
                 }
             }

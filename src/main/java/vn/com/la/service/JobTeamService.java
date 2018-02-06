@@ -1,5 +1,6 @@
 package vn.com.la.service;
 
+import vn.com.la.domain.JobTeam;
 import vn.com.la.service.dto.JobTeamDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,4 +42,6 @@ public interface JobTeamService {
     void delete(Long id);
 
     int updateTotalFilesByJobTeamId(Long jobTeamId, Long totalFiles);
+
+    JobTeamDTO findByJobIdAndTeamId(Long jobId, Long teamId);
 }

@@ -33,6 +33,7 @@ import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -370,12 +371,22 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     }
 
     @Override
-    public List<JobTeamUserTask> findByJobTeamUserId(Long id) {
-        return jobTeamUserTaskRepository.findByJobTeamUserId(id);
+    public List<JobTeamUserTask> findByJobTeamUserIdAndJobId(Long id, Long jobId) {
+        return jobTeamUserTaskRepository.findByJobTeamUserIdAndJobTeamUserJobTeamJobId(id, jobId);
+    }
+
+    @Override
+    public List<JobTeamUserTaskDTO> findJobToDoList(Long id, Long jobId) {
+        return jobTeamUserTaskRepository.findByJobTeamUserIdAndStatusInAndJobTeamUserJobTeamJobId(id, Constants.TO_DO_STATUS_LIST, jobId).stream().map(jobTeamUserTaskMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public Long countJobToDoList(Long id, Long jobId) {
         return jobTeamUserTaskRepository.countByJobTeamUserIdAndStatusInAndJobTeamUserJobTeamJobId(id, Constants.TO_DO_STATUS_LIST, jobId);
+    }
+
+    @Override
+    public int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id) {
+        return jobTeamUserTaskRepository.updateAdjustment(jobTeamUserId, newFilePath, id);
     }
 }

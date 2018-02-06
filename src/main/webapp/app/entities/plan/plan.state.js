@@ -43,9 +43,9 @@
                     });
 
                     uibModal.result.then(function() {
-                        $state.go('project', null, { reload: 'project' });
+                        $state.go('plans-status', null, { reload: 'plans-status' });
                     }, function() {
-                        $state.go('^');
+                        $state.go('plans-status', null, { reload: 'plans-status' });
                     });
                 }]
             })
@@ -67,9 +67,9 @@
                     });
 
                     uibModal.result.then(function() {
-                        $state.go('project', null, { reload: 'project' });
+                        $state.go('plans-status', null, { reload: 'plans-status' });
                     }, function() {
-                        $state.go('^');
+                        $state.go('plans-status', null, { reload: 'plans-status' });
                     });
                 }]
             });

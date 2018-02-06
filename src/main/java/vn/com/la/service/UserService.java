@@ -304,6 +304,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public User findById(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    @Transactional(readOnly = true)
     public Page<UserDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
         Specification<User> searchSpec = loginOrEmailContainsIgnoreCase(searchTerm);
         Page<UserDTO> page = userRepository.findAll(searchSpec,pageable).map(UserDTO::new);

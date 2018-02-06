@@ -203,6 +203,10 @@ public class JobDTO implements Serializable {
         this.totalDeliveryFiles = totalDeliveryFiles;
     }
 
+    public void addJobTeam(JobTeamDTO jobTeamDTO) {
+        this.jobTeams.add(jobTeamDTO);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

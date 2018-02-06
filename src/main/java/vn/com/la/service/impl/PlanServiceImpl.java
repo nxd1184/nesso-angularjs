@@ -5,21 +5,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.JobTeam;
+import vn.com.la.domain.JobTeamUser;
 import vn.com.la.domain.JobTeamUserTask;
+import vn.com.la.domain.User;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
 import vn.com.la.service.dto.*;
-import vn.com.la.service.dto.param.GetAllPlanParamDTO;
-import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
-import vn.com.la.service.dto.param.GetUserJobDetailParamDTO;
-import vn.com.la.service.dto.param.UpdatePlanParamDTO;
+import vn.com.la.service.dto.param.*;
 import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
-import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
-import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
-import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
-import vn.com.la.web.rest.vm.response.UserJobDetailResponseVM;
+import vn.com.la.web.rest.vm.response.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -39,13 +36,15 @@ public class PlanServiceImpl implements PlanService {
     private final ProjectService projectService;
     private final ApplicationProperties applicationProperties;
     private final EntityManager em;
+    private final UserService userService;
+    private final TeamService teamService;
 
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService,
                            SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService,
                            ProjectService projectService, ApplicationProperties applicationProperties,
-                           EntityManager em) {
+                           EntityManager em, UserService userService, TeamService teamService) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
@@ -55,6 +54,8 @@ public class PlanServiceImpl implements PlanService {
         this.projectService = projectService;
         this.applicationProperties = applicationProperties;
         this.em = em;
+        this.userService = userService;
+        this.teamService = teamService;
     }
 
     @Override
@@ -93,7 +94,7 @@ public class PlanServiceImpl implements PlanService {
                     storedJob.setSequence(Constants.ONE);
                 }
 
-//                storedJob = jobService.save(storedJob);
+                storedJob = jobService.save(storedJob);
 
                 // create backlog item folder inside todo, tocheck, done
                 String toDoFolder = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName());
@@ -157,51 +158,52 @@ public class PlanServiceImpl implements PlanService {
                             } else {
 
                                 if (jobTeamDTO.getTotalFiles() != null) {
-                                    long iActualTotalFiles = Constants.ZERO;
                                     Set<JobTeamUserTaskDTO> jobTeamUserTaskDTOs = new HashSet<>();
-                                    for (iActualTotalFiles = Constants.ONE; iActualTotalFiles <= jobTeamUserDTO.getTotalFiles(); iActualTotalFiles++) {
+                                    if(iFile < files.size()) {
+                                        for (int iActualTotalFiles = Constants.ONE; iActualTotalFiles <= jobTeamUserDTO.getTotalFiles(); iActualTotalFiles++) {
 
-                                        File file = files.get(iFile++);
-                                        if (file.isDirectory()) {
-                                            continue;
+                                            File file = files.get(iFile);
+                                            if (file.isDirectory()) {
+                                                continue;
+                                            }
+
+//                                          if(iActualTotalFiles > jobTeamUserDTO.getTotalFiles()) {
+//                                              break;
+//                                          }
+
+                                            String remoteFileName = file.getName();
+
+                                            JobTeamUserTaskDTO jobTeamUserTaskDTO = new JobTeamUserTaskDTO();
+                                            jobTeamUserTaskDTO.setFilePath(toDoFolderOfUser);
+
+                                            jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
+
+                                            String filePath = file.getParent();
+                                            String originalRelativeFilePath = LAStringUtil.removeRootPath(filePath, this.applicationProperties.getRootFolder());
+
+                                            jobTeamUserTaskDTO.setOriginalFilePath(originalRelativeFilePath);
+                                            jobTeamUserTaskDTO.setOriginalFileName(remoteFileName);
+
+                                            jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
+
+                                            // setup file name
+                                            String newFileName = storedJob.getProjectCode() + Constants.UNDERSCORE + storedJob.getName() + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + remoteFileName;
+                                            jobTeamUserTaskDTO.setFileName(newFileName);
+
+                                            jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
+                                            fileSystemHandlingService.copy(file.getPath().substring(this.applicationProperties.getRootFolder().length()), toDoFolderOfUser, newFileName);
+
+                                            totalFilesForJobTeam++;
+                                            iFile++;
+
+                                            if (iFile >= files.size()) {
+                                                break;
+                                            }
                                         }
-
-                                        if(iActualTotalFiles > jobTeamUserDTO.getTotalFiles()) {
-                                            break;
-                                        }
-
-                                        String remoteFileName = file.getName();
-
-                                        JobTeamUserTaskDTO jobTeamUserTaskDTO = new JobTeamUserTaskDTO();
-                                        jobTeamUserTaskDTO.setFilePath(toDoFolderOfUser);
-
-                                        jobTeamUserTaskDTO.setJobTeamUserId(jobTeamUserDTO.getId()); // assignee
-
-                                        String filePath = file.getParent();
-                                        String originalRelativeFilePath = LAStringUtil.removeRootPath(filePath, this.applicationProperties.getRootFolder());
-
-                                        jobTeamUserTaskDTO.setOriginalFilePath(originalRelativeFilePath);
-                                        jobTeamUserTaskDTO.setOriginalFileName(remoteFileName);
-
-                                        jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
-
-                                        // setup file name
-                                        String newFileName = storedJob.getProjectCode() + Constants.UNDERSCORE + storedJob.getName() + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + remoteFileName;
-                                        jobTeamUserTaskDTO.setFileName(newFileName);
-
-                                        jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
-                                        fileSystemHandlingService.copy(file.getPath().substring(this.applicationProperties.getRootFolder().length()), toDoFolderOfUser, newFileName);
-
-                                        totalFilesForJobTeam++;
-                                        if (iFile >= files.size()) {
-
-                                            break;
-                                        }
+                                        jobTeamUserDTO.setTotalFiles(new Long(jobTeamUserTaskDTOs.size()));
+                                        jobTeamUserDTO.setJobTeamUserTasks(jobTeamUserTaskDTOs);
                                     }
-                                    jobTeamUserDTO.setTotalFiles(iActualTotalFiles - Constants.ONE);
-                                    jobTeamUserDTO.setJobTeamUserTasks(jobTeamUserTaskDTOs);
 
-                                    System.out.println("Test");
                                 }
 
                             }
@@ -246,7 +248,7 @@ public class PlanServiceImpl implements PlanService {
 
                         newTotalFilesOfAllUsersInJob += newJobTeamUserDTO.getTotalFiles();
 
-                        for(JobTeamUserTask assignedTask: jobTeamUserTaskService.findByJobTeamUserId(storedJobTeamUserDTO.getId())) {
+                        for(JobTeamUserTask assignedTask: jobTeamUserTaskService.findByJobTeamUserIdAndJobId(storedJobTeamUserDTO.getId(), storedJob.getId())) {
                             totalAssignedRelativeFilePath.add(assignedTask.getOriginalFilePath() + Constants.DASH + assignedTask.getOriginalFileName());
                         }
 
@@ -319,8 +321,143 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public void adjust() {
+    @Transactional(readOnly = false)
+    public EmptyResponseVM adjust(AdjustFilesParamDTO params) throws Exception{
 
+        List<JobTeamUserTaskDTO> storedAssignments = jobTeamUserTaskService.findJobToDoList(params.getJobTeamUserId(), params.getJobId());
+        User toUser = userService.findById(params.getToUserId());
+        JobTeamUserDTO storedJobTeamUserDTO = jobTeamUserService.findOne(params.getJobTeamUserId());
+        JobTeamDTO storedJobTeamDTO = jobTeamService.findOne(storedJobTeamUserDTO.getJobTeamId());
+
+        JobDTO storedJob = jobService.findOne(params.getJobId());
+        if(toUser.getTeam() == null) {
+            throw new CustomParameterizedException("User " + toUser.getLastName() + " is not belong to any team");
+        }
+        if(toUser.getId() == storedJobTeamUserDTO.getUserId()) {
+            throw new CustomParameterizedException("Can not assign to owner");
+        }
+
+        storedJobTeamDTO.setTotalFiles(storedJobTeamDTO.getTotalFiles() - params.getTotalFilesAdjustment());
+        storedJobTeamDTO = jobTeamService.save(storedJobTeamDTO);
+
+
+        JobTeamDTO jobTeam = jobTeamService.findByJobIdAndTeamId(params.getJobId(), toUser.getTeam().getId());
+        JobTeamUserDTO newJobTeamUser = null;
+        if(jobTeam != null && jobTeam.getId() == storedJobTeamDTO.getId()) {
+
+            for(JobTeamUserDTO jobTeamUser: storedJobTeamDTO.getJobTeamUsers()) {
+                if(jobTeamUser.getUserId() == toUser.getId()) {
+                    newJobTeamUser = jobTeamUser;
+                    break;
+                }
+            }
+
+            storedJobTeamDTO.setTotalFiles(jobTeam.getTotalFiles() + params.getTotalFilesAdjustment());
+
+            if(newJobTeamUser == null) {
+                newJobTeamUser = new JobTeamUserDTO();
+                newJobTeamUser.setJobTeamId(jobTeam.getId());
+                newJobTeamUser.setTotalFiles(params.getTotalFilesAdjustment());
+                newJobTeamUser.setUserId(toUser.getId());
+                storedJobTeamDTO.addJobTeamUser(newJobTeamUser);
+
+                newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+
+            }else {
+                newJobTeamUser.setTotalToDoFiles(newJobTeamUser.getTotalFiles() + params.getTotalFilesAdjustment());
+                newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+            }
+        }else {
+            jobTeam = new JobTeamDTO();
+            jobTeam.setJobId(params.getJobId());
+            jobTeam.setTeamId(toUser.getTeam().getId());
+            jobTeam.setProjectId(storedJob.getProjectId());
+            jobTeam.setTotalFiles(params.getTotalFilesAdjustment());
+            storedJob.addJobTeam(jobTeam);
+            jobTeam = jobTeamService.save(jobTeam);
+
+            TeamDTO teamDTO = teamService.findOne(toUser.getTeam().getId());
+            for(UserDTO user: teamDTO.getMembers()) {
+                JobTeamUserDTO jobTeamUserDTO = new JobTeamUserDTO();
+                jobTeamUserDTO.setJobTeamId(jobTeam.getId());
+                if(user.getId() == toUser.getId()) {
+                    jobTeamUserDTO.setTotalFiles(params.getTotalFilesAdjustment());
+                }else {
+                    jobTeamUserDTO.setTotalFiles(0L);
+                }
+                jobTeamUserDTO.setUserId(user.getId());
+
+                jobTeam.addJobTeamUser(jobTeamUserDTO);
+                jobTeamUserDTO = jobTeamUserService.save(jobTeamUserDTO);
+
+                if(user.getId() == toUser.getId()) {
+                    newJobTeamUser = jobTeamUserDTO;
+                }
+            }
+        }
+
+        // To-do folder
+        String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), toUser.getLogin());
+        if(!fileSystemHandlingService.checkFolderExist(toDoFolderOfUser)) {
+            fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
+        }
+
+
+        // to-check folder
+        String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName(), toUser.getLogin());
+        if(!fileSystemHandlingService.checkFolderExist(toCheckFolderOfUser)) {
+            fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
+        }
+
+        // done folder
+        String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), newJobTeamUser.getUserLogin());
+        if(!fileSystemHandlingService.checkFolderExist(doneFolderOfUser)) {
+            fileSystemHandlingService.makeDirectory(doneFolderOfUser);
+        }
+
+        for(int i = 0; i < params.getTotalFilesAdjustment(); i++) {
+            JobTeamUserTaskDTO storedJobTeamUserTaskDTO = storedAssignments.get(i);
+
+            storedJobTeamUserDTO.removeJobTeamUserTask(storedJobTeamUserTaskDTO);
+
+            JobTeamUserTaskDTO newJobTeamUserTaskDTO = new JobTeamUserTaskDTO();
+            newJobTeamUserTaskDTO.setFilePath(toDoFolderOfUser);
+
+            newJobTeamUserTaskDTO.setJobTeamUserId(newJobTeamUser.getId()); // assignee
+
+
+            String originalRelativeFilePath = storedJobTeamUserTaskDTO.getOriginalFilePath();
+
+            String originalFileName = storedJobTeamUserTaskDTO.getOriginalFileName();
+
+            newJobTeamUserTaskDTO.setOriginalFilePath(originalRelativeFilePath);
+            newJobTeamUserTaskDTO.setOriginalFileName(originalFileName);
+
+            newJobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
+
+            // setup file name
+            String newFileName = storedJob.getProjectCode() + Constants.UNDERSCORE + storedJob.getName() + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + originalFileName;
+            newJobTeamUserTaskDTO.setFileName(newFileName);
+
+            fileSystemHandlingService.copy(originalRelativeFilePath + Constants.DASH + originalFileName, toDoFolderOfUser, newFileName);
+
+            newJobTeamUser.addJobTeamUserTask(newJobTeamUserTaskDTO);
+
+            newJobTeamUserTaskDTO = jobTeamUserTaskService.save(newJobTeamUserTaskDTO);
+
+
+            // remove old file on disk
+            String oldFilePath = storedJobTeamUserTaskDTO.getFilePath() + Constants.DASH + storedJobTeamUserTaskDTO.getFileName();
+            fileSystemHandlingService.deleteFile(oldFilePath);
+        }
+
+        storedJobTeamUserDTO.setTotalFiles(storedJobTeamUserDTO.getTotalFiles() - params.getTotalFilesAdjustment());
+        storedJobTeamUserDTO = jobTeamUserService.save(storedJobTeamUserDTO);
+
+        newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+
+        EmptyResponseVM rs = new EmptyResponseVM();
+        return rs;
     }
 
     @Override

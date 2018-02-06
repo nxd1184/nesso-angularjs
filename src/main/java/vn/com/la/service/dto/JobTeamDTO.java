@@ -36,6 +36,10 @@ public class JobTeamDTO implements Serializable {
     private Long totalDoneFiles;
     private Long totalDeliveryFiles;
 
+    public void addJobTeamUser(JobTeamUserDTO jobTeamUserDTO) {
+        this.jobTeamUsers.add(jobTeamUserDTO);
+    }
+
     public Long getId() {
         return id;
     }

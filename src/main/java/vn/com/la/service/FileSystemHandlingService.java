@@ -16,6 +16,8 @@ public interface FileSystemHandlingService {
     boolean deleteDirectory(String path) throws Exception;
     void makeDirectory(String path) throws Exception;
 
+    boolean deleteFile(String filePath) throws Exception;
+
     void copy(String from, String toPath, String fileName) throws Exception;
     void copy(String fromSrouce, String toSource) throws Exception;
 
@@ -25,6 +27,7 @@ public interface FileSystemHandlingService {
     List<String> listRelativeFilePathRecursiveFromPath(String path) throws Exception;
 
     boolean checkFileExist(String filePath);
+    boolean checkFolderExist(String folderPath);
 
     boolean move(String source, String target);
 

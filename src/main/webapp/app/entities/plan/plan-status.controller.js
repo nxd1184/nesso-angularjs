@@ -185,11 +185,11 @@
                                 cssClass: 'treegrid-' + jobTreeGrid + ' treegrid-parent-' + projectTreeGrid,
                                 type: 'job',
                                 name: job.jobName,
-                                total: user.totalFiles,
-                                toDo: user.totalToDo,
-                                toCheck: user.totalToCheck,
-                                done: user.totalDone,
-                                delivery: user.totalDelivery
+                                total: job.totalFiles,
+                                toDo: job.totalToDo,
+                                toCheck: job.totalToCheck,
+                                done: job.totalDone,
+                                delivery: job.totalDelivery
                             });
                         }
                     }

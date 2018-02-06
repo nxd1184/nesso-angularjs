@@ -1,15 +1,10 @@
 package vn.com.la.service;
 
+import sun.invoke.empty.Empty;
 import vn.com.la.service.dto.JobDTO;
 import vn.com.la.service.dto.ProjectDTO;
-import vn.com.la.service.dto.param.GetAllPlanParamDTO;
-import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
-import vn.com.la.service.dto.param.GetUserJobDetailParamDTO;
-import vn.com.la.service.dto.param.UpdatePlanParamDTO;
-import vn.com.la.web.rest.vm.response.GetAllPlanResponseVM;
-import vn.com.la.web.rest.vm.response.JobPlanDetailResponseVM;
-import vn.com.la.web.rest.vm.response.UpdatePlanResponseVM;
-import vn.com.la.web.rest.vm.response.UserJobDetailResponseVM;
+import vn.com.la.service.dto.param.*;
+import vn.com.la.web.rest.vm.response.*;
 
 import java.util.List;
 
@@ -23,5 +18,5 @@ public interface PlanService {
 
     UserJobDetailResponseVM getUserJobDetail(GetUserJobDetailParamDTO params);
 
-    void adjust();
+    EmptyResponseVM adjust(AdjustFilesParamDTO params) throws Exception;
 }

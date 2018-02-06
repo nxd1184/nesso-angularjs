@@ -34,6 +34,28 @@
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="row">
+                    <div class="form-group text-left margin-top-10 project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">Username</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
+                            <b style="color:#4d6a79">{{vm.jobTeamUser.userLogin}}</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
+                    <div class="form-group text-left margin-top-10 project_row" style="overflow:hidden">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">Name</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
+                            <b style="color:#4d6a79">{{vm.jobTeamUser.name}}</b>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="row">
                     <div class="form-group text-left project_row" style="overflow:hidden">
                         <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">Total Files</label>
                         <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
@@ -45,8 +67,8 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="row">
                     <div class="form-group text-left project_row" style="overflow:hidden">
-                        <label class="text-left col-md-4 col-sm-4 col-xs-4" style="">To Do Files</label>
-                        <label class="col-md-8 col-sm-8 col-xs-8" style="display:inline-block;">
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">To Do Files</label>
+                        <label class="col-md-8 col-sm-8 col-xs-8 margin-top-10" style="display:inline-block;">
                             <b style="color:#4d6a79">{{vm.jobTeamUser.totalToDoFiles}}</b>
                         </label>
                     </div>
@@ -58,7 +80,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="row">
                     <div class="form-group text-left project_row">
-                        <label class="text-left col-md-4 col-sm-4 col-xs-4" style="">User</label>
+                        <label class="text-left col-md-4 col-sm-4 col-xs-4 margin-top-10" style="">User</label>
                         <div class="col-md-8 col-sm-8 col-xs-8">
                             <ui-select ng-model="vm.selectedUser" on-select="vm.onSelectUser($select.selected)" theme="select2" class="selectpicker form-control">
                                 <ui-select-match placeholder="Select">

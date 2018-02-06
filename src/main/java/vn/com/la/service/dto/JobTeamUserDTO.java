@@ -136,6 +136,10 @@ public class JobTeamUserDTO implements Serializable {
         this.jobTeamUserTasks.add(jobTeamUserTaskDTO);
     }
 
+    public void removeJobTeamUserTask(JobTeamUserTaskDTO jobTeamUserTaskDTO) {
+        this.jobTeamUserTasks.remove(jobTeamUserTaskDTO);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

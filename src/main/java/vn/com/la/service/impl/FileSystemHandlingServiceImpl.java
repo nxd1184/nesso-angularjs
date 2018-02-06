@@ -107,8 +107,20 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
+    public boolean deleteFile(String filePath) throws Exception {
+        try {
+            File oldFile = new File(rootFolder + Constants.DASH + filePath);
+            return oldFile.delete();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public void copy(String fromSource, String toPath, String fileName) throws Exception {
-        Files.copy(new File( rootFolder + Constants.DASH +fromSource), new File(rootFolder + Constants.DASH + toPath + Constants.DASH + fileName));
+        Files.copy(new File( rootFolder + Constants.DASH + fromSource), new File(rootFolder + Constants.DASH + toPath + Constants.DASH + fileName));
     }
 
     @Override
@@ -183,6 +195,12 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         File file = new File(rootFolder + Constants.DASH + filePath);
 
         return file.exists();
+    }
+
+    @Override
+    public boolean checkFolderExist(String folderPath) {
+        File folder = new File(rootFolder + Constants.DASH + folderPath);
+        return folder.exists();
     }
 
     @Override

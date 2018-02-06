@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.PlanService;
 import vn.com.la.service.dto.PlanViewEnumDTO;
-import vn.com.la.service.dto.param.GetAllPlanParamDTO;
-import vn.com.la.service.dto.param.GetJobPlanDetailParamDTO;
-import vn.com.la.service.dto.param.GetUserJobDetailParamDTO;
-import vn.com.la.service.dto.param.UpdatePlanParamDTO;
+import vn.com.la.service.dto.param.*;
 import vn.com.la.service.util.LACommonUtil;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.request.AdjustFilesRequestVM;
@@ -97,8 +94,15 @@ public class PlanAPI {
 
     @PutMapping("/plan/adjust")
     @Timed
-    public ResponseEntity<EmptyResponseVM> adjustFiles(@Valid @RequestBody AdjustFilesRequestVM request) {
+    public ResponseEntity<EmptyResponseVM> adjustFiles(@Valid @RequestBody AdjustFilesRequestVM request) throws Exception{
 
-        return null;
+        AdjustFilesParamDTO params = new AdjustFilesParamDTO();
+        params.setJobId(request.getJobId());
+        params.setJobTeamUserId(request.getJobTeamUserId());
+        params.setTotalFilesAdjustment(request.getTotalFilesAdjustment());
+        params.setToUserId(request.getToUserId());
+        EmptyResponseVM rs = planService.adjust(params);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

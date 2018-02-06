@@ -63,7 +63,11 @@ public interface JobTeamUserTaskService {
     Long countByStatusAndDateRange(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate);
     DeliveryFilesResponseVM delivery(DeliveryFilesParamDTO params) throws Exception;
 
-    List<JobTeamUserTask> findByJobTeamUserId(Long id);
+    List<JobTeamUserTask> findByJobTeamUserIdAndJobId(Long id, Long jobId);
+
+    List<JobTeamUserTaskDTO> findJobToDoList(Long id, Long jobId);
 
     Long countJobToDoList(Long id, Long jobId);
+
+    int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id);
 }

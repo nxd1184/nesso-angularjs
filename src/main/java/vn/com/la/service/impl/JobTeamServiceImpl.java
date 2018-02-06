@@ -88,4 +88,9 @@ public class JobTeamServiceImpl implements JobTeamService{
     public int updateTotalFilesByJobTeamId(Long jobTeamId, Long totalFiles) {
         return jobTeamRepository.updateTotalFilesByJobTeamId(jobTeamId, totalFiles);
     }
+
+    @Override
+    public JobTeamDTO findByJobIdAndTeamId(Long jobId, Long teamId) {
+        return jobTeamMapper.toDto(jobTeamRepository.findByJobIdAndTeamId(jobId, teamId));
+    }
 }

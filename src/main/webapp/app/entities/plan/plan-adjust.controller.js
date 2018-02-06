@@ -97,6 +97,10 @@
                 toUserId: vm.selectedUser.id,
                 totalFilesAdjustment: vm.totalFilesAdjustment
             }
+
+            planService.adjustFiles(data).then(function(result) {
+                $uibModalInstance.close(result);
+            });
         }
 
         function clear() {
