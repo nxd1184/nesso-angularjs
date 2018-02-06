@@ -9,10 +9,11 @@ import java.util.List;
 public class DashboardResponseVM extends AbstractResponseVM{
 
     // for this week
-    private Long totalReceive;
-    private Long totalToDo;
-    private Long totalToCheck;
-    private Long totalDone;
+    private Long totalReceive = 0L;
+    private Long totalToDo = 0L;
+    private Long totalToCheck = 0L;
+    private Long totalDone = 0L;
+    private Long totalRework = 0L;
 
     private List<JobDTO> urgentJobs = new ArrayList<>();
 
@@ -93,5 +94,13 @@ public class DashboardResponseVM extends AbstractResponseVM{
 
     public void setUserProductivityList(List<UserProductivityDTO> userProductivityList) {
         this.userProductivityList = userProductivityList;
+    }
+
+    public Long getTotalRework() {
+        return totalRework;
+    }
+
+    public void setTotalRework(Long totalRework) {
+        this.totalRework = totalRework;
     }
 }

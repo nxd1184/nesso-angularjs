@@ -39,7 +39,8 @@
 
         function search(params) {
             var url = 'api/search-job-team-user-tasks?'
-                        + 'statusList=' + params.statusList;
+                        + 'statusList=' + params.statusList
+                        + '&page=0&size=1000&sort=lastModifiedDate,desc';
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);

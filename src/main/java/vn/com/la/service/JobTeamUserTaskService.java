@@ -12,6 +12,7 @@ import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -68,6 +69,8 @@ public interface JobTeamUserTaskService {
     List<JobTeamUserTaskDTO> findJobToDoList(Long id, Long jobId);
 
     Long countJobToDoList(Long id, Long jobId);
+
+    Long sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(List<FileStatusEnum> statusList, ZonedDateTime fromDate, ZonedDateTime toDate);
 
     int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id);
 }

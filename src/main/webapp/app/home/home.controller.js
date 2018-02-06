@@ -55,7 +55,7 @@
                 vm.productivityThisWeek = result;
                 var quality = 0;
                 if (vm.productivityThisWeek.totalReceive != 0)
-                    quality = Number((vm.productivityThisWeek.totalToDo * 100/ vm.productivityThisWeek.totalReceive).toFixed(2));
+                    quality = Number((vm.productivityThisWeek.totalRework * 100/ vm.productivityThisWeek.totalReceive).toFixed(2));
                 bindingQualityChart(quality);
             });
         }
@@ -149,7 +149,7 @@
                     },
 
                     series: [{
-                        name: 'ToDo/Receive',
+                        name: 'Total Rework/Receive',
                         data: [80],
                         tooltip: {
                             valueSuffix: ' %'

@@ -7,9 +7,16 @@ LA.RequestUtils = {
         if (contentType == 'multipart/form-data') {
             requestContentType = undefined;
         }
+
+        var token = '';
+        if(localStorage.getItem('jhi-authenticationToken')) {
+            token = localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '');
+        }
+
+
         return {
             'Content-Type': requestContentType,
-            Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
+            Authorization: 'Bearer ' + token
         }
     },
 

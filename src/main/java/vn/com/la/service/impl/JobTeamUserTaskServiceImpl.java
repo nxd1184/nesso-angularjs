@@ -371,6 +371,11 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     }
 
     @Override
+    public Long sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(List<FileStatusEnum> statusList, ZonedDateTime fromDate, ZonedDateTime toDate) {
+        return jobTeamUserTaskRepository.sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(statusList, fromDate, toDate);
+    }
+
+    @Override
     public List<JobTeamUserTask> findByJobTeamUserIdAndJobId(Long id, Long jobId) {
         return jobTeamUserTaskRepository.findByJobTeamUserIdAndJobTeamUserJobTeamJobId(id, jobId);
     }

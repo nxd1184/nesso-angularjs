@@ -50,7 +50,7 @@ public class ReportServiceImpl implements ReportService {
         rs.setTotalToDo(jobTeamUserTaskService.countByStatusAndDateRange(Constants.TO_DO_STATUS_LIST, LADateTimeUtil.zonedDateTimeToInstant(param.getFromDate()), LADateTimeUtil.zonedDateTimeToInstant(param.getToDate())));
         rs.setTotalToCheck(jobTeamUserTaskService.countByStatusAndDateRange(Constants.TO_CHECK_STATUS_LIST, LADateTimeUtil.zonedDateTimeToInstant(param.getFromDate()), LADateTimeUtil.zonedDateTimeToInstant(param.getToDate())));
         rs.setTotalDone(jobTeamUserTaskService.countByStatusAndDateRange(Constants.DONE_STATUS_LIST, LADateTimeUtil.zonedDateTimeToInstant(param.getFromDate()), LADateTimeUtil.zonedDateTimeToInstant(param.getToDate())));
-
+        rs.setTotalRework(jobTeamUserTaskService.sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(Constants.REWORK_STATUS_LIST, param.getFromDate(), param.getToDate()));
         rs.setUrgentJobs(jobService.findByDeadlineBetween(param.getFromDealineDate(), param.getToDealineDate()));
 
         return rs;
@@ -69,8 +69,8 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
-        sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
-        sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
+        sqlBuilder.append(" left join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" left join task task on job_task.task_id = task.id");
         sqlBuilder.append(" where jtut.status = 'DONE' AND MONTH(jtut.last_done_time) = ? AND YEAR(jtut.last_done_time) = ?");
 
         Query query = entityManager.createNativeQuery(sqlBuilder.toString());
@@ -416,15 +416,15 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append("    inner join task task on job_task.task_id = task.id");
         sqlBuilder.append("    where job.id = j.id");
         sqlBuilder.append(" ) as credit,");
-        sqlBuilder.append(" sum(task.task_credit) as total_credit,");
+        sqlBuilder.append(" sum(task.task_credit) as total_credit");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
-        sqlBuilder.append(" inner join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" left join job_task job_task on job_task.job_id = j.id");
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
-        sqlBuilder.append(" inner join task task on job_task.task_id = task.id");
+        sqlBuilder.append(" left join task task on job_task.task_id = task.id");
         sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
         sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
 
@@ -443,8 +443,11 @@ public class ReportServiceImpl implements ReportService {
             productionBonusDTO.setJobId(Long.parseLong(row[4].toString()));
             productionBonusDTO.setJobName(row[5].toString());
             productionBonusDTO.setVolumn(Long.parseLong(row[6].toString()));
-            productionBonusDTO.setCredit(Long.parseLong(row[7].toString()));
-            productionBonusDTO.setTotalCredit(Long.parseLong(row[8].toString()));
+
+            productionBonusDTO.setCredit(Long.parseLong(Optional.ofNullable(row[7]).map(
+                Object::toString
+            ).orElse("0")));
+            productionBonusDTO.setTotalCredit(Long.parseLong(Optional.ofNullable(row[8]).map(Object::toString).orElse("0")));
 
             report.add(productionBonusDTO);
         }

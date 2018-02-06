@@ -35,6 +35,7 @@ public final class Constants {
     public static final List<FileStatusEnum> TO_DO_STATUS_LIST = Arrays.asList(FileStatusEnum.TODO, FileStatusEnum.REWORK);
     public static final List<FileStatusEnum> TO_CHECK_STATUS_LIST = Arrays.asList(FileStatusEnum.TOCHECK);
     public static final List<FileStatusEnum> DONE_STATUS_LIST = Arrays.asList(FileStatusEnum.DONE);
+    public static final List<FileStatusEnum> REWORK_STATUS_LIST = Arrays.asList(FileStatusEnum.REWORK);
 
     private Constants() {
     }

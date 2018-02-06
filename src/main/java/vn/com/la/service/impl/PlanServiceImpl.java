@@ -1,14 +1,12 @@
 package vn.com.la.service.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
-import vn.com.la.domain.JobTeam;
-import vn.com.la.domain.JobTeamUser;
-import vn.com.la.domain.JobTeamUserTask;
-import vn.com.la.domain.User;
+import vn.com.la.domain.*;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
@@ -38,13 +36,15 @@ public class PlanServiceImpl implements PlanService {
     private final EntityManager em;
     private final UserService userService;
     private final TeamService teamService;
+    private final CacheManager cacheManager;
 
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
                            JobTeamUserTaskService jobTeamUserTaskService,
                            SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService,
                            ProjectService projectService, ApplicationProperties applicationProperties,
-                           EntityManager em, UserService userService, TeamService teamService) {
+                           EntityManager em, UserService userService, TeamService teamService,
+                           CacheManager cacheManager) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
@@ -56,6 +56,7 @@ public class PlanServiceImpl implements PlanService {
         this.em = em;
         this.userService = userService;
         this.teamService = teamService;
+        this.cacheManager = cacheManager;
     }
 
     @Override
@@ -410,7 +411,7 @@ public class PlanServiceImpl implements PlanService {
         }
 
         // done folder
-        String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), newJobTeamUser.getUserLogin());
+        String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), toUser.getLogin());
         if(!fileSystemHandlingService.checkFolderExist(doneFolderOfUser)) {
             fileSystemHandlingService.makeDirectory(doneFolderOfUser);
         }
@@ -454,7 +455,10 @@ public class PlanServiceImpl implements PlanService {
         storedJobTeamUserDTO.setTotalFiles(storedJobTeamUserDTO.getTotalFiles() - params.getTotalFilesAdjustment());
         storedJobTeamUserDTO = jobTeamUserService.save(storedJobTeamUserDTO);
 
-        newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+//        newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+
+        cacheManager.getCacheNames().parallelStream().forEach(name -> cacheManager.getCache(name).clear());
+
 
         EmptyResponseVM rs = new EmptyResponseVM();
         return rs;

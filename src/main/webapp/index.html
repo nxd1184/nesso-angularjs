@@ -97,7 +97,7 @@
                                                                         'page-account-team' : $state.includes('team'),
                                                                         'page-task' : $state.includes('task'),
                                                                         'page-project' : $state.includes('project'),
-                                                                        'page-plan' : $state.includes('plans-status'),
+                                                                        'page-plan' : $state.includes('plans-status') || $state.includes('plans-timeline'),
                                                                         'page-checkin': $state.includes('check-in'),
                                                                         'page-config': $state.includes('user-setting'),
                                                                         'page-folder': $state.includes('folder'),
@@ -229,6 +229,10 @@
 <!-- END PAGE LEVEL PLUGINS -->
 
 
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
 <!-- build:js app/app.js  -->
 <!-- inject:js -->
 
@@ -339,6 +343,8 @@
 <script src="app/entities/project/project.service.js"></script>
 
 <script src="app/entities/project/project.controller.js"></script>
+
+<script src="app/entities/plan/plan-timeline.controller.js"></script>
 
 <script src="app/entities/plan/plan-status.controller.js"></script>
 
