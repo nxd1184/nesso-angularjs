@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'reportService', 'moment'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'reportService', 'moment', '$interval'];
 
-    function HomeController ($scope, Principal, LoginService, $state, reportService, moment) {
+    function HomeController ($scope, Principal, LoginService, $state, reportService, moment, $interval) {
         var vm = this;
 
         vm.account = null;
@@ -20,9 +20,14 @@
             getAccount();
         });
 
-        getProductivityThisWeek();
+        reloadDashboard();
         getAccount();
-        getProductivityThisMonth();
+        $interval(reloadDashboard, 60000);
+
+        function reloadDashboard() {
+            getProductivityThisWeek();
+            getProductivityThisMonth();
+        }
 
         function getAccount() {
             Principal.identity().then(function(account) {

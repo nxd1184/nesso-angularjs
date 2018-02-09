@@ -224,7 +224,6 @@
                 for (var user_id in data_group_by_user) {
                     var list_rows = [];
                     var user = data_group_by_user[user_id];
-                    console.log("user", user)
                     var user_row = {'employee': user.name, 'project' : '', 'job': '', 'done': user.totalDone ,'volumn': user.totalVolumn, 'error': user.totalError, 'error_rate': user.errorRate, 'received_date': '', 'return_date': ''};
                     user_row.idx_user = idx_user++;
                     list_rows.push(user_row);
