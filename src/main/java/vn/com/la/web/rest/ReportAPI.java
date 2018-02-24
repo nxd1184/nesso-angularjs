@@ -6,15 +6,18 @@ import io.swagger.annotations.ApiParam;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.ReportService;
+import vn.com.la.service.dto.ReportDTO;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.response.*;
 
+import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -144,5 +147,23 @@ public class ReportAPI {
         ProjectMemberReportResponseVM rs = reportService.getProjectMemberReport(fromDateZDT, toDateZDT);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+    @PostMapping("/report/export-xls")
+    @Timed
+    public ResponseEntity<byte[]> exportReportToXls(@ApiParam(required = true) @Valid @RequestBody ReportDTO reportDTO) {
+        log.debug("Request to export the report into xls file");
+        ReportXlsResponseVM rs = reportService.exportReportToXls(reportDTO);
+        ResponseEntity responseEntity = null;
+        if (rs.isSuccess()) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            responseHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            responseHeaders.add("content-disposition", "attachment; filename=" + reportDTO.getName());
+            responseHeaders.add("x-filename",reportDTO.getName());
+            responseEntity = new ResponseEntity(rs.getBytes(), responseHeaders, HttpStatus.OK);
+        } else {
+            responseEntity = new ResponseEntity ("File Not Found", HttpStatus.OK);
+        }
+        return responseEntity;
     }
 }
