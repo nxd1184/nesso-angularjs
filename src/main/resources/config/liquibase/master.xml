@@ -65,5 +65,6 @@
     <include file="config/liquibase/changelog/20180128032120_update_entity_JobTeamUserTask_add_tracking_time.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180131163814_update_entity_role_add_freelancer_role.xml" relativeToChangelogFile="false"/>
 
+    <include file="config/liquibase/changelog/20180224050720_added_entity_Timesheet.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

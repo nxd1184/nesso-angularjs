@@ -661,6 +661,15 @@
 	.plan .col_todo, .plan .col_tocheck, .plan .col_done, .plan .col_delivery{
 		text-align: center;
 	}
+
+    .plan .project {
+        background-color: rgba(62, 188, 121, 0.15);
+    }
+
+    .plan .job {
+        background-color: rgba(62, 129, 188, 0.15);
+    }
+
 	.page-plan .timeline-user .progress_col,
 	.page-plan .timeline-user .col_day,
 	.page-plan .timeline-project .progress_col,

@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('ApplicationController', ApplicationController);
 
-    ApplicationController.$inject = ['$scope', 'Auth', '$state', 'Principal', '$rootScope'];
+    ApplicationController.$inject = ['$scope', 'Auth', '$state', 'Principal', '$rootScope', 'timesheetService'];
 
-    function ApplicationController ($scope, Auth, $state, Principal, $rootScope) {
+    function ApplicationController ($scope, Auth, $state, Principal, $rootScope, timesheetService) {
 
         $rootScope.scriptsLoaded = false;
 
@@ -80,6 +80,12 @@
                 }
             }
             return fullName;
+        }
+
+        $scope.submitTimesheet = function() {
+            timesheetService.submit().then(function(result) {
+               alert('OK');
+            });
         }
     }
 })();
