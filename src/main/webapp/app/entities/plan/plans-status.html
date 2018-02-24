@@ -84,7 +84,9 @@
                         </thead>
                         <tbody>
 
-                        <tr ng-repeat="row in vm.rows track by $index" class="{{row.cssClass}}">
+                        <tr ng-repeat="row in vm.rows track by $index" class="{{row.cssClass}}" ng-class="{'project': row.type == 'project' && vm.currentView == 'PROJECT', 'job': row.type == 'job' && vm.currentView == 'PROJECT',
+                                                                                                            'project': row.type == 'team' && vm.currentView == 'USER', 'job': row.type == 'user' && vm.currentView == 'USER'
+                                                                                                            }">
                             <td>
                                 <i class="fa fa-briefcase" aria-hidden="true" ng-if="row.type == 'project'"></i>
                                 <i class="fa fa-file" aria-hidden="true" ng-if="row.type == 'job'"></i>
