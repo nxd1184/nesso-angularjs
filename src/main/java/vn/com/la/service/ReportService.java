@@ -2,6 +2,7 @@ package vn.com.la.service;
 
 import org.joda.time.DateTime;
 
+import vn.com.la.service.dto.ReportDTO;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.web.rest.vm.response.*;
 
@@ -18,4 +19,5 @@ public interface ReportService {
     DeliveryQualityResponseVM getDeliveryQualityReportForFreelancer( DateTime fromDate, DateTime toDate);
     CheckInResponseVM getCheckinReport( DateTime fromDate, DateTime toDate);
     public ProjectMemberReportResponseVM getProjectMemberReport(DateTime fromDate, DateTime toDate);
+    public ReportXlsResponseVM exportReportToXls(ReportDTO reportDTO);
 }

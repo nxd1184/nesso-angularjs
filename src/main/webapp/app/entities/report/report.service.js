@@ -19,6 +19,7 @@
             getFreelancerReport: getFreelancerReport,
             getCheckInReport: getCheckInReport,
             getProjectAndMemberReport: getProjectAndMemberReport,
+            exportReportXls: exportReportXls,
         };
 
         function getProductivityForThisWeek(params) {
@@ -152,6 +153,40 @@
             return defer.promise;
         }
 
+        function exportReportXls(params) {
+            var url = 'api/report/export-xls';
+            $http({
+                method: 'POST',
+                url: url,
+                data: params,
+                responseType: 'arraybuffer'
+            }).then( function success(data) {
+                var headers = data.headers();
+
+                var filename = headers['x-filename'];
+                var contentType = headers['content-type'];
+
+                var linkElement = document.createElement('a');
+                try {
+                    var blob = new Blob([data.data], { type: contentType });
+                    var url = window.URL.createObjectURL(blob);
+
+                    linkElement.setAttribute('href', url);
+                    linkElement.setAttribute("download", filename);
+
+                    var clickEvent = new MouseEvent("click", {
+                        "view": window,
+                        "bubbles": true,
+                        "cancelable": false
+                    });
+                    linkElement.dispatchEvent(clickEvent);
+                } catch (ex) {
+                    console.log(ex);
+                }
+            }, function error(error) {
+                console.log(error);
+            });
+        }
         return service;
     }
 })();

@@ -23,6 +23,7 @@
         vm.getFreelancerReport = _getFreelancerReport;
         vm.getCheckInReport = _getCheckInReport;
         vm.getProjectAndMemberReport = _getProjectAndMemberReport;
+        vm.exportExcel = _exportExcel;
 
         function _getProductionBonusReport() {
             vm.currentScreen = 1;
@@ -349,53 +350,6 @@
             vm.currentScreen = 6;
             var params = _getParamsDatePicker();
             reportService.getProjectAndMemberReport(params).then(function (result) {
-                // console.log(result);
-                // result = {
-                //     'members':
-                //         [
-                //             {
-                //             'id' : 1,
-                //             'userName': 'User 1'
-                //             },
-                //             {
-                //                 'id' : 2,
-                //                 'userName': 'User 2'
-                //             }
-                //         ],
-                //     'projects':
-                //         {
-                //             '1':
-                //                 {
-                //                     'id': 1,
-                //                     'name': 'Project A',
-                //                     'jobs': {
-                //                         '1':
-                //                             {
-                //                                 'id': 1,
-                //                                 'credit': 3,
-                //                                 'name': 'Job A',
-                //                                 'members': {
-                //                                     '1' :
-                //                                         {
-                //                                             'id': 1,
-                //                                             'userName': 'User 1',
-                //                                             'done': 100,
-                //                                             'volume': 100
-                //                                         },
-                //                                     '2' :
-                //                                         {
-                //                                             'id': 2,
-                //                                             'userName': 'User 2',
-                //                                             'done': 102,
-                //                                             'volume': 102
-                //                                         }
-                //                                 }
-                //                             }
-                //                     }
-                //                 }
-                //         }
-                // };
-
                 var projects = [];
                 var numProject = 0;
                 for (var idx_project in result.report.projects) {
@@ -496,6 +450,128 @@
                 default:
                     break;
             }
+        }
+        function _fetchDataExportCurrentScreen() {
+            var data = {
+                'columns': [],
+                'name' : '',
+                'rows': []
+            };
+            switch (vm.currentScreen) {
+                case 1:
+                    data.name = "Nesso_product_bonus_report.xlsx";
+                    data.columns = ['index', 'employee', 'project', 'job', 'volumn', 'credit', 'totalCredit'];
+                    //Title of column
+                    var first_row = {'index': '#', 'employee': 'EMPLOYEE', 'project' : 'PROJECT', 'job': 'JOB', 'volumn': 'VOLUMN', 'credit': 'CREDIT', 'totalCredit': 'TOTAL CREDIT'};
+                    data.rows.push(first_row);
+                    var index = 1;
+                    for (var idx in vm.productionBonusProject) {
+                        var isFirst = true;
+                        for (var rowItem in vm.productionBonusProject[idx].list_rows) {
+                            var item = vm.productionBonusProject[idx].list_rows[rowItem];
+                            if (isFirst) {
+                                item.index = index++;
+                                isFirst = false;
+                            }
+                            data.rows.push(item);
+                        }
+                    }
+                    break;
+                case 2:
+                    data.name = "Nesso_quality_report.xlsx";
+                    data.columns = ['index', 'qc', 'retoucher', 'volumn', 'error' ,'errorRate'];
+                    //Title of column
+                    var first_row = {'index': '#', 'qc': 'QUALITY CONTROL', 'retoucher' : 'RETOUCHER', 'volumn': 'VOLUMN', 'error': 'ERROR' ,'errorRate': 'ERROR/VOLUMN (%)'};
+                    data.rows.push(first_row);
+                    var index = 1;
+                    for (var idx in vm.qualityReport) {
+                        var item = vm.qualityReport[idx];
+                        item.index = index++;
+                        data.rows.push(item);
+                    }
+                    break;
+                case 3:
+                    data.name = "Nesso_delivery_quality_report.xlsx";
+                    data.columns = ['index', 'employee', 'project', 'job', 'done' ,'volumn', 'error','error_rate', 'received_date', 'return_date'];
+                    //Title of column
+                    var first_row = {'index': '#', 'employee': 'EMPLOYEE', 'project' : 'PROJECT', 'job': 'JOB', 'done': 'DONE' ,'volumn': 'VOLUMN', 'error': 'ERROR', 'error_rate': 'ERROR/VOLUMN (%)', 'received_date': 'RECEIVED DATE', 'return_date': 'RETURN DATE'};
+                    data.rows.push(first_row);
+                    var index = 1;
+                    for (var idx in vm.deliveryQualityReport) {
+                        var isFirst = true;
+                        for (var rowItem in vm.deliveryQualityReport[idx].list_rows) {
+                            var item = vm.deliveryQualityReport[idx].list_rows[rowItem];
+                            if (isFirst) {
+                                item.index = index++;
+                                isFirst = false;
+                            }
+                            data.rows.push(item);
+                        }
+                    }
+                    break;
+                case 4:
+                    data.name = "Nesso_freelancer_report.xlsx";
+                    data.columns = ['index', 'employee', 'project', 'job', 'done' ,'volumn', 'error','error_rate', 'received_date', 'return_date'];
+                    //Title of column
+                    var first_row = {'index': '#', 'employee': 'EMPLOYEE', 'project' : 'PROJECT', 'job': 'JOB', 'done': 'DONE' ,'volumn': 'VOLUMN', 'error': 'ERROR', 'error_rate': 'ERROR/VOLUMN (%)', 'received_date': 'RECEIVED DATE', 'return_date': 'RETURN DATE'};
+                    data.rows.push(first_row);
+                    var index = 1;
+                    for (var idx in vm.freelancerReport) {
+                        var isFirst = true;
+                        for (var rowItem in vm.freelancerReport[idx].list_rows) {
+                            var item = vm.freelancerReport[idx].list_rows[rowItem];
+                            if (isFirst) {
+                                item.index = index++;
+                                isFirst = false;
+                            }
+                            data.rows.push(item);
+                        }
+                    }
+                    break;
+                case 5:
+                    data.name = "Nesso_check_in_report.xlsx";
+                    data.columns = ['index', 'user_name', 'in', 'out', 'hours_working' ,'type'];
+                    //Title of column
+                    var first_row = {'index': 'DATE', 'user_name': 'USER NAME', 'in' : 'IN', 'out': 'OUT', 'hours_working': 'HOURS WORKING' ,'type': 'TYPE'};
+                    data.rows.push(first_row);
+                    for (var rowItem in vm.checkInReportByUser) {
+                        var item = vm.checkInReportByUser[rowItem];
+                        item.index = item.date;
+                        data.rows.push(item);
+                    }
+                    break;
+                case 6:
+                    data.name = "Nesso_project_and_member_report.xlsx";
+                    data.columns = ['index', 'project_name', 'job_name', 'job_credit'];
+                    //Title of column
+                    var first_row = {'index': 'DATE', 'project_name': 'PROJECT', 'job_name' : 'JOB', 'job_credit': 'CREDIT'};
+                    for (var col_user in vm.projectAndMemberReport.members) {
+                        data.columns.push(vm.projectAndMemberReport.members[col_user].userName + "done");
+                        data.columns.push(vm.projectAndMemberReport.members[col_user].userName + "volume");
+                        first_row[vm.projectAndMemberReport.members[col_user].userName + "done"] = vm.projectAndMemberReport.members[col_user].userName;
+                        first_row[vm.projectAndMemberReport.members[col_user].userName + "volume"] = "";
+                    }
+                    data.rows.push(first_row);
+                    for (var idx in vm.projectAndMemberReport.projects) {
+                        var item = vm.projectAndMemberReport.projects[idx];
+                        var idx_usr = 0;
+                        for (var col_user in vm.projectAndMemberReport.members) {
+                            item[vm.projectAndMemberReport.members[col_user].userName + "done"] = item.users[idx_usr++];
+                            item[vm.projectAndMemberReport.members[col_user].userName + "volume"] = item.users[idx_usr++];
+                        }
+                        delete item.users;
+                        data.rows.push(item);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return data;
+        }
+
+        function _exportExcel() {
+            var data = _fetchDataExportCurrentScreen();
+            reportService.exportReportXls(data);
         }
         _initDateRangePicker();
         _getProductionBonusReport();

@@ -92,6 +92,7 @@
         <springfox.version>2.7.0</springfox.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <yarn.version>v1.1.0</yarn.version>
+        <apache-poi.version>3.7</apache-poi.version>
     </properties>
 
 
@@ -374,6 +375,11 @@
             <artifactId>spring-security-messaging</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache-poi.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>

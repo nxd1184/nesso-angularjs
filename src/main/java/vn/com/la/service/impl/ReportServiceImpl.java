@@ -2,6 +2,13 @@ package vn.com.la.service.impl;
 
 import io.swagger.models.auth.In;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.Constants;
@@ -16,6 +23,10 @@ import vn.com.la.web.rest.vm.response.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -23,9 +34,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -468,6 +477,51 @@ public class ReportServiceImpl implements ReportService {
         Instant instant = ld.atStartOfDay(ZoneOffset.UTC).toInstant();
         return instant;
     }
+    public ReportXlsResponseVM exportReportToXls(ReportDTO reportDTO) {
+        ReportXlsResponseVM responseVM = new ReportXlsResponseVM();
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Nesso Report");
+        int rowNum = 0;
 
+        for (HashMap<String, String> rowItem : reportDTO.getRows()) {
+            Row row = sheet.createRow(rowNum++);
+            int colNum = 0;
+            boolean isBorder = false;
+            if (rowItem.containsKey("index") && rowItem.get("index") != null) {
+                isBorder = true;
+            }
+            for (String column: reportDTO.getColumns()) {
+                Cell cell = row.createCell(colNum++);
+                String value = (rowItem.containsKey(column))? rowItem.get(column) : "";
+                cell.setCellValue(value);
+                if (isBorder) {
+                    XSSFCellStyle cellStyle = workbook.createCellStyle();
+                    XSSFColor color = new XSSFColor(new java.awt.Color(0, 0, 0));
+//                cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, color);
+                    cellStyle.setTopBorderColor(color);
+                    cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+                    cell.setCellStyle(cellStyle);
+                }
+            }
+        }
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
+            workbook.write(bos);
+            byte[] bytes = bos.toByteArray();
+            responseVM.setBytes(bytes);
+            responseVM.setFileName(reportDTO.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+            responseVM.setSuccess(false);
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return responseVM;
+    }
 
 }
