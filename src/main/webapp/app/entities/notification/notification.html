@@ -1,0 +1,117 @@
+<!-- BEGIN CONTENT -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEAD -->
+        <div class="page-head">
+            <!-- BEGIN PAGE TITLE -->
+            <div class="page-title">
+                <h1>Your Notification</h1>
+            </div>
+            <!-- END PAGE TITLE -->
+
+        </div>
+        <!-- END PAGE HEAD -->
+        <!-- BEGIN PAGE BREADCRUMB -->
+        <ul class="page-breadcrumb breadcrumb hide">
+            <li>
+                <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
+            </li>
+            <li class="active">
+                Project
+            </li>
+        </ul>
+
+        <div class="margin-top-25 notification_page">
+            <div class="wrap_notification">
+                <ul class="feeds">
+                    <li class="head_list">
+                        Today
+                    </li>
+                    <li ng-repeat="notification in vm.notificationsToday">
+                        <div class="col1">
+                            <div class="cont">
+                                <div class="cont-col1">
+                                    <div class="label label-sm label-info info">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="cont-col2">
+                                    <div class="desc">
+                                        <span class="team">You haven’t check in file <span class="task">{{notification.fileName}}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col2">
+                            <div class="date">
+                                {{notification.time}}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+
+                </ul>
+                <ul class="feeds">
+                    <li class="head_list">
+                        Yesterday
+                    </li>
+                    <li ng-repeat="notification in vm.notificationsYesterday">
+                        <div class="col1">
+                            <div class="cont">
+                                <div class="cont-col1">
+                                    <div class="label label-sm label-warning warning">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="cont-col2">
+                                    <div class="desc">
+                                        <span class="team">You haven’t check in file <span class="task">{{notification.fileName}}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col2">
+                            <div class="date">
+                                {{notification.time}}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+
+                </ul>
+                <ul class="feeds">
+                    <li class="head_list">
+                        Last 7 days
+                    </li>
+                    <li ng-repeat="notification in vm.notificationsLastSevenDay">
+                        <div class="col1">
+                            <div class="cont">
+                                <div class="cont-col1">
+                                    <div class="label label-sm label-info info">
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="cont-col2">
+                                    <div class="desc">
+                                        <span class="team">You haven’t check in file <span class="task">{{notification.fileName}}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col2">
+                            <div class="date">
+                                {{notification.time}}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- END PAGE BREADCRUMB -->
+    </div>
+
+</div>
+<!-- END CONTENT -->
