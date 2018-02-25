@@ -39,7 +39,7 @@
                     } else if (hour <= 24) {
                         notification.time = hour + "hours"
                     } else {
-                        notification.time = end.format("YYYY-MM-DD HH:mm:ss")
+                        notification.time = start.format("YYYY-MM-DD HH:mm:ss")
                     }
 
                     if (hour <= 24) {
