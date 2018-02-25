@@ -19,7 +19,8 @@
             'ngSanitize', 'ui.select', 'ui.slider',
             'datatables',
             'angularMoment',
-            'daterangepicker'
+            'daterangepicker',
+            'ngSlimScroll'
         ])
         .run(run);
 

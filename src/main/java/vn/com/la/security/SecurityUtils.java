@@ -33,6 +33,25 @@ public final class SecurityUtils {
         return userName;
     }
 
+    public static String getCurrentUserAuthentication(Authentication authentication) {
+        String userName = "";
+        if (authentication != null) {
+            if (authentication.getPrincipal() instanceof UserDetails) {
+                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+                userName = springSecurityUser.getUsername();
+            } else if (authentication.getPrincipal() instanceof String) {
+                userName = (String) authentication.getPrincipal();
+            }
+        }
+        return userName;
+    }
+
+    public static Authentication getCurrentAuthentication() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        return authentication;
+    }
+
     /**
      * Get the JWT of the current user.
      *
@@ -73,6 +92,14 @@ public final class SecurityUtils {
     public static boolean isCurrentUserInRole(String authority) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
+        if (authentication != null) {
+            return authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
+        }
+        return false;
+    }
+
+    public static boolean isAuthenticationInRole(Authentication authentication, String authority) {
         if (authentication != null) {
             return authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));

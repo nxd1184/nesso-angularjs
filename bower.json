@@ -31,7 +31,8 @@
     "angular-moment": "^1.1.0",
     "jquery-treegrid": "^0.3.0",
     "angular-ui-slider": "^0.4.0",
-    "angular-daterangepicker": "^0.2.2"
+    "angular-daterangepicker": "^0.2.2",
+    "angular-slimscroll-aiska": "angular-slimScroll#*"
   },
   "devDependencies": {
     "angular-mocks": "1.5.8"
