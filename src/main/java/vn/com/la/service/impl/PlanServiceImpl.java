@@ -462,8 +462,8 @@ public class PlanServiceImpl implements PlanService {
 
 //        newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
 
-//        cacheManager.getCacheNames().parallelStream().forEach(name -> cacheManager.getCache(name).clear());
-        cacheManager.getCache(Project.class.getName()).evict(storedJob.getProjectId());
+        cacheManager.getCacheNames().parallelStream().forEach(name -> cacheManager.getCache(name).clear());
+//        cacheManager.getCache(Project.class.getName()).evict(storedJob.getProjectId());
 
         EmptyResponseVM rs = new EmptyResponseVM();
         return rs;
