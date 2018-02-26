@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -69,6 +70,9 @@ public class Job extends AbstractAuditingEntity {
 
     @Column(name = "sync_date")
     private ZonedDateTime syncDate;
+
+    @Column(name = "finish_date")
+    private Date finishDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -192,6 +196,14 @@ public class Job extends AbstractAuditingEntity {
 
     public void setSyncDate(ZonedDateTime syncDate) {
         this.syncDate = syncDate;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
     }
 
     @Override

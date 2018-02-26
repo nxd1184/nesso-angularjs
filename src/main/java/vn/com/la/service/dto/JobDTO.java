@@ -7,6 +7,7 @@ import vn.com.la.domain.enumeration.JobStatusEnum;
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -45,6 +46,8 @@ public class JobDTO implements Serializable {
     private Integer sequence;
 
     private ZonedDateTime syncDate;
+
+    private Date finishDate;
 
     private Long totalToDoFiles;
     private Long totalToCheckFiles;
@@ -205,6 +208,14 @@ public class JobDTO implements Serializable {
 
     public void addJobTeam(JobTeamDTO jobTeamDTO) {
         this.jobTeams.add(jobTeamDTO);
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
     }
 
     @Override

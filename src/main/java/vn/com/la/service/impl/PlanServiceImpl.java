@@ -1,6 +1,7 @@
 package vn.com.la.service.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.joda.time.DateTime;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -461,8 +462,8 @@ public class PlanServiceImpl implements PlanService {
 
 //        newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
 
-        cacheManager.getCacheNames().parallelStream().forEach(name -> cacheManager.getCache(name).clear());
-
+//        cacheManager.getCacheNames().parallelStream().forEach(name -> cacheManager.getCache(name).clear());
+        cacheManager.getCache(Project.class.getName()).evict(storedJob.getProjectId());
 
         EmptyResponseVM rs = new EmptyResponseVM();
         return rs;
@@ -638,6 +639,21 @@ public class PlanServiceImpl implements PlanService {
         rs.setJob(jobDTO);
         rs.setJobTeamUser(jobTeamUserDTO);
 
+        return rs;
+    }
+
+    @Override
+    public EmptyResponseVM finish(FinishJobParamDTO params) throws Exception {
+        EmptyResponseVM rs = new EmptyResponseVM();
+        if(params.getJobId() == null) {
+            rs.setSuccess(false);
+        }else {
+            JobDTO jobDTO = jobService.findOne(params.getJobId());
+            if(jobDTO != null) {
+                jobDTO.setFinishDate(DateTime.now().toDate());
+                jobDTO = jobService.save(jobDTO);
+            }
+        }
         return rs;
     }
 }

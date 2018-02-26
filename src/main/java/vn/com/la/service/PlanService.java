@@ -1,6 +1,7 @@
 package vn.com.la.service;
 
 import vn.com.la.service.dto.param.*;
+import vn.com.la.web.rest.vm.request.FinishJobRequestVM;
 import vn.com.la.web.rest.vm.response.*;
 
 public interface PlanService {
@@ -14,4 +15,6 @@ public interface PlanService {
     UserJobDetailResponseVM getUserJobDetail(GetUserJobDetailParamDTO params);
 
     EmptyResponseVM adjust(AdjustFilesParamDTO params) throws Exception;
+
+    EmptyResponseVM finish(FinishJobParamDTO params) throws Exception;
 }

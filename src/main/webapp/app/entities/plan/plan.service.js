@@ -12,7 +12,8 @@
             getJobPlanDetail: getJobPlanDetail,
             update: update,
             getUserJobDetail: getUserJobDetail,
-            adjustFiles: adjustFiles
+            adjustFiles: adjustFiles,
+            finish: finish
         };
 
         function getAllPlans(view, params) {
@@ -73,6 +74,21 @@
                 jobTeamUserId: params.jobTeamUserId,
                 toUserId: params.toUserId,
                 totalFilesAdjustment: params.totalFilesAdjustment
+            };
+            var defer = $q.defer();
+            $http(LA.RequestUtils.put(url, rq)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function finish(params) {
+            var url = 'api/plan/finish';
+            var rq = {
+                jobId: params.jobId
             };
             var defer = $q.defer();
             $http(LA.RequestUtils.put(url, rq)).then(function (result) {

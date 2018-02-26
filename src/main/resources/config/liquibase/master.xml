@@ -67,4 +67,6 @@
 
     <include file="config/liquibase/changelog/20180224050720_added_entity_Timesheet.xml" relativeToChangelogFile="false"/>
 
+    <include file="config/liquibase/changelog/20180226085253_update_entity_Job_add_finish_date.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

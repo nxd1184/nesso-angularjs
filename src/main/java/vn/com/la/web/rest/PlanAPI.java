@@ -16,6 +16,7 @@ import vn.com.la.service.util.LACommonUtil;
 import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.request.AdjustFilesRequestVM;
 import vn.com.la.web.rest.vm.request.CreateOrUpdatePlanRequestVM;
+import vn.com.la.web.rest.vm.request.FinishJobRequestVM;
 import vn.com.la.web.rest.vm.response.*;
 
 import javax.validation.Valid;
@@ -106,6 +107,18 @@ public class PlanAPI {
         params.setTotalFilesAdjustment(request.getTotalFilesAdjustment());
         params.setToUserId(request.getToUserId());
         EmptyResponseVM rs = planService.adjust(params);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @PutMapping("/plan/finish")
+    @Timed
+    public ResponseEntity<EmptyResponseVM> finish(@Valid @RequestBody FinishJobRequestVM request) throws Exception{
+
+        FinishJobParamDTO params = new FinishJobParamDTO();
+        params.setJobId(request.getJobId());
+
+        EmptyResponseVM rs = planService.finish(params);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

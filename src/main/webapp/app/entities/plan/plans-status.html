@@ -116,6 +116,10 @@
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </a>
 
+                                <a ng-if="row.type == 'job'" class="btn-editJob" ui-sref="plans-status.finish({jobId: row.id})">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </a>
+
                                 <a ng-if="row.type == 'project' && vm.currentView == 'PROJECT'" class="btn-editJob" ng-click="vm.syncUp(row.code)">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </a>
