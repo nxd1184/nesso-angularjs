@@ -3,6 +3,7 @@ package vn.com.la.service;
 import vn.com.la.service.dto.ProjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.com.la.service.dto.param.SearchProjectParamDTO;
 import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public interface ProjectService {
      *  @return the list of entities
      */
     List<ProjectDTO> findAll();
+
+    Page<ProjectDTO> search(SearchProjectParamDTO params , Pageable pageable);
 
     /**
      *  Get the "id" project.

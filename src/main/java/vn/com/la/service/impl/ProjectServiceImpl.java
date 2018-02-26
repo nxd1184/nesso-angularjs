@@ -11,6 +11,7 @@ import vn.com.la.domain.Project;
 import vn.com.la.repository.ProjectRepository;
 import vn.com.la.service.dto.JobDTO;
 import vn.com.la.service.dto.ProjectDTO;
+import vn.com.la.service.dto.param.SearchProjectParamDTO;
 import vn.com.la.service.mapper.ProjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.service.specification.ProjectSpecifications;
 import vn.com.la.service.util.LACollectionUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
@@ -196,5 +198,12 @@ public class ProjectServiceImpl implements ProjectService{
         }
         rs.setJobs(syncJobs);
         return rs;
+    }
+
+    @Override
+    public Page<ProjectDTO> search(SearchProjectParamDTO params, Pageable pageable) {
+        Specification<Project> searchSpec = ProjectSpecifications.search(params);
+        Page<ProjectDTO> page = projectRepository.findAll(searchSpec,pageable).map(projectMapper::toDto);
+        return page;
     }
 }

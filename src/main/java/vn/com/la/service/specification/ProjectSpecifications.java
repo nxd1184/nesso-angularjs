@@ -1,11 +1,45 @@
 package vn.com.la.service.specification;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
-import vn.com.la.domain.Project;
-import vn.com.la.domain.Project_;
+import vn.com.la.domain.*;
+import vn.com.la.service.dto.param.SearchProjectParamDTO;
+
+import javax.persistence.criteria.Predicate;
 
 public class ProjectSpecifications {
     private ProjectSpecifications() {}
+
+    public static Specification<Project> search(SearchProjectParamDTO criteria) {
+        return (root,query, cb) -> {
+            Predicate p = null;
+
+            if(criteria != null) {
+                if(StringUtils.isNotBlank(criteria.getProjectCode())) {
+                    String containsLikePattern = getContainsLikePattern(criteria.getProjectCode());
+                    p = cb.like(root.get(Project_.code),containsLikePattern);
+                }
+
+                if(StringUtils.isNotBlank(criteria.getTaskCode())) {
+                    String containsLikePattern = getContainsLikePattern(criteria.getTaskCode());
+                    Predicate predicate = cb.like(root.join(Project_.jobs).join(Job_.jobTasks).join(JobTask_.task).get(Task_.code), containsLikePattern);
+
+                    if(p == null) {
+                        p = predicate;
+                    }else {
+                        p = cb.and(
+                            p,
+                            predicate
+                        );
+                    }
+                }
+            }
+
+
+
+            return p;
+        };
+    }
 
     public static Specification<Project> codeContainsIgnoreCase(String searchTerm) {
         return (root,query, cb) -> {

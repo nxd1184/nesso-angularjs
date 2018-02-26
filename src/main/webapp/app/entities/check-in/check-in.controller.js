@@ -13,6 +13,7 @@
 
         vm.tasks = [];
         vm.checkIn = checkIn;
+        vm.checkAll = checkAll;
         vm.showLastCheckInTime = showLastCheckInTime;
 
         _loadUnCheckInTasks();
@@ -42,6 +43,14 @@
                 return '';
             }
             return moment(isoString,'YYYY-MM-DD HH:mm:ss:SSS ZZ').format('DD/MM/YYYY hh:mm A');
+        }
+
+        function checkAll() {
+            jobTeamUserTaskService.checkAll().then(onSuccess);
+
+            function onSuccess(result) {
+                $state.reload();
+            }
         }
 
     }

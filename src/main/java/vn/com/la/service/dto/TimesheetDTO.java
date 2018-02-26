@@ -23,6 +23,7 @@ public class TimesheetDTO implements Serializable{
 
     private Long userId;
     private String login;
+    private String name;
 
     public Long getId() {
         return id;
@@ -70,6 +71,14 @@ public class TimesheetDTO implements Serializable{
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

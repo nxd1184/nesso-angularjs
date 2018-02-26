@@ -6,6 +6,7 @@ import vn.com.la.service.dto.param.SubmitTimesheetParam;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 import java.util.Date;
+import java.util.List;
 
 public interface TimesheetService {
     TimesheetDTO findByDateAndUserId(Date date, Long userId);
@@ -13,4 +14,6 @@ public interface TimesheetService {
     TimesheetDTO save(TimesheetDTO timesheetDTO);
 
     EmptyResponseVM submitTimesheet(SubmitTimesheetParam param);
+
+    List<TimesheetDTO> getTimesheetReport(Date fromDate, Date toDate);
 }

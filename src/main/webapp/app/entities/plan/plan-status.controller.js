@@ -5,33 +5,48 @@
         .module('nessoApp')
         .controller('PlanStatusController', PlanStatusController);
 
-    PlanStatusController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window'];
+    PlanStatusController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window', '$stateParams'];
 
-    function PlanStatusController($scope, $state, planService, $timeout, projectService, $window) {
+    function PlanStatusController($scope, $state, planService, $timeout, projectService, $window, $stateParams) {
 
         var vm = this;
         vm.projects = [];
         vm.teams = [];
         vm.filters = ['Task Code', 'Project Code'];
+        vm.filterBy = $stateParams.filterBy;
+        vm.filterValue = $stateParams.filterValue;
 
         vm.projectView = true;
         vm.userView = false;
         vm.changeViewBaseOn = changeViewBaseOn;
         vm.currentView = 'PROJECT';
+        vm.doFilter = doFilter;
 
         vm.rows = [];
 
         vm.syncUp = syncUp;
 
+        function doFilter() {
+            var query = {
+                filterBy: LA.StringUtils.trimToEmpty(vm.filterBy),
+                filterValue: LA.StringUtils.trimToEmpty(vm.filterValue)
+            };
+            $state.go($state.current, query, { reload: 'plans-status' });
+        }
+
         _getAllPlans();
 
         function _getAllPlans() {
             vm.rows = [];
-            planService.getAllPlans(vm.currentView).then(onSuccess, onError);
+
+            var params = {
+                taskCode: vm.filterBy === 'Task Code' ? vm.filterValue : '',
+                projectCode: vm.filterBy === 'Project Code' ? vm.filterValue : ''
+            };
+
+            planService.getAllPlans(vm.currentView, params).then(onSuccess, onError);
 
             function onSuccess(result) {
-
-
                 if(vm.currentView === 'PROJECT') {
                     vm.projects = result.projects;
                     _buildPlanTreeDataForProjectView();

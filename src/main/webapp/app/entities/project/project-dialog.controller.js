@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('ProjectDialogController', ProjectDialogController);
 
-    ProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Project', 'User', 'AlertService'];
+    ProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Project', 'User', 'AlertService', 'userService'];
 
-    function ProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Project, User, AlertService) {
+    function ProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Project, User, AlertService, userService) {
         var vm = this;
 
         vm.project = entity;
@@ -15,9 +15,25 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
+        vm.searchUsers = searchUsers;
 
-        User.query({}, function(data){
-            vm.users = data;
+        // User.query({}, function(data){
+        //     vm.users = data;
+        //     if (vm.project.managerId ) {
+        //         vm.users.forEach(function (user) {
+        //             if (user.id === vm.project.managerId) {
+        //                 vm.selectedUser = user;
+        //             }
+        //         })
+        //     } else {
+        //         vm.selectedUser = null;
+        //     }
+        // });
+
+        userService.search({
+
+        }).then(function(result) {
+            vm.users = result.data;
             if (vm.project.managerId ) {
                 vm.users.forEach(function (user) {
                     if (user.id === vm.project.managerId) {
@@ -88,6 +104,17 @@
 
         function openCalendar (field) {
             vm.datePickerOpenStatus[field] = true;
+        }
+
+
+
+        function searchUsers(searchTerm) {
+            userService.search({
+                searchTerm: searchTerm,
+                roles: 'ROLE_PROJECT_MANAGER'
+            }).then(function(result) {
+                vm.users = result.data;
+            });
         }
     }
 })();

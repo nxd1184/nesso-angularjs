@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * Service Implementation for managing JobTeamUser.
@@ -89,5 +92,8 @@ public class JobTeamUserServiceImpl implements JobTeamUserService{
         return jobTeamUserRepository.updateTotalFilesByJobTeamUserId(jobTeamUserId, newTotalFiles);
     }
 
-
+    @Override
+    public List<JobTeamUserDTO> findByUserId(Long id) {
+        return jobTeamUserRepository.findByUserId(id).stream().map(jobTeamUserMapper::toDto).collect(Collectors.toList());
+    }
 }

@@ -11,6 +11,7 @@ import vn.com.la.repository.TeamRepository;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.AuthoritiesConstants;
 import vn.com.la.security.SecurityUtils;
+import vn.com.la.service.dto.param.SearchUserParamDTO;
 import vn.com.la.service.specification.UserSpecifications;
 import vn.com.la.service.util.RandomUtil;
 import vn.com.la.service.dto.UserDTO;
@@ -309,6 +310,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Page<UserDTO> search(Pageable pageable, SearchUserParamDTO params) {
+        Specification<User> searchSpec = UserSpecifications.search(params);
+        Page<UserDTO> page = userRepository.findAll(searchSpec,pageable).map(UserDTO::new);
+        return page;
+    }
+
+    @Transactional(readOnly = true)
     public Page<UserDTO> findBySearchTerm(Pageable pageable, String searchTerm) {
         Specification<User> searchSpec = loginOrEmailContainsIgnoreCase(searchTerm);
         Page<UserDTO> page = userRepository.findAll(searchSpec,pageable).map(UserDTO::new);
@@ -350,5 +358,9 @@ public class UserService {
      */
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+    }
+
+    public List<Authority> findAuthoritiesByNameIn(List<String> names) {
+        return authorityRepository.findByNameIn(names);
     }
 }

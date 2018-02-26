@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/folder',
             data: {
-                authorities: ['ROLE_ADMIN'],
+                authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER', 'ROLE_TEAM_LEADER'],
                 pageTitle: 'Folder'
             },
             views: {

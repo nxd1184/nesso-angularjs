@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import vn.com.la.service.dto.param.DeliveryFilesParamDTO;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.service.dto.param.UpdateJobTeamUserTaskStatusParamDTO;
+import vn.com.la.web.rest.vm.response.CheckInAllResponseVM;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
@@ -56,6 +57,7 @@ public interface JobTeamUserTaskService {
 
     JobTeamUserTaskDTO findByFileName(String fileName);
 
+    CheckInAllResponseVM checkAll(String assignee) throws Exception;
     EmptyResponseVM checkIn(Long id) throws Exception;
     EmptyResponseVM rework(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception;
     EmptyResponseVM qcEdit(UpdateJobTeamUserTaskStatusParamDTO params) throws Exception;

@@ -2,6 +2,10 @@ package vn.com.la.service.impl;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.cache.CacheManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.config.ApplicationProperties;
@@ -470,7 +474,7 @@ public class PlanServiceImpl implements PlanService {
         GetAllPlanResponseVM rs = new GetAllPlanResponseVM();
 
         if(PlanViewEnumDTO.PROJECT == params.getView()) {
-            rs.setProjects(buildPlansByProject());
+            rs.setProjects(buildPlansByProject(params.getProjectCode(), params.getTaskCode()));
         }else if(PlanViewEnumDTO.USER == params.getView()) {
             rs.setTeams(buildPlansByTeams());
         }
@@ -478,8 +482,16 @@ public class PlanServiceImpl implements PlanService {
         return rs;
     }
 
-    private List<ProjectDTO> buildPlansByProject() {
-        List<ProjectDTO> projectDTOs = projectService.findAll();
+    private List<ProjectDTO> buildPlansByProject(String projectCode, String taskCode) {
+
+        SearchProjectParamDTO criteria = new SearchProjectParamDTO();
+        criteria.setProjectCode(projectCode);
+        criteria.setTaskCode(taskCode);
+
+        Pageable pagable = new PageRequest(0,10, Sort.Direction.DESC, "createdDate");
+        Page<ProjectDTO> page = projectService.search(criteria, pagable);
+
+        List<ProjectDTO> projectDTOs = page.getContent();
 
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("SELECT ");
@@ -592,6 +604,7 @@ public class PlanServiceImpl implements PlanService {
         sqlBuilder.append(" inner join jhi_user jhi_user on jhi_user.id = jtu.user_id");
         sqlBuilder.append(" inner join job_team_user_task jtut on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" group by jt.team_id, t.name, jtu.user_id, jhi_user.last_name, p.id, p.name, j.id, j.name, jtu.total_files");
+        sqlBuilder.append(" ORDER BY p.created_date desc");
         Query query = em.createNativeQuery(sqlBuilder.toString());
 
         List<Object[]> rows = query.getResultList();

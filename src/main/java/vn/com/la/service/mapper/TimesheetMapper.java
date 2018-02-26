@@ -11,6 +11,7 @@ public interface TimesheetMapper extends EntityMapper<TimesheetDTO, Timesheet>{
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.login", target = "login")
+    @Mapping(source = "user.lastName", target = "name")
     TimesheetDTO toDto(Timesheet timesheet);
 
     @Mapping(source = "userId", target = "user")

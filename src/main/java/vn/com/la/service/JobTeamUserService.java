@@ -1,8 +1,11 @@
 package vn.com.la.service;
 
+import vn.com.la.domain.JobTeamUser;
 import vn.com.la.service.dto.JobTeamUserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Service Interface for managing JobTeamUser.
@@ -41,4 +44,6 @@ public interface JobTeamUserService {
     void delete(Long id);
 
     int updateTotalFilesByJobTeamUserId(Long jobTeamUserId,Long newTotalFiles);
+
+    List<JobTeamUserDTO> findByUserId(Long id);
 }

@@ -14,6 +14,8 @@ import vn.com.la.service.mapper.TimesheetMapper;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TimesheetServiceImpl implements TimesheetService{
@@ -61,5 +63,10 @@ public class TimesheetServiceImpl implements TimesheetService{
         save(timesheetDTO);
 
         return  rs;
+    }
+
+    @Override
+    public List<TimesheetDTO> getTimesheetReport(Date fromDate, Date toDate) {
+        return timesheetRepository.findByDateBetweenAndCheckOutTimeIsNotNull(fromDate, toDate).stream().map(mapper::toDto).collect(Collectors.toList());
     }
 }

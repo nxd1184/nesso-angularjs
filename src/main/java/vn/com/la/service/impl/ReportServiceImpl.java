@@ -1,20 +1,18 @@
 package vn.com.la.service.impl;
 
-import io.swagger.models.auth.In;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.Constants;
 import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.ReportService;
+import vn.com.la.service.TimesheetService;
 import vn.com.la.service.dto.*;
 import vn.com.la.service.dto.param.DashboardReportParam;
 import vn.com.la.service.util.LADateTimeUtil;
@@ -24,16 +22,10 @@ import vn.com.la.web.rest.vm.response.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.*;
 
 @Service
@@ -41,14 +33,17 @@ public class ReportServiceImpl implements ReportService {
 
     private final JobService jobService;
     private final JobTeamUserTaskService jobTeamUserTaskService;
+    private final TimesheetService timesheetService;
 
     private final EntityManager entityManager;
 
     public ReportServiceImpl(JobService jobService, JobTeamUserTaskService jobTeamUserTaskService,
-                             EntityManager entityManager) {
+                             EntityManager entityManager,
+                             TimesheetService timesheetService) {
         this.jobService = jobService;
         this.jobTeamUserTaskService = jobTeamUserTaskService;
         this.entityManager = entityManager;
+        this.timesheetService = timesheetService;
     }
 
     @Override
@@ -357,51 +352,74 @@ public class ReportServiceImpl implements ReportService {
         return rs;
     }
 
-
     @Override
     public CheckInResponseVM getCheckinReport(DateTime fromDate, DateTime toDate) {
-        StringBuilder sqlBuilder = new StringBuilder();
 
-
-        sqlBuilder.append("SELECT ju.last_name, DATE(jtutt.created_date) as date, min(jtutt.created_date) as checkin, max(jtutt.created_date) as checkout, ju.id as userId");
-        sqlBuilder.append(" FROM job_team_user_task_tracking jtutt");
-        sqlBuilder.append(" inner join jhi_user ju on jtutt.user_id = ju.id");
-        sqlBuilder.append(" where jtutt.created_date between ? and ?");
-        sqlBuilder.append(" group by ju.id, DATE(jtutt.created_date), jtutt.status");
-        sqlBuilder.append(" having jtutt.status = 'TOCHECK';");
-
-        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
-        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
-        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
-        List<Object[]> rows = query.getResultList();
-
+        List<TimesheetDTO> timesheetDTOs = timesheetService.getTimesheetReport(fromDate.withTimeAtStartOfDay().toDate(), toDate.withTimeAtStartOfDay().toDate());
 
         List<CheckInReport> report = new ArrayList<CheckInReport>();
-        for (Object[] row : rows) {
+        for (TimesheetDTO shift : timesheetDTOs) {
             CheckInReport checkInReport = new CheckInReport();
-            checkInReport.setEmployee(row[0].toString());
-            checkInReport.setDay(convertStringDateToInstant(row[1].toString()));
-            checkInReport.setCheckin(convertByteArrayToInstant((byte[]) row[2]));
-            checkInReport.setCheckout(convertByteArrayToInstant((byte[]) row[3]));
-            checkInReport.setUserId(Long.parseLong(row[4].toString()));
+            checkInReport.setEmployee(shift.getName());
+            checkInReport.setDay(shift.getDate().toInstant());
+            checkInReport.setCheckin(shift.getCheckInTime().toInstant());
+            if(shift.getCheckOutTime() != null) {
+                checkInReport.setCheckout(shift.getCheckOutTime().toInstant());
+            }
+            checkInReport.setUserId(shift.getUserId());
             report.add(checkInReport);
         }
-        //TODO: Fake data
-        /*for (int i = 0; i < 10; i++) {
-            CheckInReport checkInReport = new CheckInReport();
-            checkInReport.setUserId(RandomUtils.nextLong(0, 9));
-            checkInReport.setEmployee("User " + checkInReport.getUserId());
-            checkInReport.setDay(Instant.now().plusSeconds(RandomUtils.nextInt(0, 4)*37440));
-            checkInReport.setCheckin(Instant.now());
-            checkInReport.setCheckout(Instant.now().plusSeconds(RandomUtils.nextInt(3, 6)*3600).plusSeconds(RandomUtils.nextInt(0, 50)*60));
-            report.add(checkInReport);
-        }*/
 
         CheckInResponseVM rs = new CheckInResponseVM();
 
         rs.setReport(report);
         return rs;
     }
+
+//    @Override
+//    public CheckInResponseVM getCheckinReport(DateTime fromDate, DateTime toDate) {
+//        StringBuilder sqlBuilder = new StringBuilder();
+//
+//
+//        sqlBuilder.append("SELECT ju.last_name, DATE(jtutt.created_date) as date, min(jtutt.created_date) as checkin, max(jtutt.created_date) as checkout, ju.id as userId");
+//        sqlBuilder.append(" FROM job_team_user_task_tracking jtutt");
+//        sqlBuilder.append(" inner join jhi_user ju on jtutt.user_id = ju.id");
+//        sqlBuilder.append(" where jtutt.created_date between ? and ?");
+//        sqlBuilder.append(" group by ju.id, DATE(jtutt.created_date), jtutt.status");
+//        sqlBuilder.append(" having jtutt.status = 'TOCHECK';");
+//
+//        Query query = entityManager.createNativeQuery(sqlBuilder.toString());
+//        query.setParameter(1, fromDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+//        query.setParameter(2, toDate.toString(LADateTimeUtil.DATETIME_FORMAT));
+//        List<Object[]> rows = query.getResultList();
+//
+//
+//        List<CheckInReport> report = new ArrayList<CheckInReport>();
+//        for (Object[] row : rows) {
+//            CheckInReport checkInReport = new CheckInReport();
+//            checkInReport.setEmployee(row[0].toString());
+//            checkInReport.setDay(convertStringDateToInstant(row[1].toString()));
+//            checkInReport.setCheckin(convertByteArrayToInstant((byte[]) row[2]));
+//            checkInReport.setCheckout(convertByteArrayToInstant((byte[]) row[3]));
+//            checkInReport.setUserId(Long.parseLong(row[4].toString()));
+//            report.add(checkInReport);
+//        }
+//        //TODO: Fake data
+//        /*for (int i = 0; i < 10; i++) {
+//            CheckInReport checkInReport = new CheckInReport();
+//            checkInReport.setUserId(RandomUtils.nextLong(0, 9));
+//            checkInReport.setEmployee("User " + checkInReport.getUserId());
+//            checkInReport.setDay(Instant.now().plusSeconds(RandomUtils.nextInt(0, 4)*37440));
+//            checkInReport.setCheckin(Instant.now());
+//            checkInReport.setCheckout(Instant.now().plusSeconds(RandomUtils.nextInt(3, 6)*3600).plusSeconds(RandomUtils.nextInt(0, 50)*60));
+//            report.add(checkInReport);
+//        }*/
+//
+//        CheckInResponseVM rs = new CheckInResponseVM();
+//
+//        rs.setReport(report);
+//        return rs;
+//    }
 
     public ProjectMemberReportResponseVM getProjectMemberReport(DateTime fromDate, DateTime toDate) {
         List<ProductionBonusDTO> productionBonusDTOS = getListProductionBonusReport(fromDate, toDate);

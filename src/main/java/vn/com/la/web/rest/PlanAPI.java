@@ -36,11 +36,15 @@ public class PlanAPI {
 
     @GetMapping("/plans")
     @Timed
-    public ResponseEntity<GetAllPlanResponseVM> getAllPlans(@ApiParam Pageable pageable, @RequestParam PlanViewEnumDTO view) {
+    public ResponseEntity<GetAllPlanResponseVM> getAllPlans(@ApiParam Pageable pageable, @RequestParam PlanViewEnumDTO view,
+                                                            @RequestParam(required = false, name = "projectCode") String projectCode,
+                                                            @RequestParam(required = false, name = "taskCode") String taskCode) {
         log.debug("REST request to get all plans");
 
         GetAllPlanParamDTO params = new GetAllPlanParamDTO();
         params.setView(view);
+        params.setProjectCode(projectCode);
+        params.setTaskCode(taskCode);
 
         GetAllPlanResponseVM rs = planService.getAllPlans(params);
 

@@ -34,7 +34,8 @@
     function jobTeamUserTaskService ($http, $q) {
         var service = {
             search: search,
-            checkIn: checkIn
+            checkIn: checkIn,
+            checkAll: checkAll
         };
 
         function search(params) {
@@ -63,8 +64,20 @@
                 defer.reject(error);
             });
 
-            return defer.promise;        }
+            return defer.promise;
+        }
 
+        function checkAll() {
+            var url = 'api/check-in-all';
+            var defer = $q.defer();
+            $http(LA.RequestUtils.put(url)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
 
         return service;
     }

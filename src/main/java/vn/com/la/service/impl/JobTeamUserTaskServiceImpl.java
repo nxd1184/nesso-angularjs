@@ -27,11 +27,13 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.service.specification.JobTeamUserTaskSpecifications;
 import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
+import vn.com.la.web.rest.vm.response.CheckInAllResponseVM;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -146,6 +148,28 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         Page<JobTeamUserTaskDTO> page = jobTeamUserTaskRepository.findAll(searchSpec,pageable).map(jobTeamUserTaskMapper::toDto);
 
         return page;
+    }
+
+    @Override
+    public CheckInAllResponseVM checkAll(String assignee) throws Exception {
+
+        SearchJobTeamUserTaskParamDTO criteria = new SearchJobTeamUserTaskParamDTO();
+        criteria.setAssignee(assignee);
+        criteria.setStatusList(Constants.TO_DO_STATUS_LIST);
+
+        List<JobTeamUserTaskDTO> jobTeamUserTasks = jobTeamUserTaskRepository.findAll(JobTeamUserTaskSpecifications.search(criteria)).stream().map(jobTeamUserTaskMapper::toDto).collect(Collectors.toList());
+
+        List<Long> succeedCheckInTaskIds = new ArrayList<>();
+
+        for(JobTeamUserTaskDTO task: jobTeamUserTasks) {
+            checkIn(task.getId());
+            succeedCheckInTaskIds.add(task.getId());
+        }
+
+        CheckInAllResponseVM rs = new CheckInAllResponseVM();
+        rs.setIds(succeedCheckInTaskIds);
+
+        return rs;
     }
 
     @Override

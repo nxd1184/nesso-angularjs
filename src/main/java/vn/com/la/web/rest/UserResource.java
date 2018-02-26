@@ -1,16 +1,19 @@
 package vn.com.la.web.rest;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import vn.com.la.config.Constants;
 import com.codahale.metrics.annotation.Timed;
+import vn.com.la.domain.Authority;
 import vn.com.la.domain.User;
 import vn.com.la.repository.UserRepository;
 import vn.com.la.security.AuthoritiesConstants;
 import vn.com.la.service.MailService;
 import vn.com.la.service.UserService;
 import vn.com.la.service.dto.UserDTO;
+import vn.com.la.service.dto.param.SearchUserParamDTO;
 import vn.com.la.web.rest.vm.ManagedUserVM;
 import vn.com.la.web.rest.util.HeaderUtil;
 import vn.com.la.web.rest.util.PaginationUtil;
@@ -174,9 +177,18 @@ public class UserResource {
     @GetMapping("/users/search")
     @Timed
     public ResponseEntity<DatatableResponseVM> search(@ApiParam Pageable pageable,
-                                                        @RequestParam(value = "search", required = false) String searchTerm) {
+                                                        @RequestParam(value = "search", required = false) String searchTerm,
+                                                        @RequestParam(value = "roles", required = false) String roles) {
 
-        final Page<UserDTO> aPage = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+        SearchUserParamDTO params = new SearchUserParamDTO();
+        params.setSearchTerms(searchTerm);
+
+        if(StringUtils.isNotBlank(roles)) {
+            params.setAuthorities(Arrays.asList(roles.split(",")));
+        }
+
+//        final Page<UserDTO> aPage = userService.findBySearchTerm(pageable, StringUtils.trimToEmpty(searchTerm));
+        final Page<UserDTO> aPage = userService.search(pageable, params);
 
         DatatableResponseVM response = new DatatableResponseVM();
         response.setData(aPage.getContent());

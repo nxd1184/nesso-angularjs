@@ -46,6 +46,7 @@
                 + '&size='          + StringUtils.trimToEmpty(param.size)
                 + '&sort='          + StringUtils.trimToEmpty(param.sortBy)
                 + '&searchTerm='    + StringUtils.trimToEmpty(param.searchTerm)
+                + '&roles='         + StringUtils.trimToEmpty(param.roles)
             );
 
             var defer = $q.defer();

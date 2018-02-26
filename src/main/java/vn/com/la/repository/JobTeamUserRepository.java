@@ -20,4 +20,6 @@ public interface JobTeamUserRepository extends JpaRepository<JobTeamUser, Long> 
     @Query("UPDATE JobTeamUser SET totalFiles = ?2 WHERE id = ?1")
     int updateTotalFilesByJobTeamUserId(Long jobTeamUserId,Long newTotalFiles);
 
+    List<JobTeamUser> findByUserId(Long id);
+
 }

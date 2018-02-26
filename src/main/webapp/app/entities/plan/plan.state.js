@@ -16,6 +16,10 @@
                     authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'],
                     pageTitle: 'Plan Management'
                 },
+                params: {
+                    filterBy: null,
+                    filterValue: ''
+                },
                 views: {
                     'content@': {
                         templateUrl: 'app/entities/plan/plans-status.html',

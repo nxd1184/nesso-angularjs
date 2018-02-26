@@ -67,7 +67,10 @@
                     <div class="clearfix"></div>
                     <ui-select ng-model="vm.selectedUser" theme="select2" class="form-control" title="Choose a User">
                         <ui-select-match placeholder="Select a type in the list">{{$select.selected.lastName}}</ui-select-match>
-                        <ui-select-choices repeat="u in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
+                        <ui-select-choices
+                            refresh="vm.searchUsers($select.search)"
+                            refresh-delay="0"
+                            repeat="u in vm.users | propsFilter: {login: $select.search, lastName: $select.search}">
                             <div ng-bind-html="u.lastName | highlight: $select.search"></div>
                             <small>
                                 <span ng-bind-html="u.login | highlight: $select.search"></span>

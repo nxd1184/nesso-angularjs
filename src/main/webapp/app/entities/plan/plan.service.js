@@ -15,8 +15,10 @@
             adjustFiles: adjustFiles
         };
 
-        function getAllPlans(view) {
-            var url = 'api/plans?view=' + view;
+        function getAllPlans(view, params) {
+            var url = 'api/plans?view=' + view
+                        + '&projectCode=' + LA.StringUtils.trimToEmpty(params.projectCode)
+                        + '&taskCode=' + LA.StringUtils.trimToEmpty(params.taskCode);
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);

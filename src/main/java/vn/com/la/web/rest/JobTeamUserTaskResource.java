@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.web.rest.vm.request.CheckInJobTeamUserTaskRequestVM;
 import vn.com.la.web.rest.vm.request.DeliveryFilesRequestVM;
+import vn.com.la.web.rest.vm.response.CheckInAllResponseVM;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
@@ -170,6 +171,15 @@ public class JobTeamUserTaskResource {
         log.debug("REST request to checkin JobTeamUserTask : {}", request.getId());
 
         EmptyResponseVM rs = jobTeamUserTaskService.checkIn(request.getId());
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @PutMapping("/check-in-all")
+    @Timed
+    public ResponseEntity<CheckInAllResponseVM> checkInAll() throws Exception {
+        log.debug("REST request to check in all JobTeamUserTask");
+
+        CheckInAllResponseVM rs = jobTeamUserTaskService.checkAll(SecurityUtils.getCurrentUserLogin());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 
