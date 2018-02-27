@@ -349,30 +349,63 @@ public class PlanServiceImpl implements PlanService {
 
         JobTeamDTO jobTeam = jobTeamService.findByJobIdAndTeamId(params.getJobId(), toUser.getTeam().getId());
         JobTeamUserDTO newJobTeamUser = null;
-        if(jobTeam != null && jobTeam.getId() == storedJobTeamDTO.getId()) {
+        if(jobTeam != null) {
 
-            for(JobTeamUserDTO jobTeamUser: storedJobTeamDTO.getJobTeamUsers()) {
-                if(jobTeamUser.getUserId() == toUser.getId()) {
-                    newJobTeamUser = jobTeamUser;
-                    break;
+            if(jobTeam.getId() == storedJobTeamDTO.getId()) {
+                // assign to same team
+                for(JobTeamUserDTO jobTeamUser: storedJobTeamDTO.getJobTeamUsers()) {
+                    if(jobTeamUser.getUserId() == toUser.getId()) {
+                        newJobTeamUser = jobTeamUser;
+                        break;
+                    }
                 }
-            }
 
-            storedJobTeamDTO.setTotalFiles(jobTeam.getTotalFiles() + params.getTotalFilesAdjustment());
+                storedJobTeamDTO.setTotalFiles(jobTeam.getTotalFiles() + params.getTotalFilesAdjustment());
+                storedJobTeamDTO = jobTeamService.save(storedJobTeamDTO);
 
-            if(newJobTeamUser == null) {
-                newJobTeamUser = new JobTeamUserDTO();
-                newJobTeamUser.setJobTeamId(jobTeam.getId());
-                newJobTeamUser.setTotalFiles(params.getTotalFilesAdjustment());
-                newJobTeamUser.setUserId(toUser.getId());
-                storedJobTeamDTO.addJobTeamUser(newJobTeamUser);
+                if(newJobTeamUser == null) {
+                    newJobTeamUser = new JobTeamUserDTO();
+                    newJobTeamUser.setJobTeamId(storedJobTeamDTO.getId());
+                    newJobTeamUser.setTotalFiles(params.getTotalFilesAdjustment());
+                    newJobTeamUser.setUserId(toUser.getId());
+                    storedJobTeamDTO.addJobTeamUser(newJobTeamUser);
 
-                newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+                    newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
 
+                }else {
+                    newJobTeamUser.setTotalFiles(newJobTeamUser.getTotalFiles() + params.getTotalFilesAdjustment());
+                    newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+                }
             }else {
-                newJobTeamUser.setTotalToDoFiles(newJobTeamUser.getTotalFiles() + params.getTotalFilesAdjustment());
-                newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+
+                // assign to other team
+                for(JobTeamUserDTO jobTeamUser: jobTeam.getJobTeamUsers()) {
+                    if(jobTeamUser.getUserId() == toUser.getId()) {
+                        newJobTeamUser = jobTeamUser;
+                        break;
+                    }
+                }
+
+                jobTeam.setTotalFiles(jobTeam.getTotalFiles() + params.getTotalFilesAdjustment());
+                jobTeam = jobTeamService.save(jobTeam);
+
+                if(newJobTeamUser == null) {
+                    newJobTeamUser = new JobTeamUserDTO();
+                    newJobTeamUser.setJobTeamId(jobTeam.getId());
+                    newJobTeamUser.setTotalFiles(params.getTotalFilesAdjustment());
+                    newJobTeamUser.setUserId(toUser.getId());
+                    jobTeam.addJobTeamUser(newJobTeamUser);
+
+                    newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+
+                }else {
+                    newJobTeamUser.setTotalFiles(newJobTeamUser.getTotalFiles() + params.getTotalFilesAdjustment());
+                    newJobTeamUser = jobTeamUserService.save(newJobTeamUser);
+                }
+
             }
+
+
         }else {
             jobTeam = new JobTeamDTO();
             jobTeam.setJobId(params.getJobId());
