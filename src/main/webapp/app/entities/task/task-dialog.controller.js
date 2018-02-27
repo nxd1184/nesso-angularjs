@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('TaskDialogController',TaskDialogController);
 
-    TaskDialogController.$inject = ['$stateParams', '$uibModalInstance', 'entity', 'Task', 'Project', 'StringUtils'];
+    TaskDialogController.$inject = ['$stateParams', '$uibModalInstance', 'entity', 'Task', 'projectService', 'StringUtils'];
 
-    function TaskDialogController ($stateParams, $uibModalInstance, entity, Task, Project, StringUtils) {
+    function TaskDialogController ($stateParams, $uibModalInstance, entity, Task, projectService, StringUtils) {
         var vm = this;
 
 
@@ -20,6 +20,7 @@
 
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
+        vm.searchProjects = searchProjects;
 
         vm.authorities = [
             {
@@ -79,12 +80,15 @@
         _getAllProject();
 
         function _getAllProject() {
-            Project.query({
-                sort: ['id,desc']
-            }, onSuccess, onError);
 
-            function onSuccess(data) {
-                vm.projects = data;
+            projectService.search({}).then(onSuccess, onError);
+
+            // Project.query({
+            //     sort: ['id,desc']
+            // }, onSuccess, onError);
+
+            function onSuccess(result) {
+                vm.projects = result.data;
                 if(vm.task.projectId && vm.projects) {
                     for(var i = 0; i < vm.projects.length; i++) {
                         var project = vm.projects[i];
@@ -104,5 +108,19 @@
 
         vm.tasks = Task.query();
         vm.openQuickTeamCreationClass = false;
+
+        function searchProjects(code) {
+            projectService.search({
+                code: code
+            }).then(onSuccess, onError);
+
+            function onSuccess(result) {
+                vm.projects = result.data;
+            }
+
+            function onError(error) {
+
+            }
+        }
     }
 })();

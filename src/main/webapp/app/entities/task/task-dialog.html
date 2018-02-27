@@ -16,10 +16,22 @@
                 <div class="form-group">
                     <label>PROJECT CODE</label>
                     <div class="clearfix"></div>
-                    <ui-select ng-model="vm.selectedProject" theme="select2" search-enabled="false" style="width: 134px;" class="selectpicker form-control" title="Choose a Project">
+                    <!--<ui-select ng-model="vm.selectedProject" theme="select2" search-enabled="false" style="width: 134px;" class="selectpicker form-control" title="Choose a Project">-->
+                        <!--<ui-select-match placeholder="Select Project">{{$select.selected.code}}</ui-select-match>-->
+                        <!--<ui-select-choices repeat="project in vm.projects">-->
+                            <!--<div ng-bind-html="project.code | highlight: $select.search"></div>-->
+                        <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+                    <ui-select ng-model="vm.selectedProject" theme="select2" class="form-control" style="width: 134px;" title="Choose a Project">
                         <ui-select-match placeholder="Select Project">{{$select.selected.code}}</ui-select-match>
-                        <ui-select-choices repeat="project in vm.projects">
-                            <div ng-bind-html="project.code | highlight: $select.search"></div>
+                        <ui-select-choices
+                            refresh="vm.searchProjects($select.search)"
+                            refresh-delay="0"
+                            repeat="project in vm.projects | propsFilter: {name: $select.search, code: $select.search}">
+                            <div ng-bind-html="project.name | highlight: $select.search"></div>
+                            <small>
+                                <span ng-bind-html="project.code | highlight: $select.search"></span>
+                            </small>
                         </ui-select-choices>
                     </ui-select>
                 </div>
