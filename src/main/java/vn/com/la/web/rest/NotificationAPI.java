@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.com.la.security.SecurityUtils;
-import vn.com.la.service.NotifyService;
+import vn.com.la.service.NotificationService;
 import vn.com.la.web.rest.vm.response.DashboardResponseVM;
 import vn.com.la.web.rest.vm.response.NotifyResponseVM;
 
@@ -21,16 +21,16 @@ import java.util.Optional;
 public class NotificationAPI {
     private final Logger log = LoggerFactory.getLogger(ReportAPI.class);
 
-    private final NotifyService notifyService;
+    private final NotificationService notificationService;
 
-    public NotificationAPI(NotifyService notifyService) {
-        this.notifyService = notifyService;
+    public NotificationAPI(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/notification/get-notify")
     @Timed
     public ResponseEntity<NotifyResponseVM> getNotify() {
-        NotifyResponseVM rs = notifyService.getUserNotification(SecurityUtils.getCurrentAuthentication());
+        NotifyResponseVM rs = notificationService.getUserNotification(SecurityUtils.getCurrentAuthentication());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 
