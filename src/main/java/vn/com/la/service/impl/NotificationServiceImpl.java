@@ -6,14 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import vn.com.la.security.SecurityUtils;
-import vn.com.la.service.NotifyService;
 
+import vn.com.la.service.NotificationService;
 import vn.com.la.service.dto.NotificationDTO;
 import org.joda.time.DateTime;
 
 import vn.com.la.service.util.LADateTimeUtil;
 
-import vn.com.la.web.rest.ReportAPI;
 import vn.com.la.web.rest.vm.response.NotifyResponseVM;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -26,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class NotifiServiceImpl implements NotifyService {
-    private final Logger log = LoggerFactory.getLogger(NotifiServiceImpl.class);
+public class NotificationServiceImpl implements NotificationService {
+    private final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
     private final EntityManager entityManager;
 
-    public NotifiServiceImpl(EntityManager entityManager) {
+    public NotificationServiceImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
