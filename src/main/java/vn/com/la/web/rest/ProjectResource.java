@@ -73,7 +73,7 @@ public class ProjectResource {
     /**
      * PUT  /projects : Updates an existing project.
      *
-     * @param projectDTO the projectDTO to update
+     * @param projectDTO the projectDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated projectDTO,
      * or with status 400 (Bad Request) if the projectDTO is not valid,
      * or with status 500 (Internal Server Error) if the projectDTO couldn't be updated
@@ -82,7 +82,7 @@ public class ProjectResource {
     @PutMapping("/projects")
     @Timed
     public ResponseEntity<ProjectDTO> updateProject(@Valid @RequestBody ProjectDTO projectDTO) throws URISyntaxException {
-        log.debug("REST request to update Project : {}", projectDTO);
+        log.debug("REST request to updateByProjectViewAndStatusType Project : {}", projectDTO);
         if (projectDTO.getId() == null) {
             return createProject(projectDTO);
         }

@@ -50,9 +50,9 @@
                 result.urgentJobs.forEach(function (item, index) {
                     var deadLineTime = moment(item.deadline).diff(toDay, 'days');
                     if (deadLineTime == 0){
-                        deadLineTime = "ToDay";
+                        deadLineTime = "Today";
                     }else {
-                        deadLineTime +=  ' Days';
+                        deadLineTime +=  ' days';
                     }
                     item.index = index + 1;
                     item.deadLineTime = deadLineTime;

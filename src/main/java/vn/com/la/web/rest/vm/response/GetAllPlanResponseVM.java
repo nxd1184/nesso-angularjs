@@ -1,6 +1,7 @@
 package vn.com.la.web.rest.vm.response;
 
 import vn.com.la.service.dto.JobTeamDTO;
+import vn.com.la.service.dto.PlanProjectDTO;
 import vn.com.la.service.dto.PlanTeamDTO;
 import vn.com.la.service.dto.ProjectDTO;
 
@@ -13,6 +14,16 @@ public class GetAllPlanResponseVM extends AbstractResponseVM{
     private List<ProjectDTO> projects = new ArrayList<>();
 
     private Map<Long, PlanTeamDTO> teams = new HashMap<>();
+
+    private Map<Long, PlanProjectDTO> timelineProjects = new HashMap<>();
+
+    public Map<Long, PlanProjectDTO> getTimelineProjects() {
+        return timelineProjects;
+    }
+
+    public void setTimelineProjects(Map<Long, PlanProjectDTO> timelineProjects) {
+        this.timelineProjects = timelineProjects;
+    }
 
     public List<ProjectDTO> getProjects() {
         return projects;

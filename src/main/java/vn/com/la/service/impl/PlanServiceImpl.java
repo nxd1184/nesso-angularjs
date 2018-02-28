@@ -1,6 +1,8 @@
 package vn.com.la.service.impl;
 
+import net.logstash.logback.appender.LoggingEventAsyncDisruptorAppender;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
 import vn.com.la.service.dto.*;
 import vn.com.la.service.dto.param.*;
+import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.service.util.LAStringUtil;
 import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.*;
@@ -24,6 +27,7 @@ import vn.com.la.web.rest.vm.response.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.File;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -316,7 +320,7 @@ public class PlanServiceImpl implements PlanService {
 
             }
 
-            // re-update storedJob
+            // re-updateByProjectViewAndStatusType storedJob
             storedJob = jobService.save(storedJob);
         }
 
@@ -507,16 +511,24 @@ public class PlanServiceImpl implements PlanService {
 
         GetAllPlanResponseVM rs = new GetAllPlanResponseVM();
 
-        if(PlanViewEnumDTO.PROJECT == params.getView()) {
-            rs.setProjects(buildPlansByProject(params.getProjectCode(), params.getTaskCode()));
-        }else if(PlanViewEnumDTO.USER == params.getView()) {
-            rs.setTeams(buildPlansByTeams());
+        if(params.getType() == PlanTypeEnumDTO.STATUS) {
+            if(PlanViewEnumDTO.PROJECT == params.getView()) {
+                rs.setProjects(buildPlansByProjectForStatus(params.getProjectCode(), params.getTaskCode()));
+            }else if(PlanViewEnumDTO.USER == params.getView()) {
+                rs.setTeams(buildPlansByTeamsForStatus(params.getProjectCode(), params.getTaskCode()));
+            }
+        }else if(params.getType() == PlanTypeEnumDTO.TIMELINE) {
+            if(PlanViewEnumDTO.PROJECT == params.getView()) {
+                rs.setTimelineProjects(buildPlansByProjectForTimeline(params.getFromDate(), params.getToDate(), params.getProjectCode(), params.getTaskCode()));
+            }else if(PlanViewEnumDTO.USER == params.getView()) {
+
+            }
         }
 
         return rs;
     }
 
-    private List<ProjectDTO> buildPlansByProject(String projectCode, String taskCode) {
+    private List<ProjectDTO> buildPlansByProjectForStatus(String projectCode, String taskCode) {
 
         SearchProjectParamDTO criteria = new SearchProjectParamDTO();
         criteria.setProjectCode(projectCode);
@@ -619,9 +631,24 @@ public class PlanServiceImpl implements PlanService {
         return projectDTOs;
     }
 
-    private Map<Long, PlanTeamDTO> buildPlansByTeams() {
+    private Map<Long, PlanTeamDTO> buildPlansByTeamsForStatus(String projectCode, String taskCode) {
 
         Map<Long, PlanTeamDTO> teams = new HashMap<>();
+
+        String conditions = null;
+        if(StringUtils.isNotBlank(projectCode)) {
+            conditions = "p.code like '%" + projectCode + "%'";
+        }
+
+        if(StringUtils.isNotBlank(taskCode)) {
+            if(StringUtils.isNotBlank(conditions)) {
+                conditions += " AND ";
+            }else {
+                conditions = "";
+            }
+
+            conditions += " t.code like '%" + taskCode + "%'";
+        }
 
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("SELECT jt.team_id as team_id, t.name as team_name,  jtu.user_id as user_id, jhi_user.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, ");
@@ -633,10 +660,15 @@ public class PlanServiceImpl implements PlanService {
         sqlBuilder.append(" from job_team jt");
         sqlBuilder.append(" inner join team t on jt.team_id = t.id");
         sqlBuilder.append(" inner join job j on j.id = jt.job_id");
+        sqlBuilder.append(" left join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" left join task task on job_task.task_id = task.id");
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
         sqlBuilder.append(" inner join job_team_user jtu on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join jhi_user jhi_user on jhi_user.id = jtu.user_id");
         sqlBuilder.append(" inner join job_team_user_task jtut on jtut.job_team_user_id = jtu.id");
+        if(StringUtils.isNotBlank(conditions)) {
+            sqlBuilder.append(" WHERE ").append(conditions);
+        }
         sqlBuilder.append(" group by jt.team_id, t.name, jtu.user_id, jhi_user.last_name, p.id, p.name, j.id, j.name, jtu.total_files");
         sqlBuilder.append(" ORDER BY p.created_date desc");
         Query query = em.createNativeQuery(sqlBuilder.toString());
@@ -655,10 +687,97 @@ public class PlanServiceImpl implements PlanService {
                 }
                 teams.put(teamId, team);
             }
-            team.update(row);
+            team.updateByProjectViewAndStatusType(row);
         }
 
         return teams;
+    }
+
+
+    private Map<Long, PlanProjectDTO> buildPlansByProjectForTimeline(ZonedDateTime fromDate, ZonedDateTime toDate, String projectCode, String taskCode) {
+        Map<Long, PlanProjectDTO> projects = new HashMap<>();
+
+        String conditions = null;
+        if(StringUtils.isNotBlank(projectCode)) {
+            conditions = "p.code like '%" + projectCode + "%'";
+        }
+
+        if(StringUtils.isNotBlank(taskCode)) {
+            if(StringUtils.isNotBlank(conditions)) {
+                conditions += " AND ";
+            }else {
+                conditions = "";
+            }
+
+            conditions += " t.code like '%" + taskCode + "%'";
+        }
+
+        String betweenCondition = "BETWEEN '" + LADateTimeUtil.toJodaDateTime(fromDate).toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toJodaDateTime(toDate).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, t.id as team_id, t.name as team_name, jhi_user.id as user_id, jhi_user.last_name as user_name, ");
+        sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') and (jtut.created_date " + betweenCondition + " or jtut.last_rework_time " + betweenCondition + ") then 1 else 0 end) as TOTAL_TODO, ");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as TOTAL_DONE,");
+
+        DateTime fromDateDT = LADateTimeUtil.toJodaDateTime(fromDate).withTimeAtStartOfDay();
+        DateTime toDateDT = LADateTimeUtil.toJodaDateTime(toDate).withTimeAtStartOfDay();
+
+        betweenCondition = "BETWEEN '" + fromDateDT.toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toMidnightOfDate(fromDateDT).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+        String dayOfWeek = fromDateDT.toString("E_d");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as " + dayOfWeek + ",");
+
+        fromDateDT = fromDateDT.plusDays(1);
+        while(fromDateDT.isBefore(toDateDT)) {
+
+            betweenCondition = "BETWEEN '" + fromDateDT.toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toMidnightOfDate(fromDateDT).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+            dayOfWeek = fromDateDT.toString("E_d");
+            sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as " + dayOfWeek + ",");
+
+            fromDateDT = fromDateDT.plusDays(1);
+        }
+
+        betweenCondition = "BETWEEN '" + toDateDT.toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toMidnightOfDate(toDateDT).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+        dayOfWeek = fromDateDT.toString("E_d");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as " + dayOfWeek);
+
+        sqlBuilder.append(" from job_team jt");
+        sqlBuilder.append(" inner join team t on jt.team_id = t.id");
+        sqlBuilder.append(" inner join job j on j.id = jt.job_id");
+        sqlBuilder.append(" left join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" left join task task on job_task.task_id = task.id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" inner join job_team_user jtu on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join jhi_user jhi_user on jhi_user.id = jtu.user_id");
+        sqlBuilder.append(" inner join job_team_user_task jtut on jtut.job_team_user_id = jtu.id");
+        if(StringUtils.isNotBlank(conditions)) {
+            sqlBuilder.append(" WHERE ").append(conditions);
+        }
+        sqlBuilder.append(" group by p.id, p.name, j.id, j.name, t.id, t.name, jhi_user.id, jhi_user.last_name, jtu.total_files");
+        sqlBuilder.append(" ORDER BY p.created_date desc");
+        Query query = em.createNativeQuery(sqlBuilder.toString());
+
+        List<Object[]> rows = query.getResultList();
+
+        for(Object[] row: rows) {
+            PlanProjectDTO project = null;
+            Long projectId = Long.parseLong(row[0].toString());
+            if(projects.containsKey(projectId)) {
+                project = projects.get(projectId);
+            }else {
+                project = new PlanProjectDTO();
+                project.setProjectId(projectId);
+                if(row[1] != null) {
+                    project.setProjectName(row[1].toString());
+                }
+                projects.put(projectId, project);
+            }
+            project.updateByProjectViewAndTimelineType(row);
+        }
+
+        return projects;
     }
 
     @Override

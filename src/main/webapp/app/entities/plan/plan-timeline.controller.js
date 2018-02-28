@@ -5,35 +5,73 @@
         .module('nessoApp')
         .controller('PlanTimelineController', PlanTimelineController);
 
-    PlanTimelineController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window'];
+    PlanTimelineController.$inject = ['$scope','$state', 'planService', '$timeout', 'projectService', '$window', '$stateParams'];
 
-    function PlanTimelineController($scope, $state, planService, $timeout, projectService, $window) {
+    function PlanTimelineController($scope, $state, planService, $timeout, projectService, $window, $stateParams) {
 
         var vm = this;
         vm.projects = [];
         vm.teams = [];
         vm.filters = ['Task Code', 'Project Code'];
+        vm.filterBy = $stateParams.filterBy;
+        vm.filterValue = $stateParams.filterValue;
+        vm.fromDate = $stateParams.fromDate;
+        vm.toDate = $stateParams.toDate;
+        vm.weekNumber = 0;
+        vm.fromDayOfMonth = 0;
+        vm.toDayOfMonth = 0;
+        vm.ranges = [];
+
+        if(!vm.fromDate || vm.toDate) {
+            vm.fromDate = moment().startOf('isoWeek').toDate();
+            vm.fromDayOfMonth = moment().startOf('isoWeek').format('DD');
+            vm.toDate = moment().endOf('isoWeek').toDate();
+            vm.toDayOfMonth = moment().endOf('isoWeek').format('DD');
+            vm.weekNumber = moment().isoWeek();
+        }
 
         vm.projectView = true;
         vm.userView = false;
         vm.changeViewBaseOn = changeViewBaseOn;
-        vm.currentView = 'PROJECT';
+        vm.currentView = $stateParams.view;
+
+        vm.doFilter = doFilter;
 
         vm.rows = [];
 
         vm.syncUp = syncUp;
 
+        function doFilter() {
+            var query = {
+                filterBy: LA.StringUtils.trimToEmpty(vm.filterBy),
+                filterValue: LA.StringUtils.trimToEmpty(vm.filterValue),
+                view: vm.currentView,
+                fromDate: vm.fromDate,
+                toDate: vm.toDate
+            };
+            $state.go($state.current, query, { reload: 'plans-timeline' });
+        }
+
+        _buildWeekRange();
+
         _getAllPlans();
 
         function _getAllPlans() {
             vm.rows = [];
-            planService.getAllPlans(vm.currentView).then(onSuccess, onError);
+
+            var params = {
+                taskCode: vm.filterBy === 'Task Code' ? vm.filterValue : '',
+                projectCode: vm.filterBy === 'Project Code' ? vm.filterValue : '',
+                type: 'TIMELINE',
+                toDate: vm.toDate,
+                fromDate: vm.fromDate
+            };
+
+            planService.getAllPlans(vm.currentView, params).then(onSuccess, onError);
 
             function onSuccess(result) {
-
-
                 if(vm.currentView === 'PROJECT') {
-                    vm.projects = result.projects;
+                    vm.projects = result.timelineProjects;
                     _buildPlanTreeDataForProjectView();
                 }else if(vm.currentView === 'USER') {
                     vm.teams = result.teams;
@@ -54,41 +92,37 @@
 
         function _buildPlanTreeDataForProjectView() {
             var treeLevel = 1;
-            for(var i = 0; i < vm.projects.length; i++) {
-                var project = vm.projects[i];
+            for(var keyProject in vm.projects) {
+                var project = vm.projects[keyProject];
                 var projectTreeLevel = treeLevel++;
                 vm.rows.push({
                     id: project.id,
                     cssClass: 'parent treegrid-' + projectTreeLevel,
                     type: 'project',
-                    name: project.name,
-                    code: project.code,
+                    name: project.projectName,
                     total: project.totalFiles,
-                    toDo: project.totalToDoFiles,
-                    toCheck: project.totalToCheckFiles,
+
                     done: project.totalDoneFiles,
-                    delivery: project.totalDeliveryFiles
+                    totalDoneByDays: project.totalDoneByDays
                 });
 
 
 
-                for(var j = 0; j < project.jobs.length; j++) {
-                    var job = project.jobs[j];
+                for(var keyJob in project.jobs) {
+                    var job = project.jobs[keyJob];
                     var jobTreeGrid = treeLevel++;
                     vm.rows.push({
                         id: job.id,
                         cssClass: 'parent treegrid-' + jobTreeGrid + ' treegrid-parent-' + projectTreeLevel,
                         type: 'job',
-                        name: job.name,
+                        name: job.jobName,
                         total: job.totalFiles,
-                        toDo: job.totalToDoFiles,
-                        toCheck: job.totalToCheckFiles,
                         done: job.totalDoneFiles,
-                        delivery: job.totalDeliveryFiles
+                        totalDoneByDays: job.totalDoneByDays
                     });
 
-                    for(var k = 0; k < job.jobTeams.length; k++) {
-                        var team = job.jobTeams[k];
+                    for(var keyTeam in job.teams) {
+                        var team = job.teams[keyTeam];
                         var teamTreeGrid = treeLevel++;
                         vm.rows.push({
                             id: team.id,
@@ -96,16 +130,14 @@
                             type: 'team',
                             name: team.teamName,
                             total: team.totalFiles,
-                            toDo: team.totalToDoFiles,
-                            toCheck: team.totalToCheckFiles,
                             done: team.totalDoneFiles,
-                            delivery: team.totalDeliveryFiles
+                            totalDoneByDays: team.totalDoneByDays
                         });
 
 
 
-                        for(var h = 0; h < team.jobTeamUsers.length; h++) {
-                            var user = team.jobTeamUsers[h];
+                        for(var userKey in team.users) {
+                            var user = team.users[userKey];
 
                             var userTreeGrid = treeLevel++;
 
@@ -115,10 +147,9 @@
                                 type: 'user',
                                 name: user.name,
                                 total: user.totalFiles,
-                                toDo: user.totalToDoFiles,
-                                toCheck: user.totalToCheckFiles,
+
                                 done: user.totalDoneFiles,
-                                delivery: user.totalDeliveryFiles,
+                                totalDoneByDays: user.totalDoneByDays,
                                 jobId: job.id
                             });
                         }
@@ -215,6 +246,19 @@
             }
             vm.currentView = view;
             _getAllPlans();
+        }
+
+        function _buildWeekRange() {
+            var startDate = moment().startOf('isoWeek');
+            var endData = moment().endOf('isoWeek');
+            while(startDate.isBefore(vm.toDate)) {
+                vm.ranges.push({
+                    dayOfWeek: startDate.format('ddd'),
+                    dayOfMonth: startDate.format('DD')
+                });
+
+                startDate = startDate.add(1,'days');
+            }
         }
 
     }

@@ -18,7 +18,8 @@
                 },
                 params: {
                     filterBy: null,
-                    filterValue: ''
+                    filterValue: '',
+                    view: 'PROJECT'
                 },
                 views: {
                     'content@': {
@@ -107,6 +108,13 @@
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'],
                     pageTitle: 'Plan Management'
+                },
+                params: {
+                    filterBy: null,
+                    filterValue: '',
+                    view: 'PROJECT',
+                    fromDate: '',
+                    toDate: ''
                 },
                 views: {
                     'content@': {

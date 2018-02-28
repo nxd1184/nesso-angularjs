@@ -63,7 +63,7 @@ public class SettingInfoResource {
     /**
      * PUT  /setting-infos : Updates an existing settingInfo.
      *
-     * @param settingInfoDTO the settingInfoDTO to update
+     * @param settingInfoDTO the settingInfoDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated settingInfoDTO,
      * or with status 400 (Bad Request) if the settingInfoDTO is not valid,
      * or with status 500 (Internal Server Error) if the settingInfoDTO couldn't be updated
@@ -72,7 +72,7 @@ public class SettingInfoResource {
     @PutMapping("/setting-infos")
     @Timed
     public ResponseEntity<SettingInfoDTO> updateSettingInfo(@Valid @RequestBody SettingInfoDTO settingInfoDTO) throws URISyntaxException {
-        log.debug("REST request to update SettingInfo : {}", settingInfoDTO);
+        log.debug("REST request to updateByProjectViewAndStatusType SettingInfo : {}", settingInfoDTO);
         if (settingInfoDTO.getId() == null) {
             return createSettingInfo(settingInfoDTO);
         }

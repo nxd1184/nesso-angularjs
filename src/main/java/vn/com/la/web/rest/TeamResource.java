@@ -73,9 +73,9 @@ public class TeamResource {
     }
 
     /**
-     * PUT  /teams/update : Updates an existing team.
+     * PUT  /teams/updateByProjectViewAndStatusType : Updates an existing team.
      *
-     * @param request the teamDTO to update
+     * @param request the teamDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated request,
      * or with status 400 (Bad Request) if the request is not valid,
      * or with status 500 (Internal Server Error) if the request couldn't be updated

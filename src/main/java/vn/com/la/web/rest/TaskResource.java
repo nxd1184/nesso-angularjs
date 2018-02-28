@@ -66,7 +66,7 @@ public class TaskResource {
     /**
      * PUT  /tasks : Updates an existing task.
      *
-     * @param taskDTO the taskDTO to update
+     * @param taskDTO the taskDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated taskDTO,
      * or with status 400 (Bad Request) if the taskDTO is not valid,
      * or with status 500 (Internal Server Error) if the taskDTO couldn't be updated
@@ -75,7 +75,7 @@ public class TaskResource {
     @PutMapping("/tasks")
     @Timed
     public ResponseEntity<TaskDTO> updateTask(@Valid @RequestBody TaskDTO taskDTO) throws URISyntaxException {
-        log.debug("REST request to update Task : {}", taskDTO);
+        log.debug("REST request to updateByProjectViewAndStatusType Task : {}", taskDTO);
         if (taskDTO.getId() == null) {
             return createTask(taskDTO);
         }

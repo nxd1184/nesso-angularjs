@@ -68,7 +68,7 @@ public class UserSettingResource {
     /**
      * PUT  /user-settings : Updates an existing userSetting.
      *
-     * @param userSettingDTO the userSettingDTO to update
+     * @param userSettingDTO the userSettingDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated userSettingDTO,
      * or with status 400 (Bad Request) if the userSettingDTO is not valid,
      * or with status 500 (Internal Server Error) if the userSettingDTO couldn't be updated
@@ -77,7 +77,7 @@ public class UserSettingResource {
     @PutMapping("/user-settings")
     @Timed
     public ResponseEntity<UserSettingDTO> updateUserSetting(@Valid @RequestBody UserSettingDTO userSettingDTO) throws URISyntaxException {
-        log.debug("REST request to update UserSetting : {}", userSettingDTO);
+        log.debug("REST request to updateByProjectViewAndStatusType UserSetting : {}", userSettingDTO);
         if (userSettingDTO.getId() == null) {
             return createUserSetting(userSettingDTO);
         }

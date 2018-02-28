@@ -55,8 +55,13 @@ public class LADateTimeUtil {
 
     public static ZonedDateTime toMidnightOfDate(ZonedDateTime zonedDateTime) {
         DateTime dt = toJodaDateTime(zonedDateTime);
-        dt = dt.plusDays(1).withTimeAtStartOfDay().minusSeconds(1);
+        dt = toMidnightOfDate(dt);
         return dt.toGregorianCalendar().toZonedDateTime();
+    }
+
+    public static DateTime toMidnightOfDate(DateTime dt) {
+        dt = dt.plusDays(1).withTimeAtStartOfDay().minusSeconds(1);
+        return dt;
     }
 
     public static DateTime toJodaDateTime(ZonedDateTime zonedDateTime) {

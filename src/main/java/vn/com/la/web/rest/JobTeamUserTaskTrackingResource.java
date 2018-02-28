@@ -63,7 +63,7 @@ public class JobTeamUserTaskTrackingResource {
     /**
      * PUT  /job-team-user-task-trackings : Updates an existing jobTeamUserTaskTracking.
      *
-     * @param jobTeamUserTaskTrackingDTO the jobTeamUserTaskTrackingDTO to update
+     * @param jobTeamUserTaskTrackingDTO the jobTeamUserTaskTrackingDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated jobTeamUserTaskTrackingDTO,
      * or with status 400 (Bad Request) if the jobTeamUserTaskTrackingDTO is not valid,
      * or with status 500 (Internal Server Error) if the jobTeamUserTaskTrackingDTO couldn't be updated
@@ -72,7 +72,7 @@ public class JobTeamUserTaskTrackingResource {
     @PutMapping("/job-team-user-task-trackings")
     @Timed
     public ResponseEntity<JobTeamUserTaskTrackingDTO> updateJobTeamUserTaskTracking(@Valid @RequestBody JobTeamUserTaskTrackingDTO jobTeamUserTaskTrackingDTO) throws URISyntaxException {
-        log.debug("REST request to update JobTeamUserTaskTracking : {}", jobTeamUserTaskTrackingDTO);
+        log.debug("REST request to updateByProjectViewAndStatusType JobTeamUserTaskTracking : {}", jobTeamUserTaskTrackingDTO);
         if (jobTeamUserTaskTrackingDTO.getId() == null) {
             return createJobTeamUserTaskTracking(jobTeamUserTaskTrackingDTO);
         }
