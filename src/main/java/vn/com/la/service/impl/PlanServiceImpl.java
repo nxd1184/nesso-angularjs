@@ -716,8 +716,8 @@ public class PlanServiceImpl implements PlanService {
 
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("SELECT p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, t.id as team_id, t.name as team_name, jhi_user.id as user_id, jhi_user.last_name as user_name, ");
-        sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') and (jtut.created_date " + betweenCondition + " or jtut.last_rework_time " + betweenCondition + ") then 1 else 0 end) as TOTAL_TODO, ");
-        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as TOTAL_DONE,");
+//        sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') and (jtut.created_date " + betweenCondition + " or jtut.last_rework_time " + betweenCondition + ") then 1 else 0 end) as TOTAL_TODO, ");
+//        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as TOTAL_DONE,");
 
         DateTime fromDateDT = LADateTimeUtil.toJodaDateTime(fromDate).withTimeAtStartOfDay();
         DateTime toDateDT = LADateTimeUtil.toJodaDateTime(toDate).withTimeAtStartOfDay();

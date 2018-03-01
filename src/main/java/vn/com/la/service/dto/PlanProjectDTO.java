@@ -52,22 +52,24 @@ public class PlanProjectDTO {
 
     public void updateByProjectViewAndTimelineType(Object[] row) {
 
-        if(row[8] != null) {
-            totalFiles += Long.parseLong(row[8].toString());
-        }
-        if(row[9] != null) {
-            totalDone += Long.parseLong(row[9].toString());
-        }
+//        if(row[8] != null) {
+//            totalFiles += Long.parseLong(row[8].toString());
+//        }
+//        if(row[9] != null) {
+//            totalDone += Long.parseLong(row[9].toString());
+//        }
 
-        for(int i = 10; i <= 16; i++) {
+        for(int i = 8; i <= 14; i++) {
 
-            if(totalDoneByDays[i - 10] == null) {
-                totalDoneByDays[i - 10] = 0L;
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
             }
 
             if(row[i] != null) {
-                totalDoneByDays[i - 10] += Long.parseLong(row[i].toString());
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
             }
+
+            totalDone += totalDoneByDays[i - 8];
         }
 
         Long jobId = Long.parseLong(row[2].toString());
