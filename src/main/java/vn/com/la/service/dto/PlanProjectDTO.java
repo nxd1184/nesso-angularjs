@@ -52,13 +52,6 @@ public class PlanProjectDTO {
 
     public void updateByProjectViewAndTimelineType(Object[] row) {
 
-//        if(row[8] != null) {
-//            totalFiles += Long.parseLong(row[8].toString());
-//        }
-//        if(row[9] != null) {
-//            totalDone += Long.parseLong(row[9].toString());
-//        }
-
         for(int i = 8; i <= 14; i++) {
 
             if(totalDoneByDays[i - 8] == null) {
@@ -81,6 +74,36 @@ public class PlanProjectDTO {
             job.setJobId(jobId);
             if(row[3] != null) {
                 job.setJobName(row[3].toString());
+            }
+            jobs.put(jobId, job);
+        }
+        job.updateByProjectViewAndTimelineType(row);
+    }
+
+    public void updateByUserViewAndTimelineType(Object[] row) {
+
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+
+        Long jobId = Long.parseLong(row[6].toString());
+        PlanJobDTO job = null;
+        if(jobs.containsKey(jobId)) {
+            job = jobs.get(jobId);
+        }else {
+            job = new PlanJobDTO();
+            job.setJobId(jobId);
+            if(row[7] != null) {
+                job.setJobName(row[7].toString());
             }
             jobs.put(jobId, job);
         }

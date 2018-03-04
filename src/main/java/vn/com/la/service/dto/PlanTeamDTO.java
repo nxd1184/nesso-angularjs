@@ -82,6 +82,35 @@ public class PlanTeamDTO {
 
     }
 
+    public void updateByUserViewAndTimelineType(Object[] row) {
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+
+        Long userId = Long.parseLong(row[2].toString());
+        PlanUserDTO user = null;
+        if(users.containsKey(userId)) {
+            user = users.get(userId);
+        }else {
+            user = new PlanUserDTO();
+            user.setUserId(userId);
+            if(row[3] != null) {
+                user.setName(row[3].toString());
+            }
+            users.put(userId, user);
+        }
+        user.updateByUserViewAndTimelineType(row);
+    }
+
     public Long getTeamId() {
         return teamId;
     }

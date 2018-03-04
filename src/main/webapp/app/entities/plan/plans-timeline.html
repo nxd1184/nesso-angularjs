@@ -11,7 +11,7 @@
             <div class="search">
                 <div class="input-group" style="float:left">
                     <div class="input-group-btn">
-                        <ui-select ng-model="vm.selectedFilter" theme="select2" style="width: 120px"
+                        <ui-select ng-model="vm.filterBy" theme="select2" style="width: 120px"
                                    search-enabled="false" class="selectpicker form-control">
                             <ui-select-match placeholder="Filter">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="f in vm.filters">
@@ -20,9 +20,9 @@
                         </ui-select>
                     </div>
                     <!-- /btn-group -->
-                    <input type="text" class="form-control" placeholder="Search for...">
+                    <input type="text" class="form-control" ng-model="vm.filterValue" placeholder="Search for...">
                     <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button"><i class="fa fa-search"
+                            <button class="btn btn-secondary" type="button" ng-click="vm.doFilter()"><i class="fa fa-search"
                                                                                aria-hidden="true"></i></button>
                             </span>
 
@@ -55,15 +55,6 @@
     </div>
 
     <!-- END PAGE HEAD -->
-    <!-- BEGIN PAGE BREADCRUMB -->
-    <ul class="page-breadcrumb breadcrumb hide">
-        <li>
-            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
-        </li>
-        <li class="active">
-            Project
-        </li>
-    </ul>
     <div class="margin-top-20">
         <div class="wrap-table-radius plan">
             <div class="tab-content">
@@ -74,7 +65,9 @@
                         <thead>
                         <tr>
                             <th>Project</th>
-                            <th class="progress_col">
+                            <th class="progress_col" ng-click="vm.openCalendar('week')">
+
+                                <input type='hidden' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.week" ng-model="vm.dayOfWeek" when-closed="vm.onDateSelected(args)" />
 
                                 Week {{vm.weekNumber}}<span>{{vm.fromDayOfMonth}}-{{vm.toDayOfMonth}}</span>
                             </th>
@@ -93,7 +86,7 @@
                                 {{row.name}}
                             </td>
                             <td class="progress_col">
-                                <p>{{row.total}}</p>
+                                <p>{{row.totalDone}}</p>
                                 <div class="wrap-progress">
                                     <div class="progress-info">
                                         <div class="progress">

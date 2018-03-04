@@ -64,6 +64,21 @@ public class PlanJobDTO {
         team.updateByProjectViewAndTimelineType(row);
     }
 
+    public void updateByUserViewAndTimelineType(Object[] row) {
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+    }
+
     public Long getJobId() {
         return jobId;
     }

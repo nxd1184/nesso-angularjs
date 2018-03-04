@@ -59,7 +59,7 @@
         function search(params) {
             var defer = $q.defer();
 
-            var url = '/api/projects/search/?searchTerm=' + LA.StringUtils.trimToEmpty(params.code);
+            var url = '/api/projects/search/?search=' + LA.StringUtils.trimToEmpty(params.code);
 
 
             $http(LA.RequestUtils.get(url)).then(function(result) {

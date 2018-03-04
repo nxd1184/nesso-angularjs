@@ -102,6 +102,19 @@ public class PlanServiceImpl implements PlanService {
                 if (storedJob.getSequenceTask() == null) {
                     storedJob.setSequenceTask(params.getSequenceTask());
                     storedJob.setSequence(Constants.ONE);
+                }else {
+                    String jobPath = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName());
+                    for(int i = 2; i <= storedJob.getSequenceTask(); i++) {
+                        String jobSequenceName = jobPath + "_" + i;
+                        JobDTO storedSequenceJob = jobService.findByNameAndProjectCode(storedJob.getName() + "i", storedJob.getProjectCode());
+                        if(BooleanUtils.isNotTrue(storedSequenceJob.getStarted())) {
+                            fileSystemHandlingService.deleteDirectory(jobSequenceName);
+                            fileSystemHandlingService.makeDirectory(jobSequenceName);
+                        }else {
+                            throw new CustomParameterizedException("The next sequence job was started, you can not edit the previous sequence job");
+                        }
+
+                    }
                 }
 
                 storedJob = jobService.save(storedJob);
@@ -521,7 +534,7 @@ public class PlanServiceImpl implements PlanService {
             if(PlanViewEnumDTO.PROJECT == params.getView()) {
                 rs.setTimelineProjects(buildPlansByProjectForTimeline(params.getFromDate(), params.getToDate(), params.getProjectCode(), params.getTaskCode()));
             }else if(PlanViewEnumDTO.USER == params.getView()) {
-
+                rs.setTeams(buildPlansByTeamsForTimeline(params.getFromDate(), params.getToDate(), params.getProjectCode(), params.getTaskCode()));
             }
         }
 
@@ -778,6 +791,91 @@ public class PlanServiceImpl implements PlanService {
         }
 
         return projects;
+    }
+
+    private Map<Long, PlanTeamDTO> buildPlansByTeamsForTimeline(ZonedDateTime fromDate, ZonedDateTime toDate, String projectCode, String taskCode) {
+
+        Map<Long, PlanTeamDTO> teams = new HashMap<>();
+
+        String conditions = null;
+        if(StringUtils.isNotBlank(projectCode)) {
+            conditions = "p.code like '%" + projectCode + "%'";
+        }
+
+        if(StringUtils.isNotBlank(taskCode)) {
+            if(StringUtils.isNotBlank(conditions)) {
+                conditions += " AND ";
+            }else {
+                conditions = "";
+            }
+
+            conditions += " t.code like '%" + taskCode + "%'";
+        }
+
+        String betweenCondition = "BETWEEN '" + LADateTimeUtil.toJodaDateTime(fromDate).toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toJodaDateTime(toDate).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+        StringBuilder sqlBuilder = new StringBuilder();
+        sqlBuilder.append("SELECT jt.team_id as team_id, t.name as team_name,  jtu.user_id as user_id, jhi_user.last_name, p.id as project_id, p.name as project_name, j.id as job_id, j.name as job_name, ");
+
+        DateTime fromDateDT = LADateTimeUtil.toJodaDateTime(fromDate).withTimeAtStartOfDay();
+        DateTime toDateDT = LADateTimeUtil.toJodaDateTime(toDate).withTimeAtStartOfDay();
+
+        betweenCondition = "BETWEEN '" + fromDateDT.toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toMidnightOfDate(fromDateDT).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+        String dayOfWeek = fromDateDT.toString("E_d");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as " + dayOfWeek + ",");
+
+        fromDateDT = fromDateDT.plusDays(1);
+        while(fromDateDT.isBefore(toDateDT)) {
+
+            betweenCondition = "BETWEEN '" + fromDateDT.toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toMidnightOfDate(fromDateDT).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+            dayOfWeek = fromDateDT.toString("E_d");
+            sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as " + dayOfWeek + ",");
+
+            fromDateDT = fromDateDT.plusDays(1);
+        }
+
+        betweenCondition = "BETWEEN '" + toDateDT.toString(LADateTimeUtil.DATETIME_FORMAT) + "' AND '" + LADateTimeUtil.toMidnightOfDate(toDateDT).toString(LADateTimeUtil.DATETIME_FORMAT) + "'";
+
+        dayOfWeek = fromDateDT.toString("E_d");
+        sqlBuilder.append("     sum(case when jtut.status = 'DONE' and jtut.last_done_time " + betweenCondition + " then 1 else 0 end) as " + dayOfWeek);
+
+        sqlBuilder.append(" from job_team jt");
+        sqlBuilder.append(" inner join team t on jt.team_id = t.id");
+        sqlBuilder.append(" inner join job j on j.id = jt.job_id");
+        sqlBuilder.append(" left join job_task job_task on job_task.job_id = j.id");
+        sqlBuilder.append(" left join task task on job_task.task_id = task.id");
+        sqlBuilder.append(" inner join project p on p.id = j.project_id");
+        sqlBuilder.append(" inner join job_team_user jtu on jtu.job_team_id = jt.id");
+        sqlBuilder.append(" inner join jhi_user jhi_user on jhi_user.id = jtu.user_id");
+        sqlBuilder.append(" inner join job_team_user_task jtut on jtut.job_team_user_id = jtu.id");
+        if(StringUtils.isNotBlank(conditions)) {
+            sqlBuilder.append(" WHERE ").append(conditions);
+        }
+        sqlBuilder.append(" group by p.id, p.name, j.id, j.name, t.id, t.name, jhi_user.id, jhi_user.last_name, jtu.total_files");
+        sqlBuilder.append(" ORDER BY p.created_date desc");
+        Query query = em.createNativeQuery(sqlBuilder.toString());
+
+        List<Object[]> rows = query.getResultList();
+
+        for(Object[] row: rows) {
+            PlanTeamDTO team = null;
+            Long teamId = Long.parseLong(row[0].toString());
+            if(teams.containsKey(teamId)) {
+                team = teams.get(teamId);
+            }else {
+                team = new PlanTeamDTO();
+                team.setTeamId(teamId);
+                if(row[1] != null) {
+                    team.setTeamName(row[1].toString());
+                }
+                teams.put(teamId, team);
+            }
+            team.updateByUserViewAndTimelineType(row);
+        }
+
+        return teams;
     }
 
     @Override

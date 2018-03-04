@@ -66,6 +66,37 @@ public class PlanUserDTO {
         }
     }
 
+    public void updateByUserViewAndTimelineType(Object[] row) {
+
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+
+        PlanProjectDTO project = null;
+        Long projectId = Long.parseLong(row[4].toString());
+        if(projects.containsKey(projectId)) {
+            project = projects.get(projectId);
+        }else {
+            project = new PlanProjectDTO();
+            project.setProjectId(projectId);
+            if(row[5] != null) {
+                project.setProjectName(row[5].toString());
+            }
+            projects.put(projectId, project);
+        }
+        project.updateByUserViewAndTimelineType(row);
+
+    }
+
     public Long getUserId() {
         return userId;
     }
