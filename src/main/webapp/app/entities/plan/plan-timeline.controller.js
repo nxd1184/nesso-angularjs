@@ -17,18 +17,29 @@
         vm.filterValue = $stateParams.filterValue;
         vm.fromDate = $stateParams.fromDate;
         vm.toDate = $stateParams.toDate;
+
+        vm.fromDateMoment;
+        vm.toDateMoment;
+
         vm.weekNumber = 0;
         vm.fromDayOfMonth = 0;
         vm.toDayOfMonth = 0;
         vm.ranges = [];
+        vm.onDateSelected = onDateSelected;
 
-        if(!vm.fromDate || vm.toDate) {
-            vm.fromDate = moment().startOf('isoWeek').toDate();
-            vm.fromDayOfMonth = moment().startOf('isoWeek').format('DD');
-            vm.toDate = moment().endOf('isoWeek').toDate();
-            vm.toDayOfMonth = moment().endOf('isoWeek').format('DD');
-            vm.weekNumber = moment().isoWeek();
+        if(!vm.fromDate && !vm.toDate) {
+            vm.fromDateMoment = moment().startOf('isoWeek');
+            vm.toDateMoment = moment().endOf('isoWeek');
+        }else {
+            vm.fromDateMoment = LA.StringUtils.parseIsoMoment(vm.fromDate);
+            vm.toDateMoment = LA.StringUtils.parseIsoMoment(vm.toDate);
         }
+
+        vm.fromDate = vm.fromDateMoment.toDate();
+        vm.fromDayOfMonth = vm.fromDateMoment.format('DD');
+        vm.toDate = vm.toDateMoment.toDate();
+        vm.toDayOfMonth = vm.toDateMoment.format('DD');
+        vm.weekNumber = vm.toDateMoment.isoWeek();
 
         vm.projectView = true;
         vm.userView = false;
@@ -46,8 +57,8 @@
                 filterBy: LA.StringUtils.trimToEmpty(vm.filterBy),
                 filterValue: LA.StringUtils.trimToEmpty(vm.filterValue),
                 view: vm.currentView,
-                fromDate: vm.fromDate,
-                toDate: vm.toDate
+                fromDate: LA.StringUtils.toIsoTrimToMinute(vm.fromDate),
+                toDate: LA.StringUtils.toIsoTrimToMinute(vm.toDate)
             };
             $state.go($state.current, query, { reload: 'plans-timeline' });
         }
@@ -100,9 +111,8 @@
                     cssClass: 'parent treegrid-' + projectTreeLevel,
                     type: 'project',
                     name: project.projectName,
-                    total: project.totalFiles,
 
-                    done: project.totalDoneFiles,
+                    totalDone: project.totalDone,
                     totalDoneByDays: project.totalDoneByDays
                 });
 
@@ -116,8 +126,7 @@
                         cssClass: 'parent treegrid-' + jobTreeGrid + ' treegrid-parent-' + projectTreeLevel,
                         type: 'job',
                         name: job.jobName,
-                        total: job.totalFiles,
-                        done: job.totalDoneFiles,
+                        totalDone: job.totalDone,
                         totalDoneByDays: job.totalDoneByDays
                     });
 
@@ -129,8 +138,7 @@
                             cssClass: 'parent treegrid-' + teamTreeGrid + ' treegrid-parent-' + jobTreeGrid,
                             type: 'team',
                             name: team.teamName,
-                            total: team.totalFiles,
-                            done: team.totalDoneFiles,
+                            totalDone: team.totalDone,
                             totalDoneByDays: team.totalDoneByDays
                         });
 
@@ -146,11 +154,8 @@
                                 cssClass: 'treegrid-' + userTreeGrid + ' treegrid-parent-' + teamTreeGrid,
                                 type: 'user',
                                 name: user.name,
-                                total: user.totalFiles,
-
-                                done: user.totalDoneFiles,
-                                totalDoneByDays: user.totalDoneByDays,
-                                jobId: job.id
+                                totalDone: user.totalDone,
+                                totalDoneByDays: user.totalDoneByDays
                             });
                         }
                     }
@@ -169,11 +174,8 @@
                     cssClass: 'parent treegrid-' + teamTreeLevel,
                     type: 'team',
                     name: team.teamName,
-                    total: team.totalFiles,
-                    toDo: team.totalToDo,
-                    toCheck: team.totalToCheck,
-                    done: team.totalDone,
-                    delivery: team.totalDelivery
+                    totalDone: team.totalDone,
+                    totalDoneByDays: team.totalDoneByDays
                 });
 
                 for(var keyUser in team.users) {
@@ -184,11 +186,8 @@
                         cssClass: 'parent treegrid-' + userTreeGrid + ' treegrid-parent-' + teamTreeLevel,
                         type: 'user',
                         name: user.name,
-                        total: user.totalFiles,
-                        toDo: user.totalToDo,
-                        toCheck: user.totalToCheck,
-                        done: user.totalDone,
-                        delivery: user.totalDelivery
+                        totalDone: user.totalDone,
+                        totalDoneByDays: user.totalDoneByDays
                     });
 
                     for(var keyProject in user.projects) {
@@ -199,11 +198,8 @@
                             cssClass: 'parent treegrid-' + projectTreeGrid + ' treegrid-parent-' + userTreeGrid,
                             type: 'project',
                             name: project.projectName,
-                            total: project.totalFiles,
-                            toDo: project.totalToDo,
-                            toCheck: project.totalToCheck,
-                            done: project.totalDone,
-                            delivery: project.totalDelivery
+                            totalDone: project.totalDone,
+                            totalDoneByDays: project.totalDoneByDays
                         });
 
                         for(var jobKey in project.jobs) {
@@ -216,11 +212,8 @@
                                 cssClass: 'treegrid-' + jobTreeGrid + ' treegrid-parent-' + projectTreeGrid,
                                 type: 'job',
                                 name: job.jobName,
-                                total: job.totalFiles,
-                                toDo: job.totalToDo,
-                                toCheck: job.totalToCheck,
-                                done: job.totalDone,
-                                delivery: job.totalDelivery
+                                totalDone: job.totalDone,
+                                totalDoneByDays: job.totalDoneByDays
                             });
                         }
                     }
@@ -249,8 +242,8 @@
         }
 
         function _buildWeekRange() {
-            var startDate = moment().startOf('isoWeek');
-            var endData = moment().endOf('isoWeek');
+            var startDate = vm.fromDateMoment;
+            var endData = vm.toDateMoment;
             while(startDate.isBefore(vm.toDate)) {
                 vm.ranges.push({
                     dayOfWeek: startDate.format('ddd'),
@@ -258,6 +251,23 @@
                 });
 
                 startDate = startDate.add(1,'days');
+            }
+        }
+
+        vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
+
+        function openCalendar (field) {
+            vm.datePickerOpenStatus[field] = true;
+        }
+
+        function onDateSelected(args) {
+            if(args.closePressed) {
+                var selectedDate = moment(args.closeDate);
+                vm.fromDate = selectedDate.startOf('isoWeek').toDate();
+                vm.toDate = selectedDate.endOf('isoWeek').toDate();
+
+                doFilter();
             }
         }
 
