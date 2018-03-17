@@ -77,36 +77,36 @@
 
         vm.selectedProject = {};
 
-        _getAllProject();
+        // _getAllProject();
+        //
+        // function _getAllProject() {
+        //
+        //     projectService.search({}).then(onSuccess, onError);
+        //
+        //     // Project.query({
+        //     //     sort: ['id,desc']
+        //     // }, onSuccess, onError);
+        //
+        //     function onSuccess(result) {
+        //         vm.projects = result.data;
+        //         if(vm.task.projectId && vm.projects) {
+        //             for(var i = 0; i < vm.projects.length; i++) {
+        //                 var project = vm.projects[i];
+        //                 if(project.id === vm.task.projectId) {
+        //                     vm.selectedProject = project;
+        //                     return;
+        //                 }
+        //             }
+        //         }
+        //     }
+        //
+        //     function onError(error) {
+        //
+        //     }
+        //
+        // }
 
-        function _getAllProject() {
-
-            projectService.search({}).then(onSuccess, onError);
-
-            // Project.query({
-            //     sort: ['id,desc']
-            // }, onSuccess, onError);
-
-            function onSuccess(result) {
-                vm.projects = result.data;
-                if(vm.task.projectId && vm.projects) {
-                    for(var i = 0; i < vm.projects.length; i++) {
-                        var project = vm.projects[i];
-                        if(project.id === vm.task.projectId) {
-                            vm.selectedProject = project;
-                            return;
-                        }
-                    }
-                }
-            }
-
-            function onError(error) {
-
-            }
-
-        }
-
-        vm.tasks = Task.query();
+        // vm.tasks = Task.query();
         vm.openQuickTeamCreationClass = false;
 
         function searchProjects(code) {
@@ -121,6 +121,18 @@
             function onError(error) {
 
             }
+        }
+
+        if(vm.task.projectCode) {
+            projectService.search({
+                code: vm.task.projectCode
+            }).then(function onSuccess(result) {
+                if(result.data) {
+                    vm.selectedProject = result.data[0];
+                }
+            });
+
+
         }
     }
 })();
