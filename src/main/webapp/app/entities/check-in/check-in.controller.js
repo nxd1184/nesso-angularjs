@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('CheckInController', CheckInController);
 
-    CheckInController.$inject = ['$scope','$state', '$timeout', 'jobTeamUserTaskService', 'moment'];
+    CheckInController.$inject = ['$scope','$state', '$timeout', 'jobTeamUserTaskService', 'moment', 'AlertService'];
 
-    function CheckInController($scope, $state, $timeout, jobTeamUserTaskService, moment) {
+    function CheckInController($scope, $state, $timeout, jobTeamUserTaskService, moment, AlertService) {
 
         var vm = this;
 
@@ -49,7 +49,9 @@
             jobTeamUserTaskService.checkAll().then(onSuccess);
 
             function onSuccess(result) {
-                $state.reload();
+                AlertService.info(result.ids.length + ' was moved to TO_CHECK');
+                _loadUnCheckInTasks();
+                // $state.reload();
             }
         }
 
