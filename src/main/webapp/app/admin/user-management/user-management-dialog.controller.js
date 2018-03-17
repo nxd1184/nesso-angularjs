@@ -11,7 +11,7 @@
         var vm = this;
 
 
-        vm.selectedAuthority = {};
+        vm.selectedAuthorities = [];
 
         vm.clear = clear;
         vm.languages = null;
@@ -46,17 +46,13 @@
 
         if(vm.user.authorities) {
             for(var i = 0; i < vm.user.authorities.length; i++) {
-                var userAuthority = vm.user.authorities[i];
-                var flag = false;
+                var authority = vm.user.authorities[i];
                 for(var j = 0; j < vm.authorities.length; j++) {
-                    var authority = vm.authorities[j];
-                    if(authority.id === userAuthority) {
-                        vm.selectedAuthority = authority;
-                        flag = true;
-                        break;
+                    var redefinedAuthority = vm.authorities[j];
+                    if(authority === redefinedAuthority.id) {
+                        vm.selectedAuthorities.push(redefinedAuthority);
                     }
                 }
-                if(flag) break;
             }
         }
 
@@ -80,14 +76,15 @@
                 vm.user.teamId = vm.selectedTeam.id;
             }
 
-            if(vm.selectedAuthority && vm.selectedAuthority.id) {
-                if(!vm.user.authorities) {
-                    vm.user.authorities = []
-                }
-                if(vm.user.authorities.indexOf(vm.selectedAuthority.id) < 0) {
-                    vm.user.authorities.push(vm.selectedAuthority.id);
+
+            if(vm.selectedAuthorities) {
+                vm.user.authorities = [];
+
+                for(var i = 0; i < vm.selectedAuthorities.length; i++) {
+                    vm.user.authorities.push(vm.selectedAuthorities[i].id);
                 }
             }
+
 
             if (vm.user.id !== null) {
                 User.update(vm.user, onSaveSuccess, onSaveError);
