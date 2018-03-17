@@ -11,6 +11,8 @@ LA.RequestUtils = {
         var token = '';
         if(localStorage.getItem('jhi-authenticationToken')) {
             token = localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '');
+        } else if (sessionStorage.getItem('jhi-authenticationToken')) {
+            token = sessionStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '');
         }
 
 

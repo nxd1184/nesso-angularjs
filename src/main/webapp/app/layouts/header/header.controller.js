@@ -5,11 +5,12 @@
         .module('nessoApp')
         .controller('HeaderController', HeaderController);
 
-    HeaderController.$inject = ['$scope','$state', '$timeout', 'headerService', '$window', 'moment', '$interval'];
+    HeaderController.$inject = ['$scope','$state', '$timeout', 'headerService', '$window', 'moment', '$interval', 'Principal'];
 
-    function HeaderController($scope, $state, $timeout, headerService, $window, moment, $interval) {
+    function HeaderController($scope, $state, $timeout, headerService, $window, moment, $interval, Principal) {
         var vm = this;
         vm.notifications = [];
+        vm.isNotFreelancer = _isNotFreelancer;
 
         function  getNotify() {
             headerService.getNotify().then(function (result) {
@@ -25,6 +26,10 @@
             });
         }
         $interval(getNotify, 60*1000);
+
+        function _isNotFreelancer() {
+            return !Principal.hasAnyAuthority(['ROLE_FREELANCER']);
+        }
 
         getNotify();
     }

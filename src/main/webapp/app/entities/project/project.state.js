@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/project?page&sort&search',
             data: {
-                authorities: ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'],
+                authorities: ['ROLE_PROJECT_MANAGER'],
                 pageTitle: 'Projects'
             },
             views: {
@@ -50,7 +50,7 @@
             parent: 'project',
             url: '/project/{id}',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_PROJECT_MANAGER'],
                 pageTitle: 'Project'
             },
             views: {
@@ -78,7 +78,7 @@
             parent: 'project-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_PROJECT_MANAGER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -103,7 +103,7 @@
             parent: 'project',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_PROJECT_MANAGER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -136,7 +136,7 @@
             parent: 'project',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_PROJECT_MANAGER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -161,7 +161,7 @@
             parent: 'project',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_PROJECT_MANAGER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

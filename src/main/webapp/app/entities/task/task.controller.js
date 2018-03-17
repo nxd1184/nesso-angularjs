@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('TaskController', TaskController);
 
-    TaskController.$inject = ['Principal', 'Task', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope'];
+    TaskController.$inject = ['Principal', 'Task', 'ParseLinks', 'AlertService', '$state', 'pagingParams', 'paginationConstants', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope', 'AuthServerProvider'];
 
-    function TaskController(Principal, Task, ParseLinks, AlertService, $state, pagingParams, paginationConstants, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope) {
+    function TaskController(Principal, Task, ParseLinks, AlertService, $state, pagingParams, paginationConstants, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope, AuthServerProvider) {
         var vm = this;
 
         vm.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
@@ -57,7 +57,7 @@
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withOption('ajax', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
+                    Authorization: 'Bearer ' + AuthServerProvider.getToken().replace(new RegExp('"', 'g'), '')
                 },
                 // Either you specify the AjaxDataProp here
                 // dataSrc: 'data',

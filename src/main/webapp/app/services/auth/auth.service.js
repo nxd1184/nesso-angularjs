@@ -46,9 +46,45 @@
             function authThen () {
                 var isAuthenticated = Principal.isAuthenticated();
 
+                function getDefaultHome() {
+                    var defaultHome = { 
+                            "ROLE_USER": "home",
+                            "ROLE_PROJECT_MANAGER": "report",
+                            "ROLE_TEAM_LEADER": "folder",
+                            "ROLE_ADMIN": "user-setting",
+                            "ROLE_FREELANCER": "check-in",
+                            "ROLE_PROJECT_MANAGER": "project",
+                            "ROLE_PROJECT_MANAGER": "account",
+                    }
+
+                    if (Principal.hasAnyAuthority(['ROLE_USER'])) {
+                        return defaultHome['ROLE_USER'];
+                    }
+                    else if (Principal.hasAnyAuthority(['ROLE_PROJECT_MANAGER'])) {
+                        return defaultHome['ROLE_PROJECT_MANAGER'];
+                    }
+                    else if (Principal.hasAnyAuthority(['ROLE_TEAM_LEADER'])) {
+                        return defaultHome['ROLE_TEAM_LEADER'];
+                    }
+                    else if (Principal.hasAnyAuthority(['ROLE_ADMIN'])) {
+                        return defaultHome['ROLE_ADMIN'];
+                    }
+                    else if (Principal.hasAnyAuthority(['ROLE_FREELANCER'])) {
+                        return defaultHome['ROLE_FREELANCER'];
+                    }
+                }  
+
+                function shouldBeRedirected() {
+                    return !Principal.hasAnyAuthority(['ROLE_USER']) && $rootScope.toState.name === 'home';
+                }
+
                 // an authenticated user can't access to login and register pages
                 if (isAuthenticated && $rootScope.toState.parent === 'account' && ($rootScope.toState.name === 'login' || $rootScope.toState.name === 'register' || $rootScope.toState.name === 'social-auth')) {
                     $state.go('home');
+                }
+                // each user has its own default page to be loaded
+                else if (isAuthenticated && shouldBeRedirected()) {
+                    $state.go(getDefaultHome());
                 }
 
                 // recover and clear previousState after external login redirect (e.g. oauth2)

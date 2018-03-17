@@ -1,4 +1,4 @@
-<div class="page-header navbar navbar-fixed-top">
+<div class="page-header navbar navbar-fixed-top" ng-controller="HeaderController as vm">
     <!-- BEGIN HEADER INNER -->
     <div class="page-header-inner">
         <div class="menu-toggler sidebar-toggler pull-left">
@@ -26,13 +26,13 @@
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
                     <li>
-                        <button class="btn btn-success" style="margin-top: 15px" ng-click="submitTimesheet()">Check In/Out</button>
+                        <button class="btn btn-success" ng-if="vm.isNotFreelancer()" style="margin-top: 15px" ng-click="submitTimesheet()">Check In/Out</button>
                     </li>
                     <li class="separator hide">
                     </li>
                     <!-- BEGIN NOTIFICATION DROPDOWN -->
                     <li class="dropdown dropdown-extended dropdown-notification dropdown-dark"
-                        id="header_notification_bar" ng-controller="HeaderController as vm">
+                        id="header_notification_bar">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                            data-close-others="true">
                             <i class="fa fa-bell" aria-hidden="true"></i>

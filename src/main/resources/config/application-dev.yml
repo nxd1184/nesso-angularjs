@@ -154,5 +154,5 @@ application:
         username: nesso
         password: test@123
         port: 22
-    root-folder: /Users/steven/Documents/LA/Nesso/nfs/
+    root-folder: /Users/thohuynh/Documents/FreeLance/nfs/
 #    root-folder: D:/nfs/

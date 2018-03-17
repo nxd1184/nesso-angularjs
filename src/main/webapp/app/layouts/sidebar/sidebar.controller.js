@@ -17,25 +17,25 @@
                 icon: 'fa fa-home',
                 state: 'home',
                 url: '#!/',
-                roles: ['*']
+                roles: ['ROLE_USER']
             }, {
                 title: 'Plan',
                 icon: 'fa fa-calendar',
                 state: 'plans-status',
                 url: '#!/plans-status',
-                roles: ['ROLE_PROJECT_MANAGER', 'ROLE_ADMIN']
+                roles: ['ROLE_PROJECT_MANAGER']
             }, {
                 title: 'Report',
                 icon: 'fa fa-area-chart',
                 state: 'report',
                 url: '#!/report',
-                roles: ['ROLE_PROJECT_MANAGER', 'ROLE_ADMIN']
+                roles: ['ROLE_PROJECT_MANAGER']
             }, {
                 title: 'Folder',
                 icon: 'fa fa-folder-open',
                 state: 'folder',
                 url: '#!/folder',
-                roles: ['ROLE_TEAM_LEADER','ROLE_PROJECT_MANAGER', 'ROLE_ADMIN']
+                roles: ['ROLE_TEAM_LEADER','ROLE_PROJECT_MANAGER']
             }, {
                 title: 'Setting',
                 icon: 'fa fa-cog',
@@ -47,7 +47,7 @@
                 icon: 'fa fa-tasks',
                 state: 'check-in',
                 url: '#!/check-in',
-                roles: ['*']
+                roles: ['ROLE_FREELANCER']
             }, {
                 title: 'Account',
                 icon: 'fa fa-user-circle-o',
@@ -70,20 +70,20 @@
             }, {
                 title: 'Project',
                 icon: 'fa fa-briefcase',
-                roles: ['ROLE_PROJECT_MANAGER', 'ROLE_ADMIN'],
+                roles: ['ROLE_PROJECT_MANAGER'],
                 subMenus: [
                     {
                         title: 'Project',
                         icon: 'fa fa-briefcase',
                         state: 'project',
                         url: '#!/project',
-                        roles: ['ROLE_PROJECT_MANAGER', 'ROLE_ADMIN']
+                        roles: ['ROLE_PROJECT_MANAGER']
                     }, {
                         title: 'Task',
                         icon: 'fa fa-file',
                         state: 'task',
                         url: '#!/task',
-                        roles: ['ROLE_PROJECT_MANAGER', 'ROLE_ADMIN']
+                        roles: ['ROLE_PROJECT_MANAGER']
                     }
                 ]
             }

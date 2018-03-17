@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('ProjectController', ProjectController);
 
-    ProjectController.$inject = ['$state', 'Project', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope'];
+    ProjectController.$inject = ['$state', 'Project', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope', 'AuthServerProvider'];
 
-    function ProjectController($state, Project, ParseLinks, AlertService, paginationConstants, pagingParams, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope) {
+    function ProjectController($state, Project, ParseLinks, AlertService, paginationConstants, pagingParams, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope, AuthServerProvider) {
 
         var vm = this;
 
@@ -29,7 +29,7 @@
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withOption('ajax', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
+                    Authorization: 'Bearer ' + AuthServerProvider.getToken().replace(new RegExp('"', 'g'), '')
                 },
                 // Either you specify the AjaxDataProp here
                 // dataSrc: 'data',

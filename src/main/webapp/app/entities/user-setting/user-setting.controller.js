@@ -5,9 +5,9 @@
         .module('nessoApp')
         .controller('UserSettingController', UserSettingController);
 
-    UserSettingController.$inject = ['$state', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope'];
+    UserSettingController.$inject = ['$state', '$uibModal', 'DTOptionsBuilder', 'DTColumnBuilder', 'moment', '$scope', 'AuthServerProvider'];
 
-    function UserSettingController($state, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope) {
+    function UserSettingController($state, $uibModal, DTOptionsBuilder, DTColumnBuilder, moment, $scope, AuthServerProvider) {
 
         var vm = this;
         vm.createOrUpdateSetting = createOrUpdateSetting;
@@ -31,7 +31,7 @@
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withOption('ajax', {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('jhi-authenticationToken').replace(new RegExp('"', 'g'), '')
+                    Authorization: 'Bearer ' + AuthServerProvider.getToken().replace(new RegExp('"', 'g'), '')
                 },
                 // Either you specify the AjaxDataProp here
                 // dataSrc: 'data',

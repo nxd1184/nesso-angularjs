@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/team?page&sort&search',
             data: {
-                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER','ROLE_TEAM_LEADER'],
+                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER'],
                 pageTitle: 'Teams'
             },
             views: {
@@ -50,7 +50,7 @@
             parent: 'team',
             url: '/team/{id}',
             data: {
-                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER','ROLE_TEAM_LEADER'],
+                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER'],
                 pageTitle: 'Team'
             },
             views: {
@@ -78,7 +78,7 @@
             parent: 'team-detail',
             url: '/detail/edit',
             data: {
-                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER','ROLE_TEAM_LEADER'],
+                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER'],
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -103,7 +103,7 @@
             parent: 'team',
             url: '/new',
             data: {
-                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER','ROLE_TEAM_LEADER'],
+                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER'],
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -132,7 +132,7 @@
             parent: 'team',
             url: '/{id}/edit',
             data: {
-                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER','ROLE_TEAM_LEADER'],
+                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER'],
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
@@ -157,7 +157,7 @@
             parent: 'team',
             url: '/{id}/delete',
             data: {
-                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER','ROLE_TEAM_LEADER'],
+                authorities: ['ROLE_ADMIN','ROLE_PROJECT_MANAGER'],
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
