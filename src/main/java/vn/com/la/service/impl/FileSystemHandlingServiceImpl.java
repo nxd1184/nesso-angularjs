@@ -41,12 +41,18 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         try {
 
             File file = new File(rootFolder + Constants.DASH + projectCode);
-
+            String[] projectFolders = {Constants.BACK_LOGS, Constants.TO_DO, Constants.TO_CHECK, Constants.DONE, Constants.DELIVERY};
             if(!file.exists()) {
-                return false;
+                file.mkdir();
+                // create backlogs, todo, tocheck, done, delivery
+                for(String folder: projectFolders) {
+                    File projectFolderFile = new File(rootFolder + Constants.DASH + projectCode + Constants.DASH + folder);
+                    projectFolderFile.mkdir();
+                }
+                return true;
             }
 
-            String[] projectFolders = {Constants.BACK_LOGS, Constants.TO_DO, Constants.TO_CHECK, Constants.DONE, Constants.DELIVERY};
+
             for(String folder: projectFolders) {
                 File projectFolder = new File(rootFolder + Constants.DASH + projectCode + Constants.DASH + folder);
                 if(!projectFolder.exists()) {
