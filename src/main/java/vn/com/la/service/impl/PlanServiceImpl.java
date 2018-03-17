@@ -574,6 +574,11 @@ public class PlanServiceImpl implements PlanService {
 
             for(JobDTO jobDTO: projectDTO.getJobs()) {
 
+                if(jobDTO.getFinishDate() != null) {
+                    projectDTO.getJobs().remove(jobDTO);
+                    continue;
+                }
+
                 Long totalToDoFilesForJob = 0L;
                 Long totalToCheckFilesForJob = 0L;
                 Long totalDoneFilesForJob = 0L;
@@ -893,6 +898,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public EmptyResponseVM finish(FinishJobParamDTO params) throws Exception {
         EmptyResponseVM rs = new EmptyResponseVM();
         if(params.getJobId() == null) {
