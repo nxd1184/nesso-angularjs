@@ -1,6 +1,7 @@
 package vn.com.la.service.dto;
 
 
+import vn.com.la.domain.Authority;
 import vn.com.la.domain.JobTeamUserTask;
 
 import javax.validation.constraints.*;
@@ -35,6 +36,8 @@ public class JobTeamUserDTO implements Serializable {
     private Long totalDeliveryFiles = 0L;
 
     private Set<JobTeamUserTaskDTO> jobTeamUserTasks = new HashSet<>();
+
+    private Set<Authority> authorities = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -138,6 +141,14 @@ public class JobTeamUserDTO implements Serializable {
 
     public void removeJobTeamUserTask(JobTeamUserTaskDTO jobTeamUserTaskDTO) {
         this.jobTeamUserTasks.remove(jobTeamUserTaskDTO);
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

@@ -205,6 +205,7 @@
                         userId: member.id,
                         name: member.lastName,
                         capacity: member.capacity,
+                        authorities: member.authorities,
                         totalFiles: 0
                     });
                 }
@@ -333,6 +334,13 @@
 
                 selectedTeam.totalFiles = totalFilesForTeam;
             }
+        }
+
+        vm.hasRoleUser = function(roles) {
+            if(roles) {
+                return roles.indexOf('ROLE_USER') != -1;
+            }
+            return false;
         }
 
     }

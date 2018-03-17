@@ -92,6 +92,11 @@
 
                 for(var j = 0; j < project.jobs.length; j++) {
                     var job = project.jobs[j];
+
+                    if(job.finishDate) {
+                        continue;
+                    }
+
                     var jobTreeGrid = treeLevel++;
                     vm.rows.push({
                         id: job.id,

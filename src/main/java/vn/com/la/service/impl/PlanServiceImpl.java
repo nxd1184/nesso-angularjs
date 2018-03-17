@@ -575,7 +575,6 @@ public class PlanServiceImpl implements PlanService {
             for(JobDTO jobDTO: projectDTO.getJobs()) {
 
                 if(jobDTO.getFinishDate() != null) {
-                    projectDTO.getJobs().remove(jobDTO);
                     continue;
                 }
 
