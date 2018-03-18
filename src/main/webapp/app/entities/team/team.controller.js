@@ -61,7 +61,7 @@
         vm.dtOptions = DTOptionsBuilder.newOptions()
             .withOption('ajax', {
                 headers: {
-                    Authorization: 'Bearer ' + lAuthServerProvider.getToken().replace(new RegExp('"', 'g'), '')
+                    Authorization: 'Bearer ' + AuthServerProvider.getToken().replace(new RegExp('"', 'g'), '')
                 },
                 // Either you specify the AjaxDataProp here
                 // dataSrc: 'data',
