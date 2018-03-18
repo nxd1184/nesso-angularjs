@@ -25,6 +25,12 @@ public class Timesheet {
     @Column(name = "check_out_time")
     private Date checkOutTime;
 
+    @Column(name = "check_in_over_time")
+    private Date checkInOverTime;
+
+    @Column(name = "check_out_over_time")
+    private Date checkOutOverTime;
+
     @NotNull
     @ManyToOne
     private User user;
@@ -67,5 +73,21 @@ public class Timesheet {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getCheckInOverTime() {
+        return checkInOverTime;
+    }
+
+    public void setCheckInOverTime(Date checkInOverTime) {
+        this.checkInOverTime = checkInOverTime;
+    }
+
+    public Date getCheckOutOverTime() {
+        return checkOutOverTime;
+    }
+
+    public void setCheckOutOverTime(Date checkOutOverTime) {
+        this.checkOutOverTime = checkOutOverTime;
     }
 }

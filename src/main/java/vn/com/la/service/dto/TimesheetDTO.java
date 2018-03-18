@@ -20,6 +20,11 @@ public class TimesheetDTO implements Serializable{
 
     private Date checkOutTime;
 
+    private Date checkInOverTime;
+
+
+    private Date checkOutOverTime;
+
 
     private Long userId;
     private String login;
@@ -79,6 +84,22 @@ public class TimesheetDTO implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getCheckInOverTime() {
+        return checkInOverTime;
+    }
+
+    public void setCheckInOverTime(Date checkInOverTime) {
+        this.checkInOverTime = checkInOverTime;
+    }
+
+    public Date getCheckOutOverTime() {
+        return checkOutOverTime;
+    }
+
+    public void setCheckOutOverTime(Date checkOutOverTime) {
+        this.checkOutOverTime = checkOutOverTime;
     }
 
     @Override

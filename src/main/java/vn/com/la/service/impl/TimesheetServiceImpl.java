@@ -53,11 +53,26 @@ public class TimesheetServiceImpl implements TimesheetService{
 
         if(timesheetDTO == null) {
             timesheetDTO = new TimesheetDTO();
-            timesheetDTO.setCheckInTime(param.getTime().toDate());
+            if (param.getTime().getHourOfDay() < 17) {
+                timesheetDTO.setCheckInTime(param.getTime().toDate());
+            }
+            else {
+                timesheetDTO.setCheckInOverTime(param.getTime().toDate());
+            }
             timesheetDTO.setDate(param.getDate().toDate());
             timesheetDTO.setUserId(param.getUserId());
         }else {
-            timesheetDTO.setCheckOutTime(param.getTime().toDate());
+            if (param.getTime().getHourOfDay() < 17) {
+                timesheetDTO.setCheckOutTime(param.getTime().toDate());
+            }
+            else {
+                DateTime overTime = new DateTime(
+                    param.getTime().getYear(), param.getTime().getMonthOfYear(),
+                    param.getTime().getDayOfMonth(), 17, 0);
+                timesheetDTO.setCheckOutTime(overTime.toDate());
+                timesheetDTO.setCheckInOverTime(overTime.toDate());
+                timesheetDTO.setCheckOutOverTime(param.getTime().toDate());
+            }
         }
 
         save(timesheetDTO);
