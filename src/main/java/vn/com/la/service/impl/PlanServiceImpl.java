@@ -552,6 +552,12 @@ public class PlanServiceImpl implements PlanService {
 
         List<ProjectDTO> projectDTOs = page.getContent();
 
+        // bad implementation
+        // remove finished job
+        for(ProjectDTO projectDTO: projectDTOs) {
+            projectDTO.getJobs().removeIf(jobDTO -> jobDTO.getFinishDate() != null);
+        }
+
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("SELECT ");
         sqlBuilder.append("     sum(case when jtut.status IN ('TODO','REWORK') then 1 else 0 end) as TODO,");
@@ -573,10 +579,6 @@ public class PlanServiceImpl implements PlanService {
             Long totalDeliveryFilesForProject = 0L;
 
             for(JobDTO jobDTO: projectDTO.getJobs()) {
-
-                if(jobDTO.getFinishDate() != null) {
-                    continue;
-                }
 
                 Long totalToDoFilesForJob = 0L;
                 Long totalToCheckFilesForJob = 0L;

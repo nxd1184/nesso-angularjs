@@ -37,7 +37,7 @@ public class JobTeamUserDTO implements Serializable {
 
     private Set<JobTeamUserTaskDTO> jobTeamUserTasks = new HashSet<>();
 
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<String> authorities = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -143,11 +143,11 @@ public class JobTeamUserDTO implements Serializable {
         this.jobTeamUserTasks.remove(jobTeamUserTaskDTO);
     }
 
-    public Set<Authority> getAuthorities() {
+    public Set<String> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
     }
 

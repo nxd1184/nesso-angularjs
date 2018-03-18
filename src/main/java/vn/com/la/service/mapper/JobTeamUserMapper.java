@@ -17,7 +17,7 @@ public interface JobTeamUserMapper extends EntityMapper <JobTeamUserDTO, JobTeam
     @Mapping(source = "user.login", target = "userLogin")
     @Mapping(source = "user.lastName", target = "name")
     @Mapping(source = "user.capacity", target = "capacity")
-    @Mapping(source = "user.authorities", target = "authorities")
+    @Mapping(source = "authorities", target = "authorities")
     JobTeamUserDTO toDto(JobTeamUser jobTeamUser);
 
     @Mapping(source = "jobTeamId", target = "jobTeam")

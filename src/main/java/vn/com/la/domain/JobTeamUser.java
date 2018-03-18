@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A JobTeamUser.
@@ -96,6 +97,10 @@ public class JobTeamUser extends AbstractAuditingEntity {
 
     public void setJobTeamUserTasks(Set<JobTeamUserTask> jobTeamUserTasks) {
         this.jobTeamUserTasks = jobTeamUserTasks;
+    }
+
+    public Set<String> getAuthorities() {
+        return user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
     @Override
