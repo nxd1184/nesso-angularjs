@@ -47,14 +47,12 @@
                 var isAuthenticated = Principal.isAuthenticated();
 
                 function getDefaultHome() {
-                    var defaultHome = { 
+                    var defaultHome = {
                             "ROLE_USER": "home",
                             "ROLE_PROJECT_MANAGER": "report",
                             "ROLE_TEAM_LEADER": "folder",
                             "ROLE_ADMIN": "user-setting",
                             "ROLE_FREELANCER": "check-in",
-                            "ROLE_PROJECT_MANAGER": "project",
-                            "ROLE_PROJECT_MANAGER": "account",
                     }
 
                     if (Principal.hasAnyAuthority(['ROLE_USER'])) {
@@ -72,7 +70,7 @@
                     else if (Principal.hasAnyAuthority(['ROLE_FREELANCER'])) {
                         return defaultHome['ROLE_FREELANCER'];
                     }
-                }  
+                }
 
                 function shouldBeRedirected() {
                     return !Principal.hasAnyAuthority(['ROLE_USER']) && $rootScope.toState.name === 'home';

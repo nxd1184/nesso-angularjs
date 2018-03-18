@@ -69,4 +69,7 @@
 
     <include file="config/liquibase/changelog/20180226085253_update_entity_Job_add_finish_date.xml" relativeToChangelogFile="false"/>
 
+    <include file="config/liquibase/changelog/20180318111821_added_overtime_check_in_out.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180318111821_update_check_in_time_sheet_not_null.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

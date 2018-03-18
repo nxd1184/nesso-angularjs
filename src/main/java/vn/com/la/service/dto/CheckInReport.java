@@ -9,6 +9,8 @@ public class CheckInReport {
     private Instant day;
     private Instant checkin;
     private Instant checkout;
+    private Instant checkin_overtime;
+    private Instant checkout_overtime;
 
     public String getEmployee() {
         return employee;
@@ -48,5 +50,21 @@ public class CheckInReport {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Instant getCheckin_overtime() {
+        return checkin_overtime;
+    }
+
+    public void setCheckin_overtime(Instant checkin_overtime) {
+        this.checkin_overtime = checkin_overtime;
+    }
+
+    public Instant getCheckout_overtime() {
+        return checkout_overtime;
+    }
+
+    public void setCheckout_overtime(Instant checkout_overtime) {
+        this.checkout_overtime = checkout_overtime;
     }
 }
