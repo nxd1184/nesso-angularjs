@@ -289,7 +289,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnDoneFolder = fileSystemHandlingService.checkFileExist(filePath);
         if(!fileExistOnDoneFolder) {
-            throw new CustomParameterizedException("File " + params.getFileName() + " not found in done folder");
+            throw new CustomParameterizedException("File " + params.getFileName() + " not found in Done folder. Please upload this file into Done folder before change to QC-Edit.");
         }
 
         User loginedUser = userService.getUserWithAuthorities();
