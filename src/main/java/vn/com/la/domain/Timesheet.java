@@ -18,8 +18,7 @@ public class Timesheet {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @NotNull
-    @Column(name = "check_in_time", nullable = false)
+    @Column(name = "check_in_time")
     private Date checkInTime;
 
     @Column(name = "check_out_time")

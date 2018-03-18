@@ -362,9 +362,17 @@ public class ReportServiceImpl implements ReportService {
             CheckInReport checkInReport = new CheckInReport();
             checkInReport.setEmployee(shift.getName());
             checkInReport.setDay(shift.getDate().toInstant());
-            checkInReport.setCheckin(shift.getCheckInTime().toInstant());
+            if(shift.getCheckInTime() != null) {
+                checkInReport.setCheckin(shift.getCheckInTime().toInstant());
+            }
             if(shift.getCheckOutTime() != null) {
                 checkInReport.setCheckout(shift.getCheckOutTime().toInstant());
+            }
+            if (shift.getCheckInOverTime() != null) {
+                checkInReport.setCheckin_overtime(shift.getCheckInOverTime().toInstant());
+            }
+            if(shift.getCheckOutOverTime() != null) {
+                checkInReport.setCheckout_overtime(shift.getCheckOutOverTime().toInstant());
             }
             checkInReport.setUserId(shift.getUserId());
             report.add(checkInReport);
