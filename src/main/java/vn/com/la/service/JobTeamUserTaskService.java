@@ -72,7 +72,7 @@ public interface JobTeamUserTaskService {
 
     Long countJobToDoList(Long id, Long jobId);
 
-    Long sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(List<FileStatusEnum> statusList, ZonedDateTime fromDate, ZonedDateTime toDate);
+    Long sumNumberOfReworkByLastReworkTimeIsBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
 
     int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id);
 }

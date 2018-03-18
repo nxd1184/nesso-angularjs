@@ -54,7 +54,7 @@ public class ReportServiceImpl implements ReportService {
         rs.setTotalToDo(jobTeamUserTaskService.countByStatusAndDateRange(Constants.TO_DO_STATUS_LIST, LADateTimeUtil.zonedDateTimeToInstant(param.getFromDate()), LADateTimeUtil.zonedDateTimeToInstant(param.getToDate())));
         rs.setTotalToCheck(jobTeamUserTaskService.countByStatusAndDateRange(Constants.TO_CHECK_STATUS_LIST, LADateTimeUtil.zonedDateTimeToInstant(param.getFromDate()), LADateTimeUtil.zonedDateTimeToInstant(param.getToDate())));
         rs.setTotalDone(jobTeamUserTaskService.countByStatusAndDateRange(Constants.DONE_STATUS_LIST, LADateTimeUtil.zonedDateTimeToInstant(param.getFromDate()), LADateTimeUtil.zonedDateTimeToInstant(param.getToDate())));
-        rs.setTotalRework(jobTeamUserTaskService.sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(Constants.REWORK_STATUS_LIST, param.getFromDate(), param.getToDate()));
+        rs.setTotalRework(jobTeamUserTaskService.sumNumberOfReworkByLastReworkTimeIsBetween(param.getFromDate(), param.getToDate()));
         rs.setUrgentJobs(jobService.findByDeadlineBetween(param.getFromDealineDate(), param.getToDealineDate()));
 
         return rs;
@@ -264,7 +264,7 @@ public class ReportServiceImpl implements ReportService {
     public DeliveryQualityResponseVM getDeliveryQualityReportForUser(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, (count(jtut.id) / sum(jtut.number_of_rework))*100 as error_rate, min(jtu.created_date) as received_date");
+        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, count(jtut.number_of_rework) as error, (count(jtut.id) / count(jtut.number_of_rework))*100 as error_rate, min(jtu.created_date) as received_date");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");
@@ -282,7 +282,7 @@ public class ReportServiceImpl implements ReportService {
     public DeliveryQualityResponseVM getDeliveryQualityReportForFreelancer(DateTime fromDate, DateTime toDate) {
         StringBuilder sqlBuilder = new StringBuilder();
 
-        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, sum(jtut.number_of_rework) as error, (count(jtut.id) / sum(jtut.number_of_rework))*100 as error_rate, min(jtu.created_date) as received_date");
+        sqlBuilder.append("SELECT ju.id as userId, ju.last_name, p.id as projectId, p.name as project_name, j.id as jobId, j.name as job_name, count(jtut.id) as volumn, count(if(jtut.status='DONE',1,NULL)) as done, count(jtut.number_of_rework) as error, (count(jtut.id) / count(jtut.number_of_rework))*100 as error_rate, min(jtu.created_date) as received_date");
         sqlBuilder.append(" FROM job_team_user_task jtut");
         sqlBuilder.append(" inner join job_team_user jtu on jtut.job_team_user_id = jtu.id");
         sqlBuilder.append(" inner join jhi_user ju on jtu.user_id = ju.id");

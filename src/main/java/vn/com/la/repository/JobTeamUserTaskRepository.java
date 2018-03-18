@@ -29,8 +29,8 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
 
     Long countByStatusInAndLastModifiedDateIsBetween(List<FileStatusEnum> statusList, Instant fromDate, Instant toDate);
 
-    @Query("select COALESCE(sum(numberOfRework),0) from JobTeamUserTask where status in ?1 and lastReworkTime between ?2 and ?3")
-    Long sumNumberOfReworkByStatusInAndLastReworkTimeIsBetween(List<FileStatusEnum> statusList, ZonedDateTime fromDate, ZonedDateTime toDate);
+    @Query("select COALESCE(count(numberOfRework),0) from JobTeamUserTask where lastReworkTime between ?1 and ?2")
+    Long sumNumberOfReworkByLastReworkTimeIsBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
 
     List<JobTeamUserTask> findByJobTeamUserId(Long id);
 
