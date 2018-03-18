@@ -143,7 +143,7 @@
                     employee.totalDone += job.done;
                     employee.totalVolumn += job.volumn;
                     employee.totalError += job.error;
-                    employee.errorRate = Number(employee.totalError/employee.totalVolumn).toFixed(2);
+                    employee.errorRate = Number(employee.totalError/employee.totalVolumn).toFixed(2) * 100;
                     employee.projects[item.projectId] = project;
                     data_group_by_user[item.userId] = employee;
                 });
@@ -216,7 +216,7 @@
                     employee.totalDone += job.done;
                     employee.totalVolumn += job.volumn;
                     employee.totalError += job.error;
-                    employee.errorRate = Number(employee.totalError/employee.totalVolumn).toFixed(2);
+                    employee.errorRate = Number(employee.totalError/employee.totalVolumn).toFixed(2)*100;
                     employee.projects[item.projectId] = project;
                     data_group_by_user[item.userId] = employee;
                 });
