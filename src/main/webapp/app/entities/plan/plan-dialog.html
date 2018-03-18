@@ -132,7 +132,7 @@
                             </div>
                         </div>
                         <div class="body_group">
-                            <div class="form-group" ng-repeat="member in team.jobTeamUsers">
+                            <div class="form-group" ng-repeat="member in team.jobTeamUsers" ng-if="vm.hasRoleUser(member.authorities)">
                                 <label>{{member.name}}
                                     <small>{{member.totalFiles}}</small>
                                 </label>

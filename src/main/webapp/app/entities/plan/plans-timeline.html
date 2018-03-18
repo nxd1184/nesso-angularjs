@@ -11,7 +11,7 @@
             <div class="search">
                 <div class="input-group" style="float:left">
                     <div class="input-group-btn">
-                        <ui-select ng-model="vm.selectedFilter" theme="select2" style="width: 120px"
+                        <ui-select ng-model="vm.filterBy" theme="select2" style="width: 120px"
                                    search-enabled="false" class="selectpicker form-control">
                             <ui-select-match placeholder="Filter">{{$select.selected}}</ui-select-match>
                             <ui-select-choices repeat="f in vm.filters">
@@ -20,9 +20,9 @@
                         </ui-select>
                     </div>
                     <!-- /btn-group -->
-                    <input type="text" class="form-control" placeholder="Search for...">
+                    <input type="text" class="form-control" ng-model="vm.filterValue" placeholder="Search for...">
                     <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button"><i class="fa fa-search"
+                            <button class="btn btn-secondary" type="button" ng-click="vm.doFilter()"><i class="fa fa-search"
                                                                                aria-hidden="true"></i></button>
                             </span>
 
@@ -55,36 +55,29 @@
     </div>
 
     <!-- END PAGE HEAD -->
-    <!-- BEGIN PAGE BREADCRUMB -->
-    <ul class="page-breadcrumb breadcrumb hide">
-        <li>
-            <a href="javascript:;">Home</a><i class="fa fa-circle"></i>
-        </li>
-        <li class="active">
-            Project
-        </li>
-    </ul>
     <div class="margin-top-20">
         <div class="wrap-table-radius plan">
             <div class="tab-content">
                 <div class="tab-pane active table-responsive" id="tab_1_11">
                     <!--<tree-grid tree-data="vm.treeData" col-defs="vm.colDefs"></tree-grid>-->
 
-                    <table class="tree table table-hover status-project">
+                    <table class="tree table table-hover timeline-project">
                         <thead>
                         <tr>
                             <th>Project</th>
-                            <th class="progress_col">Total</th>
-                            <th class="col_todo">To do</th>
-                            <th class="col_tocheck">To check</th>
-                            <th class="col_done">Done</th>
-                            <th class="col_delivery">Delivery</th>
-                            <th class="action"></th>
+                            <th class="progress_col" ng-click="vm.openCalendar('week')">
+
+                                <input type='hidden' class="form-control" ng-disabled="true" datetime-picker="dd/MM/yyyy" enable-time="false" is-open="vm.datePickerOpenStatus.week" ng-model="vm.dayOfWeek" when-closed="vm.onDateSelected(args)" />
+
+                                Week {{vm.weekNumber}}<span>{{vm.fromDayOfMonth}}-{{vm.toDayOfMonth}}</span>
+                            </th>
+                            <th class="col_day" ng-repeat="d in vm.ranges">{{d.dayOfWeek}}<span>{{d.dayOfMonth}}</span></th>
                         </tr>
                         </thead>
                         <tbody>
-
-                        <tr ng-repeat="row in vm.rows track by $index" class="{{row.cssClass}}">
+                        <tr ng-repeat="row in vm.rows track by $index" class="{{row.cssClass}}" ng-class="{'project': row.type == 'project' && vm.currentView == 'PROJECT', 'job': row.type == 'job' && vm.currentView == 'PROJECT',
+                                                                                                            'project': row.type == 'team' && vm.currentView == 'USER', 'job': row.type == 'user' && vm.currentView == 'USER'
+                                                                                                            }">
                             <td>
                                 <i class="fa fa-briefcase" aria-hidden="true" ng-if="row.type == 'project'"></i>
                                 <i class="fa fa-file" aria-hidden="true" ng-if="row.type == 'job'"></i>
@@ -93,7 +86,7 @@
                                 {{row.name}}
                             </td>
                             <td class="progress_col">
-                                <p>{{row.total}}</p>
+                                <p>{{row.totalDone}}</p>
                                 <div class="wrap-progress">
                                     <div class="progress-info">
                                         <div class="progress">
@@ -105,31 +98,13 @@
                                 </div>
 
                             </td>
-                            <td class="col_todo">{{row.toDo}}</td>
-                            <td class="col_tocheck">{{row.toCheck}}</td>
-                            <td class="col_done">{{row.done}}</td>
-                            <td class="col_delivery">{{row.delivery}}</td>
-                            <td class="action">
-                                <a ng-if="row.type == 'job'" class="btn-editJob" ui-sref="plans-status.edit({id: row.id})">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </a>
-
-                                <a ng-if="row.type == 'project' && vm.currentView == 'PROJECT'" class="btn-editJob" ng-click="vm.syncUp(row.code)">
-                                    <i class="fa fa-refresh" aria-hidden="true"></i>
-                                </a>
-
-                                <a ng-if="row.type == 'user' && vm.currentView == 'PROJECT'" class="btn-editJob" ui-sref="plans-status.adjust({userId: row.id, jobId: row.jobId})">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </a>
-                            </td>
+                            <td class="col_day" ng-repeat="totalDone in row.totalDoneByDays track by $index">{{totalDone}}</td>
                         </tr>
                         </tbody>
                     </table>
 
                 </div>
-                <div class="tab-pane table-responsive" id="tab_1_22">
 
-                </div>
             </div>
 
         </div>

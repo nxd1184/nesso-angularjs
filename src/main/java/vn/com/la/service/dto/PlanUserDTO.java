@@ -15,7 +15,9 @@ public class PlanUserDTO {
     private Long totalDone = 0L;
     private Long totalDelivery = 0L;
 
-    public void update(Object[] row) {
+    private Long totalDoneByDays[] = new Long[7];
+
+    public void updateByProjectViewAndStatusType(Object[] row) {
 
         if(row[8] != null) {
             totalFiles += Long.parseLong(row[8].toString());
@@ -45,7 +47,54 @@ public class PlanUserDTO {
             }
             projects.put(projectId, project);
         }
-        project.update(row);
+        project.updateByProjectViewAndStatusType(row);
+    }
+
+    public void updateByProjectViewAndTimelineType(Object[] row) {
+
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+    }
+
+    public void updateByUserViewAndTimelineType(Object[] row) {
+
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+
+        PlanProjectDTO project = null;
+        Long projectId = Long.parseLong(row[4].toString());
+        if(projects.containsKey(projectId)) {
+            project = projects.get(projectId);
+        }else {
+            project = new PlanProjectDTO();
+            project.setProjectId(projectId);
+            if(row[5] != null) {
+                project.setProjectName(row[5].toString());
+            }
+            projects.put(projectId, project);
+        }
+        project.updateByUserViewAndTimelineType(row);
+
     }
 
     public Long getUserId() {
@@ -110,5 +159,13 @@ public class PlanUserDTO {
 
     public void setTotalFiles(Long totalFiles) {
         this.totalFiles = totalFiles;
+    }
+
+    public Long[] getTotalDoneByDays() {
+        return totalDoneByDays;
+    }
+
+    public void setTotalDoneByDays(Long[] totalDoneByDays) {
+        this.totalDoneByDays = totalDoneByDays;
     }
 }

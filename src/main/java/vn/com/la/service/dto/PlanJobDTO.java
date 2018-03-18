@@ -1,8 +1,13 @@
 package vn.com.la.service.dto;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlanJobDTO {
     private Long jobId;
     private String jobName;
+
+    private Map<Long, PlanTeamDTO> teams = new HashMap<>();
 
     private Long totalFiles = 0L;
     private Long totalToDo = 0L;
@@ -10,7 +15,9 @@ public class PlanJobDTO {
     private Long totalDone = 0L;
     private Long totalDelivery = 0L;
 
-    public void update(Object[] row) {
+    private Long totalDoneByDays[] = new Long[7];
+
+    public void updateByProjectViewAndStatusType(Object[] row) {
         if(row[8] != null) {
             totalFiles = Long.parseLong(row[8].toString());
         }
@@ -25,6 +32,50 @@ public class PlanJobDTO {
         }
         if(row[12] != null) {
             totalDelivery = Long.parseLong(row[12].toString());
+        }
+    }
+
+    public void updateByProjectViewAndTimelineType(Object[] row) {
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
+        }
+
+        Long teamId = Long.parseLong(row[4].toString());
+        PlanTeamDTO team = null;
+        if(teams.containsKey(teamId)) {
+            team = teams.get(teamId);
+        }else {
+            team = new PlanTeamDTO();
+            team.setTeamId(teamId);
+            if(row[5] != null) {
+                team.setTeamName(row[5].toString());
+            }
+            teams.put(teamId, team);
+        }
+        team.updateByProjectViewAndTimelineType(row);
+    }
+
+    public void updateByUserViewAndTimelineType(Object[] row) {
+        for(int i = 8; i <= 14; i++) {
+
+            if(totalDoneByDays[i - 8] == null) {
+                totalDoneByDays[i - 8] = 0L;
+            }
+
+            if(row[i] != null) {
+                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+            }
+
+            totalDone += totalDoneByDays[i - 8];
         }
     }
 
@@ -82,5 +133,21 @@ public class PlanJobDTO {
 
     public void setTotalFiles(Long totalFiles) {
         this.totalFiles = totalFiles;
+    }
+
+    public Map<Long, PlanTeamDTO> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Map<Long, PlanTeamDTO> teams) {
+        this.teams = teams;
+    }
+
+    public Long[] getTotalDoneByDays() {
+        return totalDoneByDays;
+    }
+
+    public void setTotalDoneByDays(Long[] totalDoneByDays) {
+        this.totalDoneByDays = totalDoneByDays;
     }
 }

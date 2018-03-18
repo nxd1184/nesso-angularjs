@@ -17,19 +17,6 @@
         vm.save = save;
         vm.searchUsers = searchUsers;
 
-        // User.query({}, function(data){
-        //     vm.users = data;
-        //     if (vm.project.managerId ) {
-        //         vm.users.forEach(function (user) {
-        //             if (user.id === vm.project.managerId) {
-        //                 vm.selectedUser = user;
-        //             }
-        //         })
-        //     } else {
-        //         vm.selectedUser = null;
-        //     }
-        // });
-
         userService.search({
 
         }).then(function(result) {
@@ -97,7 +84,7 @@
                 key: 'MANUAL',
                 name: 'Manual'
             }
-        ]
+        ];
         vm.selectedType = vm.types[1];
 
         vm.datePickerOpenStatus.startDate = false;

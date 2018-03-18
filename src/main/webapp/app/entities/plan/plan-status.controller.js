@@ -19,7 +19,8 @@
         vm.projectView = true;
         vm.userView = false;
         vm.changeViewBaseOn = changeViewBaseOn;
-        vm.currentView = 'PROJECT';
+        vm.currentView = $stateParams.view;
+
         vm.doFilter = doFilter;
 
         vm.rows = [];
@@ -29,7 +30,8 @@
         function doFilter() {
             var query = {
                 filterBy: LA.StringUtils.trimToEmpty(vm.filterBy),
-                filterValue: LA.StringUtils.trimToEmpty(vm.filterValue)
+                filterValue: LA.StringUtils.trimToEmpty(vm.filterValue),
+                view: vm.currentView
             };
             $state.go($state.current, query, { reload: 'plans-status' });
         }
@@ -41,7 +43,8 @@
 
             var params = {
                 taskCode: vm.filterBy === 'Task Code' ? vm.filterValue : '',
-                projectCode: vm.filterBy === 'Project Code' ? vm.filterValue : ''
+                projectCode: vm.filterBy === 'Project Code' ? vm.filterValue : '',
+                type: 'STATUS'
             };
 
             planService.getAllPlans(vm.currentView, params).then(onSuccess, onError);
@@ -89,6 +92,11 @@
 
                 for(var j = 0; j < project.jobs.length; j++) {
                     var job = project.jobs[j];
+
+                    if(job.finishDate) {
+                        continue;
+                    }
+
                     var jobTreeGrid = treeLevel++;
                     vm.rows.push({
                         id: job.id,

@@ -34,7 +34,8 @@
     function projectService ($http, $q) {
 
         var service = {
-            syncUp: syncUp
+            syncUp: syncUp,
+            search: search
         };
 
         function syncUp(projectCode) {
@@ -47,6 +48,21 @@
             };
 
             $http(LA.RequestUtils.put(url, data)).then(function(result) {
+                defer.resolve(result.data);
+            }, function error(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function search(params) {
+            var defer = $q.defer();
+
+            var url = '/api/projects/search/?search=' + LA.StringUtils.trimToEmpty(params.code);
+
+
+            $http(LA.RequestUtils.get(url)).then(function(result) {
                 defer.resolve(result.data);
             }, function error(error) {
                 defer.reject(error);

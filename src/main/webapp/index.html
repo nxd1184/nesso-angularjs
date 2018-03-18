@@ -13,13 +13,13 @@
           type="text/css"/>
     <link href="content/fonts/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link href="content/assets/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="content/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="content/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
     <link href="content/assets/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
-    <link href="content/assets/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="content/assets/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>-->
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <link href="content/assets/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="content/assets/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="content/assets/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>-->
     <link href="content/assets/morris/morris.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="content/assets/jquery-treegrid/css/jquery.treegrid.css"/>
 
@@ -276,6 +276,10 @@
 
 <script src="app/layouts/navbar/navbar.controller.js"></script>
 
+<script src="app/layouts/header/header.service.js"></script>
+
+<script src="app/layouts/header/header.controller.js"></script>
+
 <script src="app/layouts/error/error.state.js"></script>
 
 <script src="app/home/home.state.js"></script>
@@ -336,10 +340,6 @@
 
 <script src="app/entities/report/report.controller.js"></script>
 
-<script src="app/layouts/header/header.controller.js"></script>
-
-<script src="app/layouts/header/header.service.js"></script>
-
 <script src="app/entities/project/project-dialog.controller.js"></script>
 
 <script src="app/entities/project/project-detail.controller.js"></script>
@@ -356,15 +356,19 @@
 
 <script src="app/entities/plan/plan-status.controller.js"></script>
 
+<script src="app/entities/plan/plan-finish.controller.js"></script>
+
 <script src="app/entities/plan/plan-dialog.controller.js"></script>
 
 <script src="app/entities/plan/plan-adjust.controller.js"></script>
 
-<script src="app/entities/plan/plan-finish.controller.js"></script>
-
 <script src="app/entities/plan/plan.state.js"></script>
 
 <script src="app/entities/plan/plan.service.js"></script>
+
+<script src="app/entities/notification/notification.state.js"></script>
+
+<script src="app/entities/notification/notification.controller.js"></script>
 
 <script src="app/entities/job-team-user-task-tracking/job-team-user-task-tracking-dialog.controller.js"></script>
 
@@ -596,8 +600,6 @@
 
 <script src="app/account/account.state.js"></script>
 
-<script src="app/entities/notification/notification.controller.js"></script>
-<script src="app/entities/notification/notification.state.js"></script>
 <!-- endinject -->
 <!-- endbuild -->
 

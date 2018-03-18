@@ -17,9 +17,26 @@
         };
 
         function getAllPlans(view, params) {
+
+            var projectCode = null;
+            var taskCode = null;
+            var type = 'STATUS';
+            var fromDate = '';
+            var toDate = '';
+            if(params) {
+                projectCode = params.projectCode;
+                taskCode = params.taskCode;
+                type = params.type;
+                fromDate = LA.StringUtils.encode(LA.StringUtils.toIsoTrimToMinute(params.fromDate));
+                toDate = LA.StringUtils.encode(LA.StringUtils.toIsoTrimToMinute(params.toDate));
+            }
+
             var url = 'api/plans?view=' + view
-                        + '&projectCode=' + LA.StringUtils.trimToEmpty(params.projectCode)
-                        + '&taskCode=' + LA.StringUtils.trimToEmpty(params.taskCode);
+                        + '&projectCode=' + LA.StringUtils.trimToEmpty(projectCode)
+                        + '&taskCode=' + LA.StringUtils.trimToEmpty(taskCode)
+                        + '&type=' + LA.StringUtils.trimToEmpty(type)
+                        + '&fromDate=' + fromDate
+                        + '&toDate=' + toDate;
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);

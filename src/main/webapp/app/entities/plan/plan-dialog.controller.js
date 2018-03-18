@@ -205,6 +205,7 @@
                         userId: member.id,
                         name: member.lastName,
                         capacity: member.capacity,
+                        authorities: member.authorities,
                         totalFiles: 0
                     });
                 }
@@ -314,25 +315,42 @@
 
                     var totalFilesForUser = 0;
 
-                    if(totalFilesOfJob > 0 && capacity && capacity > 0) {
-                        totalFilesForUser = Math.ceil(total / capacity);
-
-                        if(totalFilesForUser > totalFilesOfJob) {
-                            totalFilesForUser = totalFilesOfJob;
-                        }
-
-                        // total -= totalFilesForUser;
-                        totalFilesOfJob -= totalFilesForUser;
+                    if(capacity > total) {
+                        totalFilesForUser = totalFilesOfJob;
+                        total = 0;
+                    }else {
+                        totalFilesForUser = Math.ceil(capacity * totalFilesOfJob / total);
+                        total -= capacity;
                     }
+
+                    // if(totalFilesOfJob > 0 && capacity && capacity > 0) {
+                    //     totalFilesForUser = Math.ceil(total / capacity);
+                    //
+                    //     if(totalFilesForUser > totalFilesOfJob) {
+                    //         totalFilesForUser = totalFilesOfJob;
+                    //     }
+                    //
+                    //     // total -= totalFilesForUser;
+                    //     totalFilesOfJob -= totalFilesForUser;
+                    // }
 
                     member.totalFiles = totalFilesForUser;
 
                     totalFilesForTeam += totalFilesForUser;
 
+                    totalFilesOfJob -= totalFilesForUser;
+
                 }
 
                 selectedTeam.totalFiles = totalFilesForTeam;
             }
+        }
+
+        vm.hasRoleUser = function(roles) {
+            if(roles) {
+                return roles.indexOf('ROLE_USER') != -1;
+            }
+            return false;
         }
 
     }

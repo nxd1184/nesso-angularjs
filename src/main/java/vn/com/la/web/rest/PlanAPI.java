@@ -3,6 +3,7 @@ package vn.com.la.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.service.PlanService;
+import vn.com.la.service.dto.PlanTypeEnumDTO;
 import vn.com.la.service.dto.PlanViewEnumDTO;
 import vn.com.la.service.dto.param.*;
 import vn.com.la.service.util.LACommonUtil;
@@ -20,6 +22,7 @@ import vn.com.la.web.rest.vm.request.FinishJobRequestVM;
 import vn.com.la.web.rest.vm.response.*;
 
 import javax.validation.Valid;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @RestController
@@ -38,14 +41,28 @@ public class PlanAPI {
     @GetMapping("/plans")
     @Timed
     public ResponseEntity<GetAllPlanResponseVM> getAllPlans(@ApiParam Pageable pageable, @RequestParam PlanViewEnumDTO view,
+                                                            @RequestParam PlanTypeEnumDTO type,
                                                             @RequestParam(required = false, name = "projectCode") String projectCode,
-                                                            @RequestParam(required = false, name = "taskCode") String taskCode) {
+                                                            @RequestParam(required = false, name = "taskCode") String taskCode,
+                                                            @ApiParam String fromDate,
+                                                            @ApiParam String toDate) {
         log.debug("REST request to get all plans");
 
         GetAllPlanParamDTO params = new GetAllPlanParamDTO();
+        params.setType(type);
         params.setView(view);
         params.setProjectCode(projectCode);
         params.setTaskCode(taskCode);
+
+        if(StringUtils.isNotBlank(fromDate)) {
+            ZonedDateTime fromDateZDT = LADateTimeUtil.isoStringToZonedDateTime(fromDate);
+            params.setFromDate(fromDateZDT);
+        }
+
+        if(StringUtils.isNotBlank(toDate)) {
+            ZonedDateTime toDateZDT = LADateTimeUtil.isoStringToZonedDateTime(toDate);
+            params.setToDate(toDateZDT);
+        }
 
         GetAllPlanResponseVM rs = planService.getAllPlans(params);
 

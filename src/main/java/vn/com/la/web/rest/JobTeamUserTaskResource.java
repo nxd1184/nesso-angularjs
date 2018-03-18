@@ -74,7 +74,7 @@ public class JobTeamUserTaskResource {
     /**
      * PUT  /job-team-user-tasks : Updates an existing jobTeamUserTask.
      *
-     * @param jobTeamUserTaskDTO the jobTeamUserTaskDTO to update
+     * @param jobTeamUserTaskDTO the jobTeamUserTaskDTO to updateByProjectViewAndStatusType
      * @return the ResponseEntity with status 200 (OK) and with body the updated jobTeamUserTaskDTO,
      * or with status 400 (Bad Request) if the jobTeamUserTaskDTO is not valid,
      * or with status 500 (Internal Server Error) if the jobTeamUserTaskDTO couldn't be updated
@@ -83,7 +83,7 @@ public class JobTeamUserTaskResource {
     @PutMapping("/job-team-user-tasks")
     @Timed
     public ResponseEntity<JobTeamUserTaskDTO> updateJobTeamUserTask(@Valid @RequestBody JobTeamUserTaskDTO jobTeamUserTaskDTO) throws URISyntaxException {
-        log.debug("REST request to update JobTeamUserTask : {}", jobTeamUserTaskDTO);
+        log.debug("REST request to updateByProjectViewAndStatusType JobTeamUserTask : {}", jobTeamUserTaskDTO);
         if (jobTeamUserTaskDTO.getId() == null) {
             return createJobTeamUserTask(jobTeamUserTaskDTO);
         }

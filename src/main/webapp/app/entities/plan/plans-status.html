@@ -47,8 +47,8 @@
             <div class="form-group margin-bottom-0 view_base pull-right">
                 <label class="margin-top-15">View base on: </label>
                 <div class="btn-group">
-                    <button type="button" ng-click="vm.changeViewBaseOn('PROJECT')" ng-class="{'active': vm.projectView}" class="btn btn-default btn-xs btn-project">Project</button>
-                    <button type="button" ng-click="vm.changeViewBaseOn('USER')" ng-class="{'active': vm.userView}" class="btn btn-default btn-xs btn-user">User</button>
+                    <button type="button" ng-click="vm.changeViewBaseOn('PROJECT')" ng-class="{'active': vm.currentView == 'PROJECT'}" class="btn btn-default btn-xs btn-project">Project</button>
+                    <button type="button" ng-click="vm.changeViewBaseOn('USER')" ng-class="{'active': vm.currentView == 'USER'}" class="btn btn-default btn-xs btn-user">User</button>
                 </div>
             </div>
         </div>
@@ -133,9 +133,7 @@
                     </table>
 
                 </div>
-                <div class="tab-pane table-responsive" id="tab_1_22">
 
-                </div>
             </div>
 
         </div>

@@ -134,7 +134,7 @@ public class AccountResource {
     }
 
     /**
-     * POST  /account : update the current user information.
+     * POST  /account : updateByProjectViewAndStatusType the current user information.
      *
      * @param userDTO the current user information
      * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) or 500 (Internal Server Error) if the user couldn't be updated

@@ -162,8 +162,13 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         List<Long> succeedCheckInTaskIds = new ArrayList<>();
 
         for(JobTeamUserTaskDTO task: jobTeamUserTasks) {
-            checkIn(task.getId());
-            succeedCheckInTaskIds.add(task.getId());
+            try {
+                checkIn(task.getId());
+                succeedCheckInTaskIds.add(task.getId());
+            } catch (Exception ex) {
+                // ignore exception
+            }
+
         }
 
         CheckInAllResponseVM rs = new CheckInAllResponseVM();
