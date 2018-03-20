@@ -279,10 +279,22 @@
                     for (var idx_user in item) {
                         count++;
                         var user = item[idx_user];
-                        var checkin = moment(user.checkin).format("hh:mm A");
-                        var checkout = moment(user.checkout).format("hh:mm A");
-                        var diff_sec = moment(user.checkout).diff(moment(user.checkin))/1000;
-                        var diff = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        var checkin = "", checkout = "", diff = "";
+                        if (user.checkin != null && user.checkin != undefined) {
+                            checkin = moment(user.checkin).format("hh:mm A");
+                            checkout = moment(user.checkout).format("hh:mm A");
+                            var diff_sec = moment(user.checkout).diff(moment(user.checkin))/1000;
+                            diff = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        }
+
+                        var checkin_overtime = "", checkout_overtime = "", diff_overtime = "";
+                        if (user.checkin_overtime != null && user.checkin_overtime != undefined) {
+                            checkin_overtime = moment(user.checkin_overtime).format("hh:mm A");
+                            checkout_overtime = moment(user.checkout_overtime).format("hh:mm A");
+                            var diff_sec = moment(user.checkout_overtime).diff(moment(user.checkin_overtime))/1000;
+                            diff_overtime = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        }
+
                         var type = "";
                         if (moment(idx_date, "DD/MM/YYYY").day() == 0) {
                             type = "SUN";
@@ -291,7 +303,7 @@
                             type = "SAT";
                         }
                         var css_class = "";
-                        var row = {'date': '', 'user_name' : user.employee, 'in': checkin, 'out': checkout, 'hours_working' : diff, 'type': type}
+                        var row = {'date': '', 'user_name' : user.employee, 'in': checkin, 'out': checkout, 'hours_working' : diff, 'in_overtime': checkin_overtime, 'out_overtime': checkout_overtime, 'hours_working_overtime' : diff_overtime, 'type': type}
                         if (is_first) {
                             is_first = false;
                             row.date = idx_date;
@@ -314,10 +326,21 @@
                     for (var idx_date in item.dates) {
                         count++;
                         var user = item.dates[idx_date];
-                        var checkin = moment(user.checkin).format("hh:mm A");
-                        var checkout = moment(user.checkout).format("hh:mm A");
-                        var diff_sec = moment(user.checkout).diff(moment(user.checkin))/1000;
-                        var diff = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        var checkin = "", checkout = "", diff = "";
+                        if (user.checkin != null && user.checkin != undefined) {
+                            checkin = moment(user.checkin).format("hh:mm A");
+                            checkout = moment(user.checkout).format("hh:mm A");
+                            var diff_sec = moment(user.checkout).diff(moment(user.checkin))/1000;
+                            diff = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        }
+
+                        var checkin_overtime = "", checkout_overtime = "", diff_overtime = "";
+                        if (user.checkin_overtime != null && user.checkin_overtime != undefined) {
+                            checkin_overtime = moment(user.checkin_overtime).format("hh:mm A");
+                            checkout_overtime = moment(user.checkout_overtime).format("hh:mm A");
+                            var diff_sec = moment(user.checkout_overtime).diff(moment(user.checkin_overtime))/1000;
+                            diff_overtime = Math.floor(diff_sec/3600) + "h" + Math.floor((diff_sec - Math.floor(diff_sec/3600)*3600)/60) + "m";
+                        }
                         var type = "";
                         if (moment(idx_date, "DD/MM/YYYY").day() == 0) {
                             type = "SUN";
@@ -326,7 +349,7 @@
                             type = "SAT";
                         }
                         var css_class = "";
-                        var row = {'user_name' : '', 'date': idx_date,  'in': checkin, 'out': checkout, 'hours_working' : diff, 'type': type}
+                        var row = {'user_name' : '', 'date': idx_date,  'in': checkin, 'out': checkout, 'hours_working' : diff, 'in_overtime': checkin_overtime, 'out_overtime': checkout_overtime, 'hours_working_overtime' : diff_overtime, 'type': type}
                         if (is_first) {
                             is_first = false;
                             row.user_name = item.name;

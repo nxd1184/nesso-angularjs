@@ -32,6 +32,8 @@ public final class Constants {
 
     public static final String NESSO_GLOBAL_SEQUENCE = "SQ_NESSO_GLOBAL_SEQUENCE";
 
+    public static final Integer END_HOUR_WORKING_DAY = 17; //17:00
+
     public static final List<FileStatusEnum> TO_DO_STATUS_LIST = Arrays.asList(FileStatusEnum.TODO, FileStatusEnum.REWORK);
     public static final List<FileStatusEnum> TO_CHECK_STATUS_LIST = Arrays.asList(FileStatusEnum.TOCHECK);
     public static final List<FileStatusEnum> DONE_STATUS_LIST = Arrays.asList(FileStatusEnum.DONE);

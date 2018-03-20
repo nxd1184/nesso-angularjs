@@ -3,6 +3,7 @@ package vn.com.la.service.impl;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.com.la.config.Constants;
 import vn.com.la.domain.Team;
 import vn.com.la.domain.Timesheet;
 import vn.com.la.repository.TimesheetRepository;
@@ -53,22 +54,24 @@ public class TimesheetServiceImpl implements TimesheetService{
 
         if(timesheetDTO == null) {
             timesheetDTO = new TimesheetDTO();
-            if (param.getTime().getHourOfDay() < 17) {
+            if (param.getTime().getHourOfDay() < Constants.END_HOUR_WORKING_DAY) {
                 timesheetDTO.setCheckInTime(param.getTime().toDate());
+                timesheetDTO.setCheckOutTime(param.getTime().toDate());
             }
             else {
                 timesheetDTO.setCheckInOverTime(param.getTime().toDate());
+                timesheetDTO.setCheckOutOverTime(param.getTime().toDate());
             }
             timesheetDTO.setDate(param.getDate().toDate());
             timesheetDTO.setUserId(param.getUserId());
         }else {
-            if (param.getTime().getHourOfDay() < 17) {
+            if (param.getTime().getHourOfDay() < Constants.END_HOUR_WORKING_DAY) {
                 timesheetDTO.setCheckOutTime(param.getTime().toDate());
             }
             else {
                 DateTime overTime = new DateTime(
                     param.getTime().getYear(), param.getTime().getMonthOfYear(),
-                    param.getTime().getDayOfMonth(), 17, 0);
+                    param.getTime().getDayOfMonth(), Constants.END_HOUR_WORKING_DAY, 0);
                 timesheetDTO.setCheckOutTime(overTime.toDate());
                 timesheetDTO.setCheckInOverTime(overTime.toDate());
                 timesheetDTO.setCheckOutOverTime(param.getTime().toDate());
