@@ -9,10 +9,10 @@
     <form class="login-form" name="loginForm" ng-submit="vm.login()" ng-keyup="$event.keyCode == 13 && vm.login()">
         <h3 class="form-title">Log in to continue</h3>
 
-        <div class="alert alert-danger display-hide">
-            <button class="close" data-close="alert"></button>
+        <div ng-if="vm.authenticationError" class="alert alert-danger">
+
             <span>
-                Enter any username and password. </span>
+                Wrong username and password. </span>
         </div>
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
@@ -31,6 +31,7 @@
                        name="password" ng-model="vm.password" required/>
             </div>
         </div>
+
         <div class="form-actions">
             <p class="remember">
                 <input type="checkbox" name="remember" id="remember" ng-model="vm.rememberMe"/>
