@@ -37,6 +37,9 @@
             }, {
                 id: 'ROLE_FREELANCER',
                 name: 'Freelancer'
+            }, {
+                id: 'ROLE_ADMIN',
+                name: 'Admin'
             }
         ];
 
