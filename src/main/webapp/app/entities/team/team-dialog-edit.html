@@ -144,7 +144,7 @@
 
                         <tr ng-repeat="member in vm.team.members track by $index">
                             <td class="index">
-                                1
+                                {{$index + 1}}
                             </td>
                             <td class="username">
                                 {{member.login}}
