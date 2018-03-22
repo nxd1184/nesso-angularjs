@@ -210,7 +210,7 @@ public class PlanServiceImpl implements PlanService {
                                             jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
                                             // setup file name
-                                            String newFileName = originalRelativeFilePath.replaceFirst(Constants.BACK_LOGS + '/', "").replace('/', '_') + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + remoteFileName;
+                                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.DASH + storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + remoteFileName;
                                             jobTeamUserTaskDTO.setFileName(newFileName);
 
                                             jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
@@ -313,7 +313,7 @@ public class PlanServiceImpl implements PlanService {
                             jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
                             // setup file name
-                            String newFileName = originalRelativeFilePath.replaceFirst(Constants.BACK_LOGS + '/', "").replace('/', '_') + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + originalFileName;
+                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.DASH + storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE  + originalFileName;
                             jobTeamUserTaskDTO.setFileName(newFileName);
 
                             fileSystemHandlingService.copy(relativeFilePath, toDoFolderOfUser, newFileName);
@@ -492,7 +492,7 @@ public class PlanServiceImpl implements PlanService {
             newJobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
             // setup file name
-            String newFileName = originalRelativeFilePath.replaceFirst(Constants.BACK_LOGS + '/', "").replace('/', '_') + Constants.UNDERSCORE + sequenceDataDao.nextJobTeamUserTaskId() + Constants.UNDERSCORE + originalFileName;
+            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.DASH + storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + originalFileName;
             newJobTeamUserTaskDTO.setFileName(newFileName);
 
             fileSystemHandlingService.copy(originalRelativeFilePath + Constants.DASH + originalFileName, toDoFolderOfUser, newFileName);
