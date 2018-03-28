@@ -15,6 +15,7 @@ import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
 import vn.com.la.domain.*;
 import vn.com.la.domain.enumeration.FileStatusEnum;
+import vn.com.la.domain.enumeration.ProjectStatusEnum;
 import vn.com.la.repository.SequenceDataDao;
 import vn.com.la.service.*;
 import vn.com.la.service.dto.*;
@@ -546,6 +547,7 @@ public class PlanServiceImpl implements PlanService {
         SearchProjectParamDTO criteria = new SearchProjectParamDTO();
         criteria.setProjectCode(projectCode);
         criteria.setTaskCode(taskCode);
+        criteria.setStatus(ProjectStatusEnum.ACTIVE);
 
         Pageable pagable = new PageRequest(0,10, Sort.Direction.DESC, "createdDate");
         Page<ProjectDTO> page = projectService.search(criteria, pagable);
@@ -654,9 +656,9 @@ public class PlanServiceImpl implements PlanService {
 
         Map<Long, PlanTeamDTO> teams = new HashMap<>();
 
-        String conditions = null;
+        String conditions = "p.status = 'ACTIVE'";
         if(StringUtils.isNotBlank(projectCode)) {
-            conditions = "p.code like '%" + projectCode + "%'";
+            conditions = " AND p.code like '%" + projectCode + "%'";
         }
 
         if(StringUtils.isNotBlank(taskCode)) {
@@ -716,9 +718,9 @@ public class PlanServiceImpl implements PlanService {
     private Map<Long, PlanProjectDTO> buildPlansByProjectForTimeline(ZonedDateTime fromDate, ZonedDateTime toDate, String projectCode, String taskCode) {
         Map<Long, PlanProjectDTO> projects = new HashMap<>();
 
-        String conditions = null;
+        String conditions = "p.status = 'ACTIVE'";
         if(StringUtils.isNotBlank(projectCode)) {
-            conditions = "p.code like '%" + projectCode + "%'";
+            conditions = " AND p.code like '%" + projectCode + "%'";
         }
 
         if(StringUtils.isNotBlank(taskCode)) {
@@ -803,9 +805,9 @@ public class PlanServiceImpl implements PlanService {
 
         Map<Long, PlanTeamDTO> teams = new HashMap<>();
 
-        String conditions = null;
+        String conditions = "p.status = 'ACTIVE'";
         if(StringUtils.isNotBlank(projectCode)) {
-            conditions = "p.code like '%" + projectCode + "%'";
+            conditions = " AND p.code like '%" + projectCode + "%'";
         }
 
         if(StringUtils.isNotBlank(taskCode)) {

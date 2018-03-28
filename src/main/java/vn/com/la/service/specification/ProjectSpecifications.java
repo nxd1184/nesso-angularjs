@@ -20,6 +20,15 @@ public class ProjectSpecifications {
                     p = cb.like(root.get(Project_.code),containsLikePattern);
                 }
 
+                if(criteria.getStatus() != null) {
+                    Predicate statusPredict = cb.equal(root.get(Project_.status), criteria.getStatus());
+                    if(p == null) {
+                        p = statusPredict;
+                    }else {
+                        p = cb.and(p, statusPredict);
+                    }
+                }
+
                 if(StringUtils.isNotBlank(criteria.getTaskCode())) {
                     String containsLikePattern = getContainsLikePattern(criteria.getTaskCode());
                     Predicate predicate = cb.like(root.join(Project_.jobs).join(Job_.jobTasks).join(JobTask_.task).get(Task_.code), containsLikePattern);

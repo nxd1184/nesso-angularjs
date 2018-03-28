@@ -47,7 +47,7 @@
                 icon: 'fa fa-tasks',
                 state: 'check-in',
                 url: '#!/check-in',
-                roles: ['ROLE_FREELANCER']
+                roles: ['ROLE_FREELANCER', 'ROLE_USER']
             }, {
                 title: 'Account',
                 icon: 'fa fa-user-circle-o',
