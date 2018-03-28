@@ -13,7 +13,7 @@
                 parent: 'entity',
                 url: '/check-in',
                 data: {
-                    authorities: ['ROLE_FREELANCER'],
+                    authorities: ['ROLE_USER', 'ROLE_FREELANCER'],
                     pageTitle: 'Check in Management'
                 },
                 views: {

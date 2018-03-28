@@ -32,7 +32,7 @@
                 authorities: []
             },
             views: {
-                'content@': {
+                'login_page@': {
                     templateUrl: 'app/components/login/login.html',
                     controller: 'LoginController',
                     controllerAs: 'vm'
