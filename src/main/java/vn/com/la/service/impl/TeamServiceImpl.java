@@ -186,8 +186,11 @@ public class TeamServiceImpl implements TeamService{
         List<User> outTeamUserList = new ArrayList<>();
 
         storedMembersMap.forEach((k, v) -> {
-            v.setTeamId(null);
-            outTeamUserList.add(userMapper.userDTOToUser(v));
+            User user = userRepository.findOne(v.getId());
+            if(user != null) {
+                user.setTeam(null);
+            }
+            outTeamUserList.add(user);
         });
 
         userRepository.save(outTeamUserList);

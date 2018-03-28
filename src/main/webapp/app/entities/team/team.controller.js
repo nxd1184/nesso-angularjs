@@ -15,6 +15,7 @@
         function createOrUpdateTeam(team) {
             var size = 'lg';
             var templateUrl = 'app/entities/team/team-dialog.html';
+            var resolver = null;
             if(!team) {
                 team = {
                     name: null,
@@ -22,8 +23,18 @@
                     id: null
                 };
                 size = 'sm';
+                resolver = {
+                    entity: function () {
+                        return team;
+                    }
+                }
             }else {
                 templateUrl = 'app/entities/team/team-dialog-edit.html';
+                resolver = {
+                    entity: ['Team', function(Team) {
+                        return Team.get({id : team.id}).$promise;
+                    }]
+                }
             }
 
             $uibModal.open({
@@ -32,11 +43,7 @@
                 controllerAs: 'vm',
                 size: size,
                 windowClass: 'popupModal',
-                resolve: {
-                    entity: function () {
-                        return team;
-                    }
-                }
+                resolve: resolver
             }).result.then(function() {
                 $state.go('team', null, { reload: 'team' });
             }, function() {
