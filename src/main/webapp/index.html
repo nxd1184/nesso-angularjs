@@ -81,14 +81,14 @@
 <!--</div>-->
 
 <!-- BEGIN HEADER -->
-<ng-include src="'app/layouts/header/header.html'" ng-if="settings.layout.defaultPage"></ng-include>
+<ng-include src="'app/layouts/header/header.html'" ng-show="settings.layout.defaultPage"></ng-include>
 
 <!-- END HEADER -->
-<div class="clearfix" ng-if="settings.layout.defaultPage">
+<div class="clearfix" ng-show="settings.layout.defaultPage">
 </div>
 
 <!-- BEGIN CONTAINER -->
-<div class="page-container" ng-if="settings.layout.defaultPage">
+<div class="page-container" ng-show="settings.layout.defaultPage">
     <!-- BEGIN SIDEBAR -->
     <ng-include src="'app/layouts/sidebar/sidebar.html'"></ng-include>
     <!-- END SIDEBAR -->
@@ -113,7 +113,7 @@
     <!-- END FOOTER -->
 </div>
 
-<div ui-view="login_page" ng-if="settings.layout.loginPage"></div>
+<div ui-view="login_page" ng-show="settings.layout.loginPage"></div>
 
 <noscript>
     <h1>You must enable javascript to view this page.</h1>

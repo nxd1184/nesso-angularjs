@@ -3,20 +3,20 @@
         <!-- BEGIN SIDEBAR MENU -->
         <ul id="page-sidebar-menu" class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true"
             data-slide-speed="200">
-            <li ng-repeat="menu in menus" ng-if="hasPermission(menu.roles)" class="{{!menu.subMenus && menu.state == currentState ? 'active' : ''}}" ng-switch on="menu.state">
-                <a href="{{menu.url}}" ng-if="menu.state">
-                    <i class="{{menu.icon}}" aria-hidden="true" ng-if="menu.icon"></i>
+            <li ng-repeat="menu in menus" ng-show="hasPermission(menu.roles)" class="{{!menu.subMenus && menu.state == currentState ? 'active' : ''}}" ng-switch on="menu.state">
+                <a href="{{menu.url}}" ng-show="menu.state">
+                    <i class="{{menu.icon}}" aria-hidden="true" ng-show="menu.icon"></i>
                     <span class="title">{{menu.title}}</span>
                 </a>
-                <a href="javascript:;" ng-if="!menu.state">
-                    <i class="{{menu.icon}}" aria-hidden="true" ng-if="menu.icon"></i>
+                <a href="javascript:;" ng-show="!menu.state">
+                    <i class="{{menu.icon}}" aria-hidden="true" ng-show="menu.icon"></i>
                     <span class="title">{{menu.title}}</span>
                     <span class="arrow"></span>
                 </a>
-                <ul class="sub-menu" ng-if="menu.subMenus">
-                    <li ng-repeat="subMenu in menu.subMenus" ng-if="hasPermission(subMenu.roles)">
+                <ul class="sub-menu" ng-show="menu.subMenus">
+                    <li ng-repeat="subMenu in menu.subMenus" ng-show="hasPermission(subMenu.roles)">
                         <a href="{{subMenu.url}}">
-                            <i class="{{subMenu.icon}}" aria-hidden="true" ng-if="subMenu.icon"></i>
+                            <i class="{{subMenu.icon}}" aria-hidden="true" ng-show="subMenu.icon"></i>
                             <span class="title">{{subMenu.title}}</span>
                         </a>
                     </li>
