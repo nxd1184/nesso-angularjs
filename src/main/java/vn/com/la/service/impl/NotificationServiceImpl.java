@@ -62,7 +62,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
         } else {
-            return null;
+            return rs;
         }
         log.info(query.toString());
         List<Object[]> rows = query.getResultList();
