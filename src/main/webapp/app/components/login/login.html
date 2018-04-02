@@ -6,7 +6,7 @@
             <img src="content/assets/layout/img/logo-nesso.png" alt=""/>
         </a>
     </div>
-    <form class="login-form" name="loginForm" ng-submit="vm.login()" ng-keyup="$event.keyCode == 13 && vm.login()">
+    <form class="login-form" name="loginForm" ng-submit="vm.login()">
         <h3 class="form-title">Log in to continue</h3>
 
         <div ng-if="vm.authenticationError" class="alert alert-danger">
