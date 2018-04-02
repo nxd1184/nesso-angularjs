@@ -19,6 +19,11 @@
                 vm.notificationsToday = [];
                 vm.notificationsYesterday = [];
                 vm.notificationsLastSevenDay = [];
+
+                if (result.report == null) {
+                    return;
+                }
+
                 result.report.forEach(function (item, index) {
                     var notification = {};
                     var end = moment();

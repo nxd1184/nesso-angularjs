@@ -16,6 +16,10 @@
             headerService.getNotify().then(function (result) {
                 console.log(result);
                 vm.notifications = [];
+                if (result.report == null) {
+                    return;
+                }
+
                 result.report.forEach(function (item, index) {
                     var notification = {};
                     notification.index = index;
