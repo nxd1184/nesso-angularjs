@@ -54,7 +54,7 @@ public class NotificationServiceImpl implements NotificationService {
             query.setParameter(2, now.toString(LADateTimeUtil.DATETIME_FORMAT));
             query.setParameter(3, username);
         } else if (SecurityUtils.isAuthenticationInRole(authentication, "ROLE_QC")) {
-            sqlBuilder.append(" where (jtut.status = 'TOCHECK' AND  TIMESTAMPDIFF(MINUTE, jtut.last_checkin_time , ?) >= 60 ) " +
+            sqlBuilder.append(" where (jtut.status = 'TOCHECK' AND  TIMESTAMPDIFF(MINUTE, jtut.last_check_in_time , ?) >= 60 ) " +
                 "AND ju.login = ?");
             query = entityManager.createNativeQuery(sqlBuilder.toString());
             query.setParameter(1, now.toString(LADateTimeUtil.DATETIME_FORMAT));
