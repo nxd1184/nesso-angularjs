@@ -6,7 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import vn.com.la.security.AuthoritiesConstants;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.dto.param.UpdateJobTeamUserTaskStatusParamDTO;
 import vn.com.la.web.rest.vm.request.QCApplicationRequestVM;
@@ -31,15 +33,16 @@ public class QCApplicationAPI {
 
     @PutMapping("/qc-app/rework")
     @Timed
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.QC})
     public ResponseEntity<EmptyResponseVM> rework(@Valid @RequestBody QCApplicationRequestVM request) throws Exception {
         log.debug("REST request to mark rework : {}");
         EmptyResponseVM rs = new EmptyResponseVM();
 
-        if(StringUtils.isNotBlank(request.getFileName())) {
+        if (StringUtils.isNotBlank(request.getFileName())) {
             UpdateJobTeamUserTaskStatusParamDTO params = new UpdateJobTeamUserTaskStatusParamDTO();
             params.setFileName(request.getFileName());
             rs = jobTeamUserTaskService.rework(params);
-        }else {
+        } else {
             rs.setSuccess(false);
         }
 
@@ -48,14 +51,15 @@ public class QCApplicationAPI {
 
     @PutMapping("/qc-app/edit")
     @Timed
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.QC})
     public ResponseEntity<EmptyResponseVM> qcEdit(@Valid @RequestBody QCApplicationRequestVM request) throws Exception {
         log.debug("REST request to mark QC Edit : {}");
         EmptyResponseVM rs = new EmptyResponseVM();
-        if(StringUtils.isNotBlank(request.getFileName())) {
+        if (StringUtils.isNotBlank(request.getFileName())) {
             UpdateJobTeamUserTaskStatusParamDTO params = new UpdateJobTeamUserTaskStatusParamDTO();
             params.setFileName(request.getFileName());
             rs = jobTeamUserTaskService.qcEdit(params);
-        }else {
+        } else {
             rs.setSuccess(false);
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
@@ -63,15 +67,16 @@ public class QCApplicationAPI {
 
     @PutMapping("/qc-app/done")
     @Timed
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.QC})
     public ResponseEntity<EmptyResponseVM> done(@Valid @RequestBody QCApplicationRequestVM request) throws Exception {
         log.debug("REST request to mark done : {}");
         EmptyResponseVM rs = new EmptyResponseVM();
-        if(StringUtils.isNotBlank(request.getFileName())
+        if (StringUtils.isNotBlank(request.getFileName())
             ) {
             UpdateJobTeamUserTaskStatusParamDTO params = new UpdateJobTeamUserTaskStatusParamDTO();
             params.setFileName(request.getFileName());
             rs = jobTeamUserTaskService.done(params);
-        }else {
+        } else {
             rs.setSuccess(false);
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
