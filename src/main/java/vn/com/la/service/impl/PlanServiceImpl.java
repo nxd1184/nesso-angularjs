@@ -211,7 +211,7 @@ public class PlanServiceImpl implements PlanService {
                                             jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
                                             // setup file name
-                                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.DASH + storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + remoteFileName;
+                                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId()  + Constants.UNDERSCORE + storedJob.getName() + originalRelativeFilePath.replaceFirst(storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + remoteFileName;
                                             jobTeamUserTaskDTO.setFileName(newFileName);
 
                                             jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);

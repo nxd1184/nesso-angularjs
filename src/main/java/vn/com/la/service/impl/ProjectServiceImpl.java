@@ -171,7 +171,9 @@ public class ProjectServiceImpl implements ProjectService{
                                 jobDTO.setTotalFiles(newTotalFiles);
                             }else {
                                 if(BooleanUtils.isTrue(jobDTO.getStarted())) {
-                                    throw new CustomParameterizedException("Total files is less than the current one");
+//                                    throw new CustomParameterizedException("Total files is less than the current one");
+                                    // TODO: should be double check
+                                    continue;
                                 }
 
                             }
