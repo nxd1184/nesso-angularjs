@@ -16,11 +16,13 @@ import vn.com.la.service.util.LADateTimeUtil;
 import vn.com.la.web.rest.vm.response.NotifyResponseVM;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.io.Console;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +78,17 @@ public class NotificationServiceImpl implements NotificationService {
 
     private Instant convertByteArrayToInstant(byte[] bytes) {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime ld = LocalDateTime.parse(new String(bytes, StandardCharsets.US_ASCII), fmt);
+        LocalDateTime ld = LocalDateTime.now();
+        try {
+            ld = LocalDateTime.parse(new String(bytes, StandardCharsets.US_ASCII), fmt);
+        } catch (DateTimeParseException ex ) {
+            try {
+                fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+                ld = LocalDateTime.parse(new String(bytes, StandardCharsets.US_ASCII), fmt);
+            }catch (Exception exec) {
+
+            }
+        }
         Instant instant = ld.toInstant(ZoneOffset.UTC);
         return instant;
     }
