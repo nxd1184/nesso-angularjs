@@ -59,11 +59,13 @@ public class PlanTeamDTO {
                 totalDoneByDays[i - 8] = 0L;
             }
 
+            Long value = 0L;
             if(row[i] != null) {
-                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+                value += Long.parseLong(row[i].toString());
             }
+            totalDoneByDays[i - 8] += value;
 
-            totalDone += totalDoneByDays[i - 8];
+            totalDone += value;
         }
 
         Long userId = Long.parseLong(row[6].toString());
@@ -89,11 +91,13 @@ public class PlanTeamDTO {
                 totalDoneByDays[i - 8] = 0L;
             }
 
+            Long value = 0L;
             if(row[i] != null) {
-                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+                value += Long.parseLong(row[i].toString());
             }
+            totalDoneByDays[i - 8] += value;
 
-            totalDone += totalDoneByDays[i - 8];
+            totalDone += value;
         }
 
         Long userId = Long.parseLong(row[2].toString());

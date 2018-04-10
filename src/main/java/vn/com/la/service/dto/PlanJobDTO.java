@@ -42,11 +42,13 @@ public class PlanJobDTO {
                 totalDoneByDays[i - 8] = 0L;
             }
 
+            Long value = 0L;
             if(row[i] != null) {
-                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+                value += Long.parseLong(row[i].toString());
             }
+            totalDoneByDays[i - 8] += value;
 
-            totalDone += totalDoneByDays[i - 8];
+            totalDone += value;
         }
 
         Long teamId = Long.parseLong(row[4].toString());
@@ -71,13 +73,16 @@ public class PlanJobDTO {
                 totalDoneByDays[i - 8] = 0L;
             }
 
+            Long value = 0L;
             if(row[i] != null) {
-                totalDoneByDays[i - 8] += Long.parseLong(row[i].toString());
+                value += Long.parseLong(row[i].toString());
             }
+            totalDoneByDays[i - 8] += value;
 
-            totalDone += totalDoneByDays[i - 8];
+            totalDone += value;
         }
     }
+
 
     public Long getJobId() {
         return jobId;
