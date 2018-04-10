@@ -92,7 +92,7 @@
             var ref = vm.project_tree.jstree(true);
 
             if (vm.node_being_selected === data.node) {
-                if (data.node.state.opened) { 
+                if (data.node.state.opened) {
                     ref.close_node(data.node);
                     return;
                 }
@@ -102,7 +102,7 @@
             if (!data.node.state.opened) {
                 ref.open_node(data.node);
             }
-            
+
             vm.node_being_selected = data.node;
             vm.checkAll = false;
             loadFiles(vm.node_being_selected);
@@ -187,7 +187,11 @@
                 }
             });
             console.log(movedFiles);
-            FolderService.deliverFilesFromDoneFolder(movedFiles).then(onSuccessDeliverFiles, onFailedDeliverFiles);
+
+            if (movedFiles.length > 0)
+                FolderService.deliverFilesFromDoneFolder(movedFiles).then(onSuccessDeliverFiles, onFailedDeliverFiles);
+            else
+                AlertService.error("No file to be delivered");
         }
 
         function onSuccessDeliverFiles(response) {
