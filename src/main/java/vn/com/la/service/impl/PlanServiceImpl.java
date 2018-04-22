@@ -548,7 +548,7 @@ public class PlanServiceImpl implements PlanService {
         criteria.setTaskCode(taskCode);
         criteria.setStatus(ProjectStatusEnum.ACTIVE);
 
-        Pageable pagable = new PageRequest(0,10, Sort.Direction.DESC, "createdDate");
+        Pageable pagable = new PageRequest(0,20, Sort.Direction.DESC, "createdDate");
         Page<ProjectDTO> page = projectService.search(criteria, pagable);
 
         List<ProjectDTO> projectDTOs = page.getContent();

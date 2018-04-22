@@ -45,4 +45,8 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
     @Query("update JobTeamUserTask set jobTeamUser.id = ?1, filePath = ?2 where id = ?3")
     int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id);
 
+    @Modifying
+    @Query("delete from JobTeamUserTask where id = ?1")
+    int deleteById(Long id);
+
 }

@@ -1,7 +1,10 @@
 package vn.com.la.service.impl;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.JobTeam;
+import vn.com.la.domain.JobTeamUser;
 import vn.com.la.domain.User;
 import vn.com.la.domain.enumeration.FileStatus;
 import vn.com.la.domain.enumeration.FileStatusEnum;
@@ -55,7 +58,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     private final FileSystemHandlingService fileSystemHandlingService;
 
     private final UserService userService;
-    private final ProjectService projectService;
+    private final CacheManager cacheManager;
     private final JobTeamService jobTeamService;
     private final JobTeamUserService jobTeamUserService;
     private final JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService;
@@ -64,7 +67,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
                                       JobService jobService, FileSystemHandlingService fileSystemHandlingService,
                                       UserService userService, JobTeamUserService jobTeamUserService,
                                       JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService,
-                                      ProjectService projectService, JobTeamService jobTeamService) {
+                                      JobTeamService jobTeamService, CacheManager cacheManager) {
         this.jobTeamUserTaskRepository = jobTeamUserTaskRepository;
         this.jobTeamUserTaskMapper = jobTeamUserTaskMapper;
         this.jobService = jobService;
@@ -72,8 +75,8 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         this.userService = userService;
         this.jobTeamUserService  = jobTeamUserService;
         this.jobTeamUserTaskTrackingService = jobTeamUserTaskTrackingService;
-        this.projectService = projectService;
         this.jobTeamService = jobTeamService;
+        this.cacheManager = cacheManager;
     }
 
     /**
@@ -124,6 +127,12 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         log.debug("Request to get JobTeamUserTask : {}", id);
         JobTeamUserTask jobTeamUserTask = jobTeamUserTaskRepository.findOne(id);
         return jobTeamUserTaskMapper.toDto(jobTeamUserTask);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public JobTeamUserTask findEntityById(Long id) {
+        return jobTeamUserTaskRepository.findOne(id);
     }
 
     @Override
@@ -436,7 +445,6 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     @Override
     public boolean deleteUnexpectedFile(String fileName) throws Exception{
         JobTeamUserTaskDTO jobTeamUserTaskDTO =  this.findByFileName(fileName);
-
         if(jobTeamUserTaskDTO == null) {
             return false;
         }
@@ -445,21 +453,37 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             return false;
         }else {
             JobTeamUserDTO jobTeamUserDTO = jobTeamUserService.findOne(jobTeamUserTaskDTO.getJobTeamUserId());
-            JobTeamDTO jobTeamDTO = jobTeamService.findOne(jobTeamUserDTO.getJobTeamId());
-            JobDTO jobDTO = jobService.findOne(jobTeamDTO.getJobId());
-
             jobTeamUserDTO.setTotalFiles(jobTeamUserDTO.getTotalFiles() - 1);
-            jobTeamDTO.setTotalFiles(jobTeamDTO.getTotalFiles() - 1);
-            jobDTO.setTotalFiles(jobDTO.getTotalFiles() - 1);
-
             jobTeamUserService.save(jobTeamUserDTO);
+
+
+            JobTeamDTO jobTeamDTO = jobTeamService.findOne(jobTeamUserDTO.getJobTeamId());
+            jobTeamDTO.setTotalFiles(jobTeamDTO.getTotalFiles() - 1);
             jobTeamService.save(jobTeamDTO);
+
+            JobDTO jobDTO = jobService.findOne(jobTeamDTO.getJobId());
+            jobDTO.setTotalFiles(jobDTO.getTotalFiles() - 1);
             jobService.save(jobDTO);
 
+
+            jobTeamUserTaskRepository.deleteById(jobTeamUserTaskDTO.getId());
+
             // delete to do file
-            fileSystemHandlingService.deleteFile(Constants.SLASH + jobTeamUserTaskDTO.getFilePath().concat(Constants.SLASH).concat(jobTeamUserTaskDTO.getFileName()));
+            String toDoFilePath = Constants.SLASH + jobTeamUserTaskDTO.getFilePath().concat(Constants.SLASH).concat(jobTeamUserTaskDTO.getFileName());
+            if(fileSystemHandlingService.checkFileExist(toDoFilePath)) {
+                fileSystemHandlingService.deleteFile(toDoFilePath);
+            }
+
             // delete backlog file
-            fileSystemHandlingService.deleteFile(Constants.SLASH + jobTeamUserTaskDTO.getOriginalFilePath().concat(Constants.SLASH).concat(jobTeamUserTaskDTO.getOriginalFileName()));
+            String backlogFilePath = Constants.SLASH + jobTeamUserTaskDTO.getOriginalFilePath().concat(Constants.SLASH).concat(jobTeamUserTaskDTO.getOriginalFileName());
+            if(fileSystemHandlingService.checkFileExist(backlogFilePath)) {
+                fileSystemHandlingService.deleteFile(backlogFilePath);
+            }
+
+//            cacheManager.getCache(JobTeamUserTask.class.getName()).clear();
+//            cacheManager.getCache(JobTeamUser.class.getName()).clear();
+//            cacheManager.getCache(JobTeam.class.getName()).clear();
+
         }
 
         return true;

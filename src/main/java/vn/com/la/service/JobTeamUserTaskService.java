@@ -45,6 +45,7 @@ public interface JobTeamUserTaskService {
      *  @return the entity
      */
     JobTeamUserTaskDTO findOne(Long id);
+    JobTeamUserTask findEntityById(Long id);
 
     /**
      *  Delete the "id" jobTeamUserTask.

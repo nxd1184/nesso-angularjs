@@ -10,7 +10,8 @@
         var service = {
             getDirectories: getDirectories,
             getFiles: getFiles,
-            deliverFilesFromDoneFolder: deliverFilesFromDoneFolder
+            deliverFilesFromDoneFolder: deliverFilesFromDoneFolder,
+            deleteFiles: deleteFiles
         };
 
         function getDirectories(path) {
@@ -52,7 +53,7 @@
 
         function deleteFiles(data) {
             var url = 'api/delete-unexpected-files';
-            var rq = {fileNames: data};
+            var rq = {deletedFiles: data};
             var defer = $q.defer();
             $http(LA.RequestUtils.put(url, rq)).then(function (result) {
                 defer.resolve(result.data);

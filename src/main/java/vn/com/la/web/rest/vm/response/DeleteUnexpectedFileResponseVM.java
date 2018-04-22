@@ -8,13 +8,13 @@ import java.util.List;
  * @project nesso-angularjs
  */
 public class DeleteUnexpectedFileResponseVM extends AbstractResponseVM {
-    private List<String> undeletedFiles = new ArrayList<>();
+    private List<String> failedList = new ArrayList<>();
 
-    public List<String> getUndeletedFiles() {
-        return undeletedFiles;
+    public List<String> getFailedList() {
+        return failedList;
     }
 
-    public void setUndeletedFiles(List<String> undeletedFiles) {
-        this.undeletedFiles = undeletedFiles;
+    public void setFailedList(List<String> failedList) {
+        this.failedList = failedList;
     }
 }

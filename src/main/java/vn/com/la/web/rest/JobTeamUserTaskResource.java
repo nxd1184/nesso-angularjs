@@ -205,12 +205,18 @@ public class JobTeamUserTaskResource {
         List<String> deletedFiles = request.getDeletedFiles();
         List<String> undeletedFiles = new ArrayList<>();
         for(String fileName: deletedFiles) {
-            boolean result = jobTeamUserTaskService.deleteUnexpectedFile(fileName);
+            boolean result = false;
+            try {
+                result = jobTeamUserTaskService.deleteUnexpectedFile(fileName);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
             if(!result) {
                 undeletedFiles.add(fileName);
             }
         }
-        rs.setUndeletedFiles(undeletedFiles);
+        rs.setFailedList(undeletedFiles);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
