@@ -197,7 +197,7 @@ public class JobTeamUserTaskResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 
-    @PutMapping("/delete/unexpected-file")
+    @PutMapping("/delete-unexpected-files")
     @Timed
     public ResponseEntity<DeleteUnexpectedFileResponseVM> deleteUnexpectedFile(@Valid @RequestBody DeleteUnexpectedFileRequestVM request) throws Exception {
         DeleteUnexpectedFileResponseVM rs = new DeleteUnexpectedFileResponseVM();
