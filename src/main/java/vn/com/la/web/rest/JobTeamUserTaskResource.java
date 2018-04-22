@@ -21,8 +21,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.com.la.web.rest.vm.request.CheckInJobTeamUserTaskRequestVM;
+import vn.com.la.web.rest.vm.request.DeleteUnexpectedFileRequestVM;
 import vn.com.la.web.rest.vm.request.DeliveryFilesRequestVM;
 import vn.com.la.web.rest.vm.response.CheckInAllResponseVM;
+import vn.com.la.web.rest.vm.response.DeleteUnexpectedFileResponseVM;
 import vn.com.la.web.rest.vm.response.EmptyResponseVM;
 import vn.com.la.web.rest.vm.response.DeliveryFilesResponseVM;
 
@@ -192,6 +194,24 @@ public class JobTeamUserTaskResource {
         params.setFileNames(request.getFileNames());
 
         DeliveryFilesResponseVM rs = jobTeamUserTaskService.delivery(params);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
+    }
+
+    @PutMapping("/delete/unexpected-file")
+    @Timed
+    public ResponseEntity<DeleteUnexpectedFileResponseVM> deleteUnexpectedFile(@Valid @RequestBody DeleteUnexpectedFileRequestVM request) throws Exception {
+        DeleteUnexpectedFileResponseVM rs = new DeleteUnexpectedFileResponseVM();
+
+        List<String> deletedFiles = request.getDeletedFiles();
+        List<String> undeletedFiles = new ArrayList<>();
+        for(String fileName: deletedFiles) {
+            boolean result = jobTeamUserTaskService.deleteUnexpectedFile(fileName);
+            if(!result) {
+                undeletedFiles.add(fileName);
+            }
+        }
+        rs.setUndeletedFiles(undeletedFiles);
+
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }
 }

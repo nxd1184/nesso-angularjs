@@ -7,7 +7,7 @@ public class LAStringUtil {
     public static String buildFolderPath(String ...paths) {
         StringBuilder pathBuilder = new StringBuilder();
         for(String path: paths) {
-            pathBuilder.append(path).append(Constants.DASH);
+            pathBuilder.append(path).append(Constants.SLASH);
         }
         return pathBuilder.toString();
     }

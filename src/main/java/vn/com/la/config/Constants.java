@@ -24,7 +24,7 @@ public final class Constants {
     public static final String DONE = "Done";
     public static final String DELIVERY = "Delivery";
 
-    public static final String DASH = "/";
+    public static final String SLASH = "/";
     public static final String UNDERSCORE = "_";
 
     public static final Integer ZERO = 0;

@@ -2,18 +2,17 @@ package vn.com.la.service.impl;
 
 import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
-import vn.com.la.domain.JobTeamUser;
-import vn.com.la.domain.JobTeamUserTaskTracking;
 import vn.com.la.domain.User;
 import vn.com.la.domain.enumeration.FileStatus;
 import vn.com.la.domain.enumeration.FileStatusEnum;
 import vn.com.la.service.*;
 import vn.com.la.domain.JobTeamUserTask;
 import vn.com.la.repository.JobTeamUserTaskRepository;
+import vn.com.la.service.dto.JobDTO;
+import vn.com.la.service.dto.JobTeamDTO;
 import vn.com.la.service.dto.JobTeamUserDTO;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import vn.com.la.service.dto.JobTeamUserTaskTrackingDTO;
-import vn.com.la.service.dto.UserDTO;
 import vn.com.la.service.dto.param.DeliveryFilesParamDTO;
 import vn.com.la.service.dto.param.SearchJobTeamUserTaskParamDTO;
 import vn.com.la.service.dto.param.UpdateJobTeamUserTaskStatusParamDTO;
@@ -56,13 +55,16 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     private final FileSystemHandlingService fileSystemHandlingService;
 
     private final UserService userService;
+    private final ProjectService projectService;
+    private final JobTeamService jobTeamService;
     private final JobTeamUserService jobTeamUserService;
     private final JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService;
 
     public JobTeamUserTaskServiceImpl(JobTeamUserTaskRepository jobTeamUserTaskRepository, JobTeamUserTaskMapper jobTeamUserTaskMapper,
                                       JobService jobService, FileSystemHandlingService fileSystemHandlingService,
                                       UserService userService, JobTeamUserService jobTeamUserService,
-                                      JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService) {
+                                      JobTeamUserTaskTrackingService jobTeamUserTaskTrackingService,
+                                      ProjectService projectService, JobTeamService jobTeamService) {
         this.jobTeamUserTaskRepository = jobTeamUserTaskRepository;
         this.jobTeamUserTaskMapper = jobTeamUserTaskMapper;
         this.jobService = jobService;
@@ -70,6 +72,8 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         this.userService = userService;
         this.jobTeamUserService  = jobTeamUserService;
         this.jobTeamUserTaskTrackingService = jobTeamUserTaskTrackingService;
+        this.projectService = projectService;
+        this.jobTeamService = jobTeamService;
     }
 
     /**
@@ -185,7 +189,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             throw new CustomParameterizedException("File status should be To Do or Rework");
         }
 
-        String path = LAStringUtil.buildFolderPath(Constants.DASH + jobTeamUserTaskDTO.getProjectCode(),
+        String path = LAStringUtil.buildFolderPath(Constants.SLASH + jobTeamUserTaskDTO.getProjectCode(),
                                                             Constants.TO_CHECK,
                                                             jobTeamUserTaskDTO.getJobName(), jobTeamUserTaskDTO.getJobTeamUserLogin()) + jobTeamUserTaskDTO.getFileName();
         boolean fileExistOnToCheck = fileSystemHandlingService.checkFileExist(path);
@@ -230,7 +234,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
             throw new CustomParameterizedException("File status is not To Check");
         }
 
-        String filePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+        String filePath = LAStringUtil.buildFolderPath(Constants.SLASH + taskDTO.getProjectCode(),
             Constants.TO_CHECK,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnTodoFolder = fileSystemHandlingService.checkFileExist(filePath);
@@ -275,7 +279,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         }
 
         // check file exist on to check folder
-        String filePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+        String filePath = LAStringUtil.buildFolderPath(Constants.SLASH + taskDTO.getProjectCode(),
             Constants.TO_CHECK,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnTodoFolder = fileSystemHandlingService.checkFileExist(filePath);
@@ -284,7 +288,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         }
 
         // check file exist on done folder, uploaded by qc
-        filePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+        filePath = LAStringUtil.buildFolderPath(Constants.SLASH + taskDTO.getProjectCode(),
             Constants.DONE,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnDoneFolder = fileSystemHandlingService.checkFileExist(filePath);
@@ -323,7 +327,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         }
 
         // check file exist on to check folder
-        String toCheckFilePath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+        String toCheckFilePath = LAStringUtil.buildFolderPath(Constants.SLASH + taskDTO.getProjectCode(),
             Constants.TO_CHECK,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin()) + taskDTO.getFileName();
         boolean fileExistOnToCheckFolder = fileSystemHandlingService.checkFileExist(toCheckFilePath);
@@ -332,7 +336,7 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
         }
 
 
-        String doneFolderPath = LAStringUtil.buildFolderPath(Constants.DASH + taskDTO.getProjectCode(),
+        String doneFolderPath = LAStringUtil.buildFolderPath(Constants.SLASH + taskDTO.getProjectCode(),
             Constants.DONE,
             taskDTO.getJobName(), taskDTO.getJobTeamUserLogin());
 
@@ -427,5 +431,37 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     @Override
     public int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id) {
         return jobTeamUserTaskRepository.updateAdjustment(jobTeamUserId, newFilePath, id);
+    }
+
+    @Override
+    public boolean deleteUnexpectedFile(String fileName) throws Exception{
+        JobTeamUserTaskDTO jobTeamUserTaskDTO =  this.findByFileName(fileName);
+
+        if(jobTeamUserTaskDTO == null) {
+            return false;
+        }
+
+        if(jobTeamUserTaskDTO.getStatus() != FileStatusEnum.TODO) {
+            return false;
+        }else {
+            JobTeamUserDTO jobTeamUserDTO = jobTeamUserService.findOne(jobTeamUserTaskDTO.getJobTeamUserId());
+            JobTeamDTO jobTeamDTO = jobTeamService.findOne(jobTeamUserDTO.getJobTeamId());
+            JobDTO jobDTO = jobService.findOne(jobTeamDTO.getJobId());
+
+            jobTeamUserDTO.setTotalFiles(jobTeamUserDTO.getTotalFiles() - 1);
+            jobTeamDTO.setTotalFiles(jobTeamDTO.getTotalFiles() - 1);
+            jobDTO.setTotalFiles(jobDTO.getTotalFiles() - 1);
+
+            jobTeamUserService.save(jobTeamUserDTO);
+            jobTeamService.save(jobTeamDTO);
+            jobService.save(jobDTO);
+
+            // delete to do file
+            fileSystemHandlingService.deleteFile(Constants.SLASH + jobTeamUserTaskDTO.getFilePath().concat(Constants.SLASH).concat(jobTeamUserTaskDTO.getFileName()));
+            // delete backlog file
+            fileSystemHandlingService.deleteFile(Constants.SLASH + jobTeamUserTaskDTO.getOriginalFilePath().concat(Constants.SLASH).concat(jobTeamUserTaskDTO.getOriginalFileName()));
+        }
+
+        return true;
     }
 }

@@ -1,6 +1,5 @@
 package vn.com.la.service.impl;
 
-import net.logstash.logback.appender.LoggingEventAsyncDisruptorAppender;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -104,7 +103,7 @@ public class PlanServiceImpl implements PlanService {
                     storedJob.setSequenceTask(params.getSequenceTask());
                     storedJob.setSequence(Constants.ONE);
                 }else {
-                    String jobPath = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName());
+                    String jobPath = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName());
                     for(int i = 2; i <= storedJob.getSequenceTask(); i++) {
                         String jobSequenceName = jobPath + "_" + i;
                         JobDTO storedSequenceJob = jobService.findByNameAndProjectCode(storedJob.getName() + "i", storedJob.getProjectCode());
@@ -121,26 +120,26 @@ public class PlanServiceImpl implements PlanService {
                 storedJob = jobService.save(storedJob);
 
                 // create backlog item folder inside todo, tocheck, done
-                String toDoFolder = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName());
+                String toDoFolder = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName());
                 fileSystemHandlingService.deleteDirectory(toDoFolder);
                 fileSystemHandlingService.makeDirectory(toDoFolder);
 
-                String toCheckFolder = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName());
+                String toCheckFolder = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName());
                 fileSystemHandlingService.deleteDirectory(toCheckFolder);
                 fileSystemHandlingService.makeDirectory(toCheckFolder);
 
-                String doneFolder = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName());
+                String doneFolder = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName());
                 fileSystemHandlingService.deleteDirectory(doneFolder);
                 fileSystemHandlingService.makeDirectory(doneFolder);
 
-                String deliveryFolder = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DELIVERY, storedJob.getName());
+                String deliveryFolder = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.DELIVERY, storedJob.getName());
                 fileSystemHandlingService.deleteDirectory(deliveryFolder);
                 fileSystemHandlingService.makeDirectory(deliveryFolder);
                 // move files from backlogs to to-do
 
                 long totalFilesInBacklogItem = storedJob.getTotalFiles();
                 // list file from backlog item
-                String backLogItemPath = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.BACK_LOGS, storedJob.getName());
+                String backLogItemPath = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.BACK_LOGS, storedJob.getName());
                 List<File> files = fileSystemHandlingService.listFileRecursiveFromPath(backLogItemPath);
                 int iFile = 0;
 
@@ -162,17 +161,17 @@ public class PlanServiceImpl implements PlanService {
                             }
 
                             // To-do folder
-                            String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), jobTeamUserDTO.getUserLogin());
+                            String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), jobTeamUserDTO.getUserLogin());
                             fileSystemHandlingService.deleteDirectory(toDoFolderOfUser);
                             fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
 
                             // to-check folder
-                            String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName(), jobTeamUserDTO.getUserLogin());
+                            String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName(), jobTeamUserDTO.getUserLogin());
                             fileSystemHandlingService.deleteDirectory(toCheckFolderOfUser);
                             fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
 
                             // done folder
-                            String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), jobTeamUserDTO.getUserLogin());
+                            String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), jobTeamUserDTO.getUserLogin());
                             fileSystemHandlingService.deleteDirectory(doneFolderOfUser);
                             fileSystemHandlingService.makeDirectory(doneFolderOfUser);
 
@@ -211,7 +210,7 @@ public class PlanServiceImpl implements PlanService {
                                             jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
                                             // setup file name
-                                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId()  + Constants.UNDERSCORE + storedJob.getName() + originalRelativeFilePath.replaceFirst(storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + remoteFileName;
+                                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId()  + Constants.UNDERSCORE + storedJob.getName() + originalRelativeFilePath.replaceFirst(storedJob.getProjectCode() + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + storedJob.getName(), "").replace(Constants.SLASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + remoteFileName;
                                             jobTeamUserTaskDTO.setFileName(newFileName);
 
                                             jobTeamUserTaskDTOs.add(jobTeamUserTaskDTO);
@@ -273,7 +272,7 @@ public class PlanServiceImpl implements PlanService {
                         newTotalFilesOfAllUsersInJob += newJobTeamUserDTO.getTotalFiles();
 
                         for(JobTeamUserTask assignedTask: jobTeamUserTaskService.findByJobTeamUserIdAndJobId(storedJobTeamUserDTO.getId(), storedJob.getId())) {
-                            totalAssignedRelativeFilePath.add(assignedTask.getOriginalFilePath() + Constants.DASH + assignedTask.getOriginalFileName());
+                            totalAssignedRelativeFilePath.add(assignedTask.getOriginalFilePath() + Constants.SLASH + assignedTask.getOriginalFileName());
                         }
 
                     }
@@ -294,7 +293,7 @@ public class PlanServiceImpl implements PlanService {
                     for(JobTeamUserDTO storedJobTeamUserDTO: storedJobTeamDTO.getJobTeamUsers()) {
                         JobTeamUserDTO newJobTeamUserDTO = jobTeamUsersMap.get(storedJobTeamUserDTO.getId());
                         Long newAssignments = newJobTeamUserDTO.getTotalFiles() - storedJobTeamUserDTO.getTotalFiles();
-                        String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), storedJobTeamUserDTO.getUserLogin());
+                        String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), storedJobTeamUserDTO.getUserLogin());
                         for(int i = 0; i < newAssignments; i++) {
 
                             JobTeamUserTaskDTO jobTeamUserTaskDTO = new JobTeamUserTaskDTO();
@@ -304,9 +303,9 @@ public class PlanServiceImpl implements PlanService {
 
                             String relativeFilePath = backLogRelativeFilePath.get(iRelativeFilePath);
 
-                            String originalRelativeFilePath = relativeFilePath.substring(0, relativeFilePath.lastIndexOf(Constants.DASH));
+                            String originalRelativeFilePath = relativeFilePath.substring(0, relativeFilePath.lastIndexOf(Constants.SLASH));
 
-                            String originalFileName = relativeFilePath.substring(relativeFilePath.lastIndexOf(Constants.DASH) + 1); // + 1 for remove DASH
+                            String originalFileName = relativeFilePath.substring(relativeFilePath.lastIndexOf(Constants.SLASH) + 1); // + 1 for remove SLASH
 
                             jobTeamUserTaskDTO.setOriginalFilePath(originalRelativeFilePath);
                             jobTeamUserTaskDTO.setOriginalFileName(originalFileName);
@@ -314,7 +313,7 @@ public class PlanServiceImpl implements PlanService {
                             jobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
                             // setup file name
-                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.DASH + storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE  + originalFileName;
+                            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.SLASH + storedJob.getProjectCode() + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + storedJob.getName(), "").replace(Constants.SLASH, Constants.UNDERSCORE) + Constants.UNDERSCORE  + originalFileName;
                             jobTeamUserTaskDTO.setFileName(newFileName);
 
                             fileSystemHandlingService.copy(relativeFilePath, toDoFolderOfUser, newFileName);
@@ -454,20 +453,20 @@ public class PlanServiceImpl implements PlanService {
         }
 
         // To-do folder
-        String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), toUser.getLogin());
+        String toDoFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_DO, storedJob.getName(), toUser.getLogin());
         if(!fileSystemHandlingService.checkFolderExist(toDoFolderOfUser)) {
             fileSystemHandlingService.makeDirectory(toDoFolderOfUser);
         }
 
 
         // to-check folder
-        String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName(), toUser.getLogin());
+        String toCheckFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.TO_CHECK, storedJob.getName(), toUser.getLogin());
         if(!fileSystemHandlingService.checkFolderExist(toCheckFolderOfUser)) {
             fileSystemHandlingService.makeDirectory(toCheckFolderOfUser);
         }
 
         // done folder
-        String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.DASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), toUser.getLogin());
+        String doneFolderOfUser = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.DONE, storedJob.getName(), toUser.getLogin());
         if(!fileSystemHandlingService.checkFolderExist(doneFolderOfUser)) {
             fileSystemHandlingService.makeDirectory(doneFolderOfUser);
         }
@@ -493,10 +492,10 @@ public class PlanServiceImpl implements PlanService {
             newJobTeamUserTaskDTO.setStatus(FileStatusEnum.TODO);
 
             // setup file name
-            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.DASH + storedJob.getProjectCode() + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + storedJob.getName(), "").replace(Constants.DASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + originalFileName;
+            String newFileName = sequenceDataDao.nextJobTeamUserTaskId() + originalRelativeFilePath.replaceFirst(Constants.SLASH + storedJob.getProjectCode() + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + storedJob.getName(), "").replace(Constants.SLASH, Constants.UNDERSCORE) + Constants.UNDERSCORE + originalFileName;
             newJobTeamUserTaskDTO.setFileName(newFileName);
 
-            fileSystemHandlingService.copy(originalRelativeFilePath + Constants.DASH + originalFileName, toDoFolderOfUser, newFileName);
+            fileSystemHandlingService.copy(originalRelativeFilePath + Constants.SLASH + originalFileName, toDoFolderOfUser, newFileName);
 
             newJobTeamUser.addJobTeamUserTask(newJobTeamUserTaskDTO);
 
@@ -504,7 +503,7 @@ public class PlanServiceImpl implements PlanService {
 
 
             // remove old file on disk
-            String oldFilePath = storedJobTeamUserTaskDTO.getFilePath() + Constants.DASH + storedJobTeamUserTaskDTO.getFileName();
+            String oldFilePath = storedJobTeamUserTaskDTO.getFilePath() + Constants.SLASH + storedJobTeamUserTaskDTO.getFileName();
             fileSystemHandlingService.deleteFile(oldFilePath);
         }
 

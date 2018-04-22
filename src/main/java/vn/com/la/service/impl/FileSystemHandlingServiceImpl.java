@@ -16,10 +16,7 @@ import vn.com.la.web.rest.vm.response.ListFileResponseVM;
 import vn.com.la.web.rest.vm.response.ListFolderResponseVM;
 
 import java.io.*;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,22 +37,22 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
         try {
 
-            File file = new File(rootFolder + Constants.DASH + projectCode);
+            File file = new File(rootFolder + Constants.SLASH + projectCode);
             String[] projectFolders = {Constants.BACK_LOGS, Constants.TO_DO, Constants.TO_CHECK, Constants.DONE, Constants.DELIVERY};
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.mkdir();
                 // create backlogs, todo, tocheck, done, delivery
-                for(String folder: projectFolders) {
-                    File projectFolderFile = new File(rootFolder + Constants.DASH + projectCode + Constants.DASH + folder);
+                for (String folder : projectFolders) {
+                    File projectFolderFile = new File(rootFolder + Constants.SLASH + projectCode + Constants.SLASH + folder);
                     projectFolderFile.mkdir();
                 }
                 return true;
             }
 
 
-            for(String folder: projectFolders) {
-                File projectFolder = new File(rootFolder + Constants.DASH + projectCode + Constants.DASH + folder);
-                if(!projectFolder.exists()) {
+            for (String folder : projectFolders) {
+                File projectFolder = new File(rootFolder + Constants.SLASH + projectCode + Constants.SLASH + folder);
+                if (!projectFolder.exists()) {
                     return false;
                 }
             }
@@ -69,14 +66,14 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
-    public List<String> backLogs(String projectCode) throws Exception{
+    public List<String> backLogs(String projectCode) throws Exception {
 
         List<String> folderNames = new ArrayList<>();
 
-        File projectFolder = new File(rootFolder + Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS);
+        File projectFolder = new File(rootFolder + Constants.SLASH + projectCode + Constants.SLASH + Constants.BACK_LOGS);
 
-        for(File backlogItem: projectFolder.listFiles()) {
-            if(backlogItem.isDirectory()) {
+        for (File backlogItem : projectFolder.listFiles()) {
+            if (backlogItem.isDirectory()) {
                 folderNames.add(backlogItem.getName());
             }
         }
@@ -85,10 +82,10 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
-    public Long countFilesFromPath(String path) throws Exception{
+    public Long countFilesFromPath(String path) throws Exception {
         Long totalFiles = 0L;
 
-        File file = new File(rootFolder + Constants.DASH + path);
+        File file = new File(rootFolder + Constants.SLASH + path);
         totalFiles = new Long(walk(file.getPath()).size());
 
         return totalFiles;
@@ -96,17 +93,16 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public void makeDirectory(String path) throws Exception {
-        File newDir = new File(rootFolder + Constants.DASH + path);
+        File newDir = new File(rootFolder + Constants.SLASH + path);
         newDir.mkdir();
     }
 
     @Override
     public boolean deleteDirectory(String path) throws Exception {
         try {
-            File oldDir = new File(rootFolder + Constants.DASH + path);
+            File oldDir = new File(rootFolder + Constants.SLASH + path);
             FileUtils.deleteDirectory(oldDir);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             return false;
         }
         return true;
@@ -114,32 +110,27 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public boolean deleteFile(String filePath) throws Exception {
-        try {
-            File oldFile = new File(rootFolder + Constants.DASH + filePath);
-            return oldFile.delete();
-        }
-        catch(Exception ex) {
-            ex.printStackTrace();
-        }
-        return false;
+
+        File oldFile = new File(rootFolder + Constants.SLASH + filePath);
+        return oldFile.delete();
     }
 
     @Override
     public void copy(String fromSource, String toPath, String fileName) throws Exception {
-        Files.copy(new File( rootFolder + Constants.DASH + fromSource), new File(rootFolder + Constants.DASH + toPath + Constants.DASH + fileName));
+        Files.copy(new File(rootFolder + Constants.SLASH + fromSource), new File(rootFolder + Constants.SLASH + toPath + Constants.SLASH + fileName));
     }
 
     @Override
     public void copy(String fromSource, String toSource) throws Exception {
-        Files.copy(new File(rootFolder + Constants.DASH + fromSource), new File(rootFolder + Constants.DASH +toSource));
+        Files.copy(new File(rootFolder + Constants.SLASH + fromSource), new File(rootFolder + Constants.SLASH + toSource));
     }
 
     @Override
     public boolean move(String source, String toFolder) {
         try {
             FileUtils.moveFileToDirectory(
-                FileUtils.getFile(rootFolder + Constants.DASH + source),
-                FileUtils.getFile(rootFolder + Constants.DASH + toFolder), true);
+                FileUtils.getFile(rootFolder + Constants.SLASH + source),
+                FileUtils.getFile(rootFolder + Constants.SLASH + toFolder), true);
         } catch (IOException e) {
             return false;
         }
@@ -148,14 +139,14 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public List<File> listFileFromPath(String path) throws Exception {
-        File file = new File(rootFolder + Constants.DASH + path);
+        File file = new File(rootFolder + Constants.SLASH + path);
         return Arrays.asList(file.listFiles());
     }
 
     private List<File> walk(String path) {
         List<File> result = new ArrayList<>();
         File dir = new File(path);
-        if(dir.isDirectory()) {
+        if (dir.isDirectory()) {
             File[] files = dir.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
@@ -172,7 +163,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     private List<String> walkRelativeFileName(String path) {
         List<String> result = new ArrayList<>();
         File dir = new File(path);
-        if(dir.isDirectory()) {
+        if (dir.isDirectory()) {
             File[] files = dir.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
@@ -188,36 +179,36 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public List<File> listFileRecursiveFromPath(String path) throws Exception {
-        return walk(rootFolder + Constants.DASH + path);
+        return walk(rootFolder + Constants.SLASH + path);
     }
 
     @Override
     public List<String> listRelativeFilePathRecursiveFromPath(String path) throws Exception {
-        return walkRelativeFileName(rootFolder + Constants.DASH + path);
+        return walkRelativeFileName(rootFolder + Constants.SLASH + path);
     }
 
     @Override
     public boolean checkFileExist(String filePath) {
-        File file = new File(rootFolder + Constants.DASH + filePath);
+        File file = new File(rootFolder + Constants.SLASH + filePath);
 
         return file.exists();
     }
 
     @Override
     public boolean checkFolderExist(String folderPath) {
-        File folder = new File(rootFolder + Constants.DASH + folderPath);
+        File folder = new File(rootFolder + Constants.SLASH + folderPath);
         return folder.exists();
     }
 
     @Override
     public ListFolderResponseVM listNfsFolderFromPath(String path) {
-        if(StringUtils.isBlank(path)) {
-            path = Constants.DASH;
+        if (StringUtils.isBlank(path)) {
+            path = Constants.SLASH;
         }
-        File file = new File(rootFolder + Constants.DASH + path);
+        File file = new File(rootFolder + Constants.SLASH + path);
         List<LAFolderDTO> folders = new ArrayList<>();
-        for(File dir: file.listFiles()){
-            if(dir.isDirectory() && !dir.isHidden()) {
+        for (File dir : file.listFiles()) {
+            if (dir.isDirectory() && !dir.isHidden()) {
                 LAFolderDTO laFolderDTO = new LAFolderDTO();
                 laFolderDTO.setName(dir.getName());
                 laFolderDTO.setRelativePath(dir.getPath().substring(rootFolder.length()));
@@ -239,23 +230,20 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
     @Override
     public ListFileResponseVM listNfsFileFromPath(String path) {
-        File file = new File(rootFolder + Constants.DASH + path);
+        File file = new File(rootFolder + Constants.SLASH + path);
         List<LAFileDTO> fileDTOs = new ArrayList<>();
-        for(File f: file.listFiles()){
-            if(f.isFile() && !f.isHidden()) {
+        for (File f : file.listFiles()) {
+            if (f.isFile() && !f.isHidden()) {
                 LAFileDTO fileDTO = new LAFileDTO();
                 fileDTO.setName(Files.getNameWithoutExtension(f.getName()));
                 fileDTO.setType(Files.getFileExtension(f.getName()));
                 fileDTO.setRelativePath(f.getPath().substring(rootFolder.length()));
 
-                try
-                {
+                try {
                     BasicFileAttributes attributes = java.nio.file.Files.readAttributes(f.toPath(), BasicFileAttributes.class);
                     fileDTO.setCreatedDate(LADateTimeUtil.fileTimeToZonedDateTime(attributes.creationTime()));
                     fileDTO.setLastModifiedDate(LADateTimeUtil.fileTimeToZonedDateTime(attributes.lastModifiedTime()));
-                }
-                catch (IOException exception)
-                {
+                } catch (IOException exception) {
                     System.out.println("Exception handled when trying to get file " +
                         "attributes: " + exception.getMessage());
                 }

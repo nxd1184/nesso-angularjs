@@ -76,4 +76,6 @@ public interface JobTeamUserTaskService {
     Long sumNumberOfReworkByLastReworkTimeIsBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
 
     int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id);
+
+    boolean deleteUnexpectedFile(String fileName) throws Exception;
 }

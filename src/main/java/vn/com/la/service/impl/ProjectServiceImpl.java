@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.com.la.service.specification.ProjectSpecifications;
 import vn.com.la.service.util.LACollectionUtil;
-import vn.com.la.web.rest.errors.CustomParameterizedException;
 import vn.com.la.web.rest.vm.response.SyncUpProjectResponseVM;
 
 import java.time.ZonedDateTime;
@@ -152,7 +151,7 @@ public class ProjectServiceImpl implements ProjectService{
 
                         jobDTO.setName(backLog);
                         jobDTO.setProjectId(projectDTO.getId());
-                        String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
+                        String jobPath = Constants.SLASH + projectCode + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + backLog;
                         jobDTO.setTotalFiles(fileSystemHandlingService.countFilesFromPath(jobPath));
                         jobDTO.setStatus(JobStatusEnum.ACTIVE);
                         jobDTO.setSyncDate(ZonedDateTime.now());
@@ -164,7 +163,7 @@ public class ProjectServiceImpl implements ProjectService{
 
                         jobDTO.setName(backLog);
                         jobDTO.setProjectId(projectDTO.getId());
-                        String jobPath = Constants.DASH + projectCode + Constants.DASH + Constants.BACK_LOGS + Constants.DASH + backLog;
+                        String jobPath = Constants.SLASH + projectCode + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + backLog;
                         Long newTotalFiles = fileSystemHandlingService.countFilesFromPath(jobPath);
                         if(BooleanUtils.isTrue(jobDTO.getStarted())) {
                             if(newTotalFiles > jobDTO.getTotalFiles()) {
