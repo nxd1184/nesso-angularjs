@@ -14,7 +14,7 @@
         };
 
         function getDirectories(path) {
-            var url = 'api/nfs/directories?path=' + path; 
+            var url = 'api/nfs/directories?path=' + path;
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);
@@ -26,7 +26,7 @@
         }
 
         function getFiles(path) {
-            var url = 'api/nfs/files?path=' + path; 
+            var url = 'api/nfs/files?path=' + path;
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);
@@ -39,7 +39,20 @@
 
         function deliverFilesFromDoneFolder(data) {
             var url = 'api/delivery';
-            var rq = {fileNames: data}; 
+            var rq = {fileNames: data};
+            var defer = $q.defer();
+            $http(LA.RequestUtils.put(url, rq)).then(function (result) {
+                defer.resolve(result.data);
+            }, function(error) {
+                defer.reject(error);
+            });
+
+            return defer.promise;
+        }
+
+        function deleteFiles(data) {
+            var url = 'api/delete-unexpected-files';
+            var rq = {fileNames: data};
             var defer = $q.defer();
             $http(LA.RequestUtils.put(url, rq)).then(function (result) {
                 defer.resolve(result.data);

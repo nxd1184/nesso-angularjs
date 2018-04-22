@@ -10,24 +10,26 @@
     function FolderController($state, $uibModal, FolderService, moment, $scope, $timeout, AlertService) {
 
         var vm = this;
-        vm.project_tree        = $('#project_tree');
-        vm.project_tree_object = {};
-        vm.root_node           = { id: "#", li_attr : { relative_path: "" } };
-        vm.node_being_opened   = {};
-        vm.node_being_selected = {};
-        vm.loadRootTree        = loadRootTree;
-        vm.currentFileList     = [];
-        vm.checkAll            = false;
-        vm.checkAllDisabled    = true;
-        vm.checkCount          = 0;
-        vm.folderList          = [];
+        vm.project_tree             = $('#project_tree');
+        vm.project_tree_object      = {};
+        vm.root_node                = { id: "#", li_attr : { relative_path: "" } };
+        vm.node_being_opened        = {};
+        vm.node_being_selected      = {};
+        vm.currentFileList          = [];
+        vm.currentSelectedFileList  = [];
+        vm.checkAll                 = false;
+        vm.checkAllDisabled         = true;
+        vm.checkCount               = 0;
+        vm.folderList               = [];
 
+        vm.loadRootTree           = loadRootTree;
         vm.showResourceDateTime   = showResourceDateTime;
         vm.reloadCurrentDirectory = reloadCurrentDirectory;
         vm.delivery               = delivery;
         vm.checkAllFiles          = checkAllFiles;
         vm.checkboxIsChecked      = checkboxIsChecked;
         vm.selectNode             = selectNode;
+        vm.deleteFiles            = deleteFiles;
 
         function showResourceDateTime(isoStr) {
             if (!isoStr)
@@ -154,7 +156,8 @@
 
         /************************************ Load directory ************************************/
         function reloadCurrentDirectory() {
-            loadFiles(vm.node_being_selected);
+            if(vm.node_being_selected.li_attr)
+                loadFiles(vm.node_being_selected);
         }
 
         function loadFiles(node) {
@@ -210,8 +213,45 @@
         function onFailedDeliverFiles(response) {
             AlertService.failed("Delivered files failed");
         }
-        /************************************************************ßßß***************************/
+        /*******************************************************************************************/
 
+
+        /************************************ Delete files *****************************************/
+        function deleteFiles() {
+            var deletedFiles = [];
+            vm.currentFileList.filter(
+                function (file) {
+                    if(file.checked == 1) {
+                        deletedFiles.push(file.name + '.' + file.type);
+                    }
+                }
+            );
+
+            console.log(deletedFiles);
+
+            if (deletedFiles.length > 0)
+                FolderService.deleteFiles(deletedFiles).then(onSuccessDeleteFiles, onFailedDeleteFiles);
+            else
+                AlertService.error("No file to be delivered");
+        }
+
+        function onSuccessDeleteFiles(response) {
+            if (response.failedList.length > 0) {
+                var error_message = "The following files are failed to be delivered:\n";
+                for (var i = 0; i < response.failedList.length; ++i) {
+                    error_message += " - " + response.failedList[i] + "\n";
+                }
+                AlertService.error(error_message);
+            }
+            else {
+                AlertService.success("Delivered files successfully");
+            }
+        }
+
+        function onFailedDeleteFiles(response) {
+            AlertService.failed("Delivered files failed");
+        }
+        /*******************************************************************************************/
 
 
         /************************************ Initialize jstree ************************************/
