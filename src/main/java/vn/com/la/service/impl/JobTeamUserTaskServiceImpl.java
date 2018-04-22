@@ -420,6 +420,11 @@ public class JobTeamUserTaskServiceImpl implements JobTeamUserTaskService{
     }
 
     @Override
+    public Long countNotDoneTask(Long jobId) {
+        return jobTeamUserTaskRepository.countByJobTeamUserJobTeamJobIdAndStatusIn(jobId, Constants.NOT_DONE_STATUS_LIST);
+    }
+
+    @Override
     public int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id) {
         return jobTeamUserTaskRepository.updateAdjustment(jobTeamUserId, newFilePath, id);
     }

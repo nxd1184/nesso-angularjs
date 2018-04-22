@@ -902,15 +902,21 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     @Transactional(readOnly = false)
-    public EmptyResponseVM finish(FinishJobParamDTO params) throws Exception {
-        EmptyResponseVM rs = new EmptyResponseVM();
+    public FinishJobResponseVM finish(FinishJobParamDTO params) throws Exception {
+        FinishJobResponseVM rs = new FinishJobResponseVM();
         if(params.getJobId() == null) {
             rs.setSuccess(false);
         }else {
             JobDTO jobDTO = jobService.findOne(params.getJobId());
             if(jobDTO != null) {
-                jobDTO.setFinishDate(DateTime.now().toDate());
-                jobDTO = jobService.save(jobDTO);
+                Long totalUnDoneTasks = jobTeamUserTaskService.countNotDoneTask(jobDTO.getId());
+                rs.setTotalUnDoneTasks(totalUnDoneTasks);
+                if(totalUnDoneTasks == 0) {
+                    jobDTO.setFinishDate(DateTime.now().toDate());
+                    jobDTO = jobService.save(jobDTO);
+                }else {
+                    rs.setSuccess(false);
+                }
             }
         }
         return rs;

@@ -130,12 +130,12 @@ public class PlanAPI {
 
     @PutMapping("/plan/finish")
     @Timed
-    public ResponseEntity<EmptyResponseVM> finish(@Valid @RequestBody FinishJobRequestVM request) throws Exception{
+    public ResponseEntity<FinishJobResponseVM> finish(@Valid @RequestBody FinishJobRequestVM request) throws Exception{
 
         FinishJobParamDTO params = new FinishJobParamDTO();
         params.setJobId(request.getJobId());
 
-        EmptyResponseVM rs = planService.finish(params);
+        FinishJobResponseVM rs = planService.finish(params);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
     }

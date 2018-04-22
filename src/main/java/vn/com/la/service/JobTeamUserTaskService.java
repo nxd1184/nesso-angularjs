@@ -71,6 +71,7 @@ public interface JobTeamUserTaskService {
     List<JobTeamUserTaskDTO> findJobToDoList(Long id, Long jobId);
 
     Long countJobToDoList(Long id, Long jobId);
+    Long countNotDoneTask(Long jobId);
 
     Long sumNumberOfReworkByLastReworkTimeIsBetween(ZonedDateTime fromDate, ZonedDateTime toDate);
 

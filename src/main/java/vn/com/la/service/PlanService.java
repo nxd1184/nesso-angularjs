@@ -16,5 +16,5 @@ public interface PlanService {
 
     EmptyResponseVM adjust(AdjustFilesParamDTO params) throws Exception;
 
-    EmptyResponseVM finish(FinishJobParamDTO params) throws Exception;
+    FinishJobResponseVM finish(FinishJobParamDTO params) throws Exception;
 }

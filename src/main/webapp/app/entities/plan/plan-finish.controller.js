@@ -24,7 +24,12 @@
             };
 
             planService.finish(data).then(function(result) {
-                $uibModalInstance.close(result);
+                if(result.totalUnDoneTasks == 0) {
+                    $uibModalInstance.close(result);
+                }else {
+                    AlertService.error(result.totalUnDoneTasks + " have not been done");
+                }
+
             });
         }
 

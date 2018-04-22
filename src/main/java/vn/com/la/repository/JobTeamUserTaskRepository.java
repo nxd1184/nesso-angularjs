@@ -39,6 +39,8 @@ public interface JobTeamUserTaskRepository extends JpaRepository<JobTeamUserTask
 
     Long countByJobTeamUserIdAndStatusInAndJobTeamUserJobTeamJobId(Long id, List<FileStatusEnum> statusList, Long jobId);
 
+    Long countByJobTeamUserJobTeamJobIdAndStatusIn(Long jobId, List<FileStatusEnum> statusEnumList);
+
     @Modifying
     @Query("update JobTeamUserTask set jobTeamUser.id = ?1, filePath = ?2 where id = ?3")
     int updateAdjustment(Long jobTeamUserId, String newFilePath, Long id);
