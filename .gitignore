@@ -141,10 +141,3 @@ src/test/javascript/karma.conf.js
 # ESLint
 ######################
 .eslintcache
-
-######################
-# Configuration Files
-######################
-src/main/resources/config/application-dev.yml
-
-
