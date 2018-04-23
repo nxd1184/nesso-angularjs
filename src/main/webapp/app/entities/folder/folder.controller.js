@@ -21,6 +21,7 @@
         vm.checkAllDisabled         = true;
         vm.checkCount               = 0;
         vm.folderList               = [];
+        vm.deletedFiles             = [];
 
         vm.loadRootTree           = loadRootTree;
         vm.showResourceDateTime   = showResourceDateTime;
@@ -218,38 +219,43 @@
 
         /************************************ Delete files *****************************************/
         function deleteFiles() {
-            var deletedFiles = [];
+            vm.deletedFiles = [];
             vm.currentFileList.filter(
                 function (file) {
                     if(file.checked == 1) {
-                        deletedFiles.push(file.name + '.' + file.type);
+                        vm.deletedFiles.push(file.name + '.' + file.type);
                     }
                 }
             );
 
-            console.log(deletedFiles);
+            console.log(vm.deletedFiles);
 
-            if (deletedFiles.length > 0)
-                FolderService.deleteFiles(deletedFiles).then(onSuccessDeleteFiles, onFailedDeleteFiles);
+            if (vm.deletedFiles.length > 0)
+                FolderService.deleteFiles(vm.deletedFiles).then(onSuccessDeleteFiles, onFailedDeleteFiles);
             else
                 AlertService.error("No file to be delivered");
         }
 
         function onSuccessDeleteFiles(response) {
             if (response.failedList.length > 0) {
-                var error_message = "The following files are failed to be delivered:\n";
+                var error_message = "The following files are failed to be deleted:\n";
                 for (var i = 0; i < response.failedList.length; ++i) {
                     error_message += " - " + response.failedList[i] + "\n";
+                    vm.deletedFiles = vm.deletedFiles.filter(item => item !== response.failedList[i]);
                 }
                 AlertService.error(error_message);
+
             }
             else {
-                AlertService.success("Delivered files successfully");
+                AlertService.success("Deleted files successfully");
             }
+
+            for (var i = 0; i < vm.deletedFiles.length; ++i)
+                vm.currentFileList = vm.currentFileList.filter(item => (item.name + '.' + item.type) !== vm.deletedFiles[i]);
         }
 
         function onFailedDeleteFiles(response) {
-            AlertService.failed("Delivered files failed");
+            AlertService.failed("Deleted files failed");
         }
         /*******************************************************************************************/
 
