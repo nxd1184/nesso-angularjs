@@ -2,6 +2,7 @@ package vn.com.la.service.impl;
 
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.ApplicationProperties;
@@ -20,10 +21,13 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FileSystemHandlingServiceImpl implements FileSystemHandlingService {
     private final ApplicationProperties applicationProperties;
+
+    private static final List<String> ACCEPTED_EXTENSIONS = Arrays.asList("JPG", "PNG", "TIFF", "PSD", "AI", "GIF");
 
     private String rootFolder;
 
@@ -153,7 +157,11 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
                     result.addAll(walk(file.getPath()));
                 } else if (!file.isHidden()) {
-                    result.add(file);
+                    String extension = Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("");
+                    if(ACCEPTED_EXTENSIONS.indexOf(extension) != -1) {
+                        result.add(file);
+                    }
+
                 }
             }
         }
@@ -167,10 +175,13 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
             File[] files = dir.listFiles();
             for (File file : files) {
                 if (file.isDirectory()) {
-
                     result.addAll(walkRelativeFileName(file.getPath()));
                 } else if (!file.isHidden()) {
-                    result.add(LAStringUtil.removeRootPath(file.getPath(), rootFolder));
+                    String extension = Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("");
+                    if(ACCEPTED_EXTENSIONS.indexOf(extension) != -1) {
+                        result.add(LAStringUtil.removeRootPath(file.getPath(), rootFolder));
+                    }
+
                 }
             }
         }
@@ -219,7 +230,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
                     }
                 });
                 laFolderDTO.setHasChild(listFiles.length > 0);
-                System.out.println(dir.length());
+//                System.out.println(dir.length());
                 folders.add(laFolderDTO);
             }
         }
