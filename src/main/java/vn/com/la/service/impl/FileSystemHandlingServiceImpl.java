@@ -157,7 +157,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
 
                     result.addAll(walk(file.getPath()));
                 } else if (!file.isHidden()) {
-                    String extension = Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("");
+                    String extension = (Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("")).toUpperCase();
                     if(ACCEPTED_EXTENSIONS.indexOf(extension) != -1) {
                         result.add(file);
                     }
@@ -177,7 +177,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
                 if (file.isDirectory()) {
                     result.addAll(walkRelativeFileName(file.getPath()));
                 } else if (!file.isHidden()) {
-                    String extension = Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("");
+                    String extension = (Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("")).toUpperCase();
                     if(ACCEPTED_EXTENSIONS.indexOf(extension) != -1) {
                         result.add(LAStringUtil.removeRootPath(file.getPath(), rootFolder));
                     }
