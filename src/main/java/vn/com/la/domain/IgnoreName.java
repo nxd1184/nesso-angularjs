@@ -8,7 +8,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "job")
+@Table(name = "ignore_name")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class IgnoreName extends AbstractAuditingEntity {
 
