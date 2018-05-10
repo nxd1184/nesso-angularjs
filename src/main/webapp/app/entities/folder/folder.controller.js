@@ -241,7 +241,7 @@
                 var error_message = "The following files are failed to be deleted:\n";
                 for (var i = 0; i < response.failedList.length; ++i) {
                     error_message += " - " + response.failedList[i] + "\n";
-                    vm.deletedFiles = vm.deletedFiles.filter(item => item !== response.failedList[i]);
+                    vm.deletedFiles = vm.deletedFiles.filter(function(item) { item !== response.failedList[i] });
                 }
                 AlertService.error(error_message);
 
@@ -251,7 +251,7 @@
             }
 
             for (var i = 0; i < vm.deletedFiles.length; ++i)
-                vm.currentFileList = vm.currentFileList.filter(item => (item.name + '.' + item.type) !== vm.deletedFiles[i]);
+                vm.currentFileList = vm.currentFileList.filter(function(item) { (item.name + '.' + item.type) !== vm.deletedFiles[i] });
         }
 
         function onFailedDeleteFiles(response) {

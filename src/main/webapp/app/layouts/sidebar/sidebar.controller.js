@@ -39,9 +39,22 @@
             }, {
                 title: 'Setting',
                 icon: 'fa fa-cog',
-                state: 'user-setting',
-                url: '#!/user-setting',
-                roles: ['ROLE_ADMIN']
+                roles: ['ROLE_ADMIN'],
+                subMenus: [
+                    {
+                        title: 'User Setting',
+                        icon: 'fa fa-cog',
+                        state: 'user-setting',
+                        url: '#!/user-setting',
+                        roles: ['ROLE_ADMIN']
+                    }, {
+                        title: 'Ignore Files',
+                        icon: 'fa fa-cog',
+                        state: 'ignore-list',
+                        url: '#!/ignore-list',
+                        roles: ['ROLE_ADMIN']
+                    }
+                ]
             }, {
                 title: 'Check in',
                 icon: 'fa fa-tasks',
