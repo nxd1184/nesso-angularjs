@@ -156,7 +156,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
             for (File file : files) {
 
                 // ignore file match ignore list
-                if(ignoreList != null && ignoreList.indexOf(file.getName()) != -1) {
+                if(ignoreList != null && matchIgnoreList(ignoreList, file.getName())) {
                     continue;
                 }
 
@@ -175,6 +175,15 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         return result;
     }
 
+    private boolean matchIgnoreList(List<IgnoreNameDTO> ignoreList, String name) {
+        for(IgnoreNameDTO ignoreNameDTO: ignoreList) {
+            if(StringUtils.isNotBlank(ignoreNameDTO.getName()) && ignoreNameDTO.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private List<String> walkRelativeFileName(String path, List<IgnoreNameDTO> ignoreList) {
         List<String> result = new ArrayList<>();
         File dir = new File(path);
@@ -183,7 +192,7 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
             for (File file : files) {
 
                 // ignore file match ignore list
-                if(ignoreList != null && ignoreList.indexOf(file.getName()) != -1) {
+                if(ignoreList != null && matchIgnoreList(ignoreList, file.getName())) {
                     continue;
                 }
 
