@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import vn.com.la.config.ApplicationProperties;
 import vn.com.la.config.Constants;
 import vn.com.la.service.FileSystemHandlingService;
+import vn.com.la.service.dto.IgnoreNameDTO;
 import vn.com.la.service.dto.JobTeamUserTaskDTO;
 import vn.com.la.service.dto.LAFileDTO;
 import vn.com.la.service.dto.LAFolderDTO;
@@ -86,11 +87,11 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
-    public Long countFilesFromPath(String path) throws Exception {
+    public Long countFilesFromPath(String path, List<IgnoreNameDTO> ignoreList) throws Exception {
         Long totalFiles = 0L;
 
         File file = new File(rootFolder + Constants.SLASH + path);
-        totalFiles = new Long(walk(file.getPath()).size());
+        totalFiles = new Long(walk(file.getPath(), ignoreList).size());
 
         return totalFiles;
     }
@@ -147,15 +148,21 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         return Arrays.asList(file.listFiles());
     }
 
-    private List<File> walk(String path) {
+    private List<File> walk(String path, List<IgnoreNameDTO> ignoreList) {
         List<File> result = new ArrayList<>();
         File dir = new File(path);
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
             for (File file : files) {
+
+                // ignore file match ignore list
+                if(ignoreList != null && ignoreList.indexOf(file.getName()) != -1) {
+                    continue;
+                }
+
                 if (file.isDirectory()) {
 
-                    result.addAll(walk(file.getPath()));
+                    result.addAll(walk(file.getPath(), ignoreList));
                 } else if (!file.isHidden()) {
                     String extension = (Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("")).toUpperCase();
                     if(ACCEPTED_EXTENSIONS.indexOf(extension) != -1) {
@@ -168,14 +175,20 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
         return result;
     }
 
-    private List<String> walkRelativeFileName(String path) {
+    private List<String> walkRelativeFileName(String path, List<IgnoreNameDTO> ignoreList) {
         List<String> result = new ArrayList<>();
         File dir = new File(path);
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
             for (File file : files) {
+
+                // ignore file match ignore list
+                if(ignoreList != null && ignoreList.indexOf(file.getName()) != -1) {
+                    continue;
+                }
+
                 if (file.isDirectory()) {
-                    result.addAll(walkRelativeFileName(file.getPath()));
+                    result.addAll(walkRelativeFileName(file.getPath(), ignoreList));
                 } else if (!file.isHidden()) {
                     String extension = (Optional.ofNullable(FilenameUtils.getExtension(file.getName())).map(String::toString).orElse("")).toUpperCase();
                     if(ACCEPTED_EXTENSIONS.indexOf(extension) != -1) {
@@ -189,13 +202,13 @@ public class FileSystemHandlingServiceImpl implements FileSystemHandlingService 
     }
 
     @Override
-    public List<File> listFileRecursiveFromPath(String path) throws Exception {
-        return walk(rootFolder + Constants.SLASH + path);
+    public List<File> listFileRecursiveFromPath(String path, List<IgnoreNameDTO> ignoreList) throws Exception {
+        return walk(rootFolder + Constants.SLASH + path, ignoreList);
     }
 
     @Override
-    public List<String> listRelativeFilePathRecursiveFromPath(String path) throws Exception {
-        return walkRelativeFileName(rootFolder + Constants.SLASH + path);
+    public List<String> listRelativeFilePathRecursiveFromPath(String path, List<IgnoreNameDTO> ignoreList) throws Exception {
+        return walkRelativeFileName(rootFolder + Constants.SLASH + path, ignoreList);
     }
 
     @Override

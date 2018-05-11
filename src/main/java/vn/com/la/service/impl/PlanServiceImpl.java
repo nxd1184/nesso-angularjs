@@ -46,6 +46,7 @@ public class PlanServiceImpl implements PlanService {
     private final UserService userService;
     private final TeamService teamService;
     private final CacheManager cacheManager;
+    private final IgnoreNameService ignoreNameService;
 
 
     public PlanServiceImpl(JobService jobService, JobTeamService jobTeamService, FileSystemHandlingService ftpService,
@@ -53,7 +54,7 @@ public class PlanServiceImpl implements PlanService {
                            SequenceDataDao sequenceDataDao, JobTeamUserService jobTeamUserService,
                            ProjectService projectService, ApplicationProperties applicationProperties,
                            EntityManager em, UserService userService, TeamService teamService,
-                           CacheManager cacheManager) {
+                           CacheManager cacheManager, IgnoreNameService ignoreNameService) {
         this.jobService = jobService;
         this.jobTeamService = jobTeamService;
         this.fileSystemHandlingService = ftpService;
@@ -66,6 +67,7 @@ public class PlanServiceImpl implements PlanService {
         this.userService = userService;
         this.teamService = teamService;
         this.cacheManager = cacheManager;
+        this.ignoreNameService = ignoreNameService;
     }
 
     @Override
@@ -140,7 +142,7 @@ public class PlanServiceImpl implements PlanService {
                 long totalFilesInBacklogItem = storedJob.getTotalFiles();
                 // list file from backlog item
                 String backLogItemPath = LAStringUtil.buildFolderPath(Constants.SLASH + storedJob.getProjectCode(), Constants.BACK_LOGS, storedJob.getName());
-                List<File> files = fileSystemHandlingService.listFileRecursiveFromPath(backLogItemPath);
+                List<File> files = fileSystemHandlingService.listFileRecursiveFromPath(backLogItemPath, ignoreNameService.findAll());
                 int iFile = 0;
 
                 Set<JobTeamDTO> jobTeamDTOs = storedJob.getJobTeams();
@@ -283,7 +285,7 @@ public class PlanServiceImpl implements PlanService {
                 }
 
                 // assign more files
-                List<String> backLogRelativeFilePath = fileSystemHandlingService.listRelativeFilePathRecursiveFromPath(LAStringUtil.buildFolderPath(storedJob.getProjectCode(),Constants.BACK_LOGS, storedJob.getName()));
+                List<String> backLogRelativeFilePath = fileSystemHandlingService.listRelativeFilePathRecursiveFromPath(LAStringUtil.buildFolderPath(storedJob.getProjectCode(),Constants.BACK_LOGS, storedJob.getName()), ignoreNameService.findAll());
 
                 backLogRelativeFilePath.removeAll(totalAssignedRelativeFilePath);
                 int iRelativeFilePath = 0;

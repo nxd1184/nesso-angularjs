@@ -50,8 +50,8 @@
                     }, {
                         title: 'Ignore Files',
                         icon: 'fa fa-cog',
-                        state: 'ignore-list',
-                        url: '#!/ignore-list',
+                        state: 'ignore-name',
+                        url: '#!/ignore-name',
                         roles: ['ROLE_ADMIN']
                     }
                 ]

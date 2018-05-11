@@ -5,10 +5,12 @@ import org.springframework.data.jpa.domain.Specification;
 import vn.com.la.config.Constants;
 import vn.com.la.domain.enumeration.JobStatusEnum;
 import vn.com.la.service.FileSystemHandlingService;
+import vn.com.la.service.IgnoreNameService;
 import vn.com.la.service.JobService;
 import vn.com.la.service.ProjectService;
 import vn.com.la.domain.Project;
 import vn.com.la.repository.ProjectRepository;
+import vn.com.la.service.dto.IgnoreNameDTO;
 import vn.com.la.service.dto.JobDTO;
 import vn.com.la.service.dto.ProjectDTO;
 import vn.com.la.service.dto.param.SearchProjectParamDTO;
@@ -49,12 +51,15 @@ public class ProjectServiceImpl implements ProjectService{
 
     private final JobService jobService;
 
+    private final IgnoreNameService ignoreNameService;
+
     public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper,
-                              FileSystemHandlingService ftpService, JobService jobService) {
+                              FileSystemHandlingService ftpService, JobService jobService, IgnoreNameService ignoreNameService) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
         this.fileSystemHandlingService = ftpService;
         this.jobService = jobService;
+        this.ignoreNameService = ignoreNameService;
     }
 
     /**
@@ -135,6 +140,9 @@ public class ProjectServiceImpl implements ProjectService{
         SyncUpProjectResponseVM rs = new SyncUpProjectResponseVM();
         List<JobDTO> syncJobs = new ArrayList<>();
         ProjectDTO projectDTO = findByCode(projectCode);
+
+        List<IgnoreNameDTO> ignoreList = ignoreNameService.findAll();
+
         try {
             List<String> backLogs = fileSystemHandlingService.backLogs(projectCode);
             if(projectDTO != null) {
@@ -152,7 +160,7 @@ public class ProjectServiceImpl implements ProjectService{
                         jobDTO.setName(backLog);
                         jobDTO.setProjectId(projectDTO.getId());
                         String jobPath = Constants.SLASH + projectCode + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + backLog;
-                        jobDTO.setTotalFiles(fileSystemHandlingService.countFilesFromPath(jobPath));
+                        jobDTO.setTotalFiles(fileSystemHandlingService.countFilesFromPath(jobPath, ignoreList));
                         jobDTO.setStatus(JobStatusEnum.ACTIVE);
                         jobDTO.setSyncDate(ZonedDateTime.now());
 
@@ -164,7 +172,7 @@ public class ProjectServiceImpl implements ProjectService{
                         jobDTO.setName(backLog);
                         jobDTO.setProjectId(projectDTO.getId());
                         String jobPath = Constants.SLASH + projectCode + Constants.SLASH + Constants.BACK_LOGS + Constants.SLASH + backLog;
-                        Long newTotalFiles = fileSystemHandlingService.countFilesFromPath(jobPath);
+                        Long newTotalFiles = fileSystemHandlingService.countFilesFromPath(jobPath, ignoreList);
                         if(BooleanUtils.isTrue(jobDTO.getStarted())) {
                             if(newTotalFiles > jobDTO.getTotalFiles()) {
                                 jobDTO.setTotalFiles(newTotalFiles);

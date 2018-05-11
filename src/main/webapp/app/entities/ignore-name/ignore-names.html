@@ -1,0 +1,43 @@
+<div class="page-content">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <!-- BEGIN PAGE TITLE -->
+        <div class="page-title">
+            <h1>Ignore List</h1>
+        </div>
+        <!-- END PAGE TITLE -->
+        <!-- BEGIN PAGE TOOLBAR -->
+        <div class="page-toolbar">
+            <form class="search" ng-submit="vm.create()">
+                <div class="input-group" style="float:left">
+                    <!-- /btn-group -->
+
+                    <input type="text" class="form-control" ng-model="vm.name" placeholder="Ignore Name">
+                </div>
+
+            </form>
+            <a class="btn btn-primary pull-right btn-add-project" ng-click="vm.create()"> Create <i class="fa fa-plus`" aria-hidden="true"></i></a>
+            <!-- END THEME PANEL -->
+        </div>
+        <!-- END PAGE TOOLBAR -->
+    </div>
+    <!-- END PAGE HEAD -->
+
+
+    <div class="margin-top-20">
+        <div class="wrap-table-radius table-responsive configuation">
+            <table class="table table-hover" dt-instance="vm.dtInstance" datatable dt-options="vm.dtOptions" dt-columns="vm.dtColumns">
+
+            </table>
+        </div>
+    </div>
+
+    <!-- END PAGE BREADCRUMB -->
+    <!-- BEGIN PAGE CONTENT INNER -->
+
+
+
+    <!-- END PAGE CONTENT INNER -->
+
+
+</div>
