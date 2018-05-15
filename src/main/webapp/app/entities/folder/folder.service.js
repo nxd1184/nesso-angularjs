@@ -15,7 +15,7 @@
         };
 
         function getDirectories(path) {
-            var url = 'api/nfs/directories?path=' + path;
+            var url = 'api/nfs/directories?path=' + LA.StringUtils.encode(path);
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);
@@ -27,7 +27,7 @@
         }
 
         function getFiles(path) {
-            var url = 'api/nfs/files?path=' + path;
+            var url = 'api/nfs/files?path=' + LA.StringUtils.encode(path);
             var defer = $q.defer();
             $http(LA.RequestUtils.get(url)).then(function (result) {
                 defer.resolve(result.data);
