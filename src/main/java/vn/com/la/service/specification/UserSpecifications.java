@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import org.springframework.util.CollectionUtils;
-import vn.com.la.domain.Authority;
 import vn.com.la.domain.Authority_;
 import vn.com.la.domain.User;
 import vn.com.la.domain.User_;

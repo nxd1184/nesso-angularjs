@@ -28,7 +28,7 @@ import java.util.Optional;
 public class FileSystemHandlingServiceImpl implements FileSystemHandlingService {
     private final ApplicationProperties applicationProperties;
 
-    private static final List<String> ACCEPTED_EXTENSIONS = Arrays.asList("JPG", "PNG", "TIFF", "PSD", "AI", "GIF");
+    private static final List<String> ACCEPTED_EXTENSIONS = Arrays.asList("JPG", "JPEG", "PNG","TIF","TIFF", "PSD", "AI", "GIF");
 
     private String rootFolder;
 
