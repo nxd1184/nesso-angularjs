@@ -74,4 +74,6 @@
 
     <include file="config/liquibase/changelog/20180510003318_create_entity_IgnoreName.xml" relativeToChangelogFile="false"/>
 
+    <include file="config/liquibase/changelog/20180609050938_update_entity_Job_add_column_type.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

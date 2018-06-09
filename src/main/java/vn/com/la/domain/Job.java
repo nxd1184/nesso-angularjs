@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import vn.com.la.domain.enumeration.JobStatusEnum;
+import vn.com.la.domain.enumeration.JobTypeEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -56,7 +57,7 @@ public class Job extends AbstractAuditingEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, columnDefinition = "default 'ACTIVE'")
+    @Column(name = "status", nullable = false)
     private JobStatusEnum status;
 
     @Column(name = "started")
@@ -73,6 +74,10 @@ public class Job extends AbstractAuditingEntity {
 
     @Column(name = "finish_date")
     private Date finishDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private JobTypeEnum type;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -227,6 +232,14 @@ public class Job extends AbstractAuditingEntity {
 
     public void setStatus(JobStatusEnum status) {
         this.status = status;
+    }
+
+    public JobTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(JobTypeEnum type) {
+        this.type = type;
     }
 
     @Override

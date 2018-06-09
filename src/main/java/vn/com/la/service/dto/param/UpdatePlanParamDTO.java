@@ -2,6 +2,7 @@ package vn.com.la.service.dto.param;
 
 import vn.com.la.domain.JobTask;
 import vn.com.la.domain.JobTeam;
+import vn.com.la.domain.enumeration.JobTypeEnum;
 import vn.com.la.service.dto.JobTaskDTO;
 import vn.com.la.service.dto.JobTeamDTO;
 
@@ -25,6 +26,8 @@ public class UpdatePlanParamDTO {
     private Integer sequenceTask;
 
     private Long totalFiles;
+
+    private JobTypeEnum type;
 
     public Long getJobId() {
         return jobId;
@@ -80,5 +83,13 @@ public class UpdatePlanParamDTO {
 
     public void setTotalFiles(Long totalFiles) {
         this.totalFiles = totalFiles;
+    }
+
+    public JobTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(JobTypeEnum type) {
+        this.type = type;
     }
 }

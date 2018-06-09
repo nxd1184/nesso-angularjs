@@ -62,6 +62,9 @@
             step: 1,
             range: 'min'
         };
+
+        vm.types = ['OFFICIAL','OT','DELEGATION'];
+
         vm.showSimulate = showSimulate;
         vm.simulate = false;
 
@@ -258,7 +261,8 @@
                 teams: vm.job.jobTeams,
                 customerRequirements: vm.job.customerRequirements,
                 sequenceTask: vm.sequenceTask,
-                totalFiles: vm.job.totalFiles
+                totalFiles: vm.job.totalFiles,
+                type: vm.job.type
             };
 
             planService.update(params).then(function(result) {

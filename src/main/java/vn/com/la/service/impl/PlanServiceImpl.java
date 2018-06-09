@@ -91,6 +91,7 @@ public class PlanServiceImpl implements PlanService {
     public UpdatePlanResponseVM updatePlan(UpdatePlanParamDTO params) throws Exception {
 
         JobDTO storedJob = jobService.findOne(params.getJobId());
+        storedJob.setType(params.getType());
         if (storedJob != null) {
 
             storedJob.setDeadline(params.getDeadline());

@@ -74,7 +74,18 @@
         <div class="row">
             <div class="col-md-12 col-xs-12 margin-top-15">
                 <div class="form-group">
+                    <label class="control-label">Customer Requirement</label>
                     <textarea class="form-control" rows="3" placeholder="Customer’s requirements…" ng-model="vm.job.customerRequirements"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label">Type</label>
+                    <select class="form-control "
+                            ng-options="type for type in vm.types track by type"
+                            ng-model="vm.job.type"></select>
                 </div>
             </div>
         </div>

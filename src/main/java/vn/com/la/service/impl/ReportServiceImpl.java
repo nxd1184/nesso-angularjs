@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import vn.com.la.config.Constants;
+import vn.com.la.domain.enumeration.JobTypeEnum;
 import vn.com.la.service.JobService;
 import vn.com.la.service.JobTeamUserTaskService;
 import vn.com.la.service.ReportService;
@@ -290,7 +291,7 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" inner join job_team jt on jtu.job_team_id = jt.id");
         sqlBuilder.append(" inner join job j on jt.job_id = j.id");
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
-        sqlBuilder.append(" where jua.authority_name = 'FREELANCER' AND jtut.created_date between ? and ? ");
+        sqlBuilder.append(" where jua.authority_name = 'FREELANCER' AND jtut.created_date between ? and ? AND j.type = '").append(JobTypeEnum.DELEGATION).append("'");
         sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
 
         return getDeliveryReportFromQuery(sqlBuilder.toString(), fromDate, toDate);
@@ -460,7 +461,7 @@ public class ReportServiceImpl implements ReportService {
         sqlBuilder.append(" left join job_task job_task on job_task.job_id = j.id");
         sqlBuilder.append(" inner join project p on p.id = j.project_id");
         sqlBuilder.append(" left join task task on job_task.task_id = task.id");
-        sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ?");
+        sqlBuilder.append(" where jtut.status = 'DONE' AND last_done_time between ? and ? AND j.type = '").append(JobTypeEnum.OFFICIAL).append("'");
         sqlBuilder.append(" group by ju.id, ju.last_name, p.id, p.name, j.id, j.name;");
 
         Query query = entityManager.createNativeQuery(sqlBuilder.toString());

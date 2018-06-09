@@ -3,6 +3,7 @@ package vn.com.la.service.dto;
 
 import vn.com.la.domain.JobTask;
 import vn.com.la.domain.enumeration.JobStatusEnum;
+import vn.com.la.domain.enumeration.JobTypeEnum;
 
 import java.time.ZonedDateTime;
 import javax.validation.constraints.*;
@@ -53,6 +54,8 @@ public class JobDTO implements Serializable {
     private Long totalToCheckFiles;
     private Long totalDoneFiles;
     private Long totalDeliveryFiles;
+
+    private JobTypeEnum type;
 
     public Long getId() {
         return id;
@@ -216,6 +219,14 @@ public class JobDTO implements Serializable {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    public JobTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(JobTypeEnum type) {
+        this.type = type;
     }
 
     @Override

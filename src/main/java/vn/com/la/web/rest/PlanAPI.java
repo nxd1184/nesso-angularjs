@@ -95,6 +95,7 @@ public class PlanAPI {
         params.setSequenceTask(request.getSequenceTask());
         params.setCustomerRequirements(request.getCustomerRequirements());
         params.setTotalFiles(request.getTotalFiles());
+        params.setType(request.getType());
         UpdatePlanResponseVM rs = planService.updatePlan(params);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rs));
 
