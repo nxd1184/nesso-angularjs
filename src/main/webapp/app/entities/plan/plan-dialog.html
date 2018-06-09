@@ -84,8 +84,8 @@
                 <div class="form-group">
                     <label class="control-label">Type</label>
                     <select class="form-control "
-                            ng-options="type for type in vm.types track by type"
-                            ng-model="vm.job.type"></select>
+                            ng-options="type.text for type in vm.types track by type.key"
+                            ng-model="vm.selectedType"></select>
                 </div>
             </div>
         </div>

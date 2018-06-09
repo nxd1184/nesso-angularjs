@@ -63,7 +63,18 @@
             range: 'min'
         };
 
-        vm.types = ['OFFICIAL','OT','DELEGATION'];
+        vm.types = [{
+            key: 'OFFICIAL',
+            text: 'Chính thức'
+        }, {
+            key: 'OT',
+            text: 'OT'
+        }, {
+            key: 'DELEGATION',
+            text: 'Khoán'
+        }];
+
+        vm.selectedType = null;
 
         vm.showSimulate = showSimulate;
         vm.simulate = false;
@@ -106,6 +117,15 @@
 
                 if (vm.job) {
                     _loadTasks(vm.job.projectId, vm.job.jobTasks);
+                }
+
+                if(vm.job.type) {
+                    for(var i = 0; i < vm.types.length; i++) {
+                        if(vm.types[i].key === vm.job.type) {
+                            vm.selectedType = vm.types[i];
+                            break;
+                        }
+                    }
                 }
             });
         }
@@ -262,7 +282,7 @@
                 customerRequirements: vm.job.customerRequirements,
                 sequenceTask: vm.sequenceTask,
                 totalFiles: vm.job.totalFiles,
-                type: vm.job.type
+                type: vm.selectedType ? vm.selectedType.key : null
             };
 
             planService.update(params).then(function(result) {
