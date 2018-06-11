@@ -189,10 +189,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr  ng-repeat="item in vm.productivityThisMonth.userProductivityList">
+                            <tr  ng-repeat="item in vm.productivityThisMonth.userProductivityList track by $index">
                                 <td>
 
-                                    <i class="fa {{item.troppy ? 'fa-trophy': ''}}" aria-hidden="true"></i>
+                                    <i class="fa" ng-class="($index <3) ? 'fa-trophy' : ''" aria-hidden="true"></i>
                                 </td>
                                 <td>
                                     {{item.name}}

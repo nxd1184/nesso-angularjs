@@ -182,6 +182,12 @@
 
         function getProductivityThisMonth() {
             reportService.getProductivityForThisMonth().then(function (result) {
+                if (result.userProductivityList != null) {
+                    result.userProductivityList.sort(function(a, b) {
+                        return b.totalCredit - a.totalCredit;
+                    });
+                }
+
                 result.urgentJobs.forEach(function (item, index) {
                     if (index == 0 || index == 1 || index == 2)
                         item.troppy = true;
